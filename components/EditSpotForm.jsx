@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
 
-const EditSpotForm = ({ onEditSpot }) => {
+const EditSpotForm = ({ onEditSpot, intialValues }) => {
 
 
   // Setting useRef
@@ -49,6 +49,7 @@ const EditSpotForm = ({ onEditSpot }) => {
           </label>
           <input
             ref={editSpotTitle}
+            defaultValue={intialValues.title}
             type="text"
             id="title"
             className="text-sm rounded-lg bg-gray-50 border border-gray-300 text-gray-900 focus:border-blue-500 block w-full p-2.5"
@@ -64,6 +65,7 @@ const EditSpotForm = ({ onEditSpot }) => {
           </label>
           <input
             ref={editSpotDescription}
+            defaultValue={intialValues.description}
             type="text"
             id="description"
             className="text-sm rounded-lg bg-gray-50 border border-gray-300 text-gray-900 focus:border-blue-500 block w-full p-2.5"

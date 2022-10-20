@@ -23,7 +23,8 @@ const addSpotHandler = async (enteredData) => {
   const data = await response.json()
   console.log("Data from Mongo", data)
 
-  // router.push("/") //Navigate back to root
+  router.push("/spots/allSpots") //Navigate back to root
+
 }
 
 

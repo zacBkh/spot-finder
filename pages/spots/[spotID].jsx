@@ -102,6 +102,7 @@ const ShowSpot = ({ indivSpot }) => {
             {
                 isUnderEdition &&
                 <EditSpotForm
+                    intialValues={indivSpot}
                     onEditSpot={editSpotHandler}
                 />
             }
