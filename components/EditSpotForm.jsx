@@ -1,14 +1,22 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import CategoryCheckboxes from './CheckboxesForCategories/CategoryCheckboxes';
+
+const EditSpotForm = ({ onEditSpot, intialValues, intialCheckbox }) => {
 
 
-const EditSpotForm = ({ onEditSpot, intialValues }) => {
-
+  // State for category checkbox
+  const [categoriesSpotEdit, setCategoriesEdit] = useState(intialCheckbox);
 
   // Setting useRef
   const editSpotTitle = useRef();
   const editSpotDescription = useRef();
 
 
+  // Fx executed in children lifting data up
+  const checkboxHandler = (categories) => {
+    setCategoriesEdit(categories)
+    console.log('checkboxValuefromEditSpotForm', categories)
+  }
 
 
   // Fires when EDIT form is submitted
@@ -16,14 +24,16 @@ const EditSpotForm = ({ onEditSpot, intialValues }) => {
     event.preventDefault();
 
 
+    // Grab values of input
     const enteredTitle = editSpotTitle.current.value;
     const enteredDescription = editSpotDescription.current.value;
 
 
-
+    // Gather in an object to send to server
     const editedSpotData = {
       title: enteredTitle,
       description: enteredDescription,
+      categories: categoriesSpotEdit,
     };
 
     console.log('you want to update', editedSpotData)
@@ -33,6 +43,14 @@ const EditSpotForm = ({ onEditSpot, intialValues }) => {
 
     event.target.reset();
   }
+
+
+
+
+
+
+
+
 
 
   return (
@@ -72,6 +90,21 @@ const EditSpotForm = ({ onEditSpot, intialValues }) => {
             placeholder="e.g: Nice bridge where you can..." required=""
           />
         </div>
+
+
+
+        <h3 className="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose technology:</h3>
+        <CategoryCheckboxes
+          category={"Nature"}
+          categoryDescription={"The nature is the best place to photograph "}
+          onCheckboxChange={checkboxHandler}
+          intialCheckbox={intialCheckbox}
+        />
+
+
+
+
+
 
 
         <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit</button>

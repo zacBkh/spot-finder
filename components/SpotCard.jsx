@@ -6,7 +6,7 @@ import Image from 'next/image'
 import imageTesting from "../public/imageTesting.jpg"
 
 
-const SpotsList = ({ title, description, id }) => {
+const SpotCard = ({ title, description, id, categories }) => {
     const router = useRouter()
 
 
@@ -35,12 +35,12 @@ const SpotsList = ({ title, description, id }) => {
                 <div>
                     <p className="font-semibold">{title}</p>
                     <p className="font-light">{description}</p>
-                    <p className="font-light">Shared by John Doe</p>
-                    <p className="font-light">Sunset, cityscape</p>
+                    <p className="font-light">Shared by John DOE</p>
+                    <p className="font-light">{categories.join(", ")}</p>
                 </div>
             </div>
         </>
     )
 }
 
-export default SpotsList 
+export default SpotCard 
