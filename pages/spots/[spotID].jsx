@@ -2,7 +2,7 @@
 import { useRef, useState } from "react";
 import { useRouter } from 'next/router'
 
-import EditSpotForm from "../../components/EditSpotForm";
+import EditSpotForm from "../../components/Forms/EditSpotForm";
 
 import { editSpotHandler, deleteSpotHandler } from "../../utils/APIfetchers";
 

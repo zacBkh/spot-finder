@@ -1,3 +1,5 @@
+// These utils fx send request to my API routes
+
 
 export
     const editSpotHandler = async (editedEnteredData, spotID) => {

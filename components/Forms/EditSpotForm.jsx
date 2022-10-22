@@ -1,10 +1,9 @@
 import { useRef, useState } from 'react';
-import CategoryCheckboxes from './CheckboxesForCategories/CategoryCheckboxes';
 
-import { BsFillTreeFill, BsBuilding } from 'react-icons/bs';
+import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs';
 
 
-import CategoryCheckBoxItemEdit from './CategoriesCheckboxes/CheckboxItemEDIT';
+import CategoryCheckBoxItemEdit from '../CategoriesCheckboxes/CheckboxItemEDIT';
 
 const EditSpotForm = ({ onEditSpot, intialValues, intialCheckbox }) => {
 
@@ -62,15 +61,8 @@ const EditSpotForm = ({ onEditSpot, intialValues, intialCheckbox }) => {
 
 
 
-
-
-
-
-
-
   return (
     <>
-      {/* Should USE THE SAME COMPONENT THAN CREATE and pass ref throuhg propos to DRY */}
       <form
         onSubmit={submitHandlerEdit}
         className='max-w-md mx-auto'>
@@ -109,40 +101,45 @@ const EditSpotForm = ({ onEditSpot, intialValues, intialCheckbox }) => {
 
 
         <h3 className="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose technology:</h3>
-        {/* <CategoryCheckboxes
-          category={"Nature"}
-          categoryDescription={"The nature is the best place to photograph "}
-          onCheckboxChange={checkboxHandler}
-          intialCheckbox={intialCheckbox}
-        /> */}
 
 
-        <CategoryCheckBoxItemEdit
-          intialCheckbox={intialCheckbox.includes("Urban") ? true : false}
-          initialValue={"xx"}
+        <div className='flex flex-col md:flex-row md:space-x-4'>
+          <CategoryCheckBoxItemEdit
+            intialCheckbox={intialCheckbox.includes("Urban") ? true : false}
+            initialValue={"xx"}
 
-          icon={<BsBuilding />}
-          value={"Urban"}
-          name={"category"}
-          cardTitle={"Urban"}
-          cardDescription={"The nature is the best part to see"}
-          onCheckboxChange={newCheckBoxHandlerEdit}
-        />
-
-
-        <CategoryCheckBoxItemEdit
-          intialCheckbox={intialCheckbox.includes("Nature") ? true : false}
-          initialValue={"xx"}
-
-          icon={<BsFillTreeFill />}
-          value={"Nature"}
-          name={"category"}
-          cardTitle={"Nature"}
-          cardDescription={"The city is the best part to see"}
-          onCheckboxChange={newCheckBoxHandlerEdit}
-        />
+            icon={<BsBuilding />}
+            value={"Urban"}
+            name={"category"}
+            cardTitle={"Urban"}
+            cardDescription={"The nature is the best part to see"}
+            onCheckboxChange={newCheckBoxHandlerEdit}
+          />
 
 
+          <CategoryCheckBoxItemEdit
+            intialCheckbox={intialCheckbox.includes("Nature") ? true : false}
+            initialValue={"xx"}
+
+            icon={<BsFillTreeFill />}
+            value={"Nature"}
+            name={"category"}
+            cardTitle={"Nature"}
+            cardDescription={"The city is the best part to see"}
+            onCheckboxChange={newCheckBoxHandlerEdit}
+          />
+
+          <CategoryCheckBoxItemEdit
+            intialCheckbox={intialCheckbox.includes("Sunset") ? true : false}
+            initialValue={"xx"}
+            icon={<BsSunset />}
+            value={"Sunset"}
+            name={"category"}
+            cardTitle={"Sunset"}
+            cardDescription={"The Sunset is the best part to see"}
+            onCheckboxChange={newCheckBoxHandlerEdit}
+          />
+        </div>
 
 
         <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit</button>

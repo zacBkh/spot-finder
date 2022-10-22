@@ -1,12 +1,12 @@
 import { useState, useRef } from 'react';
 
 
-import CategoryCheckBoxItemNew from './CategoriesCheckboxes/CheckboxItemNEW';
+import CategoryCheckBoxItemNew from '../CategoriesCheckboxes/CheckboxItemNEW';
 
 
-import { BsFillTreeFill, BsBuilding } from 'react-icons/bs';
+import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs';
 
-import InputsNew from './FormInputs/InputsNew';
+import InputsNew from '../FormInputs/InputsNew';
 
 
 
@@ -60,7 +60,11 @@ const NewSpotForm = ({ onAddSpot }) => {
     event.target.reset();
   }
 
-
+  const validTitle = {
+    required: true,
+    type: "text",
+    minLength: "6"
+  };
 
 
 
@@ -77,6 +81,9 @@ const NewSpotForm = ({ onAddSpot }) => {
           labelName={"The title of your spot!"}
           placeholder={"e.g: Amazing night cityscape in Dubai"}
           refWatcher={spotTitle}
+          valid={{ required: true, type: "text", minLength: "6" }}
+
+        // required={true}
         />
 
         <InputsNew
@@ -84,6 +91,7 @@ const NewSpotForm = ({ onAddSpot }) => {
           labelName={"The description of your spot!"}
           placeholder={"e.g: Nice bridge where you can..."}
           refWatcher={spotDescription}
+          valid={{ required: true, type: "text", minLength: "10" }}
         />
 
 
@@ -114,6 +122,15 @@ const NewSpotForm = ({ onAddSpot }) => {
             name={"category"}
             cardTitle={"Urban"}
             cardDescription={"The nature is the best part to see"}
+            onCheckboxChange={newCheckBoxHandler}
+          />
+
+          <CategoryCheckBoxItemNew
+            icon={<BsSunset />}
+            value={"Sunset"}
+            name={"category"}
+            cardTitle={"Sunset"}
+            cardDescription={"The Sunset is the best part to see"}
             onCheckboxChange={newCheckBoxHandler}
           />
         </div>

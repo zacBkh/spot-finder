@@ -17,28 +17,31 @@ const CategoryCheckBoxItemEdit = ({
 
     return (
         <>
-            <ul className="grid gap-6 w-full md:grid-cols-3">
+            <ul className="">
 
-                <li>
+                <li className="w-60">
                     <input
                         type="checkbox"
-
-
                         value={value}
                         name={name}
-
                         defaultChecked={intialCheckbox}
-
                         onChange={(evt) => onCheckboxChange(evt.target.value)}
-
                         id={value}
                         className="hidden peer"
                     // required=""
                     />
 
-                    <label htmlFor={value} className="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border-2 border-gray-200 cursor-pointer peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50 ">
+                    <label
+                        htmlFor={value}
+                        className="flex justify-center items-center p-5 w-full  
+                        
+                        text-gray-500 hover:text-gray-600 peer-checked:text-gray-800 
+                        bg-white  hover:bg-gray-50  peer-checked:bg-gray-50
+                        rounded-lg border-2
+                        border-gray-200 peer-checked:border-blue-600
+                        cursor-pointer">
 
-                        <div className="block">
+                        <div className="block  mr-1">
                             {icon}
                             <div
                                 className="w-full text-lg font-semibold">{cardTitle}

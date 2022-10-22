@@ -36,7 +36,6 @@ const CategoryCheckBoxItemNew = ({
                         border-gray-200 peer-checked:border-blue-600
                         cursor-pointer">
 
-
                         <div
                             className="block mr-1"> {icon}
                         </div>

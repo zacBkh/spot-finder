@@ -1,7 +1,6 @@
-import mongoose from 'mongoose';
-
-
 // This helper establish the connection between Mongoose & Mongo
+
+import mongoose from 'mongoose';
 
 
 const connectMongo = async () => {
@@ -13,7 +12,6 @@ const connectMongo = async () => {
     } catch (error) {
         console.log("ERROR", error)
     }
-
 };
 
 export default connectMongo;

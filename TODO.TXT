@@ -1,1 +1,18 @@
-REFACTO LES FORM DANS UN COMOPSANT FORM
+REFACTO LES FORM DANS UN COMOPSANT FORM.
+
+
+
+Current caveats:  
+
+For both EDIT and NEW I have : 
+one comp EditSpotForm and one CheckboxItemEDIT
+
+- When adding an icon for category, need to duplciate it for new & edit 
+first do new then do edit and when do edit need to add 
+intialCheckbox props
+change some names
+DRY rule broken between checkboc item EDIT and checkbotitemNEW
+
+
+
+TODO: create a component for InputsEdit (likeInputs New)

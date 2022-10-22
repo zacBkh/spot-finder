@@ -4,7 +4,9 @@ import { useState } from "react"
 const InputsNew = ({
     accessibility,
     labelName, placeholder,
-    refWatcher
+    refWatcher,
+    valid,
+
 }) => {
 
 
@@ -17,10 +19,13 @@ const InputsNew = ({
                 </label>
                 <input
                     ref={refWatcher}
-                    type="text"
                     id={accessibility}
                     className="text-sm rounded-lg bg-gray-50 border border-gray-300 text-gray-900 focus:border-blue-500 block w-full p-2.5"
-                    placeholder={placeholder} required=""
+                    placeholder={placeholder}
+
+                    required={valid.required}
+                    type={valid.type}
+                    minLength={valid.minLength}
                 />
             </div>
         </>

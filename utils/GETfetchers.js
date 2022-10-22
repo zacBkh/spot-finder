@@ -1,3 +1,4 @@
+// Utils fx that fetch DB without passing through API routes(useless)
 
 import connectMongo from "./connectMongo";
 import Spot from "../models/spot";
