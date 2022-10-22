@@ -8,6 +8,7 @@ const CategoryCheckboxes = ({ category, categoryDescription, onCheckboxChange, i
     const [categories, setCategories] = useState(intialCheckbox ? intialCheckbox : []);
 
 
+    // Update children state to have the right categories
     const handleCheckboxChange = (evt) => {
         console.log('evt.target.value', evt.target.value)
         console.log('evt.target.checked', evt.target.checked)
@@ -19,6 +20,7 @@ const CategoryCheckboxes = ({ category, categoryDescription, onCheckboxChange, i
             setCategories(
                 [...categories, value]
             )
+
 
         } else if (checked && categories.includes(value)) { // if has been checked && already in list
             console.log('value alrady in array')
@@ -35,11 +37,17 @@ const CategoryCheckboxes = ({ category, categoryDescription, onCheckboxChange, i
         }
     }
 
+
     // Passing data to parent
     useEffect(() => {
         onCheckboxChange(categories)
     }, [categories])
 
+
+
+
+
+    
 
 
     return (
@@ -53,9 +61,6 @@ const CategoryCheckboxes = ({ category, categoryDescription, onCheckboxChange, i
                         value="Nature"
                         name="category"
 
-                        // checked={intialCheckbox &&
-                        //     intialCheckbox.includes("Nature") ? true : false
-                        // }
                         defaultChecked={intialCheckbox &&
                             intialCheckbox.includes("Nature") ? true : false
                         }
@@ -91,10 +96,6 @@ const CategoryCheckboxes = ({ category, categoryDescription, onCheckboxChange, i
                         value="Cityscape"
                         name="category"
 
-                        // checked={intialCheckbox &&
-                        //     intialCheckbox.includes("Cityscape") ? true : false
-                        // }
-
                         defaultChecked={intialCheckbox &&
                             intialCheckbox.includes("Cityscape") ? true : false
                         }
@@ -117,7 +118,6 @@ const CategoryCheckboxes = ({ category, categoryDescription, onCheckboxChange, i
                     </label>
                 </li>
             </ul>
-
         </>
     )
 }

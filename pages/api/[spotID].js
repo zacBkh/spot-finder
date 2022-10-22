@@ -1,14 +1,14 @@
 import connectMongo from '../../utils/connectMongo';
 import Spot from '../../models/spot';
 
-
-
+// /api/[id]
 // When this API route is hitted, execute this
-export default async function editSpot(req, res) {
+export default async function APIHandler(req, res) {
 
-    const { spotID } = req.query // will show query param
+    const { spotID } = req.query // query param (spot ID)
     await connectMongo();
     console.log('CONNECTED TO MONGO !');
+
 
 
     if (req.method === "PATCH") {
@@ -19,14 +19,18 @@ export default async function editSpot(req, res) {
 
             const spotToEdit = await Spot.findByIdAndUpdate(
                 spotID,
-                { title: req.body.title, description: req.body.description },
+                {
+                    title: req.body.title,
+                    description: req.body.description,
+                    categories: req.body.categories
+                },
                 { runValidators: true, new: true }
 
-            ); //Will create the document + save() (that's why we await)
+            );
 
             console.log('FOUND SPOT TO EDIT -->', spotToEdit);
 
-            res.json({ hello: "blabla" });
+            res.json({ SpotEdited: spotToEdit });
 
 
         } catch (error) {
@@ -39,35 +43,26 @@ export default async function editSpot(req, res) {
 
 
     } else if (req.method === "DELETE") {
-
         try {
             console.log('CONNECTED TO MONGO FOR EDIT !');
             console.log('Spot to delete --> ', spotID); // id of the form to DELETE
 
 
-            const spotToEdit = await Spot.findByIdAndDelete(spotID);
-            console.log('SPOT DELETED -->', spotToEdit);
+            const spotToDelete = await Spot.findByIdAndDelete(spotID);
+            console.log('SPOT DELETED -->', spotToDelete);
 
-            res.json({ hello: "blabla" });
+            res.json({ SpotDeleted: spotToDelete });
 
 
         } catch (error) {
             console.log(error);
             res.json({ error });
         }
-
-
-
     }
 
 
 
-
-
-
-
-
-
+    else { res.json({ error: "unknown request" }) }
 }
 
 
@@ -76,6 +71,5 @@ export default async function editSpot(req, res) {
 
 
 
-// const response = await Spot.findById(id)
 
 

@@ -1,39 +1,32 @@
 import Head from 'next/head'
 import Image from 'next/image'
 
+import { useRouter } from 'next/router'
+
 import NewSpotForm from "../components/NewSpotForm"
-
-
-
-
-
-// Posting to MONGO through API routes (data coming from children, fx passed as props)
-const addSpotHandler = async (enteredData) => {
-  console.log("NEW SPOT DATA from parent", enteredData)
-
-  // POSTING to MONGO
-  const response = await fetch(
-    "/api/new-spot",
-    {
-      method: "POST",
-      body: JSON.stringify(enteredData), //conv to JSON
-      headers: { "Content-Type": "application/json" }
-    }
-  )
-  const data = await response.json()
-  console.log("Data from Mongo", data)
-
-  router.push("/spots/allSpots") //Navigate back to root
-
-}
-
-
-
+import { addSpotHandler } from '../utils/APIfetchers'
 
 
 
 
 export default function Home() {
+  const router = useRouter()
+
+
+
+
+  // Will call the fetcher for ADD located in utils
+  const handleAdd = async (enteredData) => {
+    await addSpotHandler(enteredData) 
+    router.push("/spots/allSpots") //Navigate back to root
+  }
+
+
+
+
+
+
+
   return (
     <div className="">
       <Head>
@@ -43,13 +36,8 @@ export default function Home() {
       </Head>
 
       <NewSpotForm
-        onAddSpot={addSpotHandler}
+        onAddSpot={handleAdd}
       />
-
-
-
-
-
     </div>
   )
 }

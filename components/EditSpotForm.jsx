@@ -1,28 +1,43 @@
 import { useRef, useState } from 'react';
 import CategoryCheckboxes from './CheckboxesForCategories/CategoryCheckboxes';
 
+import { BsFillTreeFill, BsBuilding } from 'react-icons/bs';
+
+
+import CategoryCheckBoxItemEdit from './CategoriesCheckboxes/CheckboxItemEDIT';
+
 const EditSpotForm = ({ onEditSpot, intialValues, intialCheckbox }) => {
 
 
-  // State for category checkbox
-  const [categoriesSpotEdit, setCategoriesEdit] = useState(intialCheckbox);
+  // State containing categories
+  const [categoriesEdit, setCategoriesEdit] = useState(intialCheckbox);
+
 
   // Setting useRef
   const editSpotTitle = useRef();
   const editSpotDescription = useRef();
 
 
-  // Fx executed in children lifting data up
-  const checkboxHandler = (categories) => {
-    setCategoriesEdit(categories)
-    console.log('checkboxValuefromEditSpotForm', categories)
+
+  // On change of category in children, update the local state
+  const newCheckBoxHandlerEdit = (category) => {
+    console.log('category --->', category)
+
+    if (!categoriesEdit.includes(category)) { // if cat is not part of the array yet
+      setCategoriesEdit([...categoriesEdit, category])
+      console.log('1111')
+
+    } else { // if cat is part of arra y --> remove it
+      setCategoriesEdit((prevState) => prevState.filter((x) => x !== category))
+      console.log('2222')
+    }
   }
+
 
 
   // Fires when EDIT form is submitted
   const submitHandlerEdit = (event) => {
     event.preventDefault();
-
 
     // Grab values of input
     const enteredTitle = editSpotTitle.current.value;
@@ -33,7 +48,7 @@ const EditSpotForm = ({ onEditSpot, intialValues, intialCheckbox }) => {
     const editedSpotData = {
       title: enteredTitle,
       description: enteredDescription,
-      categories: categoriesSpotEdit,
+      categories: categoriesEdit,
     };
 
     console.log('you want to update', editedSpotData)
@@ -94,15 +109,38 @@ const EditSpotForm = ({ onEditSpot, intialValues, intialCheckbox }) => {
 
 
         <h3 className="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose technology:</h3>
-        <CategoryCheckboxes
+        {/* <CategoryCheckboxes
           category={"Nature"}
           categoryDescription={"The nature is the best place to photograph "}
           onCheckboxChange={checkboxHandler}
           intialCheckbox={intialCheckbox}
+        /> */}
+
+
+        <CategoryCheckBoxItemEdit
+          intialCheckbox={intialCheckbox.includes("Urban") ? true : false}
+          initialValue={"xx"}
+
+          icon={<BsBuilding />}
+          value={"Urban"}
+          name={"category"}
+          cardTitle={"Urban"}
+          cardDescription={"The nature is the best part to see"}
+          onCheckboxChange={newCheckBoxHandlerEdit}
         />
 
 
+        <CategoryCheckBoxItemEdit
+          intialCheckbox={intialCheckbox.includes("Nature") ? true : false}
+          initialValue={"xx"}
 
+          icon={<BsFillTreeFill />}
+          value={"Nature"}
+          name={"category"}
+          cardTitle={"Nature"}
+          cardDescription={"The city is the best part to see"}
+          onCheckboxChange={newCheckBoxHandlerEdit}
+        />
 
 
 

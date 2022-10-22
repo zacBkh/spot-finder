@@ -17,14 +17,19 @@ async function deleteAllSpots() {
 
 
 
-export default async function newSpot(req, res) {
-    const showFx = await showAllSpots()
-    res.json({ dataExisting: showFx });
+
+
+
+
+
+export default async function TESTER(req, res) {
+    // const showFx = await showAllSpots()
+    // res.json({ dataExisting: showFx });
 
 
 
     // const deleteFx = await deleteAllSpots()
-    // res.json({ dataDeletede: deleteAllSpots });
+    // res.json({ dataDeletede: deleteFx });
 }
 
 

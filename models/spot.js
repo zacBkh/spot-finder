@@ -15,6 +15,13 @@ const spotSchema = new Schema(
 
         },
 
+        categories: {
+            type: [String],
+            required: [true, "category is required"],
+            validate: [(array) => array.length > 0, 'No categories selected'], //custom valid
+
+        }
+
         // // location: {
         // //     type: String, 
         // //     // required: true,

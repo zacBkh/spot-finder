@@ -1,33 +1,27 @@
-import connectMongo from "../../utils/connectMongo";
-import Spot from '../../models/spot';
 
 import { useRef, useState } from "react";
 import { useRouter } from 'next/router'
 
 import EditSpotForm from "../../components/EditSpotForm";
 
+import { editSpotHandler, deleteSpotHandler } from "../../utils/APIfetchers";
 
 
+import { GETSpotFetcherOne } from "../../utils/GETfetchers";
 
 export const getServerSideProps = async (context) => {
 
-    console.log('context.params.spotID', context.params.spotID)
-
-
-    // Connecting to MongoDB and finding the precise spot
     try {
-        await connectMongo()
 
-        // Getting the ID
-        const id = context.params.spotID
+        // Getting the ID of the current spot
+        const ID = context.params.spotID
 
-
-        const response = await Spot.findById(id)
-        const indivSpot = JSON.parse(JSON.stringify(response));
+        // Executing the fx that will fetch all Spots
+        const resultFetchGETOne = await GETSpotFetcherOne(ID)
 
         return {
             props: {
-                indivSpot: indivSpot,
+                indivSpot: resultFetchGETOne,
             },
         };
 
@@ -43,7 +37,6 @@ export const getServerSideProps = async (context) => {
 
 
 
-
 const ShowSpot = ({ indivSpot }) => {
 
     const [isUnderEdition, setIsUnderEdition] = useState(false);
@@ -54,47 +47,31 @@ const ShowSpot = ({ indivSpot }) => {
 
 
 
-    // Fx to EDIT SPOT
-    // Edited data will come from children through this fx
-    const editSpotHandler = async (editedEnteredData) => {
-
-
-        const response = await fetch(
-            `/api/${spotID}`,
-            {
-                method: "PATCH",
-                body: JSON.stringify(editedEnteredData), //conv to JSON
-                headers: { "Content-Type": "application/json" }
-            }
-        )
-        const data = await response.json()
-        console.log("NEW Data from Mongo", data)
-
+    // Will call the fetcher for Edit located in utils - params come from children
+    const handleEdit = async (editedEnteredData) => {
+        await editSpotHandler(editedEnteredData, spotID)
         router.push("/spots/allSpots") //Navigate back to root
     }
 
-
-
-
-    // Fx to delete SPOT
-    const deleteSpotHandler = async () => {
-        const response = await fetch(
-            `/api/${spotID}`,
-            {
-                method: "DELETE",
-            }
-        )
-        const data = await response.json()
-        console.log("DELETED Data from Mongo", data)
-
+    // Will call the fetcher for DELETE located in utils
+    const handleDelete = async () => {
+        await deleteSpotHandler(spotID)
         router.push("/spots/allSpots") //Navigate back to root
     }
+
 
 
     return (
         <>
             <p>Title: {indivSpot.title}</p>
             <p>Description: {indivSpot.description}</p>
+
+            <p>CATEGORIES: {indivSpot.categories.join(", ")} </p>
+
+
+
+
+            {/* Spot Edition */}
             <button
                 onClick={() => setIsUnderEdition((prevState) => !prevState)}> {isUnderEdition ? "Cancel Spot Edition" : "Click here to Edit the Spot"}
             </button>
@@ -103,14 +80,16 @@ const ShowSpot = ({ indivSpot }) => {
                 isUnderEdition &&
                 <EditSpotForm
                     intialValues={indivSpot}
-                    onEditSpot={editSpotHandler}
+                    intialCheckbox={indivSpot.categories}
+
+                    onEditSpot={handleEdit}
                 />
             }
 
 
 
 
-
+            {/* Spot Deletion */}
             <button
                 className="block"
                 onClick={() => setIsUnderDeletion((prevState) => !prevState)} >
@@ -121,12 +100,10 @@ const ShowSpot = ({ indivSpot }) => {
             {
                 isUnderDeletion &&
                 <>
-                    <button className="mr-6" onClick={deleteSpotHandler}> Yes </button>
+                    <button className="mr-6" onClick={handleDelete}> Yes </button>
                     <button onClick={() => setIsUnderDeletion(false)}> No </button>
                 </>
             }
-
-
         </>
     )
 }

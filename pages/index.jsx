@@ -1,30 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 
-import NewSpotForm from "../components/NewSpotForm"
 
 
 
 
-
-// Posting to MONGO through API routes (data coming from children, fx passed as props)
-const addSpotHandler = async (enteredData) => {
-  console.log("NEW SPOT DATA from parent", enteredData)
-
-  // POSTING to MONGO
-  const response = await fetch(
-    "/api/new-spot",
-    {
-      method: "POST",
-      body: JSON.stringify(enteredData), //conv to JSON
-      headers: { "Content-Type": "application/json" }
-    }
-  )
-  const data = await response.json()
-  console.log("Data from Mongo", data)
-
-  // router.push("/") //Navigate back to root
-}
 
 
 
