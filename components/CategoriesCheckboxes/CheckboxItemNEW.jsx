@@ -25,9 +25,10 @@ const CategoryCheckBoxItemNew = ({
                             border-gray-200 
                             cursor-pointer
                             
-                            ${catArray.includes(value) ? "bg-gray-50 border-blue-600" : "bg-white border-gray-200"}
+                            ${catArray.includes(value) ? "bg-gray-50 border-blue-600 text-gray-800 " : "bg-white border-gray-200"}
                             `}
                     >
+
 
                         <input
                             type="checkbox"
