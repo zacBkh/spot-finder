@@ -1,10 +1,12 @@
-continue formik and find solution for checkbox : validate only if at least one checkbox is checked 
---> deja sassurer qu'on passe bien les memes choses que sur le form normal
+FORMIK find a way to use Field etc episode 8
+--> maybe have a big component <Form/> where formik leaves and he only send to parent the data for submissioN ?
 
-sassurer que la valid au back end fonctionne bien a nouveau onSubmit
---> valid ne marche pas sur cateogyr --> les mettre dans un array ??
 
-try to refacto and pass less props ?
+
+
+
+validation asynchrone adresse email & utilisateur + meme nom de form : 
+https://www.youtube.com/watch?v=ZhxzEiDhwD0
 
 implement for edit form
 

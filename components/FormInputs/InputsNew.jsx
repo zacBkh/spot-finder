@@ -1,4 +1,3 @@
-import { useState } from "react"
 
 
 const InputsNew = ({
@@ -8,7 +7,7 @@ const InputsNew = ({
 }) => {
 
 
-
+    // console.log('Field', Field)
     // Logic to deicde to display erorrMsg or not (depending of if mistake and if touched before)
     const showValidErrorMsg = () => {
         if (formikError && formikHasFieldBeenTouched) {
@@ -25,6 +24,10 @@ const InputsNew = ({
                     htmlFor={formikName}
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{labelName}
                 </label>
+                {/* <Field 
+                
+                /> */}
+
 
                 <input
                     id={formikName}

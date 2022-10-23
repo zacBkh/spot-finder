@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { useFormik, FieldArray, Formik } from "formik"
+import { useFormik, Field, Formik, Form, Error, ErrorMessage } from "formik"
 
 import CategoryCheckBoxItemNew from '../CategoriesCheckboxes/CheckboxItemNEW';
 
@@ -14,28 +14,32 @@ import * as Yup from "yup";
 
 
 const NewSpotForm = ({ onAddSpot }) => {
-
-
+  // States for counting characters in fiels --> to be optimized ?
+  const [characterCountTitle, setCharacterCountTitle] = useState(0);
+  const [characterCountDescription, setCharacterCountDescription] = useState(0);
 
 
   // Yup stuff
 
+  const catShouldInclude = ["Nature", "Urban", "City"];
+
   // Yup Validation Schema
   const validationSchemaYup = Yup.object().shape({
     title: Yup
-      .string()
-      .min(6, "The title should be more than 6 characters  from Yup")
+      .string().trim()
+      .min(6, `The title should be more than 6 characters, type ${5 - characterCountTitle} more!`)
       .required("Please enter a title from Yup!!"),
 
     description: Yup
-      .string()
-      .min(6, "The description should be more than 6 characters  from Yup")
+      .string().trim()
+      .min(6, "The description should be more than 6 characters!")
+      .min(6, `The title should be more than 6 characters, type ${5 - characterCountDescription} more!`)
       .required("Please enter a description from Yup!!"),
 
 
     categories: Yup
       .array()
-      .min(1, "Please select at least one category from Yup!")
+      .min(1, "Please select at least one category!")
       .required("Category is required from Yup!")
   });
 
@@ -59,135 +63,121 @@ const NewSpotForm = ({ onAddSpot }) => {
   }
 
 
+
   // Formik - object that tells initial values of form + submit & valid fx
-  // const formik = useFormik({
-  //   initialValues: initialValues,
-  //   onSubmit: onSubmitFormik,
-  //   validationSchema: validationSchemaYup
-  // })
+  const formik = useFormik({
+    initialValues: initialValues,
+    onSubmit: onSubmitFormik,
+    validationSchema: validationSchemaYup
+  })
 
 
 
+  // When change in inputs, update character counting states
+  useEffect(() => {
+    setCharacterCountTitle(formik.values.title.trim().length)
+  }, [formik.values.title])
 
-
-  // Destructring to pass default value 
-  // const {
-  //   title, description,
-  // } = formik.values;
-
-
-
-
+  useEffect(() => {
+    setCharacterCountDescription(formik.values.description.trim().length)
+  }, [formik.values.description])
 
 
 
-  // console.log("formik -->", formik)
-  // console.log('formik.errors --> ', formik.errors)
-  // console.log("formik.values -->", formik.values)
+  console.log('formik', formik)
 
   return (
     <>
-
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchemaYup}
-        onSubmit={onSubmitFormik}
-      >
-        {
-          (formik) => (
+      <form
+        onSubmit={formik.handleSubmit}
+        className='max-w-md mx-auto'>
 
 
 
-            <form
-              onSubmit={formik.handleSubmit}
-              className='max-w-md mx-auto'>
+        <InputsNew
+          labelName={"The title of your spot!"}
+          placeholder={"e.g: Amazing night cityscape in Dubai"}
+          formikName="title"
 
+          formikHasFieldBeenTouched={formik.touched.title == undefined ? false : formik.touched.title}
+          formikError={formik.errors}
+          wizard={formik.getFieldProps} // will store value, onChange and onBlur
+        />
 
-              <InputsNew
-                labelName={"The title of your spot!"}
-                placeholder={"e.g: Amazing night cityscape in Dubai"}
-                formikName="title"
+        <InputsNew
+          labelName={"The description of your spot!"}
+          placeholder={"e.g: Nice bridge where you can..."}
+          formikName="description"
 
-                formikHasFieldBeenTouched={formik.touched.title == undefined ? false : formik.touched.title}
-                formikError={formik.errors}
-                wizard={formik.getFieldProps} // will store value, onChange and onBlur
-              />
-
-              <InputsNew
-                labelName={"The description of your spot!"}
-                placeholder={"e.g: Nice bridge where you can..."}
-                formikName="description"
-
-                formikHasFieldBeenTouched={formik.touched.description == undefined ? false : formik.touched.description}
-                formikError={formik.errors}
-                wizard={formik.getFieldProps}
-              />
+          formikHasFieldBeenTouched={formik.touched.description == undefined ? false : formik.touched.description}
+          formikError={formik.errors}
+          wizard={formik.getFieldProps}
+        />
 
 
 
-              <h3
-                className="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose cateogry:
-              </h3>
-
-              <div className='flex flex-col md:flex-row md:space-x-4'>
-                <CategoryCheckBoxItemNew
-                  icon={<BsFillTreeFill />}
-                  value={"Nature"}
-                  name={"categories"}
-                  cardTitle={"Nature"}
-                  cardDescription={"The nature is the best part to see"}
-
-                  formikHandleChange={formik.handleChange}
-                  catArray={formik.values.categories}
-                />
 
 
-                <CategoryCheckBoxItemNew
-                  icon={<BsBuilding />}
-                  value={"Urban"}
-                  name={"categories"}
-                  cardDescription={"The nature is the best part to see"}
+        <div>
+          <h3
+            className="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose cateogry:
+          </h3>
 
-                  formikHandleChange={formik.handleChange}
-                  catArray={formik.values.categories}
-                />
+          <div className='flex flex-col md:flex-row md:space-x-4'>
+            <CategoryCheckBoxItemNew
+              icon={<BsFillTreeFill />}
+              value={"Nature"}
+              name={"categories"}
+              cardTitle={"Nature"}
+              cardDescription={"The nature is the best part to see"}
 
-                <CategoryCheckBoxItemNew
-                  icon={<BsSunset />}
-                  value={"Sunset"}
-                  name={"categories"}
-                  cardDescription={"The Sunset is the best part to see"}
-
-                  formikHandleChange={formik.handleChange}
-                  catArray={formik.values.categories}
-                />
-              </div>
+              formikHandleChange={formik.handleChange}
+              catArray={formik.values.categories}
+            />
 
 
-              {/* For category validation */}
-              <span className="text-red-600 block">{formik.errors.categories} </span>
+            <CategoryCheckBoxItemNew
+              icon={<BsBuilding />}
+              value={"Urban"}
+              name={"categories"}
+              cardDescription={"The nature is the best part to see"}
 
-              <button
-                type="submit"
-                className="text-white
-                bg-blue-700 hover:bg-blue-800 
+              formikHandleChange={formik.handleChange}
+              catArray={formik.values.categories}
+            />
+
+            <CategoryCheckBoxItemNew
+              icon={<BsSunset />}
+              value={"Sunset"}
+              name={"categories"}
+              cardDescription={"The Sunset is the best part to see"}
+
+              formikHandleChange={formik.handleChange}
+              catArray={formik.values.categories}
+            />
+          </div>
+        </div>
+
+
+        {/* For category validation */}
+        <span className="text-red-600 block">{formik.errors.categories} </span>
+
+        <button
+          disabled={!formik.isValid}
+          type="submit"
+          className="text-white
+                bg-blue-700 enabled:hover:bg-blue-800 
                   focus:ring-4 focus:outline-none focus:ring-blue-300 
                   text-sm font-medium 
                   rounded-lg 
                   w-full sm:w-auto 
                   px-5 py-2.5 
-                  text-center"> Submit
-              </button>
-            </form>
+                  text-center
+                  disabled:opacity-80 disabled:cursor-not-allowed	"
+        > Submit
 
-
-
-
-
-          )
-        }
-      </Formik>
-
+        </button>
+      </form>
     </>
   );
 }
