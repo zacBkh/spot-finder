@@ -1,5 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 
+import { useFormik, FieldArray, Formik } from "formik"
 
 import CategoryCheckBoxItemNew from '../CategoriesCheckboxes/CheckboxItemNEW';
 
@@ -8,145 +9,185 @@ import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs';
 
 import InputsNew from '../FormInputs/InputsNew';
 
+import * as Yup from "yup";
+
 
 
 const NewSpotForm = ({ onAddSpot }) => {
 
-  // Local State
-  const [categoriesNew, setCategoriesNew] = useState([]);
-
-
-  // Use Ref set up // Refs are passed to children
-  const spotTitle = useRef();
-  const spotDescription = useRef();
 
 
 
+  // Yup stuff
 
-  // Fx get data from children and update local cat state
-  const newCheckBoxHandler = (category) => {
-    console.log('category --->', category)
+  // Yup Validation Schema
+  const validationSchemaYup = Yup.object().shape({
+    title: Yup
+      .string()
+      .min(6, "The title should be more than 6 characters  from Yup")
+      .required("Please enter a title from Yup!!"),
 
-    if (!categoriesNew.includes(category)) { // if cat iis not part of the array yet
-      setCategoriesNew([...categoriesNew, category])
-      console.log('1111')
-
-    } else { // if cat is part of arra y --> remove it
-      setCategoriesNew((prevState) => prevState.filter((x) => x !== category))
-      console.log('2222')
-    }
-  }
-
+    description: Yup
+      .string()
+      .min(6, "The description should be more than 6 characters  from Yup")
+      .required("Please enter a description from Yup!!"),
 
 
+    categories: Yup
+      .array()
+      .min(1, "Please select at least one category from Yup!")
+      .required("Category is required from Yup!")
+  });
 
-  // Fires when form is submitted
-  const submitHandler = (event) => {
-    event.preventDefault();
 
-    const enteredTitle = spotTitle.current.value;
-    const enteredDescription = spotDescription.current.value;
 
-    console.log('enteredTitle', enteredTitle)
 
-    const spotData = {
-      title: enteredTitle,
-      description: enteredDescription,
-      categories: categoriesNew,
-    };
+  // Formik stuff 
 
-    onAddSpot(spotData); // using the fx to send to parent the data from the form
-
-    event.target.reset();
-  }
-
-  const validTitle = {
-    required: true,
-    type: "text",
-    minLength: "6"
+  // Formik - Setting initial value and name to link with "name" attribute of <input>
+  const initialValues = {
+    title: "",
+    description: "",
+    categories: ["Nature"] // if we want to have a default one
   };
 
+  // Formik - Submit Fx 
+  const onSubmitFormik = (formValues) => {
+    console.log('SUBMIT-formValues', formValues)
+
+    onAddSpot(formValues); // using the fx to send to parent the data from the form
+  }
 
 
+  // Formik - object that tells initial values of form + submit & valid fx
+  // const formik = useFormik({
+  //   initialValues: initialValues,
+  //   onSubmit: onSubmitFormik,
+  //   validationSchema: validationSchemaYup
+  // })
+
+
+
+
+
+  // Destructring to pass default value 
+  // const {
+  //   title, description,
+  // } = formik.values;
+
+
+
+
+
+
+
+  // console.log("formik -->", formik)
+  // console.log('formik.errors --> ', formik.errors)
+  // console.log("formik.values -->", formik.values)
 
   return (
     <>
-      <form
-        onSubmit={submitHandler}
-        className='max-w-md mx-auto'>
 
-
-        <InputsNew
-          accessibility={"title"}
-          labelName={"The title of your spot!"}
-          placeholder={"e.g: Amazing night cityscape in Dubai"}
-          refWatcher={spotTitle}
-          valid={{ required: true, type: "text", minLength: "6" }}
-
-        // required={true}
-        />
-
-        <InputsNew
-          accessibility={"description"}
-          labelName={"The description of your spot!"}
-          placeholder={"e.g: Nice bridge where you can..."}
-          refWatcher={spotDescription}
-          valid={{ required: true, type: "text", minLength: "10" }}
-        />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchemaYup}
+        onSubmit={onSubmitFormik}
+      >
+        {
+          (formik) => (
 
 
 
+            <form
+              onSubmit={formik.handleSubmit}
+              className='max-w-md mx-auto'>
+
+
+              <InputsNew
+                labelName={"The title of your spot!"}
+                placeholder={"e.g: Amazing night cityscape in Dubai"}
+                formikName="title"
+
+                formikHasFieldBeenTouched={formik.touched.title == undefined ? false : formik.touched.title}
+                formikError={formik.errors}
+                wizard={formik.getFieldProps} // will store value, onChange and onBlur
+              />
+
+              <InputsNew
+                labelName={"The description of your spot!"}
+                placeholder={"e.g: Nice bridge where you can..."}
+                formikName="description"
+
+                formikHasFieldBeenTouched={formik.touched.description == undefined ? false : formik.touched.description}
+                formikError={formik.errors}
+                wizard={formik.getFieldProps}
+              />
 
 
 
-        <h3
-          className="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose technology:
-        </h3>
+              <h3
+                className="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose cateogry:
+              </h3>
 
-        <div className='flex flex-col md:flex-row md:space-x-4'>
-          <CategoryCheckBoxItemNew
-            icon={<BsFillTreeFill />}
-            value={"Nature"}
-            name={"category"}
-            cardTitle={"Nature"}
-            cardDescription={"The nature is the best part to see"}
-            onCheckboxChange={newCheckBoxHandler}
-          />
+              <div className='flex flex-col md:flex-row md:space-x-4'>
+                <CategoryCheckBoxItemNew
+                  icon={<BsFillTreeFill />}
+                  value={"Nature"}
+                  name={"categories"}
+                  cardTitle={"Nature"}
+                  cardDescription={"The nature is the best part to see"}
+
+                  formikHandleChange={formik.handleChange}
+                  catArray={formik.values.categories}
+                />
+
+
+                <CategoryCheckBoxItemNew
+                  icon={<BsBuilding />}
+                  value={"Urban"}
+                  name={"categories"}
+                  cardDescription={"The nature is the best part to see"}
+
+                  formikHandleChange={formik.handleChange}
+                  catArray={formik.values.categories}
+                />
+
+                <CategoryCheckBoxItemNew
+                  icon={<BsSunset />}
+                  value={"Sunset"}
+                  name={"categories"}
+                  cardDescription={"The Sunset is the best part to see"}
+
+                  formikHandleChange={formik.handleChange}
+                  catArray={formik.values.categories}
+                />
+              </div>
+
+
+              {/* For category validation */}
+              <span className="text-red-600 block">{formik.errors.categories} </span>
+
+              <button
+                type="submit"
+                className="text-white
+                bg-blue-700 hover:bg-blue-800 
+                  focus:ring-4 focus:outline-none focus:ring-blue-300 
+                  text-sm font-medium 
+                  rounded-lg 
+                  w-full sm:w-auto 
+                  px-5 py-2.5 
+                  text-center"> Submit
+              </button>
+            </form>
 
 
 
 
-          <CategoryCheckBoxItemNew
-            icon={<BsBuilding />}
-            value={"Urban"}
-            name={"category"}
-            cardTitle={"Urban"}
-            cardDescription={"The nature is the best part to see"}
-            onCheckboxChange={newCheckBoxHandler}
-          />
 
-          <CategoryCheckBoxItemNew
-            icon={<BsSunset />}
-            value={"Sunset"}
-            name={"category"}
-            cardTitle={"Sunset"}
-            cardDescription={"The Sunset is the best part to see"}
-            onCheckboxChange={newCheckBoxHandler}
-          />
-        </div>
+          )
+        }
+      </Formik>
 
-        <button
-          type="submit"
-          className="text-white
-          bg-blue-700 hover:bg-blue-800 
-            focus:ring-4 focus:outline-none focus:ring-blue-300 
-            text-sm font-medium 
-            rounded-lg 
-            w-full sm:w-auto 
-            px-5 py-2.5 
-            text-center"> Submit
-        </button>
-      </form>
     </>
   );
 }

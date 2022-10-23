@@ -1,4 +1,12 @@
-REFACTO LES FORM DANS UN COMOPSANT FORM.
+continue formik and find solution for checkbox : validate only if at least one checkbox is checked 
+--> deja sassurer qu'on passe bien les memes choses que sur le form normal
+
+sassurer que la valid au back end fonctionne bien a nouveau onSubmit
+--> valid ne marche pas sur cateogyr --> les mettre dans un array ??
+
+try to refacto and pass less props ?
+
+implement for edit form
 
 
 
