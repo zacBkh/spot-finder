@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 
-import { useFormik, Field, Formik, Form, Error, ErrorMessage } from "formik"
+import { useFormik } from "formik"
+import * as Yup from "yup";
+
 
 import CategoryCheckBoxItemNew from '../CategoriesCheckboxes/CheckboxItemNEW';
 
@@ -9,7 +11,6 @@ import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs';
 
 import InputsNew from '../FormInputs/InputsNew';
 
-import * as Yup from "yup";
 
 
 
@@ -21,7 +22,6 @@ const NewSpotForm = ({ onAddSpot }) => {
 
   // Yup stuff
 
-  const catShouldInclude = ["Nature", "Urban", "City"];
 
   // Yup Validation Schema
   const validationSchemaYup = Yup.object().shape({
@@ -52,7 +52,7 @@ const NewSpotForm = ({ onAddSpot }) => {
   const initialValues = {
     title: "",
     description: "",
-    categories: ["Nature"] // if we want to have a default one
+    categories: []
   };
 
   // Formik - Submit Fx 

@@ -79,7 +79,7 @@ const ShowSpot = ({ indivSpot }) => {
             {
                 isUnderEdition &&
                 <EditSpotForm
-                    intialValues={indivSpot}
+                    previousValues={indivSpot}
                     intialCheckbox={indivSpot.categories}
 
                     onEditSpot={handleEdit}
