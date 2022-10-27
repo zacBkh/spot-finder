@@ -1,6 +1,6 @@
 
 import SpotCard from "../../components/SpotCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router"
 
 import categoriesVariable from "../../utils/spotCategories";
@@ -47,7 +47,9 @@ export const getServerSideProps = async (context) => {
 const allSpots = ({ spots }) => {
     const router = useRouter()
     console.log('router.query', router.query)
-    const [activeCategories, setActiveCategories] = useState(categoriesVariable);
+    const [activeCategories, setActiveCategories] = useState([]);
+
+    const [filterMode, setFilterMode] = useState(false);
 
 
 
@@ -55,7 +57,6 @@ const allSpots = ({ spots }) => {
     const handleClickFilter = (e) => {
         const filterRequired = e.target.value
         console.log('filterRequired', filterRequired)
-
 
         if (activeCategories.includes(filterRequired)) { // if already in array -> remove
             setActiveCategories(
@@ -69,48 +70,82 @@ const allSpots = ({ spots }) => {
     }
 
 
+
+    // Once category state has been updated, check if there is something inside or not...
+    useEffect(() => {
+        if (!activeCategories.length) { //  if nothing, reset filters
+            setFilterMode(false)
+        } else {
+            setFilterMode(true) // if at least one item, filter mode on
+        }
+    }, [activeCategories])
+
+
     // ES6 filtering way
+    // If filterMode is on, then filter, otherwise, just map components
     return (
         <>
+
+            <div className="flex flex-row justify-center">
+                <FilterTry
+                    icon={<BsSunset />}
+                    value={"Sunset"}
+                    onClick={handleClickFilter}
+                    activeCategories={activeCategories}
+                />
+
+                <FilterTry
+                    icon={<BsBuilding />}
+                    value={"Urban"}
+                    onClick={handleClickFilter}
+                    activeCategories={activeCategories}
+                />
+
+                <FilterTry
+                    icon={<BsBuilding />}
+                    value={"Nature"}
+                    onClick={handleClickFilter}
+                    activeCategories={activeCategories}
+                />
+            </div>
+
+
+            
             <div
-                className="grid grid-flow-col auto-cols-max space-x-6 justify-center">
+                className=" 
+                    mt-14 max-w-6xl	mx-auto 
+                    grid grid-cols-4 gap-4 justify-center">
                 {
-                    spots
-                        .filter((spot) =>
-                            spot.categories.some(x => activeCategories.includes(x))
-                        )
-                        .map((spot) =>
-                            <SpotCard
-                                key={spot._id}
-                                id={spot._id}
-                                title={spot.title}
-                                description={spot.description}
-                                categories={spot.categories}
-                            />
-                        )
+                    filterMode ?
+                        spots
+                            .filter((spot) =>
+                                spot.categories.some(x => activeCategories.includes(x))
+                            )
+                            .map((spot) =>
+                                <SpotCard
+                                    key={spot._id}
+                                    id={spot._id}
+                                    title={spot.title}
+                                    description={spot.description}
+                                    categories={spot.categories}
+                                />
+                            )
+                        :
+                        spots
+                            .map((spot) =>
+                                <SpotCard
+                                    key={spot._id}
+                                    id={spot._id}
+                                    title={spot.title}
+                                    description={spot.description}
+                                    categories={spot.categories}
+                                />
+                            )
                 }
             </div>
 
-            <FilterTry
-                icon={<BsSunset />}
-                value={"Sunset"}
-                onClick={handleClickFilter}
-                activeCategories={activeCategories}
-            />
 
-            <FilterTry
-                icon={<BsBuilding />}
-                value={"Urban"}
-                onClick={handleClickFilter}
-                activeCategories={activeCategories}
-            />
 
-            <FilterTry
-                icon={<BsBuilding />}
-                value={"Nature"}
-                onClick={handleClickFilter}
-                activeCategories={activeCategories}
-            />
 
         </>
     )
