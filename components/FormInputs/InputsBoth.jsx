@@ -1,6 +1,6 @@
 
 
-const InputsEdit = ({
+const InputsBoth = ({
     labelName, placeholder,
     formikHasFieldBeenTouched, formikError, formikName,
     wizard
@@ -11,7 +11,6 @@ const InputsEdit = ({
     const showValidErrorMsg = () => {
         if (formikError && formikHasFieldBeenTouched) {
             return <span className="text-red-600">{formikError[formikName]}</span>
-            // Accessing object key with string (passed as proops) 
         }
     }
 
@@ -45,4 +44,4 @@ const InputsEdit = ({
     )
 }
 
-export default InputsEdit 
+export default InputsBoth 

@@ -1,6 +1,22 @@
-FORMIK find a way to use Field etc episode 8
---> maybe have a big component <Form/> where formik leaves and he only send to parent the data for submissioN ?
 
+NEED TO DO GLOBAL VARIABLE FOR CATEGORY TO AVOID CHANGE MANY PLACES IN THE CODE WHEN WE ADD OR REMOVE CATEGORIES FILTER
+
+FILTER FEATURE : make that on load no filter selected but all spots displayed and as soon as one filter get triggered start triggering
+maybe have one state : filterMode ?
+and conditional logic of render of spot check if filter is on or off and if on he does filter etc and if off display all
+
+
+issue on valid client side category check the "&&"
+if i unclick and click again initial value formik it does not work i need to click twice
+https://stackoverflow.com/questions/71888178/checkbox-inside-formik-form-needs-to-be-checked-twice-when-a-set-state-in-handle
+
+
+
+filtering by category
+
+adding map feature
+
+adding auth
 
 
 
@@ -8,21 +24,14 @@ FORMIK find a way to use Field etc episode 8
 validation asynchrone adresse email & utilisateur + meme nom de form : 
 https://www.youtube.com/watch?v=ZhxzEiDhwD0
 
-implement for edit form
 
 
 
-Current caveats:  
-
-For both EDIT and NEW I have : 
-one comp EditSpotForm and one CheckboxItemEDIT
-
-- When adding an icon for category, need to duplciate it for new & edit 
-first do new then do edit and when do edit need to add 
-intialCheckbox props
-change some names
-DRY rule broken between checkboc item EDIT and checkbotitemNEW
 
 
 
-TODO: create a component for InputsEdit (likeInputs New)
+
+
+WORKAROUND FORMIK : 
+
+on utilise getstaticifeldsprops que pour input mais pas checkbox

@@ -2,11 +2,15 @@
 
 const CategoryCheckBoxItemNew = ({
     icon,
-    value, name,
+    value,
     cardDescription,
-    formikHandleChange,
-    catArray
+    catArray,
+    formikName, formikHandleBlur, formikHandleChange
 }) => {
+
+
+
+
 
 
     return (
@@ -17,7 +21,7 @@ const CategoryCheckBoxItemNew = ({
                         htmlFor={value}
                         className={`
                             flex justify-center items-center p-5 w-full  
-                            text-gray-500 hover:text-gray-600 checked:text-gray-800 
+                            text-gray-500 hover:text-gray-600
                             bg-white  hover:bg-gray-50 
                             rounded-lg border-2
                             border-gray-200 
@@ -30,12 +34,13 @@ const CategoryCheckBoxItemNew = ({
 
                         <input
                             type="checkbox"
-                            value={value}
                             id={value}
                             className="opacity-0"
 
-                            name={name}
+                            name={formikName}
+                            value={value}
                             onChange={formikHandleChange}
+                            onBlur={formikHandleBlur}
                         />
 
 

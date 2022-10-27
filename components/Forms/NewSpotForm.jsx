@@ -3,15 +3,10 @@ import { useState, useEffect } from 'react';
 import { useFormik } from "formik"
 import * as Yup from "yup";
 
-
-import CategoryCheckBoxItemNew from '../CategoriesCheckboxes/CheckboxItemNEW';
-
-
 import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs';
 
-import InputsNew from '../FormInputs/InputsNew';
-
-
+import InputsBoth from '../FormInputs/InputsBoth';
+import CategoryCheckBoxItemBoth from '../CategoriesCheckboxes/CheckboxItemBoth';
 
 
 const NewSpotForm = ({ onAddSpot }) => {
@@ -27,13 +22,13 @@ const NewSpotForm = ({ onAddSpot }) => {
   const validationSchemaYup = Yup.object().shape({
     title: Yup
       .string().trim()
-      .min(6, `The title should be more than 6 characters, type ${5 - characterCountTitle} more!`)
+      .min(6, `The title should be more than 6 characters, type ${6 - characterCountTitle} more!`)
       .required("Please enter a title from Yup!!"),
 
     description: Yup
       .string().trim()
       .min(6, "The description should be more than 6 characters!")
-      .min(6, `The title should be more than 6 characters, type ${5 - characterCountDescription} more!`)
+      .min(6, `The description should be more than 6 characters, type ${6 - characterCountDescription} more!`)
       .required("Please enter a description from Yup!!"),
 
 
@@ -83,7 +78,6 @@ const NewSpotForm = ({ onAddSpot }) => {
   }, [formik.values.description])
 
 
-
   console.log('formik', formik)
 
   return (
@@ -94,7 +88,7 @@ const NewSpotForm = ({ onAddSpot }) => {
 
 
 
-        <InputsNew
+        <InputsBoth
           labelName={"The title of your spot!"}
           placeholder={"e.g: Amazing night cityscape in Dubai"}
           formikName="title"
@@ -104,7 +98,7 @@ const NewSpotForm = ({ onAddSpot }) => {
           wizard={formik.getFieldProps} // will store value, onChange and onBlur
         />
 
-        <InputsNew
+        <InputsBoth
           labelName={"The description of your spot!"}
           placeholder={"e.g: Nice bridge where you can..."}
           formikName="description"
@@ -124,43 +118,45 @@ const NewSpotForm = ({ onAddSpot }) => {
           </h3>
 
           <div className='flex flex-col md:flex-row md:space-x-4'>
-            <CategoryCheckBoxItemNew
+            <CategoryCheckBoxItemBoth
               icon={<BsFillTreeFill />}
               value={"Nature"}
-              name={"categories"}
-              cardTitle={"Nature"}
               cardDescription={"The nature is the best part to see"}
-
-              formikHandleChange={formik.handleChange}
               catArray={formik.values.categories}
+
+              formikName={"categories"}
+              formikHandleChange={formik.handleChange}
+              formikHandleBlur={formik.handleBlur}
             />
 
 
-            <CategoryCheckBoxItemNew
+            <CategoryCheckBoxItemBoth
               icon={<BsBuilding />}
               value={"Urban"}
-              name={"categories"}
-              cardDescription={"The nature is the best part to see"}
-
-              formikHandleChange={formik.handleChange}
+              cardDescription={"The city is the best part to see"}
               catArray={formik.values.categories}
+
+              formikName={"categories"}
+              formikHandleChange={formik.handleChange}
+              formikHandleBlur={formik.handleBlur}
             />
 
-            <CategoryCheckBoxItemNew
+            <CategoryCheckBoxItemBoth
               icon={<BsSunset />}
               value={"Sunset"}
-              name={"categories"}
-              cardDescription={"The Sunset is the best part to see"}
-
-              formikHandleChange={formik.handleChange}
+              cardDescription={"The sunset is the best part to see"}
               catArray={formik.values.categories}
+
+              formikName={"categories"}
+              formikHandleChange={formik.handleChange}
+              formikHandleBlur={formik.handleBlur}
             />
           </div>
         </div>
 
 
         {/* For category validation */}
-        <span className="text-red-600 block">{formik.errors.categories} </span>
+        <span className="text-red-600 block">{formik.touched.categories === true && formik.errors.categories} </span>
 
         <button
           disabled={!formik.isValid}

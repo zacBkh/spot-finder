@@ -1,8 +1,8 @@
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useRouter } from 'next/router'
 
-import EditSpotForm from "../../components/Forms/EditSpotForm";
+import BothSpotForm from "../../components/Forms/BothSpotForm";
 
 import { editSpotHandler, deleteSpotHandler } from "../../utils/APIfetchers";
 
@@ -42,6 +42,17 @@ const ShowSpot = ({ indivSpot }) => {
     const [isUnderEdition, setIsUnderEdition] = useState(false);
     const [isUnderDeletion, setIsUnderDeletion] = useState(false);
 
+    const enterEditionHandler = () => {
+        setIsUnderEdition((prevState) => !prevState);
+        setIsUnderDeletion(false)
+    }
+
+
+    const enterDeletionHandler = () => {
+        setIsUnderDeletion((prevState) => !prevState);
+        setIsUnderEdition(false)
+    }
+
     const router = useRouter();
     const { spotID } = router.query
 
@@ -73,16 +84,16 @@ const ShowSpot = ({ indivSpot }) => {
 
             {/* Spot Edition */}
             <button
-                onClick={() => setIsUnderEdition((prevState) => !prevState)}> {isUnderEdition ? "Cancel Spot Edition" : "Click here to Edit the Spot"}
+                onClick={enterEditionHandler}>
+                {isUnderEdition ? "Cancel Spot Edition" : "Click here to Edit the Spot"}
             </button>
 
             {
                 isUnderEdition &&
-                <EditSpotForm
+                <BothSpotForm
                     previousValues={indivSpot}
-                    intialCheckbox={indivSpot.categories}
 
-                    onEditSpot={handleEdit}
+                    onAddOrEditFx={handleEdit}
                 />
             }
 
@@ -92,7 +103,7 @@ const ShowSpot = ({ indivSpot }) => {
             {/* Spot Deletion */}
             <button
                 className="block"
-                onClick={() => setIsUnderDeletion((prevState) => !prevState)} >
+                onClick={enterDeletionHandler} >
 
                 {isUnderDeletion ? "Do you really want to delete the Spot?" : "Click here to Delete the Spot"}
             </button>

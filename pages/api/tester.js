@@ -1,20 +1,24 @@
 import Spot from '../../models/spot';
 
+import connectMongo from "../../utils/connectMongo"
+
 // This route will help us see which data is in our Database, delete etc
 
-async function showAllSpots() {
+
+
+
+async function showAllSpots(resArg) {
     const DBData = await Spot.find({})
-    return DBData
+    return resArg.json({ dataExisting: DBData });
+
 }
 
 
 
-async function deleteAllSpots() {
+async function deleteAllSpots(resArg) {
     await Spot.deleteMany({})
-    return await Spot.find({})
+    return resArg.json({ dataExisting: showAllSpots() })
 }
-
-
 
 
 
@@ -23,13 +27,14 @@ async function deleteAllSpots() {
 
 
 export default async function TESTER(req, res) {
-    // const showFx = await showAllSpots()
-    // res.json({ dataExisting: showFx });
+    await connectMongo();
 
 
+    await showAllSpots(res)
 
-    // const deleteFx = await deleteAllSpots()
-    // res.json({ dataDeletede: deleteFx });
+    // await deleteAllSpots(res)
+
+
 }
 
 

@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 import { useRouter } from 'next/router'
 
-import NewSpotForm from "../components/Forms/NewSpotForm"
+import BothSpotForm from '../components/Forms/BothSpotForm'
 import { addSpotHandler } from '../utils/APIfetchers'
 
 
@@ -16,7 +16,7 @@ export default function Home() {
 
   // Will call the fetcher for ADD located in utils
   const handleAdd = async (enteredData) => {
-    await addSpotHandler(enteredData) 
+    await addSpotHandler(enteredData)
     router.push("/spots/allSpots") //Navigate back to root
   }
 
@@ -31,8 +31,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <NewSpotForm
-        onAddSpot={handleAdd}
+      <BothSpotForm
+        onAddOrEditFx={handleAdd}
       />
     </div>
   )

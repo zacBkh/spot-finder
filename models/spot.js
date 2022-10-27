@@ -1,27 +1,37 @@
 import { Schema, model, models } from 'mongoose';
 
+const arrayValues = ["Nature", "Urban", "Sunset"];
 const spotSchema = new Schema(
     {
         title: {
             type: String,
-            required: [true, "Title is required"]
-            // maxlength: 20,
+            required: [true, "Title is required"],
+            trim: true,
+            minLength: 6,
         },
 
 
         description: {
             type: String, // Or convertible to a number
-            required: [true, "Description is required"]
-
+            required: [true, "Description is required"],
+            trim: true,
+            minLength: 6,
         },
 
         categories: {
             type: [String],
-            required: [true, "category is required"],
-            validate: [(array) => array.length > 0, 'No categories selected'], //custom valid
+            required: [true, "Category is required"], // In Mongoose, non submitted array field will default to [] so there will always be something so this valid is useless?
+            // enum: {
+            //     values: ["Category", "Nature", "Urban"],
+            //     message: "You need to input one or more correct categorie(s)"
+            // },
+            validate: [(array) => array.length === 0,
+                'Category cannot be empty'],
+
+            validate: [(array) => array.some(el => arrayValues.includes(el)),
+                'You need to input one or more correct categorie(s)'], //custom valid
 
         }
-
         // // location: {
         // //     type: String, 
         // //     // required: true,

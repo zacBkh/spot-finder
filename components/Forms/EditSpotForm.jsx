@@ -1,25 +1,21 @@
 import { useState, useEffect } from 'react';
 
-import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs';
-
 import { useFormik } from "formik"
 import * as Yup from "yup";
 
-import InputsEdit from '../FormInputs/InputsEdit';
+import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs';
+
+import InputsBoth from '../FormInputs/InputsBoth';
+import CategoryCheckBoxItemBoth from '../CategoriesCheckboxes/CheckboxItemBoth';
 
 
-
-import CategoryCheckBoxItemEdit from '../CategoriesCheckboxes/CheckboxItemEDIT';
-
-const EditSpotForm = ({ onEditSpot, previousValues, intialCheckbox }) => {
+const EditSpotForm = ({ onEditSpot, previousValues }) => {
   const [characterCountTitle, setCharacterCountTitle] = useState(0);
   const [characterCountDescription, setCharacterCountDescription] = useState(0);
 
 
 
-
   // Yup stuff
-
 
   // Yup Validation Schema
   const validationSchemaYup = Yup.object().shape({
@@ -79,72 +75,15 @@ const EditSpotForm = ({ onEditSpot, previousValues, intialCheckbox }) => {
   }, [formik.values.description])
 
 
-
-
-
-
-
-  // State containing categories
-  const [categoriesEdit, setCategoriesEdit] = useState(intialCheckbox);
-
-
-  // Setting useRef
-  // const editSpotTitle = useRef();
-  // const editSpotDescription = useRef();
-
-
-
-  // On change of category in children, update the local state
-  const newCheckBoxHandlerEdit = (category) => {
-    console.log('category --->', category)
-
-    if (!categoriesEdit.includes(category)) { // if cat is not part of the array yet
-      setCategoriesEdit([...categoriesEdit, category])
-      console.log('1111')
-
-    } else { // if cat is part of arra y --> remove it
-      setCategoriesEdit((prevState) => prevState.filter((x) => x !== category))
-      console.log('2222')
-    }
-  }
-
-
-
-  // Fires when EDIT form is submitted
-  // const submitHandlerEdit = (event) => {
-  //   event.preventDefault();
-
-  //   // Grab values of input
-  //   const enteredTitle = editSpotTitle.current.value;
-  //   const enteredDescription = editSpotDescription.current.value;
-
-
-  //   // Gather in an object to send to server
-  //   const editedSpotData = {
-  //     title: enteredTitle,
-  //     description: enteredDescription,
-  //     categories: categoriesEdit,
-  //   };
-
-  //   console.log('you want to update', editedSpotData)
-
-
-  //   onEditSpot(editedSpotData); // using the fx to send to parent the data from the form
-
-  //   event.target.reset();
-  // }
-
-
   console.log('formik', formik)
 
   return (
     <>
       <form
-        // onSubmit={submitHandlerEdit}
         onSubmit={formik.handleSubmit}
         className='max-w-md mx-auto'>
 
-        <InputsEdit
+        <InputsBoth
           labelName={"The title of your spot!"}
           placeholder={"e.g: Amazing night cityscape in Dubai"}
           formikName="title"
@@ -155,7 +94,7 @@ const EditSpotForm = ({ onEditSpot, previousValues, intialCheckbox }) => {
         />
 
 
-        <InputsEdit
+        <InputsBoth
           labelName={"The description of your spot!"}
           placeholder={"e.g: Nice bridge where you can..."}
           formikName="description"
@@ -172,39 +111,43 @@ const EditSpotForm = ({ onEditSpot, previousValues, intialCheckbox }) => {
 
 
         <div className='flex flex-col md:flex-row md:space-x-4'>
-          <CategoryCheckBoxItemEdit
+          <CategoryCheckBoxItemBoth
             icon={<BsFillTreeFill />}
             value={"Nature"}
-            name={"categories"}
-            cardTitle={"Nature"}
             cardDescription={"The nature is the best part to see"}
-
-            formikHandleChange={formik.handleChange}
             catArray={formik.values.categories}
+
+            formikName={"categories"}
+            formikHandleChange={formik.handleChange}
+            formikHandleBlur={formik.handleBlur}
           />
 
 
-          <CategoryCheckBoxItemEdit
+          <CategoryCheckBoxItemBoth
             icon={<BsBuilding />}
             value={"Urban"}
-            name={"categories"}
-            cardDescription={"The nature is the best part to see"}
-
-            formikHandleChange={formik.handleChange}
+            cardDescription={"The city is the best part to see"}
             catArray={formik.values.categories}
+
+            formikName={"categories"}
+            formikHandleChange={formik.handleChange}
+            formikHandleBlur={formik.handleBlur}
           />
 
-          <CategoryCheckBoxItemEdit
+          <CategoryCheckBoxItemBoth
             icon={<BsSunset />}
             value={"Sunset"}
-            name={"categories"}
-            cardDescription={"The Sunset is the best part to see"}
-
-            formikHandleChange={formik.handleChange}
+            cardDescription={"The sunset is the best part to see"}
             catArray={formik.values.categories}
+
+            formikName={"categories"}
+            formikHandleChange={formik.handleChange}
+            formikHandleBlur={formik.handleBlur}
           />
         </div>
 
+        {/* For category validation */}
+        <span className="text-red-600 block">{formik.errors.categories} </span>
 
         <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit</button>
 

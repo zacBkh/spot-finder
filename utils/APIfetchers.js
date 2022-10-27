@@ -2,6 +2,28 @@
 
 
 export
+    const addSpotHandler = async (enteredData) => {
+        console.log("NEW SPOT DATA from parent", enteredData)
+
+        // POSTING to MONGO
+        const response = await fetch(
+            "/api/new-spot",
+            {
+                method: "POST",
+                body: JSON.stringify(enteredData), //conv to JSON
+                headers: { "Content-Type": "application/json" }
+            }
+        )
+
+        const data = await response.json()
+        console.log("Data from Mongo", data)
+    }
+
+
+
+    
+
+export
     const editSpotHandler = async (editedEnteredData, spotID) => {
         const response = await fetch(
             `/api/${spotID}`,
@@ -14,6 +36,9 @@ export
         const data = await response.json()
         console.log("EDITED Data from Mongo", data)
     }
+
+
+
 
 
 export
@@ -31,20 +56,4 @@ export
 
 
 
-export
-    const addSpotHandler = async (enteredData) => {
-        console.log("NEW SPOT DATA from parent", enteredData)
 
-        // POSTING to MONGO
-        const response = await fetch(
-            "/api/new-spot",
-            {
-                method: "POST",
-                body: JSON.stringify(enteredData), //conv to JSON
-                headers: { "Content-Type": "application/json" }
-            }
-        )
-
-        const data = await response.json()
-        console.log("Data from Mongo", data)
-    }

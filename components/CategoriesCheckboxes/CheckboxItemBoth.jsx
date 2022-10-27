@@ -1,12 +1,16 @@
 
 
-const CategoryCheckBoxItemEdit = ({
+const CategoryCheckBoxItemBoth = ({
     icon,
     value,
     cardDescription,
     catArray,
     formikName, formikHandleBlur, formikHandleChange
 }) => {
+
+
+
+
 
 
     return (
@@ -21,7 +25,7 @@ const CategoryCheckBoxItemEdit = ({
                             bg-white  hover:bg-gray-50 
                             rounded-lg border-2
                             border-gray-200 
-                            cursor-pointerf
+                            cursor-pointer
                             
                             ${catArray.includes(value) ? "bg-gray-50 border-blue-600 text-gray-800 " : "bg-white border-gray-200"}
                             `}
@@ -37,7 +41,6 @@ const CategoryCheckBoxItemEdit = ({
                             value={value}
                             onChange={formikHandleChange}
                             onBlur={formikHandleBlur}
-
                         />
 
 
@@ -59,6 +62,6 @@ const CategoryCheckBoxItemEdit = ({
     )
 }
 
-export default CategoryCheckBoxItemEdit
+export default CategoryCheckBoxItemBoth
 
 
