@@ -22,7 +22,8 @@ export default async function APIHandler(req, res) {
                 {
                     title: req.body.title,
                     description: req.body.description,
-                    categories: req.body.categories
+                    categories: req.body.categories,
+                    locationDrag: req.body.locationDrag
                 },
                 { runValidators: true, new: true }
 

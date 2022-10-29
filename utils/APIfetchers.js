@@ -3,7 +3,8 @@
 
 export
     const addSpotHandler = async (enteredData) => {
-        console.log("NEW SPOT DATA from parent", enteredData)
+        console.log("NEW SPOT DATA from FETCHER", enteredData)
+        console.log("TYPE OF", typeof (enteredData.locationDrag))
 
         // POSTING to MONGO
         const response = await fetch(
@@ -21,7 +22,7 @@ export
 
 
 
-    
+
 
 export
     const editSpotHandler = async (editedEnteredData, spotID) => {

@@ -31,7 +31,14 @@ const spotSchema = new Schema(
             validate: [(array) => array.some(el => arrayValues.includes(el)),
                 'You need to input one or more correct categorie(s)'], //custom valid
 
-        }
+        },
+
+
+        locationDrag: {
+            type: Object,
+            required: true,
+        },
+
         // // location: {
         // //     type: String, 
         // //     // required: true,

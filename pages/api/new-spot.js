@@ -16,6 +16,7 @@ export default async function newSpot(req, res) {
         title: req.body.title,
         description: req.body.description,
         categories: req.body.categories,
+        locationDrag: req.body.locationDrag
       }); //Will create the document + save() (that's why we await)
 
       console.log('CREATED DOCUMENT -->', newCamp);

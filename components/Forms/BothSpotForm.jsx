@@ -8,6 +8,8 @@ import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs';
 import InputsBoth from '../FormInputs/InputsBoth';
 import CategoryCheckBoxItemBoth from '../CategoriesCheckboxes/CheckboxItemBoth';
 
+import NewSpotMap from '../Mapbox/NewSpotMap';
+
 
 const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
     const [characterCountTitle, setCharacterCountTitle] = useState(0);
@@ -34,18 +36,27 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
         categories: Yup
             .array()
             .min(1, "Please select at least one category!")
-            .required("Category is required from Yup!")
+            .required("Category is required from Yup!"),
+
+        locationDrag: Yup
+            .string()
+            .required("Please search your Spot or drag the Marker")
     });
 
 
 
     // Formik stuff 
 
+
     // Formik - Setting initial value and name to link with "name" attribute of <input>
+
+    // const initialCoor = previousValues ? `LngLat(${previousValues.locationDrag.lng},${previousValues.locationDrag.lat})` : "noPrevValue"
+
     const initialValues = {
         title: previousValues ? previousValues.title : "",
         description: previousValues ? previousValues.description : "",
-        categories: previousValues ? [...previousValues.categories] : []
+        categories: previousValues ? [...previousValues.categories] : [],
+        locationDrag: previousValues ? previousValues.locationDrag : ""
     };
 
     // Formik - Submit Fx 
@@ -86,93 +97,175 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
 
 
 
+    // Map coordinates state, had to create this state otherwise there is no re render and marker never moves
+    const [markerCoordinates, setMarkerCoordinates] = useState(
+        previousValues ?
+            previousValues.locationDrag :
+            ""
+        // { lng: 2.320041, lat: 48.8588897 }
+    );
+
+
+
+
+    // Done dragging
+    const endDragHandler = (value) => {
+        console.log('value from PAR', value)
+
+        formik.values.locationDrag = value
+        setMarkerCoordinates(value)
+    }
+
+
+
+    // New Marker
+    const markerCreationHandler = (locationClicked) => {
+        console.log('-- From BothSpotForm -- You clicked the MAP on -->', locationClicked)
+
+        formik.values.locationDrag = locationClicked
+        setMarkerCoordinates(locationClicked)
+    }
 
 
     console.log('formik', formik)
+    console.log('formi.values.locationDrag', formik.values.locationDrag)
 
     return (
         <>
             <form
                 onSubmit={formik.handleSubmit}
-                className='max-w-md mx-auto'>
+                className='flex flex-col justify-center px-96 mb-6'>
 
-                <InputsBoth
-                    labelName={"The title of your spot!"}
-                    placeholder={"e.g: Amazing night cityscape in Dubai"}
-                    formikName="title"
+                <div>
+                    <InputsBoth
+                        labelName={"The title of your spot!"}
+                        placeholder={"e.g: Amazing night cityscape in Dubai"}
+                        formikName="title"
 
-                    formikHasFieldBeenTouched={formik.touched.title == undefined ? false : formik.touched.title}
-                    formikError={formik.errors}
-                    wizard={formik.getFieldProps} // will store value, onChange and onBlur
-                />
-
-
-                <InputsBoth
-                    labelName={"The description of your spot!"}
-                    placeholder={"e.g: Nice bridge where you can..."}
-                    formikName="description"
-
-                    formikHasFieldBeenTouched={formik.touched.description == undefined ? false : formik.touched.description}
-                    formikError={formik.errors}
-                    wizard={formik.getFieldProps}
-                />
-
-
-
-
-                <h3 className="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose technology:</h3>
-
-
-                <div className='flex flex-col md:flex-row md:space-x-4'>
-                    <CategoryCheckBoxItemBoth
-                        icon={<BsFillTreeFill />}
-                        value={"Nature"}
-                        cardDescription={"The nature is the best part to see"}
-                        catArray={formik.values.categories}
-
-                        formikName={"categories"}
-                        formikHandleChange={formik.handleChange}
-                        formikHandleBlur={formik.handleBlur}
+                        formikHasFieldBeenTouched={formik.touched.title == undefined ? false : formik.touched.title}
+                        formikError={formik.errors}
+                        wizard={formik.getFieldProps} // will store value, onChange and onBlur
                     />
 
 
-                    <CategoryCheckBoxItemBoth
-                        icon={<BsBuilding />}
-                        value={"Urban"}
-                        cardDescription={"The city is the best part to see"}
-                        catArray={formik.values.categories}
+                    <InputsBoth
+                        labelName={"The description of your spot!"}
+                        placeholder={"e.g: Nice bridge where you can..."}
+                        formikName="description"
 
-                        formikName={"categories"}
-                        formikHandleChange={formik.handleChange}
-                        formikHandleBlur={formik.handleBlur}
-                    />
-
-                    <CategoryCheckBoxItemBoth
-                        icon={<BsSunset />}
-                        value={"Sunset"}
-                        cardDescription={"The sunset is the best part to see"}
-                        catArray={formik.values.categories}
-
-                        formikName={"categories"}
-                        formikHandleChange={formik.handleChange}
-                        formikHandleBlur={formik.handleBlur}
+                        formikHasFieldBeenTouched={formik.touched.description == undefined ? false : formik.touched.description}
+                        formikError={formik.errors}
+                        wizard={formik.getFieldProps}
                     />
                 </div>
 
-                {/* For category validation */}
-                <span
-                    className="text-red-600 block">
-                    {categoryErrorMsg}
-                </span>
+
+
+                <div className='mb-6'>
+                    <h3 className="mb-5 text-lg font-medium text-gray-900 dark:text-white">Choose technology:</h3>
+                    <div className='flex justify-between'>
+                        <CategoryCheckBoxItemBoth
+                            icon={<BsFillTreeFill />}
+                            value={"Nature"}
+                            cardDescription={"The nature is the best part to see"}
+                            catArray={formik.values.categories}
+
+                            formikName={"categories"}
+                            formikHandleChange={formik.handleChange}
+                            formikHandleBlur={formik.handleBlur}
+                        />
+
+
+                        <CategoryCheckBoxItemBoth
+                            icon={<BsBuilding />}
+                            value={"Urban"}
+                            cardDescription={"The city is the best part to see"}
+                            catArray={formik.values.categories}
+
+                            formikName={"categories"}
+                            formikHandleChange={formik.handleChange}
+                            formikHandleBlur={formik.handleBlur}
+                        />
+
+                        <CategoryCheckBoxItemBoth
+                            icon={<BsSunset />}
+                            value={"Sunset"}
+                            cardDescription={"The sunset is the best part to see"}
+                            catArray={formik.values.categories}
+
+                            formikName={"categories"}
+                            formikHandleChange={formik.handleChange}
+                            formikHandleBlur={formik.handleBlur}
+                        />
+                    </div>
+
+
+                    {/* For category validation */}
+                    <span
+                        className="text-red-600 block">
+                        {categoryErrorMsg}
+                    </span>
+                </div>
+
+
+
+
+
+                <div className=''>
+                    <input
+                        disabled
+                        type="text"
+                        name="locationDrag"
+                        {...formik.getFieldProps("locationDrag")}
+                    />
+
+                </div>
+
+                <div>
+                    {
+                        markerCoordinates === "" &&
+                        formik.touched.locationDrag &&
+                        formik.errors.locationDrag && <span className="text-red-600">{formik.errors.locationDrag}</span>
+                    }
+                    <NewSpotMap
+                        initialView={{
+                            longitude: 55.18,
+                            latitude: 25.07,
+                            zoom: 2
+                        }}
+                        markerCoordinates={markerCoordinates}
+
+                        onMarkerCreation={markerCreationHandler}
+                        onEndDrag={endDragHandler}
+                    />
+                </div>
+
+
+
+
+
 
                 <button
                     type="submit"
-                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-75 disabled:cursor-not-allowed"
-                    disabled={Object.keys(formik.errors).length !== 0}
+                    className="
+                    mt-6
+                        text-white 
+                        bg-blue-700 hover:bg-blue-800
+                        font-medium text-sm rounded-lg text-center
+                        w-fit sm:w-fit 
+                        px-5 py-2.5  
+                        disabled:opacity-75 disabled:cursor-not-allowed
+                        focus:ring-4 focus:outline-none focus:ring-blue-300
+                    "
+                // disabled={Object.keys(formik.errors).length !== 0}
 
-                >{previousValues ? "Edit" : "Submit"}</button>
+
+                > {previousValues ? "Edit" : "Submit"}
+                </button>
+
 
             </form>
+
         </>
     );
 }

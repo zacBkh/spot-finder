@@ -1,0 +1,56 @@
+
+MOSTI MPORTAT : WHEN ON EDIT ITS AN OBJECT AND NOT STRING SO DOES NOT PASS validation
+NEED TO BE A STRING AND NOT AN OBJECT WHEN ON EDIT (intitial values)
+
+
+- Adding coordinates to Model
+    locationDrag: {
+            type: String,
+            required: true,
+        },
+
+display loader when map on loading
+
+change name of map now it's new but make it both SPot map
+
+
+GIVE ENV VAIRABLE TO MAP WITHOUT SENDING TO BROWSER cf favoris
+now using .NEXT_PUBLIC and its not good
+
+put marker inside map component composition donc on peut direct echanger entre bothspotform et marker sans passer par map?
+
+ADD DRAGGABLE MARKER
+STORE NEW POSITION SOMEWHERE
+
+ISSUE : WHEN I ADD STUFF TO FORM OR SO MY COMPONENT RE RENDER SO ITS CHILDREN TOO SO MAP GET RERENDERED
+
+
+
+We will then use this locationDrag to populate other field of the model : 
+    newCamp.geometry.type = "Point"
+    newCamp.geometry.coordinates = arrNumb
+
+
+
+
+
+
+
+
+
+
+
+    <!-- MAPBOX -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css' rel='stylesheet' />
+
+
+
+
+
+    <!-- Load the `mapbox-gl-geocoder` plugin. -->
+    <script
+        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+        type="text/css">
