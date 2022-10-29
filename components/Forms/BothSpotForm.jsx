@@ -38,9 +38,8 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
             .min(1, "Please select at least one category!")
             .required("Category is required from Yup!"),
 
-        locationDrag: Yup
-            .string()
-            .required("Please search your Spot or drag the Marker")
+        // locationDrag: Yup
+        //     .required("Please search your Spot or drag the Marker")
     });
 
 
@@ -49,14 +48,11 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
 
 
     // Formik - Setting initial value and name to link with "name" attribute of <input>
-
-    // const initialCoor = previousValues ? `LngLat(${previousValues.locationDrag.lng},${previousValues.locationDrag.lat})` : "noPrevValue"
-
     const initialValues = {
         title: previousValues ? previousValues.title : "",
         description: previousValues ? previousValues.description : "",
         categories: previousValues ? [...previousValues.categories] : [],
-        locationDrag: previousValues ? previousValues.locationDrag : ""
+        locationDrag: previousValues ? previousValues.locationDrag : undefined
     };
 
     // Formik - Submit Fx 

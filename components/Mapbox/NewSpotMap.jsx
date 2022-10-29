@@ -19,7 +19,7 @@ import Map, {
 const NewSpotMap = ({
     initialView, markerCoordinates,
     onEndDrag,
-    onMarkerCreation 
+    onMarkerCreation
 }) => {
 
 
@@ -30,7 +30,12 @@ const NewSpotMap = ({
     // On marker click
     const clickMapHandler = (evt) => {
         console.log('You clicked the MAP', evt)
-        onMarkerCreation(evt.lngLat)
+        const { lat: Latitude, lng: Longitude } = evt.lngLat;
+        const goodCoordinates = { Latitude, Longitude }
+        console.log('goodCoordinates',goodCoordinates)
+        // console.log('goodCoordinates', goodCoordinates)
+        // onMarkerCreation(evt.lngLat)
+        onMarkerCreation(goodCoordinates)
     }
 
     // On start dragging
@@ -47,7 +52,11 @@ const NewSpotMap = ({
     // End dragging
     const dragStopHandler = (evt) => {
         console.log('You stopped dragging the marker', evt.lngLat)
-        onEndDrag(evt.lngLat)
+        const { lat: Latitude, lng: Longitude } = evt.lngLat;
+        const goodCoordinates = { Latitude, Longitude }
+        console.log('goodCoordinates',goodCoordinates)
+
+        onEndDrag(goodCoordinates)
     }
 
 
@@ -69,8 +78,8 @@ const NewSpotMap = ({
 
                 {markerCoordinates &&
                     <Marker
-                        longitude={markerCoordinates.lng}
-                        latitude={markerCoordinates.lat}
+                        longitude={markerCoordinates.Longitude}
+                        latitude={markerCoordinates.Latitude}
                         color="red"
 
                         draggable
