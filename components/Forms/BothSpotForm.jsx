@@ -38,8 +38,12 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
             .min(1, "Please select at least one category!")
             .required("Category is required from Yup!"),
 
-        // locationDrag: Yup
-        //     .required("Please search your Spot or drag the Marker")
+        locationDrag: Yup
+            .object({
+                Latitude: Yup.number().required("Please search your Spot or drag the Marker"),
+                Longitude: Yup.number().required("Please search your Spot or drag the Marker")
+            })
+            .required("Please search your Spot or drag the Marker ++")
     });
 
 
@@ -98,7 +102,6 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
         previousValues ?
             previousValues.locationDrag :
             ""
-        // { lng: 2.320041, lat: 48.8588897 }
     );
 
 
@@ -123,7 +126,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
     }
 
 
-    console.log('formik', formik)
+    // console.log('formik', formik)
     console.log('formi.values.locationDrag', formik.values.locationDrag)
 
     return (
@@ -221,7 +224,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
                     {
                         markerCoordinates === "" &&
                         formik.touched.locationDrag &&
-                        formik.errors.locationDrag && <span className="text-red-600">{formik.errors.locationDrag}</span>
+                        formik.errors.locationDrag && <span className="text-red-600">{formik.errors.locationDrag.Latitude}</span>
                     }
                     <NewSpotMap
                         initialView={{
