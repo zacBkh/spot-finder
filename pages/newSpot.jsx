@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 import { useRouter } from 'next/router'
 
-import NewSpotMap from '../components/Mapbox/NewSpotMap'
+import SpotMap from '../components/Mapbox/SpotMap'
 
 import BothSpotForm from '../components/Forms/BothSpotForm'
 import { addSpotHandler } from '../utils/APIfetchers'
@@ -40,7 +40,7 @@ const Home = () => {
         <BothSpotForm
           onAddOrEditFx={handleAdd}>
 
-          <NewSpotMap
+          <SpotMap
           />
 
         </BothSpotForm>

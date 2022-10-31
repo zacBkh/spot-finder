@@ -1,17 +1,41 @@
 
-MOSTI MPORTAT : WHEN ON EDIT ITS AN OBJECT AND NOT STRING SO DOES NOT PASS validation
-NEED TO BE A STRING AND NOT AN OBJECT WHEN ON EDIT (intitial values)
 
+FORGEOCODER : WHEN I FIRST USED OTHER FIELDS AND THEN I USE GEOCODER IT DOES NOT GET PASSED AS A FORMIK valuesSO I USED A USE EFFECT BUT ITS A WORKAROUND
 
-- Adding coordinates to Model
-    locationDrag: {
-            type: String,
-            required: true,
-        },
 
 display loader when map on loading
 
-change name of map now it's new but make it both SPot map
+METTRE POPUP FOR CLUSTER
+
+
+
+getting country
+// Updating the country attribute by doing an API call to turn coordinates into country
+    try {
+        const response = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${req.body.campground.locationDrag}.json?types=country&access_token=pk.eyJ1IjoiemFjaGFyaWUxMjNkeGIiLCJhIjoiY2t6NDkyOGh0MDIwNjJucXdremg0OG9qcyJ9.0fQB7-lyOT5BAhJJCtnolQ`);
+
+        latitude first and then longitude
+
+        const country = response.data.features[0].place_name
+
+        console.log("==> camp.country =>", camp.country);
+        camp.country = country
+        await camp.save()
+    }
+    catch (err) {
+        console.log("There has been an error =>", err);
+    }
+
+    https://api.mapbox.com/geocoding/v5/mapbox.places/{search_text}.json
+
+
+WORKING ONE
+https://api.mapbox.com/geocoding/v5/mapbox.places/13.82135680712048,30.746406250000575.json?types=country&access_token=pk.eyJ1IjoiemFjaGFyaWUxMjNkeGIiLCJhIjoiY2t6NDkyOGh0MDIwNjJucXdremg0OG9qcyJ9.0fQB7-lyOT5BAhJJCtnolQ
+
+
+https://api.mapbox.com/geocoding/v5/mapbox.places/-73.9371119134505,40.72848119711668.json?types=country&access_token=pk.eyJ1IjoiemFjaGFyaWUxMjNkeGIiLCJhIjoiY2t6NDkyOGh0MDIwNjJucXdremg0OG9qcyJ9.0fQB7-lyOT5BAhJJCtnolQ
+
+
 
 
 GIVE ENV VAIRABLE TO MAP WITHOUT SENDING TO BROWSER cf favoris
@@ -19,10 +43,6 @@ now using .NEXT_PUBLIC and its not good
 
 put marker inside map component composition donc on peut direct echanger entre bothspotform et marker sans passer par map?
 
-ADD DRAGGABLE MARKER
-STORE NEW POSITION SOMEWHERE
-
-ISSUE : WHEN I ADD STUFF TO FORM OR SO MY COMPONENT RE RENDER SO ITS CHILDREN TOO SO MAP GET RERENDERED
 
 
 

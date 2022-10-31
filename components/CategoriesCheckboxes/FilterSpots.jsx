@@ -1,12 +1,12 @@
 
 
-const CategoryCheckBoxItemEdit = ({
+const FilterSpots = ({
     icon,
     value,
-    cardDescription,
-    catArray,
-    formikName, formikHandleBlur, formikHandleChange
+    onClick,
+    activeCategories
 }) => {
+
 
 
     return (
@@ -15,15 +15,17 @@ const CategoryCheckBoxItemEdit = ({
                 <li className="w-60">
                     <label
                         htmlFor={value}
-                        className={`
+                        className=
+                        {`
                             flex justify-center items-center p-5 w-full  
                             text-gray-500 hover:text-gray-600
                             bg-white  hover:bg-gray-50 
                             rounded-lg border-2
                             border-gray-200 
-                            cursor-pointerf
-                            
-                            ${catArray.includes(value) ? "bg-gray-50 border-blue-600 text-gray-800 " : "bg-white border-gray-200"}
+                            cursor-pointer
+
+                            ${activeCategories.includes(value) ? "bg-gray-50 border-blue-600 text-gray-800 " : "bg-white border-gray-200"}
+
                             `}
                     >
 
@@ -33,11 +35,8 @@ const CategoryCheckBoxItemEdit = ({
                             id={value}
                             className="opacity-0"
 
-                            name={formikName}
                             value={value}
-                            onChange={formikHandleChange}
-                            onBlur={formikHandleBlur}
-
+                            onClick={(e) => onClick(e)}
                         />
 
 
@@ -50,7 +49,7 @@ const CategoryCheckBoxItemEdit = ({
                         </div>
 
                         <div
-                            className="w-full text-sm">{cardDescription}
+                            className="w-full text-sm">{value}
                         </div>
                     </label>
                 </li>
@@ -59,6 +58,6 @@ const CategoryCheckBoxItemEdit = ({
     )
 }
 
-export default CategoryCheckBoxItemEdit
+export default FilterSpots
 
 

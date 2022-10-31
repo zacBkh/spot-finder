@@ -78,8 +78,8 @@ const ShowSpot = ({ indivSpot }) => {
             <p>Description: {indivSpot.description}</p>
 
             <p>CATEGORIES: {indivSpot.categories.join(", ")} </p>
-            <p>LATITUDE: {indivSpot.locationDrag.lat}</p>
-            <p>LONGITUDE: {indivSpot.locationDrag.lng}</p>
+            <p>LATITUDE: {indivSpot.locationDrag.Latitude}</p>
+            <p>LONGITUDE: {indivSpot.locationDrag.Longitude}</p>
 
 
 

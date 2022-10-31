@@ -13,7 +13,7 @@ ADD CSS DIFFERENTLY
 https://nextjs.org/docs/messages/no-stylesheets-in-head-component
 
 
-current filter : if no filter mode all categories display if filter mode filters are takeni nto accoount
+current filter : if state = "no filter mode" all categories display if filter mode filters are takeni nto accoount
 filter caveat : if i select urban + nature it does not take only the one that has urban and nature but it takes any that have urban and or nature
 
 
@@ -23,8 +23,6 @@ https://stackoverflow.com/questions/71888178/checkbox-inside-formik-form-needs-t
 
 
 
-
-adding map feature
 
 adding auth
 
@@ -40,7 +38,9 @@ https://www.youtube.com/watch?v=ZhxzEiDhwD0
 
 
 
-
+now, for map, setting directly values into formik and should not do this 
+formik.values.locationDrag = 
+get an error message that should not do this (controlled uncontrolled component)
 
 WORKAROUND FORMIK : 
 

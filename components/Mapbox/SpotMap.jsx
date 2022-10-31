@@ -6,47 +6,56 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Pin from './Pin';
 
 import Map, {
-    Marker,
+    Marker, MarkerProps,
     Popup,
+    ControlPosition,
     NavigationControl,
     FullscreenControl,
     ScaleControl,
-    GeolocateControl
+    GeolocateControl,
+    useControl
 } from 'react-map-gl';
 
 
+import GeocoderControl from './GeocoderControl.tsx';
 
-const NewSpotMap = ({
+
+const SpotMap = ({
     initialView, markerCoordinates,
-    onEndDrag,
-    onMarkerCreation
+    onNewCoor
 }) => {
+
+
+
+    // Geocoder
 
 
 
 
     // Fx for Map/Marker events
 
+
+
+
     // On marker click
     const clickMapHandler = (evt) => {
         console.log('You clicked the MAP', evt)
         const { lat: Latitude, lng: Longitude } = evt.lngLat;
         const goodCoordinates = { Latitude, Longitude }
-        console.log('goodCoordinates',goodCoordinates)
+        console.log('goodCoordinates', goodCoordinates)
         // console.log('goodCoordinates', goodCoordinates)
-        // onMarkerCreation(evt.lngLat)
-        onMarkerCreation(goodCoordinates)
+        onNewCoor(goodCoordinates)
     }
 
-    // On start dragging
-    const dragStartHandler = (evt) => {
-        console.log('You started dragging the marker', evt)
-    }
+    // // On start dragging
+    // const dragStartHandler = (evt) => {
+    //     console.log('You started dragging the marker', evt)
+    // }
 
-    // While dragging
-    const dragWhileHandler = (evt) => {
-        console.log('You are dragging the marker', evt.lngLat)
-    }
+    // // While dragging
+    // const dragWhileHandler = (evt) => {
+    //     console.log('You are dragging the marker', evt.lngLat)
+    // }
 
 
     // End dragging
@@ -54,14 +63,25 @@ const NewSpotMap = ({
         console.log('You stopped dragging the marker', evt.lngLat)
         const { lat: Latitude, lng: Longitude } = evt.lngLat;
         const goodCoordinates = { Latitude, Longitude }
-        console.log('goodCoordinates',goodCoordinates)
-
-        onEndDrag(goodCoordinates)
+        console.log('goodCoordinates', goodCoordinates)
+        onNewCoor(goodCoordinates)
     }
 
 
 
+    const getCoordinatesFromGeoCoder = (geoCoderCoordinates) => {
+        console.log('geoCoderCoordinates', geoCoderCoordinates)
 
+        console.log('LONGITUDE', geoCoderCoordinates.result.center[0])
+        console.log('LATITUDE', geoCoderCoordinates.result.center[1])
+
+        const [Longitude, Latitude] = geoCoderCoordinates.result.center;
+        console.log('Longitude & Latitude', Longitude, Latitude)
+        const goodCoordinates = { Latitude, Longitude }
+        console.log('goodCoordinates', goodCoordinates)
+
+        onNewCoor(goodCoordinates)
+    }
 
     return (
         <div className='flex justify-center'>
@@ -72,7 +92,6 @@ const NewSpotMap = ({
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
                 attributionControl={false}
                 onClick={clickMapHandler}
-
             >
 
 
@@ -94,6 +113,14 @@ const NewSpotMap = ({
                     </Marker>
                 }
 
+                <GeocoderControl
+                    mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+                    position="top-left"
+                    essai={"1"}
+                    getCoordinatesFromGeoCoder={getCoordinatesFromGeoCoder} // will extract from geocoder to here
+                />
+
+
 
                 <FullscreenControl />
                 <GeolocateControl />
@@ -105,7 +132,7 @@ const NewSpotMap = ({
     )
 }
 
-export default NewSpotMap
+export default SpotMap
 
 
 

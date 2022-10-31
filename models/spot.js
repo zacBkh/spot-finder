@@ -1,6 +1,6 @@
 import { Schema, model, models } from 'mongoose';
+import spotCategories from '../utils/spotCategories';
 
-const arrayValues = ["Nature", "Urban", "Sunset"];
 const spotSchema = new Schema(
     {
         title: {
@@ -28,7 +28,7 @@ const spotSchema = new Schema(
             validate: [(array) => array.length === 0,
                 'Category cannot be empty'],
 
-            validate: [(array) => array.some(el => arrayValues.includes(el)),
+            validate: [(array) => array.some(el => spotCategories.includes(el)),
                 'You need to input one or more correct categorie(s)'], //custom valid
 
         },
@@ -58,17 +58,6 @@ const spotSchema = new Schema(
         // },
 
 
-        // locationDrag: {
-        //     type: String,
-        //     required: true,
-        // },
-
-
-
-        // category: {
-        //     type: [String],
-        //     required: true,
-        // },
 
         // country: {
         //     type: String,

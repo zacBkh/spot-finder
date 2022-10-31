@@ -8,7 +8,7 @@ import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs';
 import InputsBoth from '../FormInputs/InputsBoth';
 import CategoryCheckBoxItemBoth from '../CategoriesCheckboxes/CheckboxItemBoth';
 
-import NewSpotMap from '../Mapbox/NewSpotMap';
+import SpotMap from '../Mapbox/SpotMap';
 
 
 const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
@@ -56,7 +56,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
         title: previousValues ? previousValues.title : "",
         description: previousValues ? previousValues.description : "",
         categories: previousValues ? [...previousValues.categories] : [],
-        locationDrag: previousValues ? previousValues.locationDrag : undefined
+        locationDrag: previousValues ? previousValues.locationDrag : {}
     };
 
     // Formik - Submit Fx 
@@ -106,28 +106,22 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
 
 
 
-
-    // Done dragging
-    const endDragHandler = (value) => {
-        console.log('value from PAR', value)
-
-        formik.values.locationDrag = value
-        setMarkerCoordinates(value)
+    const onNewCoor = (param) => {
+        console.log('paramFromBeforeFormik', param)
+        console.log('formikAAAAA', formik)
+        setMarkerCoordinates(param)
     }
 
 
-
-    // New Marker
-    const markerCreationHandler = (locationClicked) => {
-        console.log('-- From BothSpotForm -- You clicked the MAP on -->', locationClicked)
-
-        formik.values.locationDrag = locationClicked
-        setMarkerCoordinates(locationClicked)
-    }
+    // Otherwise does not get as a value for formik when use geocoder
+    useEffect(() => {
+        formik.values.locationDrag = markerCoordinates
+    }, [markerCoordinates])
 
 
-    // console.log('formik', formik)
-    console.log('formi.values.locationDrag', formik.values.locationDrag)
+
+    console.log('formik', formik)
+    console.log('formik.values', formik.values)
 
     return (
         <>
@@ -209,7 +203,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
 
 
 
-
+                {/* Input where coordinates go */}
                 <div className=''>
                     <input
                         disabled
@@ -217,16 +211,19 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
                         name="locationDrag"
                         {...formik.getFieldProps("locationDrag")}
                     />
-
                 </div>
 
+                {/* Valid error for map */}
                 <div>
                     {
                         markerCoordinates === "" &&
                         formik.touched.locationDrag &&
                         formik.errors.locationDrag && <span className="text-red-600">{formik.errors.locationDrag.Latitude}</span>
                     }
-                    <NewSpotMap
+                </div>
+
+                <div>
+                    <SpotMap
                         initialView={{
                             longitude: 55.18,
                             latitude: 25.07,
@@ -234,8 +231,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
                         }}
                         markerCoordinates={markerCoordinates}
 
-                        onMarkerCreation={markerCreationHandler}
-                        onEndDrag={endDragHandler}
+                        onNewCoor={onNewCoor}
                     />
                 </div>
 
@@ -261,8 +257,6 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
 
                 > {previousValues ? "Edit" : "Submit"}
                 </button>
-
-
             </form>
 
         </>

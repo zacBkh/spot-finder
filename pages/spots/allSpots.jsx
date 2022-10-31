@@ -3,10 +3,9 @@ import SpotCard from "../../components/SpotCard";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router"
 
-import categoriesVariable from "../../utils/spotCategories";
 
 
-import FilterTry from "../../components/CategoriesCheckboxes/FilterTry";
+import FilterSpots from "../../components/CategoriesCheckboxes/FilterSpots";
 
 import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs';
 
@@ -45,8 +44,6 @@ export const getServerSideProps = async (context) => {
 
 
 const allSpots = ({ spots }) => {
-    const router = useRouter()
-    console.log('router.query', router.query)
     const [activeCategories, setActiveCategories] = useState([]);
 
     const [filterMode, setFilterMode] = useState(false);
@@ -87,22 +84,22 @@ const allSpots = ({ spots }) => {
         <>
 
             <div className="flex flex-row justify-center">
-                <FilterTry
+                <FilterSpots
                     icon={<BsSunset />}
                     value={"Sunset"}
                     onClick={handleClickFilter}
                     activeCategories={activeCategories}
                 />
 
-                <FilterTry
+                <FilterSpots
                     icon={<BsBuilding />}
                     value={"Urban"}
                     onClick={handleClickFilter}
                     activeCategories={activeCategories}
                 />
 
-                <FilterTry
-                    icon={<BsBuilding />}
+                <FilterSpots
+                    icon={<BsFillTreeFill />}
                     value={"Nature"}
                     onClick={handleClickFilter}
                     activeCategories={activeCategories}
