@@ -25,11 +25,12 @@ const spotSchema = new Schema(
             //     values: ["Category", "Nature", "Urban"],
             //     message: "You need to input one or more correct categorie(s)"
             // },
-            validate: [(array) => array.length === 0,
+            validate: [(array) => array.length !== 0,
                 'Category cannot be empty'],
 
-            validate: [(array) => array.some(el => spotCategories.includes(el)),
-                'You need to input one or more correct categorie(s)'], //custom valid
+            validate: [(array) => array.every(el => spotCategories.includes(el)),
+                'You need to input one or more correct categorie(s)'],
+            // Custom valid that says, every elements in the array of cat submitted should be included in spotCategories (same than enum)
 
         },
 
@@ -39,30 +40,27 @@ const spotSchema = new Schema(
             required: true,
         },
 
-        // // location: {
-        // //     type: String, 
-        // //     // required: true,
-        // // },
 
 
-        // geometry: {
-        //     type: {
-        //         type: String,
-        //         enum: ['Point'],
-        //         required: true
-        //     },
-        //     coordinates: {
-        //         type: [Number], // = array of number
-        //         required: true
-        //     }
-        // },
+        geometry: {
+            type: {
+                type: String,
+                enum: ['Point'],
+                required: true
+            },
+            coordinates: {
+                type: [Number], // = array of number
+                required: true,
+                validate: [(array) => array.length === 2, "The coordinates array must strictly contains two elements : Longitude and Latitude"]
+            }
+        },
 
 
 
-        // country: {
-        //     type: String,
-        //     required: true,
-        // },
+        country: {
+            type: String,
+            required: true,
+        },
 
         // continent: {
         //     type: String,

@@ -1,7 +1,9 @@
-import { Navbar, Button } from "flowbite-react";
 import Link from "next/link"
-
 import { useState } from "react";
+
+
+import { useSession, signIn, signOut } from "next-auth/react"
+
 
 const Navigation = () => {
     const [isHamburgerOpened, setIsHamburgerOpened] = useState(false);
@@ -10,7 +12,10 @@ const Navigation = () => {
         setIsHamburgerOpened((prevState) => !prevState)
     }
 
+    const { data: session, status } = useSession()
 
+    console.log('session', session)
+    console.log('status', status)
     return (
         <>
             <nav className={`
@@ -58,6 +63,8 @@ const Navigation = () => {
                             </Link>
                         </li>
 
+
+
                         <li
                             className={`
                                 text-base 2xl:text-lg medium
@@ -65,6 +72,62 @@ const Navigation = () => {
                             <Link
                                 href="/rgerg">
                                 <a>Throw Error</a>
+                            </Link>
+                        </li>
+
+
+
+                        <li
+                            className={`
+                                text-base 2xl:text-lg medium
+                            `}>
+                            <Link
+                                href="/login">
+                                <a>Login Manual</a>
+                            </Link>
+                        </li>
+
+
+                        {/* Logic conditional rendering Sign in */}
+                        {
+                            status !== "authenticated"
+                                ?
+                                <li
+                                    className={`
+                                    text-base 2xl:text-lg medium
+                            `}>
+                                    <Link
+                                        href="/api/auth/signin">
+                                        <a onClick={
+                                            () => signIn({ callbackUrl: 'http://localhost:3008/spots/allSpots' })
+                                        }>Login</a>
+                                    </Link>
+                                </li>
+                                :
+                                <li
+                                    className={`
+                                    text-base 2xl:text-lg medium
+                                `}>
+                                    <Link
+                                        href="/api/auth/signout">
+                                        <a onClick={
+                                            () => signOut({ callbackUrl: 'http://localhost:3008/spots/allSpots' })
+                                        }>Logout
+                                        </a>
+                                    </Link>
+                                </li>
+                        }
+
+
+
+
+                        <li
+                            className={`
+                                text-base 2xl:text-lg medium
+                            `}>
+                            <Link
+                                href="/protected">
+                                <a>Protected Page</a>
                             </Link>
                         </li>
 

@@ -8,6 +8,21 @@ from yelp camp 1 :
 
 
 
+CREATE A LOGIN PAGE 
+LIKE THIS https://www.youtube.com/watch?v=t0Fs0NO78X8
+
+
+
+Error handling, custom page for sign in 
+https://next-auth.js.org/configuration/nextjs#:~:text=Specify%20URLs%20to%20be%20used%20if%20you%20want%20to%20create%20custom%20sign%20in%2C%20and%20error%20pages.%20Pages%20specified%20will%20override%20the%20corresponding%20built%2Din%20page.
+
+https://next-auth.js.org/configuration/pages
+
+
+Put Add your Spot inside get server side props or get static props ?
+if getserver side props we can get info about incoming request
+--> if we do this we need to protect the route differently because it's server side
+
 
 ADD CSS DIFFERENTLY 
 https://nextjs.org/docs/messages/no-stylesheets-in-head-component
@@ -24,7 +39,29 @@ https://stackoverflow.com/questions/71888178/checkbox-inside-formik-form-needs-t
 
 
 
-adding auth
+FOR NEXT auth when pushed to prod 
+https://youtu.be/A5ZN--P9vXM?t=505
+ALL STUFF IN PROVIDER TO BE CHANGED
+
+
+
+-- Ajouter authorized domain here  :
+https://console.cloud.google.com/apis/credentials/consent/edit;newAppInternalUser=false?project=spotfinder-367504
+
+
+-- Ajouter origines js autorisées
+https://console.cloud.google.com/apis/credentials/oauthclient?previousPage=%2Fapis%2Fcredentials%3Fproject%3Dspotfinder-367504&project=spotfinder-367504
+
+-- Change redicrect URL on google Authorized redirect URIs 
+https://next-auth.js.org/providers/google#:~:text=The%20%22Authorized%20redirect%20URIs%22
+
+https://console.cloud.google.com/apis/credentials/oauthclient?previousPage=%2Fapis%2Fcredentials%3Fproject%3Dspotfinder-367504&project=spotfinder-367504
+
+
+
+-- Change next auth url in env.local
+NEXTAUTH_URL=
+
 
 
 

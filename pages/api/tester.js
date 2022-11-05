@@ -1,4 +1,5 @@
 import Spot from '../../models/spot';
+import User from '../../models/user';
 
 import connectMongo from "../../utils/connectMongo"
 
@@ -9,15 +10,22 @@ import connectMongo from "../../utils/connectMongo"
 
 async function showAllSpots(resArg) {
     const DBData = await Spot.find({})
-    return resArg.json({ dataExisting: DBData });
+    return resArg.send(DBData);
+
+}
+
+async function showAllUsers(resArg) {
+    const DBData = await User.find({})
+    return resArg.send(DBData);
 
 }
 
 
 
+
 async function deleteAllSpots(resArg) {
     await Spot.deleteMany({})
-    return resArg.json({ dataExisting: showAllSpots() })
+    return resArg.send(DBData);
 }
 
 
@@ -30,7 +38,8 @@ export default async function TESTER(req, res) {
     await connectMongo();
 
 
-    await showAllSpots(res)
+    // await showAllSpots(res)
+    await showAllUsers(res)
 
     // await deleteAllSpots(res)
 

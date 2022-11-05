@@ -10,6 +10,8 @@ import CategoryCheckBoxItemBoth from '../CategoriesCheckboxes/CheckboxItemBoth';
 
 import SpotMap from '../Mapbox/SpotMap';
 
+import getCountryName from '../../utils/getCountryFetcher';
+
 
 const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
     const [characterCountTitle, setCharacterCountTitle] = useState(0);
@@ -60,9 +62,28 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
     };
 
     // Formik - Submit Fx 
-    const onSubmitFormik = (formValues) => {
+    const onSubmitFormik = async (formValues) => {
         console.log('SUBMIT-formValues', formValues)
-        onAddOrEditFx(formValues) // submit data
+
+        // Adding geoJSON coordinates
+        const geometry = {
+            "type": "Point",
+            "coordinates": [
+                formValues.locationDrag.Longitude,
+                formValues.locationDrag.Latitude
+            ]
+        }
+
+        // Adding country
+        const Longitude = formValues.locationDrag.Longitude;
+        const Latitude = formValues.locationDrag.Latitude;
+        const country = await getCountryName(Longitude, Latitude)
+
+        // Combining values + GeoJSON + country
+        const newObjectWithGeoJSON = { ...formValues, geometry, country };
+
+
+        onAddOrEditFx(newObjectWithGeoJSON) // submit data
     }
 
 

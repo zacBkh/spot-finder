@@ -9,31 +9,8 @@ METTRE POPUP FOR CLUSTER
 
 
 
-getting country
-// Updating the country attribute by doing an API call to turn coordinates into country
-    try {
-        const response = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${req.body.campground.locationDrag}.json?types=country&access_token=pk.eyJ1IjoiemFjaGFyaWUxMjNkeGIiLCJhIjoiY2t6NDkyOGh0MDIwNjJucXdremg0OG9qcyJ9.0fQB7-lyOT5BAhJJCtnolQ`);
-
-        latitude first and then longitude
-
-        const country = response.data.features[0].place_name
-
-        console.log("==> camp.country =>", camp.country);
-        camp.country = country
-        await camp.save()
-    }
-    catch (err) {
-        console.log("There has been an error =>", err);
-    }
-
-    https://api.mapbox.com/geocoding/v5/mapbox.places/{search_text}.json
 
 
-WORKING ONE
-https://api.mapbox.com/geocoding/v5/mapbox.places/13.82135680712048,30.746406250000575.json?types=country&access_token=pk.eyJ1IjoiemFjaGFyaWUxMjNkeGIiLCJhIjoiY2t6NDkyOGh0MDIwNjJucXdremg0OG9qcyJ9.0fQB7-lyOT5BAhJJCtnolQ
-
-
-https://api.mapbox.com/geocoding/v5/mapbox.places/-73.9371119134505,40.72848119711668.json?types=country&access_token=pk.eyJ1IjoiemFjaGFyaWUxMjNkeGIiLCJhIjoiY2t6NDkyOGh0MDIwNjJucXdremg0OG9qcyJ9.0fQB7-lyOT5BAhJJCtnolQ
 
 
 
@@ -46,9 +23,6 @@ put marker inside map component composition donc on peut direct echanger entre b
 
 
 
-We will then use this locationDrag to populate other field of the model : 
-    newCamp.geometry.type = "Point"
-    newCamp.geometry.coordinates = arrNumb
 
 
 
@@ -56,21 +30,3 @@ We will then use this locationDrag to populate other field of the model :
 
 
 
-
-
-
-
-    <!-- MAPBOX -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css' rel='stylesheet' />
-
-
-
-
-
-    <!-- Load the `mapbox-gl-geocoder` plugin. -->
-    <script
-        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
-    <link rel="stylesheet"
-        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
-        type="text/css">
