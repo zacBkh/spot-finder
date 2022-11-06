@@ -1,6 +1,10 @@
+// This will protect my pages but NOT MY API ROUTES
+// To protect API routes --> unstable_getServerSession
+
 
 // Protect all the routes
 export { default } from "next-auth/middleware"
+
 
 
 

@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { useState } from "react";
-
+// import { useRef } from "react";
 
 import { useSession, signIn, signOut } from "next-auth/react"
 
@@ -13,6 +13,28 @@ const Navigation = () => {
     }
 
     const { data: session, status } = useSession()
+
+
+
+    // Try login handler credentials
+
+    // const usernameRef = useRef();
+    // const passwordRef = useRef();
+
+    // const loginHandler = async (evt) => {
+    //     evt.preventDefault();
+
+    //     const enteredUsername = usernameRef.current.value;
+    //     const enteredPassword = passwordRef.current.value;
+
+    //     const result = await signIn("credentials", {
+    //         redirect: false,
+    //         username: enteredUsername,
+    //         password: enteredPassword,
+    //     });
+
+    //     console.log('result', result)
+    // }
 
     console.log('session', session)
     console.log('status', status)
@@ -86,6 +108,21 @@ const Navigation = () => {
                                 <a>Login Manual</a>
                             </Link>
                         </li>
+
+
+
+                        <li
+                            className={`
+                                text-base 2xl:text-lg medium
+                            `}>
+                            <Link
+                                href="/auth/Register">
+                                <a>Register</a>
+                            </Link>
+                        </li>
+
+
+
 
 
                         {/* Logic conditional rendering Sign in */}

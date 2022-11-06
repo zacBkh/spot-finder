@@ -14,14 +14,6 @@ async function showAllSpots(resArg) {
 
 }
 
-async function showAllUsers(resArg) {
-    const DBData = await User.find({})
-    return resArg.send(DBData);
-
-}
-
-
-
 
 async function deleteAllSpots(resArg) {
     await Spot.deleteMany({})
@@ -34,14 +26,35 @@ async function deleteAllSpots(resArg) {
 
 
 
+async function showAllUsers(resArg) {
+    const DBData = await User.find({})
+    return resArg.send(DBData);
+}
+
+async function checkUserExists(resArg, email) {
+    const DBData = await User.findOne({ email: email })
+    console.log(!DBData) // if does not find DBData === null 
+    return resArg.send(DBData);
+}
+
+
+
+
+
+
 export default async function TESTER(req, res) {
     await connectMongo();
 
 
-    // await showAllSpots(res)
-    await showAllUsers(res)
 
+
+    // await showAllSpots(res)
     // await deleteAllSpots(res)
+
+
+    // await showAllUsers(res)
+    // await checkUserExists(res, "roblaf93@gmail.com")
+
 
 
 }

@@ -1,4 +1,4 @@
-// These utils fx send request to my API routes
+// These utils fx send request to my API routes for Spot & Auth
 
 
 export
@@ -57,4 +57,29 @@ export
 
 
 
+
+
+    
+
+// FOR USERS
+
+
+    
+export
+    const addUserHandler = async (enteredData) => {
+        console.log("NEW USER TO REGISTER", enteredData)
+
+        // POSTING to MONGO
+        const response = await fetch(
+            "/api/users/register",
+            {
+                method: "POST",
+                body: JSON.stringify(enteredData), //conv to JSON
+                headers: { "Content-Type": "application/json" }
+            }
+        )
+
+        const data = await response.json()
+        console.log("New User Data from Mongo", data)
+    }
 

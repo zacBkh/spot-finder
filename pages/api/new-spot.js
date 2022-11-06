@@ -2,7 +2,7 @@ import connectMongo from '../../utils/connectMongo';
 import Spot from '../../models/spot';
 
 
-
+// End point protection
 import { unstable_getServerSession } from "next-auth/next"
 import { authOptions } from "./auth/[...nextauth]"
 
@@ -34,7 +34,7 @@ export default async function newSpot(req, res) {
 
         console.log('CREATED DOCUMENT -->', newCamp);
 
-        await newCamp.save()
+        // await newCamp.save()
 
         res.json({ newCamp });
 

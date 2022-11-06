@@ -14,6 +14,7 @@ import getCountryName from '../../utils/getCountryFetcher';
 
 
 const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
+    
     const [characterCountTitle, setCharacterCountTitle] = useState(0);
     const [characterCountDescription, setCharacterCountDescription] = useState(0);
 

@@ -8,27 +8,27 @@ const userSchema = new Schema(
         //     unique: true // email must be unique (that's an index, NOT a validator)
         // },
 
+
         name: {
             type: String,
             required: true,
-            unique: true,
+            trim: true
         },
 
         email: {
             type: String,
             required: true,
-            unique: true
+            unique: true,
+            lowercase: true,
+            trim: true
         },
 
-        hashedPassword: {
+        password: {
             type: String,
             required: true,
             minLength: 6
         },
 
-        hashedPassword: {
-            type: String,
-            },
     },
 );
 
