@@ -76,6 +76,7 @@ const ShowSpot = ({ indivSpot }) => {
         <>
             <p>Title: {indivSpot.title}</p>
             <p>Description: {indivSpot.description}</p>
+            <p>Country: {indivSpot.country}</p>
 
             <p>CATEGORIES: {indivSpot.categories.join(", ")} </p>
             <p>LATITUDE: {indivSpot.locationDrag.Latitude}</p>

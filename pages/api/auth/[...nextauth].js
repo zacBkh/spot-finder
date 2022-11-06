@@ -36,7 +36,7 @@ export const authOptions = {
         CredentialsProvider({
             name: 'credentials',
             credentials: {
-                username: { label: "Username", type: "text", placeholder: "jsmith" },
+                email: { label: "Email", type: "text", placeholder: "blabla@live.fr", type: "email" },
                 password: { label: "Password", type: "password" }
             },
 
@@ -44,7 +44,7 @@ export const authOptions = {
                 console.log("credentials ", credentials)
 
                 // Add logic here to look up the user from the credentials supplied
-                if (credentials.username === "john" && credentials.password === "test") {
+                if (credentials.email === "j@l.fr" && credentials.password === "test") {
                     console.log("CREDS OK <<<<")
                     return {
                         id: 2,
@@ -64,7 +64,7 @@ export const authOptions = {
         strategy: "jwt",
         // maxAge: 3000,
         // jwt: true,
-     },
+    },
 
     callbacks: {
         // jwt: async ({ token, user }) => { if (user) { token.id = user.id } return token },

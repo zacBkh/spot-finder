@@ -14,7 +14,7 @@ import getCountryName from '../../utils/getCountryFetcher';
 
 
 const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
-    
+
     const [characterCountTitle, setCharacterCountTitle] = useState(0);
     const [characterCountDescription, setCharacterCountDescription] = useState(0);
 
@@ -31,7 +31,6 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
 
         description: Yup
             .string().trim()
-            .min(6, "The description should be more than 6 characters!")
             .min(6, `The title should be more than 6 characters, type ${5 - characterCountDescription} more!`)
             .required("Please enter a description from Yup!!"),
 

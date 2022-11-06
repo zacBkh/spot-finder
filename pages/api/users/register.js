@@ -19,12 +19,12 @@ export default async function newSpot(req, res) {
 
 
             if (!await checkUserExists(email)) { // if user does not exist, create it
-                console.log("THE USER WITH EMAIL", email, "DOES NOT EXIST")
+                console.log("THE USER WITH EMAIL", email, "DOES NOT EXIST YET")
                 const newUser = await User.create(req.body);
                 console.log('CREATED USER -->', newUser);
                 res.json({ newUser });
             } else {
-                console.log("THE USER WITH EMAIL --", email, "-- ALREADY NOT EXIST")
+                console.log("THE USER WITH EMAIL --", email, "-- ALREADY  EXISTS")
                 res.status(401).json({ message: 'User already exists' });
             }
 
