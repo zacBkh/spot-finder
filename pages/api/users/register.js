@@ -1,5 +1,6 @@
 import connectMongo from '../../../utils/connectMongo';
 import User from '../../../models/user';
+import { Error } from 'mongoose';
 
 
 // Checking if user exists through email
@@ -22,17 +23,19 @@ export default async function newSpot(req, res) {
                 console.log("THE USER WITH EMAIL", email, "DOES NOT EXIST YET")
                 const newUser = await User.create(req.body);
                 console.log('CREATED USER -->', newUser);
-                res.json({ newUser });
+                res.status(200).json({ success: true, message: newUser });
             } else {
-                console.log("THE USER WITH EMAIL --", email, "-- ALREADY  EXISTS")
-                res.status(401).json({ message: 'User already exists' });
+                res.status(422).json({ success: false, message: 'User already exists' });
             }
 
 
         } catch (error) {
             console.log("Error happenned in user creation", error);
-            res.json({ error });
+            res.status(401).json({ error });
         }
+
+
+
 
 
 

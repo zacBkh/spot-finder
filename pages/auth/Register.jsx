@@ -1,15 +1,18 @@
 import { addUserHandler } from "../../utils/APIfetchers";
 import { useRouter } from 'next/router'
+import { useState } from "react";
 
 
 import { useFormik } from "formik"
 import * as Yup from "yup";
 
 
+import { signIn } from "next-auth/react"
 
 const Register = ({ }) => {
     const router = useRouter()
 
+    const [status, setStatus] = useState(null);
 
 
 
@@ -61,15 +64,36 @@ const Register = ({ }) => {
         const { email, name, password } = formValues;
         // Hash password here???
 
-        // Combining values
-        // const newObjectWithGeoJSON = { ...formValues, geometry, country };
 
         const userCreds = { name: name, email: email, password: password };
 
-        await addUserHandler(userCreds)
-        router.push("/spots/allSpots") //Navigate back to root
-    }
+        const userCreation = await addUserHandler(userCreds)
+        console.log('userCreation', userCreation)
 
+        if (!userCreation.success) {
+            console.log('ERROR DUE TO --> ', userCreation.message)
+            setStatus(userCreation.message)
+
+        } else {
+            console.log('SUCCESS -->', userCreation.message)
+
+
+            // If registration OK, sign the user in
+            // const signIn = await signIn("credentials", {
+            //     email: email,
+            //     password: password,
+            // });
+            // await signIn()
+
+            // router.push("/spots/allSpots")
+
+            // If registration OK, sign the user in and redirect to all spot
+            await signIn('credentials', { email, password, callbackUrl: 'http://localhost:3008/spots/allSpots' });
+
+            // await signIn('credentials', { email, password, callbackUrl: 'http://localhost:3008/spots/allSpots' });
+
+        }
+    }
 
 
     // Formik - object that tells initial values of form + submit & valid fx
@@ -78,18 +102,6 @@ const Register = ({ }) => {
         onSubmit: onSubmitFormik,
         validationSchema: validationSchemaYup
     })
-
-
-
-    // const handleSubmit = (evt) => {
-    //     evt.preventDefault()
-    //     console.log('email', email)
-    //     console.log('password', password)
-
-    //     const userCreds = { name: name, email: email, password: password };
-
-    //     addUserHandler(userCreds)
-    // }
 
 
 
@@ -119,8 +131,6 @@ const Register = ({ }) => {
                         placeholder="email@example.com"
                         {...formik.getFieldProps('email')}
                         autoFocus
-                    // value={email}
-                    // onChange={e => setEmail(e.target.value)}
                     />
                     {
                         showValidErrorMsg("email")
@@ -135,9 +145,6 @@ const Register = ({ }) => {
                         type="text"
                         id="name"
                         {...formik.getFieldProps('name')}
-
-                    // value={name}
-                    // onChange={e => setName(e.target.value)}
                     />
                     {
                         showValidErrorMsg("name")
@@ -152,9 +159,6 @@ const Register = ({ }) => {
                         type="password"
                         id="password"
                         {...formik.getFieldProps('password')}
-
-                    // value={password}
-                    // onChange={e => setPassword(e.target.value)}
                     />
                     {
                         showValidErrorMsg("password")
@@ -171,9 +175,26 @@ const Register = ({ }) => {
                 <button
                     type="submit"> Register
                 </button>
+
+
+                <br />
+
+
+                {
+                    status &&
+                    <p>{status}, try to&nbsp;
+                        <span
+                            className="underline cursor-pointer"
+                            onClick={
+                                () => signIn({ callbackUrl: 'http://localhost:3008/spots/allSpots' })
+                            }>login
+                        </span>
+                    </p>
+                }
             </form>
         </>
     )
 }
 
-export default Register 
+export default Register
+

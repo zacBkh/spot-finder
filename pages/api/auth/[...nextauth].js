@@ -4,10 +4,13 @@ import GitHubProvider from "next-auth/providers/github";
 import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials"
 
+import User from "../../../models/user";
 
 // For Mongo Adapter
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import clientPromise from "../../../lib/mongodb"
+
+import connectMongo from "../../../utils/connectMongo";
 
 
 export const authOptions = {
@@ -33,7 +36,9 @@ export const authOptions = {
             clientSecret: process.env.FACEBOOK_CLIENT_SECRET
         }),
 
+        // Added id because : https://stackoverflow.com/questions/69424685/custom-sign-in-page-not-redirecting-correctly-in-next-auth#:~:text=I%20found%20the%20solution%2C%20but%20I%20think%20the%20documentation%20is%20misleading.
         CredentialsProvider({
+            id: 'credentials',
             name: 'credentials',
             credentials: {
                 email: { label: "Email", type: "text", placeholder: "blabla@live.fr", type: "email" },
@@ -41,20 +46,32 @@ export const authOptions = {
             },
 
             async authorize(credentials, req) {
+                await connectMongo()
                 console.log("credentials ", credentials)
 
-                // Add logic here to look up the user from the credentials supplied
-                if (credentials.email === "j@l.fr" && credentials.password === "test") {
-                    console.log("CREDS OK <<<<")
-                    return {
-                        id: 2,
-                        name: "John",
-                        email: "johndoe@gmail.com"
+                try {
+
+                    // Attempting to find the user
+                    const userExist = await User.findOne({ email: credentials.email })
+
+                    if (!userExist) { // if user does not exist
+                        throw new Error('No user found with the email');
+
+
+                    } else { // if user exists
+                        console.log("AAAAAAA", credentials)
+                        if (credentials.email === userExist.email && credentials.password === userExist.password) {
+                            return userExist
+
+                        } else {
+                            throw new Error('Invalid Credentials');
+                        }
                     }
-                } else {
-                    console.log("NOT GOOD")
-                    return null
-                } // if login failed
+
+
+                } catch (error) {
+                    console.log("Error due to -->", error.message)
+                }
             }
         })
     ],
@@ -62,7 +79,7 @@ export const authOptions = {
 
     session: {
         strategy: "jwt",
-        // maxAge: 3000,
+        maxAge: 3000,
         // jwt: true,
     },
 
@@ -76,25 +93,10 @@ export const authOptions = {
             session.user.id = token.id
             return session
         }
-
-
-        // secret: "test",
-        // jwt: { encrytion: true },
-
-
-
-
-
     },
-
-
 
     adapter: MongoDBAdapter(clientPromise),
     // adapter: MongoDBAdapter(connectMongo),
-
-
-
-
 }
 
 export default NextAuth(authOptions)

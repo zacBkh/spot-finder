@@ -2,13 +2,6 @@ import { Schema, model, models } from 'mongoose';
 
 const userSchema = new Schema(
     {
-        // username: {
-        //     type: String,
-        //     required: true,
-        //     unique: true // email must be unique (that's an index, NOT a validator)
-        // },
-
-
         name: {
             type: String,
             required: true,

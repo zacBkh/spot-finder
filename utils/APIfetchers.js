@@ -1,3 +1,4 @@
+
 // These utils fx send request to my API routes for Spot & Auth
 
 
@@ -59,14 +60,15 @@ export
 
 
 
-    
+
 
 // FOR USERS
 
 
-    
+// Registers a new user
 export
     const addUserHandler = async (enteredData) => {
+
         console.log("NEW USER TO REGISTER", enteredData)
 
         // POSTING to MONGO
@@ -79,7 +81,9 @@ export
             }
         )
 
+
         const data = await response.json()
-        console.log("New User Data from Mongo", data)
+        console.log("data", data)
+        return data // returning data for handling if mistake
     }
 

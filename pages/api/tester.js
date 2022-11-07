@@ -31,6 +31,11 @@ async function showAllUsers(resArg) {
     return resArg.send(DBData);
 }
 
+async function deleteAllUsers(resArg) {
+    const DBData = await User.deleteMany({})
+    return resArg.send(DBData);
+}
+
 async function checkUserExists(resArg, email) {
     const DBData = await User.findOne({ email: email })
     console.log(!DBData) // if does not find DBData === null 
@@ -53,6 +58,7 @@ export default async function TESTER(req, res) {
 
 
     // await showAllUsers(res)
+    // await deleteAllUsers(res)
     // await checkUserExists(res, "roblaf93@gmail.com")
 
 
