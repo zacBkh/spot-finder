@@ -1,6 +1,7 @@
 import connectMongo from '../../../utils/connectMongo';
 import User from '../../../models/user';
-import { Error } from 'mongoose';
+import { hash } from 'bcryptjs';
+
 
 
 // Checking if user exists through email
@@ -21,8 +22,13 @@ export default async function newSpot(req, res) {
 
             if (!await checkUserExists(email)) { // if user does not exist, create it
                 console.log("THE USER WITH EMAIL", email, "DOES NOT EXIST YET")
-                
-                const newUser = await User.create(req.body);
+
+                //Hash password
+                const hashedPassword = await hash(req.body.password, 12)
+                const dataHashedPwd = { ...req.body, password: hashedPassword }
+                console.log("dataHashedPwd", dataHashedPwd)
+
+                const newUser = await User.create(dataHashedPwd);
                 console.log('CREATED USER -->', newUser);
                 res.status(200).json({ success: true, message: newUser });
             } else {

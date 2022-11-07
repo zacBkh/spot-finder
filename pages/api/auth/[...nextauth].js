@@ -12,6 +12,9 @@ import clientPromise from "../../../lib/mongodb"
 
 import connectMongo from "../../../utils/connectMongo";
 
+import { compare } from 'bcryptjs';
+
+// Authentication logic
 
 export const authOptions = {
     // Configure one or more authentication providers
@@ -60,7 +63,10 @@ export const authOptions = {
 
                     } else { // if user exists
                         console.log("AAAAAAA", credentials)
-                        if (credentials.email === userExist.email && credentials.password === userExist.password) {
+
+                        const checkPassword = await compare(credentials.password, userExist.password);
+
+                        if (credentials.email === userExist.email && checkPassword) { // if email and hashed password match authenticate
                             return userExist
 
                         } else {
