@@ -62,7 +62,6 @@ const Register = ({ }) => {
         console.log('SUBMIT-formValues', formValues)
 
         const { email, name, password } = formValues;
-        // Hash password here???
 
 
         const userCreds = { name: name, email: email, password: password };
@@ -78,19 +77,10 @@ const Register = ({ }) => {
             console.log('SUCCESS -->', userCreation.message)
 
 
-            // If registration OK, sign the user in
-            // const signIn = await signIn("credentials", {
-            //     email: email,
-            //     password: password,
-            // });
-            // await signIn()
-
-            // router.push("/spots/allSpots")
-
             // If registration OK, sign the user in and redirect to all spot
             await signIn('credentials', { email, password, callbackUrl: 'http://localhost:3008/spots/allSpots' });
 
-            // await signIn('credentials', { email, password, callbackUrl: 'http://localhost:3008/spots/allSpots' });
+
 
         }
     }

@@ -3,7 +3,20 @@ import User from '../../models/user';
 
 import connectMongo from "../../utils/connectMongo"
 
+import createToken from "../../utils/createToken"
+
 // This route will help us see which data is in our Database, delete etc
+
+
+const tokenGen = async (resArg) => {
+    const final = await createToken("id1234", "zachariedupain@hotmail.fr", "1d")
+
+    return resArg.send(final)
+}
+
+
+
+
 
 
 
@@ -60,6 +73,8 @@ export default async function TESTER(req, res) {
     // await showAllUsers(res)
     // await deleteAllUsers(res)
     // await checkUserExists(res, "roblaf93@gmail.com")
+    // await tokenGen(res)
+
 
 
 

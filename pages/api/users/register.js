@@ -2,6 +2,7 @@ import connectMongo from '../../../utils/connectMongo';
 import User from '../../../models/user';
 import { hash } from 'bcryptjs';
 
+import sendVerifEmail from '../../../utils/mailer';
 
 
 // Checking if user exists through email
@@ -25,12 +26,19 @@ export default async function newSpot(req, res) {
 
                 //Hash password
                 const hashedPassword = await hash(req.body.password, 12)
-                const dataHashedPwd = { ...req.body, password: hashedPassword }
-                console.log("dataHashedPwd", dataHashedPwd)
+                const finalUserData = { ...req.body, password: hashedPassword }
+                console.log("finalUserData", finalUserData)
 
-                const newUser = await User.create(dataHashedPwd);
+                const newUser = await User.create(finalUserData);
                 console.log('CREATED USER -->', newUser);
-                res.status(200).json({ success: true, message: newUser });
+
+                console.log('JUST BEFORE SENDING EMAIL -->', sendVerifEmail);
+
+                await sendVerifEmail("zachariedupain@hotmail.fr", finalUserData._id)
+
+
+                // res.status(200).json({ success: true, message: newUser });
+                res.status(200).json({ success: true, message: "CHECK YOUR EMAIL ADDRESS TO VERIFY" });
             } else {
                 res.status(422).json({ success: false, message: 'User already exists' });
             }
