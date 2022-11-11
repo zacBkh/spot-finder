@@ -3,6 +3,7 @@ import User from '../../../models/user';
 import { hash } from 'bcryptjs';
 
 import sendVerifEmail from '../../../utils/mailer';
+import createToken from '../../../utils/JWTMailToken/createToken';
 
 
 // Checking if user exists through email
@@ -32,9 +33,12 @@ export default async function newSpot(req, res) {
                 const newUser = await User.create(finalUserData);
                 console.log('CREATED USER -->', newUser);
 
-                console.log('JUST BEFORE SENDING EMAIL -->', sendVerifEmail);
+            
+                // Helper fx that creates tokens
+                const token = await createToken(newUser._id, newUser.email, "1d")
 
-                await sendVerifEmail("zachariedupain@hotmail.fr", finalUserData._id)
+                // Fx that sends email
+                await sendVerifEmail("zachariedupain@hotmail.fr", finalUserData, token)
 
 
                 // res.status(200).json({ success: true, message: newUser });

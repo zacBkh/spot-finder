@@ -1,11 +1,8 @@
 import nodemailer from 'nodemailer'
 
-const sendVerifEmail = async (userRecipient, userID) => {
+const sendVerifEmail = async (userRecipient, userData, token) => {
 
-    console.log("-- WELCOME TO NODE MAILER --")
-    console.log(process.env.GOOGLE_USER,
-        process.env.GOOGLE_PASSWORD,
-        process.env.DOMAIN)
+    const { name, email } = userData
 
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
@@ -30,22 +27,23 @@ const sendVerifEmail = async (userRecipient, userID) => {
 
 
     const htmlToSend = `
-    <h3> Hello ! [userName] ! </h3>
+    <h3> Hello ${name} !  </h3>
     <p> Thanks for registering. Just one more step... </p>
-    <p> To activate accoutn, please follow this link : <a target = "_" href="${process.env.DOMAIN}/api/activate/user/${userID}"> Activate my Account </a> </p>
+    <p> To activate account, please follow this link : 
+    <a target = "_" href="${process.env.DOMAIN}/auth/VerifyEmail/${token}"> Activate my Account 
+    </a> </p>
     <p> Thank you</p>`
 
 
     // send mail with defined transport object
     const mailOptions = await transporter.sendMail({
-        // from: '"Fred Foo 👻" <foo@example.com>', // sender address
+        // from: 'Spot Finder team 👻', // sender address
         from: process.env.GOOGLE_USER, // sender address 
         to: userRecipient,
-        subject: "Activate your Spot Finder Account ✔", // Subject line
+        subject: `${name}, Activate your Spot Finder Account ✔ !`, // Subject line
         text: "Hello world?", // plain text body
         html: htmlToSend, // html body
     });
-
 
 
     // transporter.sendMail(mailOptions, (err, result) => {

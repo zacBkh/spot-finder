@@ -87,3 +87,27 @@ export
         return data // returning data for handling if mistake
     }
 
+
+
+
+
+
+// Email Verification
+// Call API route to check if token can be verified and if yes write in DB userVerified : true
+
+export
+    const checkJWToken = async (token) => {
+
+        const response = await fetch(
+            "/api/users/verify-email",
+            {
+                method: "POST",
+                body: JSON.stringify(token), //conv to JSON
+                headers: { "Content-Type": "application/json" }
+            }
+        )
+
+        const data = await response.json()
+        console.log("data JWT -->", data)
+        return data // returning data for handling if mistake
+    }
