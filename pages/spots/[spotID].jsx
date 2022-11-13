@@ -9,6 +9,8 @@ import { editSpotHandler, deleteSpotHandler } from "../../utils/APIfetchers";
 
 import { GETSpotFetcherOne } from "../../utils/GETfetchers";
 
+import { useSession } from "next-auth/react"
+
 export const getServerSideProps = async (context) => {
 
     try {
@@ -38,6 +40,10 @@ export const getServerSideProps = async (context) => {
 
 
 const ShowSpot = ({ indivSpot }) => {
+
+    const { data: session } = useSession()
+    console.log('session from SPOT ID PAGE', session)
+
 
     const [isUnderEdition, setIsUnderEdition] = useState(false);
     const [isUnderDeletion, setIsUnderDeletion] = useState(false);
@@ -86,10 +92,13 @@ const ShowSpot = ({ indivSpot }) => {
 
 
             {/* Spot Edition */}
-            <button
-                onClick={enterEditionHandler}>
-                {isUnderEdition ? "Cancel Spot Edition" : "Click here to Edit the Spot"}
-            </button>
+            {
+                session &&
+                <button
+                    onClick={enterEditionHandler}>
+                    {isUnderEdition ? "Cancel Spot Edition" : "Click here to Edit the Spot"}
+                </button>
+            }
 
             {
                 isUnderEdition &&

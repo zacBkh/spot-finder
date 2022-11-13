@@ -68,6 +68,20 @@ const spotSchema = new Schema(
             ref: "User",
         },
 
+        visited: {
+            numberOfVisits: {
+                type: Number,
+                // required: true,
+                default: 1
+            },
+            
+            // Array of userIDs
+            visitors: [{
+                type: Schema.Types.ObjectId,
+                ref: "User",
+            }]
+        }
+
         // continent: {
         //     type: String,
         //     // required: true,
@@ -93,7 +107,7 @@ const spotSchema = new Schema(
         //         ref: "Reviews",
         //     }
         // ]
-    },  { timestamps: true }
+    }, { timestamps: true }
     //opts //passing virtual to JSON for map pop up
 );
 

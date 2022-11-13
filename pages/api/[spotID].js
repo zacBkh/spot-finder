@@ -11,17 +11,39 @@ import { authOptions } from "./auth/[...nextauth]"
 // When this API route is hitted, execute this
 export default async function APIHandler(req, res) {
 
+    console.log("req.body--+", req.body)
+    console.log("res--+", res)
+
+    const { spotID } = req.query // query param (spot ID)
+
+
+
+
     // Protecting the endpoint
     const session = await unstable_getServerSession(req, res, authOptions)
+    console.log("sessionFromApiRoute -->", session)
+
+    // console.log("req.body.author -->", req.body.author)
+    // console.log("session.userID", session.userID)
 
     if (!session) { // If not authenticated
         res.status(401).send("You should be authenticated to access this endpoint [amend existing Spot]")
         return
 
+
+
+
+
+    } else if (req.body.author !== session.userID) {
+        res.status(401).send("You are not the owner of the camp [amend existing Spot]")
+        return
+
+
+
+
     } else {
         console.log("Session", JSON.stringify(session, null, 2))
 
-        const { spotID } = req.query // query param (spot ID)
         await connectMongo();
         console.log('CONNECTED TO MONGO !');
 

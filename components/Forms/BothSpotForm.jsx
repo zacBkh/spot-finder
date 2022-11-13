@@ -86,8 +86,22 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
         // Combining values + GeoJSON + country
         const newObjectWithGeoJSON = { ...formValues, geometry, country };
 
-        // Adding the author
-        const finalNewSpotObject = { ...newObjectWithGeoJSON, author: session.userID };
+
+        let visitedField
+        if (session) {
+            console.log('sessionOKK',session)
+            visitedField = { numberOfVisits: 1, visitors: session.userID }
+        }
+
+        // Adding the author + visitor
+        const finalNewSpotObject = {
+            ...newObjectWithGeoJSON,
+            author: session.userID,
+            visited: visitedField
+        };
+
+
+
 
         onAddOrEditFx(finalNewSpotObject) // submit data
     }

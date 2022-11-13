@@ -27,6 +27,7 @@ export
 
 export
     const editSpotHandler = async (editedEnteredData, spotID) => {
+        console.log("editedEnteredDatapp", editedEnteredData)
         const response = await fetch(
             `/api/${spotID}`,
             {
