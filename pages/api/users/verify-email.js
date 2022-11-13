@@ -3,36 +3,45 @@ import User from '../../../models/user';
 import decodeToken from '../../../utils/JWTMailToken/decodeToken';
 
 
-
+// Decode a taken and writes in the DB email verified true
 
 
 export default async function newSpot(req, res) {
     if (req.method === 'POST') {
 
-        try {
-
-            // Extracting & decoding token
-            const JWToken = req.body;
-            console.log("JWT Token from API route222", JWToken)
-
-            
-            try {
-                await decodeToken(JWToken)
-            } catch (error) {
-                console.log("There has been an error while validating your token -->", error)
-            }
-
-            // Posting to DB
-            await connectMongo();
-            console.log('CONNECTED TO MONGO !');
-
-            res.status(200).json({ success: true, message: "EMAIL VERIFIED" });
 
 
-        } catch (error) {
-            console.log("Error happenned in email verif", error);
-            res.status(401).json({ error });
+        // Extracting & decoding token
+        const JWToken = req.body;
+        console.log("JWT Token from API route222", JWToken)
+
+
+        // Trying to decode the token
+        const decoded = await decodeToken(JWToken)
+        if (!decoded.success) {
+            res.status(401).json({
+                success: decoded.success, message: decoded.result
+            });
+        } else {
+            res.status(200).json({ success: decoded.success, message: decoded.result });
         }
+
+
+
+
+        // PUT LOGIC HERE TO PREVENT BELOW EXECUTOIOON IF TOKEN IS NOT CORRECT ??
+
+
+        // Posting to DB user verified
+        await connectMongo();
+        console.log('CONNECTED TO MONGO !');
+        console.log("from inner", decoded.id)
+        const user = await User.findByIdAndUpdate(
+            decoded.id,
+            { emailVerified: true },
+            { runValidators: true, new: true }
+        );
+
 
 
     } else {

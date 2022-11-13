@@ -109,5 +109,30 @@ export
 
         const data = await response.json()
         console.log("data JWT -->", data)
-        return data // returning data for handling if mistake
+        return data // returning data for handling if mistake on front end
+    }
+
+
+
+
+
+
+
+// Check email uniqueness in DB for Yup async valid
+export
+    const checkEmailUniq = async (email) => {
+        console.log("EMAIL FROM API FETCHER", email)
+
+        const response = await fetch(
+            "/api/checker",
+            {
+                method: "POST",
+                body: JSON.stringify(email),
+                headers: { "Content-Type": "application/json" }
+            }
+        )
+
+        const data = await response.json()
+        console.log("data received++ -->", data)
+        return data
     }

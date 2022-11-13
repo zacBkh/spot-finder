@@ -1,20 +1,21 @@
-import { addUserHandler } from "../../utils/APIfetchers";
-import { useRouter } from 'next/router'
+import { addUserHandler, checkEmailUniq } from "../../utils/APIfetchers";
 import { useState } from "react";
-
 
 import { useFormik } from "formik"
 import * as Yup from "yup";
 
 
+
+
+
+
 import { signIn } from "next-auth/react"
 
+
+
 const Register = ({ }) => {
-    const router = useRouter()
 
     const [status, setStatus] = useState(null);
-
-
 
 
 
@@ -25,7 +26,16 @@ const Register = ({ }) => {
         email: Yup
             .string().trim().lowercase()
             .email('Must be a valid email')
-            .required("Please enter an email from Yup!!"),
+            .required("Please enter an email from Yup!!")
+
+            // Async valid 
+            .test(
+                "checkEmailExist",
+                "This email is already taken...",
+                async (valueToTest) => {
+                    return await checkEmailUniq(valueToTest)
+                }
+            ),
 
         name: Yup
             .string().trim()
@@ -41,6 +51,21 @@ const Register = ({ }) => {
     });
 
 
+
+    // .test(
+    //         'test-id',
+    //         'error message in case of fail',
+    //         async function validateValue(value) {
+    //             try {
+
+    //                 // validation logic
+    //                 return false; // or true as you see fit
+
+    //             } catch (error) {
+
+    //             }
+    //         }
+    // )
 
 
 
@@ -158,9 +183,6 @@ const Register = ({ }) => {
 
 
 
-                {/*                 <button type="submit">Register with credential</button>
-                <button onClick={(e) => registerUser(email, password, e)}>Register</button>
- */}
 
                 <button
                     type="submit"> Register

@@ -12,8 +12,12 @@ import SpotMap from '../Mapbox/SpotMap';
 
 import getCountryName from '../../utils/getCountryFetcher';
 
+import { useSession } from "next-auth/react"
+
+
 
 const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
+    const { data: session } = useSession()
 
     const [characterCountTitle, setCharacterCountTitle] = useState(0);
     const [characterCountDescription, setCharacterCountDescription] = useState(0);
@@ -82,8 +86,10 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
         // Combining values + GeoJSON + country
         const newObjectWithGeoJSON = { ...formValues, geometry, country };
 
+        // Adding the author
+        const finalNewSpotObject = { ...newObjectWithGeoJSON, author: session.userID };
 
-        onAddOrEditFx(newObjectWithGeoJSON) // submit data
+        onAddOrEditFx(finalNewSpotObject) // submit data
     }
 
 

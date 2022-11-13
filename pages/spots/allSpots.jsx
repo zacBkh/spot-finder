@@ -1,7 +1,6 @@
 
 import SpotCard from "../../components/SpotCard";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router"
 
 
 
@@ -125,6 +124,7 @@ const allSpots = ({ spots }) => {
                                     title={spot.title}
                                     description={spot.description}
                                     categories={spot.categories}
+                                    author={spot.author.name}
                                 />
                             )
                         :
@@ -136,6 +136,7 @@ const allSpots = ({ spots }) => {
                                     title={spot.title}
                                     description={spot.description}
                                     categories={spot.categories}
+                                    author={spot.author.name}
                                 />
                             )
                 }

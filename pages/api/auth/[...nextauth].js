@@ -50,7 +50,6 @@ export const authOptions = {
 
             async authorize(credentials, req) {
                 await connectMongo()
-                console.log("credentials ", credentials)
 
                 try {
 
@@ -62,7 +61,6 @@ export const authOptions = {
 
 
                     } else { // if user exists
-                        console.log("AAAAAAA", credentials)
 
                         const checkPassword = await compare(credentials.password, userExist.password);
 
@@ -89,20 +87,58 @@ export const authOptions = {
         // jwt: true,
     },
 
+
+    // Controls what happens after sign in ?
     callbacks: {
-        // jwt: async ({ token, user }) => { if (user) { token.id = user.id } return token },
+        async jwt({ token, account, profile }) {
+
+            console.log("AVANT token from JWT", token)
+            console.log("AVANT account from JWT", account)
+            console.log("AVANT profile from JWT", profile)
+
+            // Persist the OAuth access_token and or the user id to the token right after signin
+            if (account) {
+                // token.accessToken = account.access_token
+                // token.id = profile.id
+                token.provider = account.provider
+            }
+            console.log("token from JWT", token)
+            console.log("account from JWT", account)
+            console.log("profile from JWT", profile)
+
+            return token
+        },
         //The session callback is called whenever a session is checked.
         async session({ session, token, user }) {
             // Send properties to the client, like an access_token and user id from a provider.
-            console.log("sess from here", session)
-            session.accessToken = token.accessToken
-            session.user.id = token.id
+            session.accessToken = token.accessToken // XX
+            session.userID = token.sub
+            session.user.provider = token.provider
+            // session.user.id = token.id
+            console.log("sess from SESSION", session)
+            console.log("token from SESSION", token)
+            console.log("user from SESSION", user)
+
+            // When user log in with oAuth, always verify email + adding provider + adding date
+            if (session.user.provider !== "credentials")
+                await User.findByIdAndUpdate(
+                    session.userID,
+                    {
+                        emailVerified: true,
+                        provider: session.user.provider,
+                        createdAt: new Date().toISOString()
+                    },
+                )
+
+
+
+
+
             return session
         }
     },
 
     adapter: MongoDBAdapter(clientPromise),
-    // adapter: MongoDBAdapter(connectMongo),
 }
 
 export default NextAuth(authOptions)

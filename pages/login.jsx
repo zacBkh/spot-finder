@@ -8,12 +8,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 const login = ({ }) => {
     const { data: session } = useSession()
 
-    console.log('session', session)
-    // console.log('session.maxAge', session.maxAge)
-
-    // const token = await getToken({ req })
-    // console.log("JSON Web Token", token)
-
+    console.log('Session from Login', session)
 
 
     if (session) {// If logged in...

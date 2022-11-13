@@ -15,8 +15,8 @@ const Navigation = () => {
     const { data: session, status } = useSession()
 
 
-    console.log('session', session)
-    console.log('status', status)
+    console.log('Session from Navbar', session)
+    console.log('Status from Navbar', status)
     return (
         <>
             <nav className={`

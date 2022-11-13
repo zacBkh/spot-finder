@@ -10,7 +10,7 @@ const connectMongo = async () => {
         console.log("==> SUCCESS : Our DB and Mongoose successfully connected! <==");
 
     } catch (error) {
-        console.log("ERROR", error)
+        console.log("Error in connecting to MongoDB", error)
     }
 };
 

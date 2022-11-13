@@ -62,6 +62,12 @@ const spotSchema = new Schema(
             required: true,
         },
 
+        author:
+        {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+        },
+
         // continent: {
         //     type: String,
         //     // required: true,
@@ -87,7 +93,8 @@ const spotSchema = new Schema(
         //         ref: "Reviews",
         //     }
         // ]
-    },  //opts //passing virtual to JSON for map pop up
+    },  { timestamps: true }
+    //opts //passing virtual to JSON for map pop up
 );
 
 // Model creation

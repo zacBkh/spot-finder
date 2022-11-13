@@ -14,13 +14,11 @@ const VerifyEmail = () => {
 
   // Invoking our utils fetcher that will call API route and passing the JWToken
   useEffect(() => {
-
     if (!router.isReady) return;
 
     const tokenChecker = async (JWToken) => {
-      console.log('TOKENAAAAA', JWToken)
       const result = await checkJWToken(JWToken)
-      console.log('result', result)
+      // console.log('result', result)
       setStatus(result.message)
     }
 

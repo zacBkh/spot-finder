@@ -6,32 +6,27 @@ import jwt from "jsonwebtoken"
 
 const decodeToken = async (token) => {
     console.log("FROM TOKEN DECODER...", token)
-    console.log("FROM TOKEN DECODER++...", typeof token)
-    
-    const decoded = jwt.verify(
-        token,
-        process.env.JWT_SECRET
-    );
-    return decoded
-}
 
+
+    try {
+        const decoded = jwt.verify(
+            token,
+            process.env.JWT_SECRET
+        );
+        console.log("decoded", decoded)
+
+        return { success: true, result: `Your email ${decoded.email} has been verified!`, id: decoded._id }
+
+
+    } catch (error) {
+        console.log("erroree",error)
+        return { success: false, result: `There has been an error verifying your email: ${error.message}. Log in to generate new email verification link` }
+    }
+}
 
 
 export default decodeToken
 
-
-// const expDate = new Date(decoded.exp * 1000)
-// const createdDate = new Date(decoded.iat * 1000)
-
-
-// return {
-//     JWTEncoded: token,
-//     JWTDecoded: {
-//         ...decoded,
-//         iat: createdDate.toLocaleString(),
-//         exp: expDate.toLocaleString()
-//     },
-// };
 
 
 

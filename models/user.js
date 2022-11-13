@@ -22,7 +22,17 @@ const userSchema = new Schema(
             minLength: 6
         },
 
-    },
+        emailVerified: {
+            type: Boolean,
+            default: false,
+            required: true,
+        },
+
+        provider: {
+            type: String,
+            required: true,
+        },
+    }, { timestamps: true }
 );
 
 // Model creation
