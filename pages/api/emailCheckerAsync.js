@@ -2,7 +2,7 @@ import connectMongo from "../../utils/connectMongo"
 import User from "../../models/user"
 
 
-// This fx will RETURN TRUE IF EMAIL DOES NOT EXIST IN DB
+// This fx will RETURN TRUE IF EMAIL DOES NOT EXIST IN DB for email async validation
 
 export default async function emailChecker(req, res) {
     if (req.method === 'POST') {

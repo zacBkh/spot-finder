@@ -1,20 +1,20 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from 'next/router'
 
-import BothSpotForm from "../../components/Forms/BothSpotForm";
-
 import { editSpotHandler, deleteSpotHandler } from "../../utils/APIfetchers";
+
+import { useSession } from "next-auth/react"
 
 
 import { GETSpotFetcherOne } from "../../utils/GETfetchers";
 
-import { useSession } from "next-auth/react"
+
+import SpotAction from "../../components/SpotAction";
 
 export const getServerSideProps = async (context) => {
 
-    try {
 
+    try {
         // Getting the ID of the current spot
         const ID = context.params.spotID
 
@@ -26,6 +26,7 @@ export const getServerSideProps = async (context) => {
                 indivSpot: resultFetchGETOne,
             },
         };
+
 
     } catch (error) {
         console.log(error);
@@ -41,22 +42,19 @@ export const getServerSideProps = async (context) => {
 
 const ShowSpot = ({ indivSpot }) => {
 
-    const { data: session } = useSession()
-    console.log('session from SPOT ID PAGE', session)
+    // Need to wait status === "authenticated" to have access to session
+    const { data: session, status } = useSession()
+    status === "authenticated" ? console.log('session.userID', session) : null
 
 
-    const [isUnderEdition, setIsUnderEdition] = useState(false);
     const [isUnderDeletion, setIsUnderDeletion] = useState(false);
 
-    const enterEditionHandler = () => {
-        setIsUnderEdition((prevState) => !prevState);
-        setIsUnderDeletion(false)
-    }
+
 
 
     const enterDeletionHandler = () => {
         setIsUnderDeletion((prevState) => !prevState);
-        setIsUnderEdition(false)
+        // setIsUnderEdition(false)
     }
 
     const router = useRouter();
@@ -77,12 +75,27 @@ const ShowSpot = ({ indivSpot }) => {
     }
 
 
+    // check if passed spot has been visited by passed user
+    const didUserVisited = (spotVisitorsIDs, currentUserID) => {
+        if (status === "authenticated") {
+            console.log('A VOIR', spotVisitorsIDs.includes(currentUserID))
+            const didVisit = indivSpot.visited.visitors.includes(session.userID)
+
+            return didVisit ? "yes" : "no"
+        }
+    }
 
     return (
         <>
             <p>Title: {indivSpot.title}</p>
             <p>Description: {indivSpot.description}</p>
             <p>Country: {indivSpot.country}</p>
+            <p> This Spot has been visited {indivSpot.visited.numberOfVisits} times </p>
+            <p>Did you
+                {
+                    status === "authenticated" && didUserVisited(indivSpot.visited.visitors, session.userID)
+                }
+            </p>
 
             <p>CATEGORIES: {indivSpot.categories.join(", ")} </p>
             <p>LATITUDE: {indivSpot.locationDrag.Latitude}</p>
@@ -91,42 +104,52 @@ const ShowSpot = ({ indivSpot }) => {
 
 
 
+
+
             {/* Spot Edition */}
             {
-                session &&
-                <button
-                    onClick={enterEditionHandler}>
-                    {isUnderEdition ? "Cancel Spot Edition" : "Click here to Edit the Spot"}
-                </button>
-            }
-
-            {
-                isUnderEdition &&
-                <BothSpotForm
+                status === "authenticated" &&
+                session.userID === indivSpot.author &&
+                <SpotAction
+                    action={"edition"}
+                    message1={"Click here to Edit the Spot"}
+                    message2={"Cancel Spot Edition"}
+                    onSpotAction={handleEdit}
                     previousValues={indivSpot}
-
-                    onAddOrEditFx={handleEdit}
                 />
             }
 
 
+            {/* Spot Deletion */}
+            {
+                status === "authenticated" &&
+                // session.userID === indivSpot.author &&
+                <SpotAction
+                    action={"deletion"}
+                    message1={"Click here to Delete the Spot"}
+                    message2={"Do you really want to delete the Spot?"}
+
+                    onSpotAction={handleDelete}
+                    previousValues={indivSpot}
+                />
+            }
 
 
             {/* Spot Deletion */}
-            <button
+            {/*             <button
                 className="block"
                 onClick={enterDeletionHandler} >
 
                 {isUnderDeletion ? "Do you really want to delete the Spot?" : "Click here to Delete the Spot"}
-            </button>
+            </button> */}
 
-            {
+            {/* {
                 isUnderDeletion &&
                 <>
                     <button className="mr-6" onClick={handleDelete}> Yes </button>
                     <button onClick={() => setIsUnderDeletion(false)}> No </button>
                 </>
-            }
+            } */}
         </>
     )
 }

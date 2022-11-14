@@ -1,6 +1,7 @@
 import connectMongo from '../../utils/connectMongo';
 import Spot from '../../models/spot';
 
+import isAuthor from '../../utils/Auth/isAuthor';
 
 
 import { unstable_getServerSession } from "next-auth/next"
@@ -11,33 +12,29 @@ import { authOptions } from "./auth/[...nextauth]"
 // When this API route is hitted, execute this
 export default async function APIHandler(req, res) {
 
-    console.log("req.body--+", req.body)
-    console.log("res--+", res)
 
     const { spotID } = req.query // query param (spot ID)
+    console.log("spotID", spotID)
 
 
 
 
-    // Protecting the endpoint
+
+
+    // Protecting the API endpoint
     const session = await unstable_getServerSession(req, res, authOptions)
-    console.log("sessionFromApiRoute -->", session)
 
-    // console.log("req.body.author -->", req.body.author)
-    // console.log("session.userID", session.userID)
 
     if (!session) { // If not authenticated
-        res.status(401).send("You should be authenticated to access this endpoint [amend existing Spot]")
+        res.status(401).json({ success: false, message: 'You should be authenticated to access this endpoint [amend existing Spot]' });
         return
 
 
 
-
-
-    } else if (req.body.author !== session.userID) {
-        res.status(401).send("You are not the owner of the camp [amend existing Spot]")
+    } else if (!await isAuthor(spotID, session.userID)) { // if not author
+        console.log("session.userID", session.userID)
+        res.status(401).json({ success: false, message: 'You are not the owner of the camp [amend existing Spot]' });
         return
-
 
 
 
@@ -95,6 +92,8 @@ export default async function APIHandler(req, res) {
 
 
 
-        else { res.status(401).send('You are authenticated but you should not try to access this endpoint this way [amend existing Spot]...') }
+        else {
+            res.status(401).json({ success: false, message: 'You are authenticated but you should not try to access this endpoint this way [amend existing Spot]...' });
+        }
     }
 }

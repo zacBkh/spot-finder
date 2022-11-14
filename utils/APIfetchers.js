@@ -18,7 +18,7 @@ export
         )
 
         const data = await response.json()
-        console.log("Data from Mongo", data)
+        console.log("Status of spot creation: ", data)
     }
 
 
@@ -37,7 +37,7 @@ export
             }
         )
         const data = await response.json()
-        console.log("EDITED Data from Mongo", data)
+        console.log("Result of edition", data)
     }
 
 
@@ -46,6 +46,7 @@ export
 
 export
     const deleteSpotHandler = async (spotID) => {
+        console.log("from aa", spotID)
         const response = await fetch(
             `/api/${spotID}`,
             {
@@ -53,7 +54,7 @@ export
             }
         )
         const data = await response.json()
-        console.log("DELETED Data from Mongo", data)
+        console.log("Result of deletion", data)
     }
 
 
@@ -125,7 +126,7 @@ export
         console.log("EMAIL FROM API FETCHER", email)
 
         const response = await fetch(
-            "/api/checker",
+            "/api/emailCheckerAsync",
             {
                 method: "POST",
                 body: JSON.stringify(email),

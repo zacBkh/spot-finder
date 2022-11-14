@@ -1,9 +1,6 @@
 import jwt from "jsonwebtoken"
 
-
-
-
-
+// Util that take a token and tries to decode it 
 const decodeToken = async (token) => {
     console.log("FROM TOKEN DECODER...", token)
 
@@ -19,7 +16,7 @@ const decodeToken = async (token) => {
 
 
     } catch (error) {
-        console.log("erroree",error)
+        console.log("Error in decoding token",error)
         return { success: false, result: `There has been an error verifying your email: ${error.message}. Log in to generate new email verification link` }
     }
 }

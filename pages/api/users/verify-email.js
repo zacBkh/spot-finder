@@ -24,23 +24,21 @@ export default async function newSpot(req, res) {
             });
         } else {
             res.status(200).json({ success: decoded.success, message: decoded.result });
+
+            // Posting to DB user verified
+            await connectMongo();
+            console.log('CONNECTED TO MONGO !');
+            console.log("from inner", decoded.id)
+            const user = await User.findByIdAndUpdate(
+                decoded.id,
+                { emailVerified: true },
+                { runValidators: true, new: true }
+            );
         }
 
 
 
 
-        // PUT LOGIC HERE TO PREVENT BELOW EXECUTOIOON IF TOKEN IS NOT CORRECT ??
-
-
-        // Posting to DB user verified
-        await connectMongo();
-        console.log('CONNECTED TO MONGO !');
-        console.log("from inner", decoded.id)
-        const user = await User.findByIdAndUpdate(
-            decoded.id,
-            { emailVerified: true },
-            { runValidators: true, new: true }
-        );
 
 
 

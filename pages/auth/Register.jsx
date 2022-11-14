@@ -130,7 +130,7 @@ const Register = ({ }) => {
     }
 
 
-    console.log('formik', formik)
+    // console.log('formik', formik)
     console.log('formik.values', formik.values)
     return (
         <>

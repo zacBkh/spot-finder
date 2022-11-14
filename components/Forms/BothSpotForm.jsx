@@ -149,7 +149,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
 
     const onNewCoor = (param) => {
         console.log('paramFromBeforeFormik', param)
-        console.log('formikAAAAA', formik)
+        // console.log('formikAAAAA', formik)
         setMarkerCoordinates(param)
     }
 
@@ -161,7 +161,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
 
 
 
-    console.log('formik', formik)
+    // console.log('formik', formik)
     console.log('formik.values', formik.values)
 
     return (
