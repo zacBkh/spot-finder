@@ -1,7 +1,7 @@
 import User from '../../../models/user';
 import { hash } from 'bcryptjs';
 
-import sendVerifEmail from '../../../utils/Mailers/mailer';
+import sendVerifEmail from '../../../utils/Mailers/sendVerifEmail';
 import createToken from '../../../utils/JWTMailToken/createToken';
 
 import checkEmailExist from '../../../utils/Auth/checkEmailExist';

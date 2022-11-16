@@ -2,6 +2,7 @@ import connectMongo from '../../../utils/connectMongo';
 import User from '../../../models/user';
 import decodeToken from '../../../utils/JWTMailToken/decodeToken';
 
+import sendWelcomeEmail from '../../../utils/Mailers/sendWelcomeEmail';
 
 // Decode a taken and writes in the DB email verified true
 
