@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import capitalize from './capitalize';
+import capitalize from '../capitalize';
 
 const sendVerifEmail = async (userRecipient, userData, token) => {
 

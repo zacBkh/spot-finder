@@ -6,9 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Pin from './Pin';
 
 import Map, {
-    Marker, MarkerProps,
-    Popup,
-    ControlPosition,
+    Marker,
     NavigationControl,
     FullscreenControl,
     ScaleControl,
@@ -20,20 +18,7 @@ import Map, {
 import GeocoderControl from './GeocoderControl.tsx';
 
 
-const SpotMap = ({
-    initialView, markerCoordinates,
-    onNewCoor
-}) => {
-
-
-
-    // Geocoder
-
-
-
-
-    // Fx for Map/Marker events
-
+const SpotMap = ({ initialView, markerCoordinates, onNewCoor }) => {
 
 
 

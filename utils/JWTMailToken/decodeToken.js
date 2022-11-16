@@ -16,7 +16,7 @@ const decodeToken = async (token) => {
 
 
     } catch (error) {
-        console.log("Error in decoding token",error)
+        console.log("Error in decoding token", error)
         return { success: false, result: `There has been an error verifying your email: ${error.message}. Log in to generate new email verification link` }
     }
 }

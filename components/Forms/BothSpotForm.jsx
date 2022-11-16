@@ -89,7 +89,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
 
         let visitedField
         if (session) {
-            console.log('sessionOKK',session)
+            console.log('sessionOKK', session)
             visitedField = { numberOfVisits: 1, visitors: session.userID }
         }
 

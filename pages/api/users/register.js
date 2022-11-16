@@ -1,7 +1,7 @@
 import User from '../../../models/user';
 import { hash } from 'bcryptjs';
 
-import sendVerifEmail from '../../../utils/mailer';
+import sendVerifEmail from '../../../utils/Mailers/mailer';
 import createToken from '../../../utils/JWTMailToken/createToken';
 
 import checkEmailExist from '../../../utils/Auth/checkEmailExist';
@@ -42,7 +42,7 @@ export default async function newSpot(req, res) {
             // Fx that sends email
             const sender = await sendVerifEmail("zachariedupain@hotmail.fr", finalUserData, token.result)
             if (!sender.success) {
-                res.status(401).json({ success: sender.success, message: sender.result });
+                res.status(400).json({ success: sender.success, message: sender.result });
             } else {
                 res.status(200).json({ success: sender.success, message: sender.result });
             }

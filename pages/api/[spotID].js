@@ -42,8 +42,6 @@ export default async function APIHandler(req, res) {
         console.log("Session", JSON.stringify(session, null, 2))
 
         await connectMongo();
-        console.log('CONNECTED TO MONGO !');
-
 
 
         if (req.method === "PATCH") {

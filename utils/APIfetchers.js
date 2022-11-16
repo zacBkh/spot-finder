@@ -43,6 +43,24 @@ export
 
 
 
+export
+    const addOneVisitSpotHandler = async (visitorID, spotID, hadVisited) => {
+        const response = await fetch(
+            `/api/addVisit/${spotID}`,
+            {
+                method: "PATCH",
+                body: JSON.stringify({ visitorID, hadVisited }), //conv to JSON
+                headers: { "Content-Type": "application/json" }
+            }
+        )
+        const result = await response.json()
+        return result
+    }
+
+
+
+
+
 
 export
     const deleteSpotHandler = async (spotID) => {
@@ -56,6 +74,19 @@ export
         const data = await response.json()
         console.log("Result of deletion", data)
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
