@@ -1,10 +1,11 @@
 import nodemailer from 'nodemailer'
 import capitalize from '../capitalize';
 
-const sendWelcomeEmail = async (userRecipient, userData) => {
-
+const sendWelcomeEmail = async (userRecipient, userName) => {
+    console.log("userRecipient", userRecipient)
+    console.log("userName", userName)
+    console.log("EXECUTED ** ")
     try {
-        const { name } = userData
 
 
         // create reusable transporter object using the default SMTP transport
@@ -30,11 +31,11 @@ const sendWelcomeEmail = async (userRecipient, userData) => {
 
 
         const htmlToSend = `
-        <h3> Hello ${capitalize(name)} !  </h3>
+        <h3> Hello ${capitalize(userName)} !  </h3>
         <p> Welcome to the Spot Finder Community!... </p>
         <p> 
         Start <a target = "_" href="http://localhost:3008/newSpot"> adding new spots here
-        </a> or <a target = "_" href="http://localhost:3008/spots/allSpots"> browse through our amazing existing spots </a> already shared by our community
+        </a> or <a target = "_" href="http://localhost:3008/spots/allSpots"> browse through our amazing existing spots </a> already shared by our community!
         </p>
         <p> Thank you</p>`
 
@@ -43,7 +44,7 @@ const sendWelcomeEmail = async (userRecipient, userData) => {
         const mailOptions = await transporter.sendMail({
             from: 'Spot Finder team 👻 <process.env.GOOGLE_USER>', // sender name + address
             to: userRecipient,
-            subject: `${capitalize(name)}, Welcome to Spot Finder! ✔ !`, // Subject line
+            subject: `${capitalize(userName)}, Welcome to Spot Finder! ✔ !`, // Subject line
             text: "Hello world?", // plain text body
             html: htmlToSend, // html body
         });
@@ -51,7 +52,7 @@ const sendWelcomeEmail = async (userRecipient, userData) => {
         return { success: true, result: `Welcome email sent!` }
 
     } catch (error) {
-        return { success: false, result: `There has been an error in sending the welcome email: ${error.message}` }
+        return { success: false, result: `There has been an error in sending the welcome email: ${error.stack}` }
     }
 
 }

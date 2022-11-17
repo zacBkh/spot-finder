@@ -13,6 +13,8 @@ import clientPromise from "../../../lib/mongodb"
 import connectMongo from "../../../utils/connectMongo";
 
 import { compare } from 'bcryptjs';
+import sendWelcomeEmail from "../../../utils/Mailers/sendWelcomeEmail";
+
 
 // Authentication logic
 
@@ -88,7 +90,7 @@ export const authOptions = {
     },
 
 
-    // Controls what happens after sign in ?
+    // Callbacks replace default next auth parameters
     callbacks: {
         async jwt({ token, account, profile }) {
 
@@ -108,6 +110,7 @@ export const authOptions = {
 
             return token
         },
+
         //The session callback is called whenever a session is checked.
         async session({ session, token, user }) {
             // Send properties to the client, like an access_token and user id from a provider.
@@ -119,8 +122,9 @@ export const authOptions = {
             console.log("token from SESSION", token)
             console.log("user from SESSION", user)
 
-            // When user log in with oAuth, always verify email + adding provider + adding date
-            if (session.user.provider !== "credentials")
+            // When user log in with oAuth, always mark email as verified  + adding provider + adding date
+            // + send welcome Email
+            if (session.user.provider !== "credentials") {
                 await User.findByIdAndUpdate(
                     session.userID,
                     {
@@ -128,13 +132,31 @@ export const authOptions = {
                         provider: session.user.provider,
                         createdAt: new Date().toISOString()
                     },
-                )
+                );
 
-
-
-
-
+            }
             return session
+
+        }
+
+    },
+
+    // Events allow to perform side effect upon events
+    events: {
+        signIn: ({ user, account, profile, isNewUser }) => {
+            console.log("This function get triggers everytime someone signs in")
+            console.log("user", user)
+            console.log("account", account)
+            console.log("profile", profile)
+            console.log("isNewUser", isNewUser)
+        },
+
+        // Only works when created with oAuth, not creds
+        createUser: async ({ user }) => {
+            
+            // Sends welcome email to user using oAuth
+            const sender = await sendWelcomeEmail("zachariedupain@hotmail.fr", user.name)
+            console.log("sender", sender)
         }
     },
 

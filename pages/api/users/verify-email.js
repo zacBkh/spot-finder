@@ -43,7 +43,7 @@ export default async function newSpot(req, res) {
 
 
             // Fx that sends email to Welcome
-            const sender = await sendWelcomeEmail("zachariedupain@hotmail.fr", user)
+            const sender = await sendWelcomeEmail("zachariedupain@hotmail.fr", user.name)
             if (!sender.success) {
                 res.status(400).json({ success: sender.success, message: sender.result });
             } else {
