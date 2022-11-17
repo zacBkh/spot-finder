@@ -31,27 +31,27 @@ const sendWelcomeEmail = async (userRecipient, userData) => {
 
         const htmlToSend = `
         <h3> Hello ${capitalize(name)} !  </h3>
-        <p> Thanks for registering. Just one more step... </p>
-        <p> To activate account, please follow this link : 
-        <a target = "_" href="${process.env.DOMAIN}/auth/VerifyEmail/"> Activate my Account 
-        </a> </p>
+        <p> Welcome to the Spot Finder Community!... </p>
+        <p> 
+        Start <a target = "_" href="http://localhost:3008/newSpot"> adding new spots here
+        </a> or <a target = "_" href="http://localhost:3008/spots/allSpots"> browse through our amazing existing spots </a> already shared by our community
+        </p>
         <p> Thank you</p>`
 
 
         // send mail with defined transport object
         const mailOptions = await transporter.sendMail({
-            from: 'Spot Finder team 👻 <process.env.GOOGLE_USER>', // sender address
-            // from: process.env.GOOGLE_USER,
+            from: 'Spot Finder team 👻 <process.env.GOOGLE_USER>', // sender name + address
             to: userRecipient,
-            subject: `${capitalize(name)}, activate your Spot Finder Account ✔ !`, // Subject line
+            subject: `${capitalize(name)}, Welcome to Spot Finder! ✔ !`, // Subject line
             text: "Hello world?", // plain text body
             html: htmlToSend, // html body
         });
 
-        return { success: true, result: `Check your emails to verify your account!` }
+        return { success: true, result: `Welcome email sent!` }
 
     } catch (error) {
-        return { success: false, result: `There has been an error in sending the email: ${error.message}` }
+        return { success: false, result: `There has been an error in sending the welcome email: ${error.message}` }
     }
 
 }

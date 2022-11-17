@@ -70,7 +70,6 @@ export const getServerSideProps = async (context) => {
 
 
 
-
 const ShowSpot = ({ indivSpot, currentUserID }) => {
 
     // State that manages toggler + give info to API route whether to decrement or increment
