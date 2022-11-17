@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 import { useRouter } from 'next/router'
 
-import SpotMap from '../components/Mapbox/SpotMap'
+import MapForm from '../components/Maps/MapForm'
 
 import BothSpotForm from '../components/Forms/BothSpotForm'
 import { addSpotHandler } from '../utils/APIfetchers'
@@ -18,7 +18,7 @@ const Home = () => {
 
   // Will call the fetcher for ADD located in utils
   const handleAdd = async (enteredData) => {
-    
+
     await addSpotHandler(enteredData)
     router.push("/spots/allSpots") //Navigate back to root
   }
@@ -39,10 +39,6 @@ const Home = () => {
       <div className=''>
         <BothSpotForm
           onAddOrEditFx={handleAdd}>
-
-          <SpotMap
-          />
-
         </BothSpotForm>
       </div>
     </>

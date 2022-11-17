@@ -35,7 +35,7 @@ export default function GeocoderControl(props: GeocoderControlProps) {
       ctrl.on('results', props.onResults);
       ctrl.on('result', evt => {
         props.onResult(evt);
-        props.getCoordinatesFromGeoCoder(evt) // send to spotMap
+        props.getCoordinatesFromGeoCoder(evt) // send to map
         const { result } = evt;
         const location =
           result &&

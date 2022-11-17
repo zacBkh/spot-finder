@@ -22,18 +22,7 @@ import Link from 'next/link';
 import Toggler from '../../components/Toggler';
 
 
-import Map, {
-    Marker,
-    NavigationControl,
-    FullscreenControl,
-    ScaleControl,
-    GeolocateControl,
-    useControl
-} from 'react-map-gl';
-
-import 'mapbox-gl/dist/mapbox-gl.css';
-
-import Pin from '../../components/Mapbox/Pin';
+import MapShow from '../../components/Maps/MapShow';
 
 
 
@@ -154,40 +143,16 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     return (
         <>
 
-            <div className='flex justify-center'>
-                <Map
-                    initialViewState={{
-                        longitude: 55.18,
-                        latitude: 25.07,
-                        zoom: 2
-                    }}
-                    style={{ width: 700, height: 500 }}
-                    mapStyle="mapbox://styles/mapbox/streets-v9"
-                    mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
-                    attributionControl={false} >
+            <MapShow
+                initialView={{
+                    longitude: 55.18,
+                    latitude: 25.07,
+                    zoom: 2
+                }}
+                markerCoordinates={{ Longitude: indivSpot.geometry.coordinates[0], Latitude: indivSpot.geometry.coordinates[1] }}
+            />
 
 
-
-
-
-                    <Marker
-                        longitude={indivSpot.geometry.coordinates[0]}
-                        latitude={indivSpot.geometry.coordinates[1]}
-                        color="red"
-
-                    >
-                        <Pin
-                            size={20}
-                        />
-                    </Marker>
-
-                    <FullscreenControl />
-                    <GeolocateControl />
-                    <NavigationControl />
-                    <ScaleControl />
-
-                </Map>
-            </div >
 
 
 

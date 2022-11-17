@@ -1,5 +1,4 @@
 
-import { useState, useMemo } from 'react';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -11,14 +10,13 @@ import Map, {
     FullscreenControl,
     ScaleControl,
     GeolocateControl,
-    useControl
 } from 'react-map-gl';
 
 
 import GeocoderControl from './GeocoderControl.tsx';
 
 
-const SpotMap = ({ initialView, markerCoordinates, onNewCoor }) => {
+const MapForm = ({ initialView, markerCoordinates, onNewCoor }) => {
 
 
 
@@ -117,7 +115,7 @@ const SpotMap = ({ initialView, markerCoordinates, onNewCoor }) => {
     )
 }
 
-export default SpotMap
+export default MapForm
 
 
 

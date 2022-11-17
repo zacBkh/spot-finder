@@ -8,7 +8,7 @@ import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs';
 import InputsBoth from '../FormInputs/InputsBoth';
 import CategoryCheckBoxItemBoth from '../CategoriesCheckboxes/CheckboxItemBoth';
 
-import SpotMap from '../Mapbox/SpotMap';
+import MapForm from '../Maps/MapForm';
 
 import getCountryName from '../../utils/getCountryFetcher';
 
@@ -264,7 +264,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
                 </div>
 
                 <div>
-                    <SpotMap
+                    <MapForm
                         initialView={{
                             longitude: 55.18,
                             latitude: 25.07,
