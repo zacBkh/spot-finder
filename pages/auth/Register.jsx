@@ -15,6 +15,7 @@ import { signIn } from "next-auth/react"
 
 const Register = ({ }) => {
 
+    // Store login failure/success info
     const [status, setStatus] = useState(null);
 
 
@@ -52,21 +53,6 @@ const Register = ({ }) => {
 
 
 
-    // .test(
-    //         'test-id',
-    //         'error message in case of fail',
-    //         async function validateValue(value) {
-    //             try {
-
-    //                 // validation logic
-    //                 return false; // or true as you see fit
-
-    //             } catch (error) {
-
-    //             }
-    //         }
-    // )
-
 
 
 
@@ -74,7 +60,6 @@ const Register = ({ }) => {
 
     // Formik stuff 
 
-    // Formik - Setting initial value and name to link with "name" attribute of <input>
     const initialValues = {
         email: "",
         name: "",
@@ -104,9 +89,6 @@ const Register = ({ }) => {
 
             // If registration OK, sign the user in and redirect to all spot
             await signIn('credentials', { email, password, callbackUrl: 'http://localhost:3008/spots/allSpots' });
-
-
-
         }
     }
 

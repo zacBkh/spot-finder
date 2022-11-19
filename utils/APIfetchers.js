@@ -79,6 +79,33 @@ export
 
 
 
+export
+    const credsLoginRequest = async (loginCreds) => {
+        console.log("loginCreds", loginCreds)
+        const response = await fetch(
+            `/api/auth/callback/credentials`,
+            {
+                method: "POST",
+            }
+        )
+        const data = await response.json()
+        console.log("Result of credentials login", data)
+
+        return data
+        // return ({ success: true, message: "Tocard" })
+    }
+
+
+
+
+
+// rgrgrg@live.fr
+
+
+
+
+
+
 
 
 

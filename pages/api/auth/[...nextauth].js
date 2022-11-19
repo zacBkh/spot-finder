@@ -50,27 +50,32 @@ export const authOptions = {
                 password: { label: "Password", type: "password" }
             },
 
+
+
             async authorize(credentials, req) {
                 await connectMongo()
 
                 try {
 
+                    console.log("credentials", credentials)
                     // Attempting to find the user
                     const userExist = await User.findOne({ email: credentials.email })
 
                     if (!userExist) { // if user does not exist
-                        throw new Error('No user found with the email');
 
+                        return null
 
                     } else { // if user exists
 
                         const checkPassword = await compare(credentials.password, userExist.password);
 
-                        if (credentials.email === userExist.email && checkPassword) { // if email and hashed password match authenticate
+                        if (credentials.email === userExist.email && checkPassword) { // if email and hashed password match --> authenticate
                             return userExist
 
                         } else {
-                            throw new Error('Invalid Credentials');
+                            // throw new Error('Invalid credentials [password incorrect]');
+                            return null
+
                         }
                     }
 
@@ -141,6 +146,9 @@ export const authOptions = {
 
     },
 
+
+
+
     // Events allow to perform side effect upon events
     events: {
         signIn: ({ user, account, profile, isNewUser }) => {
@@ -159,6 +167,23 @@ export const authOptions = {
             console.log("sender", sender)
         }
     },
+
+
+
+
+    // Custom login page
+    pages: {
+        signIn: '/auth/SignIn',
+        // signOut: '/auth/signout',
+        error: '/auth/error', // Error code passed in QS 
+        // verifyRequest: '/auth/verify-request', // (used for check email message when doing email verification)
+        // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
+    },
+
+
+
+
+
 
     adapter: MongoDBAdapter(clientPromise),
 }
