@@ -52,7 +52,7 @@ const sendVerifEmail = async (userRecipient, userData, token) => {
         return { success: true, result: `Check your emails to verify your account!` }
 
     } catch (error) {
-        return { success: false, result: `There has been an error in sending the email: ${error.message}` }
+        return { success: false, result: `There has been an error in sending the email: ${error.message}, ${error.stack}` }
     }
 
 }

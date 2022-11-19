@@ -30,13 +30,12 @@ export default async function newSpot(req, res) {
             // Helper fx that creates tokens
             const token = await createToken(newUser._id, newUser.email)
             if (!token.success) {
-                // res.json({
-                //     success: token.success, message: token.result
-                // });
+                res.status(400).json({ success: token.success, message: token.result });
                 console.log("error", token.result)
+                return // stop fx execution if failure (will not send email)
+
             } else {
-                console.log("success", token.result)
-                // res.json({ success: token.success, message: token.result });
+                console.log("Token creation success", token.result)
             }
 
             // Fx that sends email

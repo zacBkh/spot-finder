@@ -173,9 +173,9 @@ export const authOptions = {
 
     // Custom login page
     pages: {
-        signIn: '/auth/SignIn',
+        // signIn: '/auth/SignIn',
         // signOut: '/auth/signout',
-        error: '/auth/error', // Error code passed in QS 
+        // error: '/auth/error', // Error code passed in QS 
         // verifyRequest: '/auth/verify-request', // (used for check email message when doing email verification)
         // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
     },

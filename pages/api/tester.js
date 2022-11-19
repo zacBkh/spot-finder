@@ -29,7 +29,7 @@ async function showAllSpots(resArg) {
 
 
 async function deleteAllSpots(resArg) {
-    await Spot.deleteMany({})
+    const DBData = await Spot.deleteMany({})
     return resArg.send(DBData);
 }
 
