@@ -26,15 +26,23 @@ const Register = ({ }) => {
     const validationSchemaYup = Yup.object().shape({
         email: Yup
             .string().trim().lowercase()
-            .email('Must be a valid email')
             .required("Please enter an email from Yup!!")
+            .email('Must be a valid email')
+
 
             // Async valid 
+            // We only run the async validation if the field is not empty
+            // otherwise, as on Yup validation is run on all field at every change, it was acting wird
+            // maybe we can replacing by handling empty values directly in emailCheckerAsync.js
             .test(
                 "checkEmailExist",
                 "This email is already taken...",
                 async (valueToTest) => {
-                    return await checkEmailUniq(valueToTest)
+                    if (!valueToTest) {
+                        return false
+                    } else {
+                        return await checkEmailUniq(valueToTest)
+                    }
                 }
             ),
 
@@ -112,7 +120,7 @@ const Register = ({ }) => {
     }
 
 
-    // console.log('formik', formik)
+    console.log('formik', formik)
     console.log('formik.values', formik.values)
     return (
         <>
