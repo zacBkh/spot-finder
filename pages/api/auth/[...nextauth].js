@@ -153,7 +153,7 @@ export const authOptions = {
 
         // Only works when created with oAuth, not creds
         createUser: async ({ user }) => {
-            
+
             // Sends welcome email to user using oAuth
             const sender = await sendWelcomeEmail("zachariedupain@hotmail.fr", user.name)
             console.log("sender", sender)

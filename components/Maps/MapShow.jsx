@@ -16,14 +16,18 @@ import Map, {
 
 
 
-const MapShow = ({ initialView, markerCoordinates }) => {
+const MapShow = ({ markerCoordinates }) => {
 
 
 
     return (
         <div className='flex justify-center'>
             <Map
-                initialViewState={initialView}
+                initialViewState={{
+                    latitude: markerCoordinates.Latitude,
+                    longitude: markerCoordinates.Longitude,
+                    zoom: 3
+                }}
                 style={{ width: 700, height: 500 }}
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
