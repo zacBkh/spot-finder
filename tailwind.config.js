@@ -6,7 +6,11 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "blue-facebook": "rgb(24, 119, 242)"
+      }
+    },
   },
   plugins: [require("flowbite/plugin")],
 }

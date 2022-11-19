@@ -111,12 +111,12 @@ const Navigation = () => {
                                     className={`
                                     text-base 2xl:text-lg medium
                             `}>
+
                                     <Link
-                                        href="/api/auth/signin">
-                                        <a onClick={
-                                            () => signIn({ callbackUrl: 'http://localhost:3008/spots/allSpots' })
-                                        }>Login</a>
+                                        href="/auth/SignIn">
+                                        <a>Login</a>
                                     </Link>
+
                                 </li>
                                 :
                                 <li
@@ -132,6 +132,10 @@ const Navigation = () => {
                                     </Link>
                                 </li>
                         }
+
+
+
+
 
 
 
