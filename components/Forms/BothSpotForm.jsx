@@ -15,6 +15,8 @@ import getCountryName from '../../utils/getCountryFetcher';
 import { useSession } from "next-auth/react"
 
 
+// Using previousValues props to know if we are in edit mode or not
+
 
 const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
     const { data: session } = useSession()
@@ -160,6 +162,27 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
     }, [markerCoordinates])
 
 
+    // If edit mode, set initialView of the map as per the marker
+    let initialCoor
+    if (previousValues) {
+        initialCoor =
+        {
+            longitude: previousValues.geometry.coordinates[0],
+            latitude: previousValues.geometry.coordinates[1],
+            zoom: 2
+        }
+
+    } else {
+        initialCoor =
+        {
+            longitude: 55.18,
+            latitude: 25.07,
+            zoom: 2
+        }
+    }
+
+
+
 
     // console.log('formik', formik)
     console.log('formik.values', formik.values)
@@ -265,11 +288,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
 
                 <div>
                     <MapForm
-                        initialView={{
-                            longitude: 55.18,
-                            latitude: 25.07,
-                            zoom: 2
-                        }}
+                        initialView={initialCoor}
                         markerCoordinates={markerCoordinates}
 
                         onNewCoor={onNewCoor}
