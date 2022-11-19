@@ -71,7 +71,8 @@ const MapForm = ({ initialView, markerCoordinates, onNewCoor }) => {
             <Map
                 initialViewState={initialView}
                 style={{ width: 700, height: 500 }}
-                mapStyle="mapbox://styles/mapbox/streets-v9"
+                mapStyle="mapbox://styles/mapbox/satellite-streets-v11"
+              
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
                 attributionControl={false}
                 onClick={clickMapHandler}

@@ -29,7 +29,7 @@ const MapShow = ({ markerCoordinates }) => {
                     zoom: 3
                 }}
                 style={{ width: 700, height: 500 }}
-                mapStyle="mapbox://styles/mapbox/streets-v9"
+                mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
                 attributionControl={false} >
 
