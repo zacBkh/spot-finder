@@ -5,6 +5,11 @@ const sendWelcomeEmail = async (userRecipient, userName) => {
     console.log("userRecipient", userRecipient)
     console.log("userName", userName)
 
+    if (!userRecipient || !userName) {
+        return { success: false, message: `At least one parameter to send  the email is missing [sendWelcomeEmail]` }
+    }
+
+
     try {
 
 

@@ -69,15 +69,14 @@ const VerifyEmail = () => {
         const resultWlc = await welcomeEmailSender(userName)
         console.log('+++++++', resultWlc)
         setFinal(resultWlc)
-        // setStatus(resultWlc.message)
-        // setUserInfo(resultWlc)
-
+        router.push("/spots/allSpots")
       }
     }
 
-
+    // Fx execution
     try {
       wlcEmailSender(final.user)
+
     } catch (error) {
       console.log('ERROOOOOR WELCOME EMAIL SENDER --> ', error)
       // put return object here

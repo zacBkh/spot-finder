@@ -2,7 +2,6 @@ import connectMongo from '../../../utils/connectMongo';
 import User from '../../../models/user';
 import decodeToken from '../../../utils/JWTMailToken/decodeToken';
 
-import sendWelcomeEmail from '../../../utils/Mailers/sendWelcomeEmail';
 
 // Decode a taken and writes in the DB email verified true
 
@@ -41,16 +40,7 @@ export default async function newSpot(req, res) {
             );
 
             res.status(200).json({ success: decoded.success, message: decoded.result, user });
-
-            // // Fx that sends email to Welcome
-            // const sender = await sendWelcomeEmail("zachariedupain@hotmail.fr", user.name)
-            // if (!sender.success) {
-            //     res.status(400).json({ success: sender.success, message: sender.result });
-            // } else {
-            //     res.status(200).json({ success: sender.success, message: sender.result });
-            // }
         }
-
 
 
 

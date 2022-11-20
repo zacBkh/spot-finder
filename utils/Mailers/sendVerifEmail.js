@@ -4,6 +4,10 @@ import capitalize from '../capitalize';
 
 const sendVerifEmail = async (userRecipient, userData, token) => {
 
+    if (!userRecipient || !userData || !token) {
+        return { success: false, message: `At least one parameter to send the email is missing [sendVerifEmail]` }
+    }
+
     try {
         const { name } = userData
 
