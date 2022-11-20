@@ -226,28 +226,29 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
     })
 
 
-    // Logic to deicde to display erorrMsg or not (depending of if mistake and if touched before)
-    const showValidErrorMsg = (field) => {
-        // console.log('field', field)
-        if (formik.errors[field] && formik.touched[field]) {
-            return <span className="text-red-600">{formik.errors[field]}</span>
-        }
-    }
 
 
-    // Logic to deicde border color red input
-    const showRedBorderColor = (field) => {
-        if (formik.errors[field] && formik.touched[field]) {
-            return "border-2 border-rose-500"
+    // Logic to deliver valid error msg or red border color
+    const validStyling = (field) => {
+
+        if (formik.errors === {}) { // if nothing happenned, no styling warning...
+            return { border: null, message: null }
+
+        } else { // if at least one field has been touched
+
+            if (formik.errors[field] && formik.touched[field]) { // if there is an error on the passed field...
+                return { border: "border-2 border-rose-500", message: <span className="text-red-600">{formik.errors[field]}</span> }
+
+            } else { // if no error on this specific field...
+                return { border: null, message: null }
+            }
+
         }
     }
 
 
     console.log('formik', formik)
     console.log('formik.values', formik.values)
-
-
-
 
 
 
@@ -276,14 +277,14 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                                     {...formik.getFieldProps('email')}
                                     // onFocus={() => setisEmailFocused(true)}
                                     // onBlur={evt => emailFieldBlurHandler(evt)}
-                                    className={`p-2 mt-8 rounded-xl border w-full ${showRedBorderColor("email")}`}
+                                    className={`p-2 mt-8 rounded-xl border w-full ${validStyling("email").border}`}
                                     type="email"
                                     name="email"
                                     placeholder="Email"
                                 />
                                 <div>
                                     {
-                                        showValidErrorMsg("email")
+                                        validStyling("email").message
                                     }
                                 </div>
                             </div>
@@ -296,14 +297,14 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                                 <div className="">
                                     <input
                                         {...formik.getFieldProps('name')}
-                                        className={`p-2 rounded-xl border w-full ${showRedBorderColor("name")}`}
+                                        className={`p-2 rounded-xl border w-full ${validStyling("name").border}`}
                                         type="text"
                                         name="name"
                                         placeholder="What's your name?"
                                     />
                                     <div>
                                         {
-                                            showValidErrorMsg("name")
+                                            validStyling("name").message
                                         }
                                     </div>
                                 </div>
@@ -316,7 +317,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                                     className="relative">
                                     <input
                                         {...formik.getFieldProps('password')}
-                                        className={`p-2 rounded-xl border w-full ${showRedBorderColor("password")}`}
+                                        className={`p-2 rounded-xl border w-full ${validStyling("password").border}`}
                                         type={isPwdVisible ? "text" : "password"}
                                         name="password"
                                         placeholder="Password"
@@ -341,7 +342,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                                     </button>
                                 </div>
                                 {
-                                    showValidErrorMsg("password")
+                                    validStyling("password").message
                                 }
                             </div>
 
@@ -354,7 +355,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                                         className="relative">
                                         <input
                                             {...formik.getFieldProps('password2Field')}
-                                            className={`p-2 rounded-xl border w-full ${showRedBorderColor("password2Field")}`}
+                                            className={`p-2 rounded-xl border w-full ${validStyling("password2Field").border}`}
                                             type={isPwdVisible ? "text" : "password"}
                                             name="password2Field"
                                             placeholder="Confirm your password"
@@ -377,7 +378,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                                         </button>
                                     </div>
                                     {
-                                        showValidErrorMsg("password2Field")
+                                        validStyling("password2Field").message
                                     }
                                 </div>
                             }
