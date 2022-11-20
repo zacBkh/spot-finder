@@ -1,14 +1,6 @@
-import { addUserHandler, checkEmailUniq } from "../../utils/APIfetchers";
-import { useState } from "react";
-
-import { useFormik } from "formik"
-import * as Yup from "yup";
-
-
 
 import LoginOrRegisterForm from "../../components/Forms/LoginOrRegisterForm";
 
-import { signIn } from "next-auth/react"
 
 
 

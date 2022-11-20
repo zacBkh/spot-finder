@@ -6,10 +6,14 @@ import { useFormik } from "formik"
 import * as Yup from "yup";
 
 import { FcGoogle } from 'react-icons/fc';
-import { BsFacebook } from 'react-icons/bs';
+import { BsFacebook, BsNodePlusFill } from 'react-icons/bs';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
+
+import { useRouter } from 'next/router'
+
 import Link from "next/link"
+
 
 
 import { signIn } from "next-auth/react"
@@ -19,6 +23,10 @@ import { signIn } from "next-auth/react"
 
 const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
     // action : either Register or Login
+
+    const router = useRouter()
+
+
 
 
     // For toggler password visible
@@ -34,6 +42,33 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
     // Yup stuff
 
+    // To disable validation on certain fields if on register mode or login mode
+    let nameTest
+    let passwordTest
+    if (action === "Register") {
+        nameTest = {
+            name: Yup
+                .string().trim()
+                .min(2, "Your name should be at least 2 characters long!")
+                .required("Name is required")
+        };
+
+        passwordTest = {
+            password2: Yup
+                .string().trim()
+                .required("Please confirm your password")
+                .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        };
+
+    } else {
+        nameTest = null
+        passwordTest = null
+    }
+    console.log('nameTest', nameTest)
+
+
+
+
     // Yup Validation Schema
     const validationSchemaYup = Yup.object().shape({
         email: Yup
@@ -41,12 +76,10 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
             .required("Email is required")
             .email('It seems like this is not an email...')
 
-
             // Async valid 
             // We only run the async validation if the field is not empty
             // otherwise, as on Yup validation is run on all field at every change, it was acting wird
             // maybe we can replacing by handling empty values directly in emailCheckerAsync.js
-
             .test(
                 "checkEmailExist",
                 "This email is already taken...",
@@ -57,7 +90,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
                         if (!valueToTest) { // if no value in email field
                             return
-                            
+
                         } else {
                             console.log("1111111")
                             const isUniq = await checkEmailUniq(valueToTest)
@@ -71,11 +104,12 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
             ),
 
 
+        // name: Yup
+        //     .string().trim()
+        //     .min(2, "Your name should be at least 2 characters long!")
+        //     .required("Name is required"),
 
-        name: Yup
-            .string().trim()
-            .min(2, "Your name should be at least 2 characters long!")
-            .required("Name is required"),
+        ...nameTest,
 
 
         password: Yup
@@ -84,24 +118,34 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
             .required("Password is required"),
 
 
+        // password2: Yup
+        //     .string().trim()
+        //     .required("Please confirm your password")
+        //     .oneOf([Yup.ref('password'), null], 'Passwords must match'),
 
-        password2: Yup
-            .string().trim()
-            .required("Password is required")
-            .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+        ...passwordTest,
+
     });
 
 
 
 
     // Formik stuff 
+    let initialValues
+    if (action === "Register") {
+        initialValues = {
+            email: "",
+            name: "",
+            password: "",
+            password2: ""
+        };
 
-    const initialValues = {
-        email: "",
-        name: "",
-        password: "",
-        password2: ""
-    };
+    } else {
+        initialValues = {
+            email: "",
+            password: "",
+        };
+    }
 
 
     // Formik - Submit Fx 
@@ -130,10 +174,32 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
 
         } else { // LOGIN MODE
+            console.log('THIS IS LOGIN MODE CHILL-----')
 
+            // https://next-auth.js.org/v3/getting-started/client#using-the-redirect-false-option
+            const loginResult = await signIn(
+                "credentials",
+                {
+                    ...formValues,
+                    redirect: false,
+
+                }
+            )
+
+            console.log('loginResult', loginResult)
+
+            // if auth issue linked to creds...
+            if (!loginResult.ok && loginResult.error === "CredentialsSignin") {
+                // router.push(`/auth/error?error=${loginResult.error}`)
+                setActionStatus("There has been an error verifying your credentials")
+
+                // if auth OK...
+            } else {
+                router.push(`/spots/allSpots`)
+            }
         }
-
     }
+
 
 
 
@@ -177,7 +243,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
                     {/* form */}
                     <div className="md:w-1/2 px-8 md:px-16">
-                        <h2 className="font-bold text-2xl text-[#002D74]">Login</h2>
+                        <h2 className="font-bold text-2xl text-[#002D74]">{action}</h2>
                         <p className="text-xs mt-4 text-[#002D74]">{headerMsg} </p>
 
                         {/* () => setIsUnderEdition((prevState) => !prevState) */}
@@ -263,43 +329,47 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
 
                             {/* Password confirmation */}
-                            <div>
-                                <div
-                                    className="relative">
-                                    <input
-                                        {...formik.getFieldProps('password2')}
-                                        className="p-2 rounded-xl border w-full"
-                                        type={isPwdVisible ? "text" : "password"}
-                                        name="password2"
-                                        placeholder="Confirm your password"
-                                    />
-                                    <button
-                                        onClick={
-                                            () => setIsPwdVisible((prev) => !prev)
-                                        }
-                                        type="button">
-                                        {
-                                            isPwdVisible ?
-                                                <AiFillEyeInvisible
-                                                    className="absolute top-1/2 right-3 -translate-y-1/2 text-xl"
-                                                />
-                                                :
-                                                <AiFillEye
-                                                    className="absolute top-1/2 right-3 -translate-y-1/2 text-xl"
-                                                />
-                                        }
-                                    </button>
+                            {
+                                action === "Register" &&
+                                <div>
+                                    <div
+                                        className="relative">
+                                        <input
+                                            {...formik.getFieldProps('password2')}
+                                            className="p-2 rounded-xl border w-full"
+                                            type={isPwdVisible ? "text" : "password"}
+                                            name="password2"
+                                            placeholder="Confirm your password"
+                                        />
+                                        <button
+                                            onClick={
+                                                () => setIsPwdVisible((prev) => !prev)
+                                            }
+                                            type="button">
+                                            {
+                                                isPwdVisible ?
+                                                    <AiFillEyeInvisible
+                                                        className="absolute top-1/2 right-3 -translate-y-1/2 text-xl"
+                                                    />
+                                                    :
+                                                    <AiFillEye
+                                                        className="absolute top-1/2 right-3 -translate-y-1/2 text-xl"
+                                                    />
+                                            }
+                                        </button>
+                                    </div>
+                                    {
+                                        showValidErrorMsg("password2")
+                                    }
                                 </div>
-                                {
-                                    showValidErrorMsg("password2")
-                                }
-                            </div>
+                            }
 
 
 
 
-
+                            {/* lOGIN OR REGISTER */}
                             <button
+                                type="submit"
                                 className="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300">{action}
                             </button>
                         </form>
@@ -307,50 +377,54 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                         {actionStatus}
 
 
-                        {
-                            action === "Login" &&
-                            <>
-                                <div className="mt-6 grid grid-cols-3 items-center text-gray-400">
-                                    <hr className="border-gray-400" />
-                                    <p className="text-center text-sm">OR</p>
-                                    <hr className="border-gray-400" />
-                                </div>
+                        {/*      {
+                            action === "Login" && */}
+                        <>
+                            <div className="mt-6 grid grid-cols-3 items-center text-gray-400">
+                                <hr className="border-gray-400" />
+                                <p className="text-center text-sm">OR</p>
+                                <hr className="border-gray-400" />
+                            </div>
 
 
 
 
-                                {/* Google */}
-                                <button
-                                    onClick={() => signIn("google")}
-                                    className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-[#002D74]">
-                                    <FcGoogle
-                                        className="mr-2 text-2xl" />
-                                    Login with Google
-                                </button>
+                            {/* Google */}
+                            <button
+                                onClick={() => signIn("google")}
+                                className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300">
+                                <FcGoogle
+                                    className="mr-2 text-2xl" />
+                                Login with Google
+                            </button>
 
 
-                                {/* Facebook */}
-                                <button
-                                    onClick={() => signIn("facebook")}
-                                    className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-[#002D74]">
-                                    <BsFacebook
-                                        className="mr-2 text-2xl text-blue-facebook" />
-                                    Login with Facebook
-                                </button>
-
-
-
+                            {/* Facebook */}
+                            <button
+                                onClick={() => signIn("facebook")}
+                                className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300">
+                                <BsFacebook
+                                    className="mr-2 text-2xl text-blue-facebook" />
+                                Login with Facebook
+                            </button>
 
 
 
 
 
 
-                                <div className="mt-5 text-xs border-b border-[#002D74] py-4 text-[#002D74]">
-                                    <a href="#">Forgot your password?</a>
-                                </div>
-                            </>
-                        }
+
+
+
+                            <div className="mt-5 text-xs border-b border-[#002D74] py-4 text-[#002D74]">
+                                <a href="#">Forgot your password?</a>
+                            </div>
+                        </>
+                        {/* } */}
+
+
+
+
 
                         <div className="mt-3 text-xs flex justify-between items-center text-[#002D74]">
                             <p>{alternativeMsg}</p>
