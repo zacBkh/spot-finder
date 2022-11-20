@@ -234,17 +234,22 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
         }
     }
 
+
+    // Logic to deicde border color red input
+    const showRedBorderColor = (field) => {
+        if (formik.errors[field] && formik.touched[field]) {
+            return "border-2 border-rose-500"
+        }
+    }
+
+
     console.log('formik', formik)
     console.log('formik.values', formik.values)
 
 
 
 
-    // Custom blur handler for email to be able to keep track of focus on this field to be able to execute async valid only when onFocus
-    // const emailFieldBlurHandler = (evt) => {
-    //     formik.handleBlur(evt);
-    //     setisEmailFocused(false)
-    // }
+
 
     return (
         <>
@@ -271,8 +276,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                                     {...formik.getFieldProps('email')}
                                     // onFocus={() => setisEmailFocused(true)}
                                     // onBlur={evt => emailFieldBlurHandler(evt)}
-
-                                    className="p-2 mt-8 rounded-xl border w-full"
+                                    className={`p-2 mt-8 rounded-xl border w-full ${showRedBorderColor("email")}`}
                                     type="email"
                                     name="email"
                                     placeholder="Email"
@@ -292,7 +296,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                                 <div className="">
                                     <input
                                         {...formik.getFieldProps('name')}
-                                        className="p-2 rounded-xl border w-full"
+                                        className={`p-2 rounded-xl border w-full ${showRedBorderColor("name")}`}
                                         type="text"
                                         name="name"
                                         placeholder="What's your name?"
@@ -312,7 +316,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                                     className="relative">
                                     <input
                                         {...formik.getFieldProps('password')}
-                                        className="p-2 rounded-xl border w-full"
+                                        className={`p-2 rounded-xl border w-full ${showRedBorderColor("password")}`}
                                         type={isPwdVisible ? "text" : "password"}
                                         name="password"
                                         placeholder="Password"
@@ -350,7 +354,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                                         className="relative">
                                         <input
                                             {...formik.getFieldProps('password2Field')}
-                                            className="p-2 rounded-xl border w-full"
+                                            className={`p-2 rounded-xl border w-full ${showRedBorderColor("password2Field")}`}
                                             type={isPwdVisible ? "text" : "password"}
                                             name="password2Field"
                                             placeholder="Confirm your password"
@@ -390,8 +394,8 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
 
                         <span className="text-red-600">{actionStatus}</span>
-                            
-                        
+
+
 
 
                         {/*      {
