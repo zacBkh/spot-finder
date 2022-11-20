@@ -4,7 +4,7 @@ import capitalize from '../capitalize';
 const sendWelcomeEmail = async (userRecipient, userName) => {
     console.log("userRecipient", userRecipient)
     console.log("userName", userName)
-    console.log("EXECUTED ** ")
+
     try {
 
 
@@ -49,10 +49,10 @@ const sendWelcomeEmail = async (userRecipient, userName) => {
             html: htmlToSend, // html body
         });
 
-        return { success: true, result: `Welcome email sent!` }
+        return { success: true, message: `Welcome email sent!` }
 
     } catch (error) {
-        return { success: false, result: `There has been an error in sending the welcome email: ${error.stack}` }
+        return { success: false, message: `There has been an error in sending the welcome email: ${error.stack}` }
     }
 
 }

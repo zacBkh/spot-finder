@@ -28,7 +28,7 @@ export default async function newSpot(req, res) {
 
             // If correct token...
         } else {
-            res.status(200).json({ success: decoded.success, message: decoded.result });
+
 
             // Posting to DB user verified
             await connectMongo();
@@ -40,15 +40,15 @@ export default async function newSpot(req, res) {
                 { runValidators: true, new: true }
             );
 
+            res.status(200).json({ success: decoded.success, message: decoded.result, user });
 
-
-            // Fx that sends email to Welcome
-            const sender = await sendWelcomeEmail("zachariedupain@hotmail.fr", user.name)
-            if (!sender.success) {
-                res.status(400).json({ success: sender.success, message: sender.result });
-            } else {
-                res.status(200).json({ success: sender.success, message: sender.result });
-            }
+            // // Fx that sends email to Welcome
+            // const sender = await sendWelcomeEmail("zachariedupain@hotmail.fr", user.name)
+            // if (!sender.success) {
+            //     res.status(400).json({ success: sender.success, message: sender.result });
+            // } else {
+            //     res.status(200).json({ success: sender.success, message: sender.result });
+            // }
         }
 
 

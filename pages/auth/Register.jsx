@@ -6,15 +6,14 @@ import * as Yup from "yup";
 
 
 
-
-
+import LoginOrRegisterForm from "../../components/Forms/LoginOrRegisterForm";
 
 import { signIn } from "next-auth/react"
 
 
 
 const Register = ({ }) => {
-
+/* 
     // Store login failure/success info
     const [status, setStatus] = useState(null);
 
@@ -79,12 +78,12 @@ const Register = ({ }) => {
     const onSubmitFormik = async (formValues) => {
         console.log('SUBMIT-formValues', formValues)
 
-        const { email, name, password } = formValues;
+        const { email, password } = formValues;
 
 
-        const userCreds = { name: name, email: email, password: password };
+        // const userCreds = { name: name, email: email, password: password };
 
-        const userCreation = await addUserHandler(userCreds)
+        const userCreation = await addUserHandler(formValues)
         console.log('userCreation', userCreation)
 
         if (!userCreation.success) {
@@ -122,79 +121,87 @@ const Register = ({ }) => {
 
     console.log('formik', formik)
     console.log('formik.values', formik.values)
+
+ */
     return (
-        <>
-            <form
-                onSubmit={formik.handleSubmit}>
 
-
-                <div>
-                    <label>Email address</label>
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="email@example.com"
-                        {...formik.getFieldProps('email')}
-                        autoFocus
-                    />
-                    {
-                        showValidErrorMsg("email")
-                    }
-
-                </div>
-
-
-                <div>
-                    <label htmlFor="name">Name</label>
-                    <input
-                        type="text"
-                        id="name"
-                        {...formik.getFieldProps('name')}
-                    />
-                    {
-                        showValidErrorMsg("name")
-                    }
-                </div>
-
-
-
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        {...formik.getFieldProps('password')}
-                    />
-                    {
-                        showValidErrorMsg("password")
-                    }
-                </div>
-
-
-
-
-
-                <button
-                    type="submit"> Register
-                </button>
-
-
-                <br />
-
-
-                {
-                    status &&
-                    <p>{status}, try to&nbsp;
-                        <span
-                            className="underline cursor-pointer"
-                            onClick={
-                                () => signIn({ callbackUrl: 'http://localhost:3008/spots/allSpots' })
-                            }>login
-                        </span>
-                    </p>
-                }
-            </form>
-        </>
+        <LoginOrRegisterForm
+            action={"Register"}
+            headerMsg={"Welcome, please register"}
+            alternativeMsg={"Already have an account?"}
+        />
+        /*   <>
+              <form
+                  onSubmit={formik.handleSubmit}>
+  
+  
+                  <div>
+                      <label>Email address</label>
+                      <input
+                          type="email"
+                          id="email"
+                          placeholder="email@example.com"
+                          {...formik.getFieldProps('email')}
+                          autoFocus
+                      />
+                      {
+                          showValidErrorMsg("email")
+                      }
+  
+                  </div>
+  
+  
+                  <div>
+                      <label htmlFor="name">Name</label>
+                      <input
+                          type="text"
+                          id="name"
+                          {...formik.getFieldProps('name')}
+                      />
+                      {
+                          showValidErrorMsg("name")
+                      }
+                  </div>
+  
+  
+  
+                  <div>
+                      <label htmlFor="password">Password</label>
+                      <input
+                          type="password"
+                          id="password"
+                          {...formik.getFieldProps('password')}
+                      />
+                      {
+                          showValidErrorMsg("password")
+                      }
+                  </div>
+  
+  
+  
+  
+  
+                  <button
+                      type="submit"> Register
+                  </button>
+  
+  
+                  <br />
+  
+  
+                  {
+                      status &&
+                      <p>{status}, try to&nbsp;
+                          <span
+                              className="underline cursor-pointer"
+                              onClick={
+                                  () => signIn({ callbackUrl: 'http://localhost:3008/spots/allSpots' })
+                              }>login
+                          </span>
+                      </p>
+                  }
+              </form>
+          </> */
     )
 }
 

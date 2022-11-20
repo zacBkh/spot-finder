@@ -174,6 +174,26 @@ export
 
 
 
+    
+export
+    const welcomeEmailSender = async (user) => {
+
+        const response = await fetch(
+            "/api/users/send-welcome-email",
+            {
+                method: "POST",
+                body: JSON.stringify(user), //conv to JSON
+                headers: { "Content-Type": "application/json" }
+            }
+        )
+
+        const data = await response.json()
+        console.log("data send-welcome-email -->", data)
+        return data // returning data for handling if mistake on front end
+    }
+
+
+
 
 
 
@@ -193,6 +213,6 @@ export
         )
 
         const data = await response.json()
-        console.log("data received++ -->", data)
+        console.log("Data received from emailCheckerAsync -->", data)
         return data
     }
