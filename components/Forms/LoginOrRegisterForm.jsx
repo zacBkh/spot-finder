@@ -19,14 +19,12 @@ import Link from "next/link"
 import { signIn } from "next-auth/react"
 
 
-
+// This form component is used for both Registration & Login
+// The action can be "Registration" || "Login" and depending on this, it will render and validate or not some fields + the submit fx will change
 
 const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
-    // action : either Register or Login
 
     const router = useRouter()
-
-
 
 
     // For toggler password visible
@@ -43,30 +41,49 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
     // Yup stuff
 
     // To disable validation on certain fields if on register mode or login mode
-    let nameTest
+    let nameField
+    let password2Field
     let passwordTest
     if (action === "Register") {
-        nameTest = {
+        nameField = {
             name: Yup
                 .string().trim()
                 .min(2, "Your name should be at least 2 characters long!")
                 .required("Name is required")
         };
 
-        passwordTest = {
-            password2: Yup
+        password2Field = {
+            password2Field: Yup
                 .string().trim()
                 .required("Please confirm your password")
                 .oneOf([Yup.ref('password'), null], 'Passwords must match')
         };
 
+        passwordTest =
+        {
+            password: Yup
+                .string().trim()
+                .min(6, "Your password should be at least 6 characters long!")
+                .required("Password is required"),
+        };
+
     } else {
-        nameTest = null
-        passwordTest = null
+        nameField = null
+        password2Field = null
+        passwordTest =
+        {
+            password: Yup
+                .string().trim()
+                .required("Password is required"),
+        };
     }
-    console.log('nameTest', nameTest)
+    console.log('nameField', nameField)
 
 
+    // password: Yup
+    //     .string().trim()
+    //     .min(6, "Your password should be at least 6 characters long!")
+    //     .required("Password is required"),
 
 
     // Yup Validation Schema
@@ -109,21 +126,18 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
         //     .min(2, "Your name should be at least 2 characters long!")
         //     .required("Name is required"),
 
-        ...nameTest,
+        ...nameField,
 
 
-        password: Yup
-            .string().trim()
-            .min(6, "Your password should be at least 6 characters long!")
-            .required("Password is required"),
+        ...passwordTest,
 
 
-        // password2: Yup
+        // password2Field: Yup
         //     .string().trim()
         //     .required("Please confirm your password")
         //     .oneOf([Yup.ref('password'), null], 'Passwords must match'),
 
-        ...passwordTest,
+        ...password2Field,
 
     });
 
@@ -137,7 +151,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
             email: "",
             name: "",
             password: "",
-            password2: ""
+            password2Field: ""
         };
 
     } else {
@@ -190,8 +204,8 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
             // if auth issue linked to creds...
             if (!loginResult.ok && loginResult.error === "CredentialsSignin") {
-                // router.push(`/auth/error?error=${loginResult.error}`)
-                setActionStatus("There has been an error verifying your credentials")
+
+                setActionStatus("Invalid Credentials")
 
                 // if auth OK...
             } else {
@@ -335,10 +349,10 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                                     <div
                                         className="relative">
                                         <input
-                                            {...formik.getFieldProps('password2')}
+                                            {...formik.getFieldProps('password2Field')}
                                             className="p-2 rounded-xl border w-full"
                                             type={isPwdVisible ? "text" : "password"}
-                                            name="password2"
+                                            name="password2Field"
                                             placeholder="Confirm your password"
                                         />
                                         <button
@@ -359,7 +373,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                                         </button>
                                     </div>
                                     {
-                                        showValidErrorMsg("password2")
+                                        showValidErrorMsg("password2Field")
                                     }
                                 </div>
                             }
@@ -374,7 +388,10 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                             </button>
                         </form>
 
-                        {actionStatus}
+
+                        <span className="text-red-600">{actionStatus}</span>
+                            
+                        
 
 
                         {/*      {
@@ -420,7 +437,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                                 <a href="#">Forgot your password?</a>
                             </div>
                         </>
-                        {/* } */}
+
 
 
 
