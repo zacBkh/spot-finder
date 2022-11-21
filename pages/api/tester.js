@@ -70,7 +70,7 @@ export default async function TESTER(req, res) {
     // await deleteAllSpots(res)
 
 
-    // await showAllUsers(res)
+    await showAllUsers(res)
     // await deleteAllUsers(res)
     // await checkUserExists(res, "roblaf93@gmail.com")
     // await tokenGen(res)

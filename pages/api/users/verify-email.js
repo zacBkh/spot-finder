@@ -15,11 +15,12 @@ export default async function newSpot(req, res) {
         const JWToken = req.body;
         console.log("JWT Token from API route222", JWToken)
 
-        console.log(" req.body",  req.body)
+        console.log(" req.body", req.body)
         console.log("JWToken", JWToken)
 
         // Trying to decode the token
         const decoded = await decodeToken(JWToken)
+        console.log("dddd", decoded)
 
         // If wrong token...
         if (!decoded.success) {
@@ -29,7 +30,6 @@ export default async function newSpot(req, res) {
 
             // If correct token...
         } else {
-
 
             // Posting to DB user verified
             await connectMongo();

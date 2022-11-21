@@ -69,7 +69,7 @@ const VerifyEmail = () => {
         const resultWlc = await welcomeEmailSender(userName)
         console.log('+++++++', resultWlc)
         setFinal(resultWlc)
-        router.push("/spots/allSpots")
+        // router.push("/spots/allSpots")
       }
     }
 
