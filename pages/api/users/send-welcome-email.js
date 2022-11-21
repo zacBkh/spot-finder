@@ -9,7 +9,7 @@ export default async function sendWlcEmail(req, res) {
 
     if (req.method === 'POST') {
 
-        const { name } = req.body;
+        const name = req.body;
 
         const sender = await sendWelcomeEmail("zachariedupain@hotmail.fr", name)
         if (!sender.success) {

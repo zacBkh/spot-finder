@@ -14,6 +14,7 @@ import jwt from "jsonwebtoken"
 const decodeToken = async (token) => {
     console.log("FROM TOKEN DECODER...", token)
 
+    console.log("envvv", process.env.JWT_SECRET)
 
     try {
         const decoded = jwt.verify(
@@ -22,7 +23,7 @@ const decodeToken = async (token) => {
         );
         console.log("decoded", decoded)
 
-        return { success: true, result: `Your email ${decoded.email} has been verified!`, id: decoded._id }
+        return { success: true, result: `Your email ${decoded.email} has been verified!`, userID: decoded._id }
 
 
     } catch (error) {

@@ -153,13 +153,13 @@ export
 
 
 // Email Verification
-// Call API route to check if token can be verified and if yes write in DB userVerified : true
 
+// ONLY decode token
 export
     const checkJWToken = async (token) => {
 
         const response = await fetch(
-            "/api/users/verify-email",
+            "/api/users/decode-token",
             {
                 method: "POST",
                 body: JSON.stringify(token), //conv to JSON
@@ -168,9 +168,56 @@ export
         )
 
         const data = await response.json()
-        console.log("data JWT -->", data)
+        console.log("TOKEN DECODING", data)
         return data // returning data for handling if mistake on front end
     }
+
+
+
+// ONLY check if user is already verified
+export
+    const checkUserVerified = async (userID) => {
+
+        const response = await fetch(
+            "/api/users/is-user-verified",
+            {
+                method: "POST",
+                body: JSON.stringify(userID), //conv to JSON
+                headers: { "Content-Type": "application/json" }
+            }
+        )
+
+        const data = await response.json()
+        console.log("IS VERIFIED", data)
+        return data // returning data for handling if mistake on front end
+    }
+
+
+
+
+// ONLY check if user is already verified
+export
+    const verifyUserDB = async (userID) => {
+
+        const response = await fetch(
+            "/api/users/mark-user-verified",
+            {
+                method: "POST",
+                body: JSON.stringify(userID), //conv to JSON
+                headers: { "Content-Type": "application/json" }
+            }
+        )
+
+        const data = await response.json()
+        console.log("IS VERIFIED++", data)
+        return data // returning data for handling if mistake on front end
+    }
+
+
+
+
+
+
 
 
 
