@@ -255,7 +255,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
     return (
         <>
             <section
-                className="bg-gray-50 min-h-screen flex items-center justify-center">
+                className="bg-gray-50 mt-2 flex items-center justify-center">
 
                 {/* login container */}
                 <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
@@ -398,11 +398,17 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
 
 
+                        {
+                            action === "Login" &&
+                            <div className=" hover:underline text-center text-xs mt-4 text-[#002D74]">
+                                <a href="#">Forgot your password?</a>
+                            </div>
+                        }
 
                         {/*      {
                             action === "Login" && */}
                         <>
-                            <div className="mt-6 grid grid-cols-3 items-center text-gray-400">
+                            <div className="mt-5 grid grid-cols-3 items-center text-gray-400">
                                 <hr className="border-gray-400" />
                                 <p className="text-center text-sm">OR</p>
                                 <hr className="border-gray-400" />
@@ -414,7 +420,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                             {/* Google */}
                             <button
                                 onClick={() => signIn("google")}
-                                className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300">
+                                className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300">
                                 <FcGoogle
                                     className="mr-2 text-2xl" />
                                 Login with Google
@@ -424,7 +430,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                             {/* Facebook */}
                             <button
                                 onClick={() => signIn("facebook")}
-                                className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300">
+                                className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300">
                                 <BsFacebook
                                     className="mr-2 text-2xl text-blue-facebook" />
                                 Login with Facebook
@@ -433,9 +439,6 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
 
 
-                            <div className="mt-5 text-xs border-b border-[#002D74] py-4 text-[#002D74]">
-                                <a href="#">Forgot your password?</a>
-                            </div>
                         </>
 
 

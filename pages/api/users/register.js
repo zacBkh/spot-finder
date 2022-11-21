@@ -11,6 +11,9 @@ import checkEmailExist from '../../../utils/Auth/checkEmailExist';
 
 export default async function newSpot(req, res) {
     if (req.method === 'POST') {
+
+
+
         console.log("bodypayloadfrom API ROUTE", req.body)
         const { email } = req.body;
 
@@ -32,6 +35,7 @@ export default async function newSpot(req, res) {
             if (!token.success) {
                 res.status(400).json({ success: token.success, message: token.result });
                 console.log("error", token.result)
+                
                 return // stop fx execution if failure (will not send email)
 
             } else {
@@ -61,7 +65,7 @@ export default async function newSpot(req, res) {
 
 
     } else {
-        res.status(401).send('You are already authenticated but you should not try to access this endpoint this way... [create New User]')
+        res.status(401).send('You should not try to access this endpoint this way... [create New User]')
     }
 }
 
