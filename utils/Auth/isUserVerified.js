@@ -1,6 +1,5 @@
-import connectMongo from "../connectMongo"
-import User from "../../models/user"
-
+import connectMongo from "../connectMongo";
+import User from "../../models/user";
 
 const isUserVerified = async (userID) => {
 

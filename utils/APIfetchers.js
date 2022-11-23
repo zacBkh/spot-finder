@@ -151,8 +151,28 @@ export
 
 
 
+// DO EVERYTHING RELATED TO EMAIL VERIF
 
-// Email Verification
+export
+    const JWTVerifyer = async (token) => {
+
+        const response = await fetch(
+            "/api/users/verify-user-email",
+            {
+                method: "POST",
+                body: JSON.stringify(token), //conv to JSON
+                headers: { "Content-Type": "application/json" }
+            }
+        )
+
+        const data = await response.json()
+        console.log("verify-user-email", data)
+        return data // returning data for handling if mistake on front end
+    }
+
+
+
+
 
 // ONLY decode token
 export
@@ -195,7 +215,7 @@ export
 
 
 
-// ONLY check if user is already verified
+// Mark user as verified
 export
     const verifyUserDB = async (userID) => {
 
@@ -209,7 +229,7 @@ export
         )
 
         const data = await response.json()
-        console.log("IS VERIFIED++", data)
+        console.log("verifyUserDB -->", data)
         return data // returning data for handling if mistake on front end
     }
 

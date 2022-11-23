@@ -4,6 +4,8 @@ import { useRouter } from 'next/router'
 
 import { checkJWToken, checkUserVerified, verifyUserDB, welcomeEmailSender } from "../../../utils/APIfetchers"
 
+import { JWTVerifyer } from "../../../utils/APIfetchers"
+
 // import isUserVerified from "../../../utils/Auth/isUserVerified"
 
 
@@ -41,8 +43,6 @@ const VerifyEmail = () => {
   const [status, setStatus] = useState(null);
 
   const router = useRouter();
-  const { JWToken } = router.query
-  console.log('JWToken', JWToken)
 
 
 
@@ -53,43 +53,54 @@ const VerifyEmail = () => {
   useEffect(() => {
     if (!router.isReady) return;
 
+    const { JWToken } = router.query
+    console.log('JWToken', JWToken)
+
+
     // Fx declaration
     // Verify token and return success (boolean) - message (string) - user (object) 
     const tokenChecker = async (JWToken) => {
 
 
-
-      // Checking for JWT authenticity
-      const decoding = await checkJWToken(JWToken)
-      console.log('decoding...', decoding)
-      if (!decoding.success) { setStatus(decoding.result); return }
+      const verifyJWT = await JWTVerifyer(JWToken);
+      console.log('---------- FINAL verifyJWT', verifyJWT)
 
 
 
 
+      /* -------------- */
 
-      // Checking if already verified
-      const isUserAlreadyVerified = await checkUserVerified(decoding.userID)
-      console.log('isUserAlreadyVerified...', isUserAlreadyVerified)
-      if (!isUserAlreadyVerified.success) { setStatus(isUserAlreadyVerified.result); return } // if execution error in browsing user
-
-      if (isUserAlreadyVerified.result) { setStatus("You are already a verified user!"); return } // user is already verified
-
-      const verifyUserOnDB = await verifyUserDB(decoding.userID) // if not already verified veirfy it
-      setStatus(verifyUserOnDB.result)
-      const { userName } = verifyUserOnDB
+      // // Checking for JWT authenticity
+      // const decoding = await checkJWToken(JWToken)
+      // console.log('decoding...', decoding)
+      // if (!decoding.success) { setStatus(decoding.result); return }
 
 
 
 
-      // Send wlc email and return success (boolean) - message (string)
-      const resultWlc = await welcomeEmailSender(userName)
-      console.log('resultWlc -->', resultWlc)
-      if (!resultWlc.success) { setStatus(resultWlc.result); return } // if could not send email
-      setStatus(resultWlc.result)
+
+      // // Checking if already verified
+      // const isUserAlreadyVerified = await checkUserVerified(decoding.userID)
+      // console.log('isUserAlreadyVerified...', isUserAlreadyVerified)
+      // if (!isUserAlreadyVerified.success) { setStatus(isUserAlreadyVerified.result); return } // if execution error in browsing user
+
+      // if (isUserAlreadyVerified.result) { setStatus("You are already a verified user!"); return } // user is already verified
+
+      // const verifyUserOnDB = await verifyUserDB(decoding.userID) // if not already verified veirfy it
+      // setStatus(verifyUserOnDB.result)
+      // const { userName } = verifyUserOnDB
 
 
-      router.push("/spots/allSpots")
+
+
+      // // Send wlc email and return success (boolean) - message (string)
+      // const resultWlc = await welcomeEmailSender(userName)
+      // console.log('resultWlc -->', resultWlc)
+      // if (!resultWlc.success) { setStatus(resultWlc.result); return } // if could not send email
+      // setStatus(resultWlc.result)
+
+
+      // router.push("/spots/allSpots")
     }
 
     // Fx execution
