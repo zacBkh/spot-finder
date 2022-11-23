@@ -9,19 +9,35 @@ import { checkJWToken, checkUserVerified, verifyUserDB, welcomeEmailSender } fro
 
 // Once user reach this page JWT token in QS will be checked (1st useEffect), then userObject will be stored in state and welcome email will be sent (2nd useEffect)
 
+
+
+
+// SHOULD DO THIS IN GSP ???
+/* export const getServerSideProps = async (context) => {
+
+    const session = await unstable_getServerSession(context.req, context.res, authOptions)
+
+
+
+    try {
+        // Getting the ID of the current spot
+        const ID = context.params.spotID
+ */
+
+
+
+
+
+
+
+
+
+
 const VerifyEmail = () => {
 
 
 
-
-
-  // If user JWT verified
-  // const [isUserVerified, seIsUserVerified] = useState(false);
-
-
-  const [final, setFinal] = useState("We're trying to verify your email");
-
-
+  // Display current status
   const [status, setStatus] = useState(null);
 
   const router = useRouter();
@@ -46,38 +62,34 @@ const VerifyEmail = () => {
       // Checking for JWT authenticity
       const decoding = await checkJWToken(JWToken)
       console.log('decoding...', decoding)
-      if (!decoding.success) { setStatus("JWT NOT CORRECT"); return }
+      if (!decoding.success) { setStatus(decoding.result); return }
+
+
 
 
 
       // Checking if already verified
-
       const isUserAlreadyVerified = await checkUserVerified(decoding.userID)
       console.log('isUserAlreadyVerified...', isUserAlreadyVerified)
-      if (!isUserAlreadyVerified.success) { setStatus("could not find useer during verification process"); return } // if execution error in browsing user
+      if (!isUserAlreadyVerified.success) { setStatus(isUserAlreadyVerified.result); return } // if execution error in browsing user
 
-
-      if (isUserAlreadyVerified.result === true) { setStatus("You are already verified!"); return } // user is already verified
-
+      if (isUserAlreadyVerified.result) { setStatus("You are already a verified user!"); return } // user is already verified
 
       const verifyUserOnDB = await verifyUserDB(decoding.userID) // if not already verified veirfy it
-      setStatus("Verification completed!")
-      console.log('verifyUserOnDB...', verifyUserOnDB)
+      setStatus(verifyUserOnDB.result)
       const { userName } = verifyUserOnDB
+
+
 
 
       // Send wlc email and return success (boolean) - message (string)
       const resultWlc = await welcomeEmailSender(userName)
       console.log('resultWlc -->', resultWlc)
-      if (!resultWlc.success) { setStatus("Could not send email"); return } // if execution error in browsing user
-      setStatus("Welcome email sent!")
+      if (!resultWlc.success) { setStatus(resultWlc.result); return } // if could not send email
+      setStatus(resultWlc.result)
 
 
-      // router.push("/spots/allSpots")
-
-
-
-      return
+      router.push("/spots/allSpots")
     }
 
     // Fx execution
@@ -85,42 +97,6 @@ const VerifyEmail = () => {
 
 
   }, [router.isReady])
-
-
-
-
-
-
-  // useEffect(() => {
-
-  //   // Fx declaration
-  //   // Send wlc email and return success (boolean) - message (string)
-  //   const wlcEmailSender = async (userName) => {
-
-  //     // If could not validate JWT, stop execution, otherwise continue
-  //     if (!isUserVerified) {
-  //       return
-
-
-  //     } else {
-  //       const resultWlc = await welcomeEmailSender(userName)
-  //       console.log('+++++++', resultWlc)
-  //       setFinal(resultWlc)
-  //       // router.push("/spots/allSpots")
-  //     }
-  //   }
-
-  //   // Fx execution
-  //   try {
-  //     wlcEmailSender(final.user)
-
-  //   } catch (error) {
-  //     console.log('ERROOOOOR WELCOME EMAIL SENDER --> ', error)
-  //     // put return object here
-  //   }
-  // }, [isUserVerified])
-
-
 
 
 

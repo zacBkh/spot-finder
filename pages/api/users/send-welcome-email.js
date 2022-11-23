@@ -13,9 +13,9 @@ export default async function sendWlcEmail(req, res) {
 
         const sender = await sendWelcomeEmail("zachariedupain@hotmail.fr", name)
         if (!sender.success) {
-            res.status(400).json({ success: sender.success, message: sender.message });
+            res.status(400).json({ success: sender.success, result: sender.result });
         } else {
-            res.status(200).json({ success: sender.success, message: sender.message });
+            res.status(200).json({ success: sender.success, result: sender.result });
         }
 
 

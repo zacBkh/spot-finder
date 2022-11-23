@@ -19,27 +19,15 @@ export default async function newSpot(req, res) {
         // If wrong token...
         if (!decoded.success) {
             res.status(401).json({
-                success: decoded.success, message: decoded.result
+                success: decoded.success, result: decoded.result
             });
 
             // If correct token...
         } else {
 
             res.status(200).json({
-                success: decoded.success, message: decoded.result, userID: decoded.userID
+                success: decoded.success, result: decoded.result, userID: decoded.userID
             });
-
-            // // Posting to DB user verified
-            // await connectMongo();
-            // console.log('CONNECTED TO MONGO !');
-            // console.log("from inner", decoded.id)
-            // const user = await User.findByIdAndUpdate(
-            //     decoded.id,
-            //     { emailVerified: true },
-            //     { runValidators: true, new: true }
-            // );
-
-            // res.status(200).json({ success: decoded.success, message: decoded.result, user });
         }
 
 

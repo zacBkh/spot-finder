@@ -18,7 +18,7 @@ export default async function markUserVerified(req, res) {
         { runValidators: true, new: true }
     );
 
-    res.status(200).json({ success: true, message: "User is now verified", userName: user.name });
+    res.status(200).json({ success: true, result: "User is now verified", userName: user.name });
 }
 
 
