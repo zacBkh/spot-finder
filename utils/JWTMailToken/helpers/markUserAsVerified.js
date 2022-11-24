@@ -1,13 +1,11 @@
-
-import connectMongo from "../../../utils/connectMongo";
+import connectMongo from "../../connectMongo";
 import User from "../../../models/user";
 
 
 
 // Posting to DB user verified
-export default async function markUserVerified(req, res) {
-
-    const userID = req.body;
+const markUserAsVerified = async (userID) => {
+    console.log("USER IDD", userID)
 
     await connectMongo();
 
@@ -18,8 +16,11 @@ export default async function markUserVerified(req, res) {
         { runValidators: true, new: true }
     );
 
-    res.status(200).json({ success: true, result: "User is now verified", userName: user.name });
+    return { success: true, result: "User is now verified", userName: user.name };
 }
+
+export default markUserAsVerified
+
 
 
 

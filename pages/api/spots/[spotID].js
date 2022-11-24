@@ -1,11 +1,11 @@
-import connectMongo from '../../utils/connectMongo';
-import Spot from '../../models/spot';
+import connectMongo from '../../../utils/connectMongo';
+import Spot from '../../../models/spot';
 
-import isAuthor from '../../utils/Auth/isAuthor';
+import isAuthor from '../../../utils/Auth/isAuthor';
 
 
 import { unstable_getServerSession } from "next-auth/next"
-import { authOptions } from "./auth/[...nextauth]"
+import { authOptions } from "../auth/[...nextauth]"
 
 
 // /api/[id]

@@ -1,5 +1,5 @@
-import connectMongo from "../../utils/connectMongo"
-import User from "../../models/user"
+import connectMongo from "../../../utils/connectMongo"
+import User from "../../../models/user"
 
 // Function return values
 // TRUE : EMAIL DOES NOT EXIST YET IN DB

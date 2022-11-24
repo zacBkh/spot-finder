@@ -2,14 +2,14 @@ import User from '../../../models/user';
 import { hash } from 'bcryptjs';
 
 import sendVerifEmail from '../../../utils/Mailers/sendVerifEmail';
-import createToken from '../../../utils/JWTMailToken/createToken';
+import createToken from '../../../utils/JWTMailToken/helpers/createToken';
 
 import checkEmailExist from '../../../utils/Auth/checkEmailExist';
 
 
 
 
-export default async function newSpot(req, res) {
+export default async function newUser(req, res) {
     if (req.method === 'POST') {
 
 
@@ -35,7 +35,7 @@ export default async function newSpot(req, res) {
             if (!token.success) {
                 res.status(400).json({ success: token.success, message: token.result });
                 console.log("error", token.result)
-                
+
                 return // stop fx execution if failure (will not send email)
 
             } else {

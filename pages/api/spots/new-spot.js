@@ -1,10 +1,10 @@
-import connectMongo from '../../utils/connectMongo';
-import Spot from '../../models/spot';
+import connectMongo from '../../../utils/connectMongo';
+import Spot from '../../../models/spot';
 
 
 // End point protection
 import { unstable_getServerSession } from "next-auth/next"
-import { authOptions } from "./auth/[...nextauth]"
+import { authOptions } from "../auth/[...nextauth]"
 
 
 // When this API route is hitted, execute this

@@ -3,7 +3,7 @@ import User from '../../models/user';
 
 import connectMongo from "../../utils/connectMongo"
 
-import createToken from "../../utils/JWTMailToken/createToken"
+import createToken from '../../utils/JWTMailToken/helpers/createToken';
 
 // This route will help us see which data is in our Database, delete etc
 

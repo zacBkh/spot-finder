@@ -1,11 +1,11 @@
-import connectMongo from '../../../utils/connectMongo';
-import Spot from '../../../models/spot';
-import User from '../../../models/user';
+import connectMongo from '../../../../utils/connectMongo';
+import Spot from '../../../../models/spot';
+import User from '../../../../models/user';
 
-import isAuthor from '../../../utils/Auth/isAuthor';
+import isAuthor from '../../../../utils/Auth/isAuthor';
 
 import { unstable_getServerSession } from "next-auth/next"
-import { authOptions } from "../auth/[...nextauth]"
+import { authOptions } from "../../auth/[...nextauth]"
 
 
 // This route will : increment/decrement the number of visits counter and push/pull the visitorID to array

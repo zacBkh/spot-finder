@@ -6,7 +6,7 @@ import { useFormik } from "formik"
 import * as Yup from "yup";
 
 import { FcGoogle } from 'react-icons/fc';
-import { BsFacebook, BsNodePlusFill } from 'react-icons/bs';
+import { BsFacebook } from 'react-icons/bs';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 
@@ -114,7 +114,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                             return await isUniq.result
                         }
 
-                    } else if (action === "Login") {
+                    } else {
                         return true
                     }
                 }

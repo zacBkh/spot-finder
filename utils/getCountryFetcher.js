@@ -1,3 +1,5 @@
+// Utils that get the country name
+
 const getCountryName = async (Longitude, Latitude) => {
 
     console.log("FROM FETCHER", Longitude, Latitude)
