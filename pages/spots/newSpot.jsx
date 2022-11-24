@@ -1,11 +1,10 @@
 import Head from 'next/head'
-import Image from 'next/image'
 
 import { useRouter } from 'next/router'
 
 
-import BothSpotForm from '../components/Forms/BothSpotForm'
-import { addSpotHandler } from '../utils/APIfetchers'
+import BothSpotForm from '../../components/Forms/BothSpotForm'
+import { addSpotHandler } from '../../utils/APIfetchers'
 
 
 

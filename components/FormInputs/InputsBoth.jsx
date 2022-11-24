@@ -15,6 +15,19 @@ const InputsBoth = ({
     }
 
 
+    // Logic to deliver valid error msg or red border color
+    const validStyling = () => {
+        if (formikError && formikHasFieldBeenTouched) {
+            return {
+                border: "border-2 border-rose-500",
+                message: <span className="text-red-600">{formikError[formikName]}</span>
+            }
+
+        } else { // if no error on this specific field...
+            return { border: null, message: null }
+        }
+    }
+
     return (
         <>
             <div className="mb-6">
@@ -27,7 +40,7 @@ const InputsBoth = ({
 
                 <input
                     id={formikName}
-                    className="text-sm rounded-lg bg-gray-50 border border-gray-300 text-gray-900 focus:border-blue-500 block w-full p-2.5"
+                    className={`text-sm rounded-lg bg-gray-50 border border-gray-300 text-gray-900 focus:border-blue-500 block w-full p-2.5 ${validStyling().border}`}
                     placeholder={placeholder}
 
                     name={formikName}
@@ -35,7 +48,8 @@ const InputsBoth = ({
                     {...wizard(formikName)}
                 />
                 {
-                    showValidErrorMsg()
+                    // showValidErrorMsg()
+                    validStyling().message
                 }
             </div>
         </>

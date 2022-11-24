@@ -39,7 +39,7 @@ const sendWelcomeEmail = async (userRecipient, userName) => {
         <h3> Hello ${capitalize(userName)} !  </h3>
         <p> Welcome to the Spot Finder Community!... </p>
         <p> 
-        Start <a target = "_" href="http://localhost:3008/newSpot"> adding new spots here
+        Start <a target = "_" href="http://localhost:3008/spots/newSpot"> adding new spots here
         </a> or <a target = "_" href="http://localhost:3008/spots/allSpots"> browse through our amazing existing spots </a> already shared by our community!
         </p>
         <p> Thank you</p>`

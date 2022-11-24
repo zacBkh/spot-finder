@@ -14,7 +14,7 @@ export { default } from "next-auth/middleware"
 export const config = {
     matcher: [
         "/protected",
-        "/newSpot", // protecting page to create new spot
+        "/spots/newSpot", // protecting page to create new spot
         // "/pages/api/:path*" // protecting all sub route of pages/api
     ]
 }

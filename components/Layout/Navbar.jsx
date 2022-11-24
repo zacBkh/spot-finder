@@ -58,7 +58,7 @@ const Navigation = () => {
                                 text-base 2xl:text-lg medium  
                             `}>
                             <Link
-                                href="/newSpot">
+                                href="/spots/newSpot">
                                 <a>Add your Spot</a>
                             </Link>
                         </li>
@@ -201,7 +201,7 @@ const Navigation = () => {
                         </Link>
 
                         <Link
-                            href="/newSpot">
+                            href="/spots/newSpot">
                             <a
                                 onClick={hamburgerMenuToggler} > Add your Spot
                             </a>

@@ -52,13 +52,6 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                 .required("Name is required")
         };
 
-        password2Field = {
-            password2Field: Yup
-                .string().trim()
-                .required("Please confirm your password")
-                .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        };
-
         passwordTest =
         {
             password: Yup
@@ -67,23 +60,26 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                 .required("Password is required"),
         };
 
+        password2Field = {
+            password2Field: Yup
+                .string().trim()
+                .required("Please confirm your password")
+                .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        };
+
     } else {
         nameField = null
-        password2Field = null
         passwordTest =
         {
             password: Yup
                 .string().trim()
                 .required("Password is required"),
         };
+        password2Field = null
     }
     console.log('nameField', nameField)
 
 
-    // password: Yup
-    //     .string().trim()
-    //     .min(6, "Your password should be at least 6 characters long!")
-    //     .required("Password is required"),
 
 
     // Yup Validation Schema
@@ -121,21 +117,9 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
             ),
 
 
-        // name: Yup
-        //     .string().trim()
-        //     .min(2, "Your name should be at least 2 characters long!")
-        //     .required("Name is required"),
-
         ...nameField,
 
-
         ...passwordTest,
-
-
-        // password2Field: Yup
-        //     .string().trim()
-        //     .required("Please confirm your password")
-        //     .oneOf([Yup.ref('password'), null], 'Passwords must match'),
 
         ...password2Field,
 
