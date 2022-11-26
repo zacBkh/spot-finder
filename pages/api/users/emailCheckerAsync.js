@@ -17,11 +17,15 @@ export default async function emailChecker(req, res) {
             console.log("QUERY DB FROM", queryDB)
 
 
-            queryDB === null
-                ? res.json({ success: true, result: true })
-                : res.json({ success: true, result: false })
+            if (queryDB === null) { // no exist
+                return res.json({ success: true, result: true })
 
-                
+            } else {  // exist 
+                return res.json({ success: true, result: false })
+            }
+
+
+
         } catch (error) {
             return { success: false, result: `There has been an error in the email asynchronous validation: ${error.message}` }
         }

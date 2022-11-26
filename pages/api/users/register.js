@@ -31,7 +31,7 @@ export default async function newUser(req, res) {
 
 
             // Helper fx that creates tokens
-            const token = await createToken(newUser._id, newUser.email)
+            const token = await createToken(newUser._id, newUser.email, "1d")
             if (!token.success) {
                 res.status(400).json({ success: token.success, message: token.result });
                 console.log("error", token.result)

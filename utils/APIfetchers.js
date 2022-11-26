@@ -150,3 +150,24 @@ export
         console.log("Data received from emailCheckerAsync -->", data)
         return data
     }
+
+
+
+
+export
+    const sendPwdResetMail = async (email) => {
+        console.log("sendPwdResetMail -->", email)
+
+        const response = await fetch(
+            "/api/users/send-pwdReset-link",
+            {
+                method: "POST",
+                body: JSON.stringify(email),
+                headers: { "Content-Type": "application/json" }
+            }
+        )
+
+        const data = await response.json()
+        console.log("Data received fromsendPwdResetMail -->", data)
+        return data
+    }

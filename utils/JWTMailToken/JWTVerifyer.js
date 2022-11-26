@@ -9,7 +9,7 @@ import sendWelcomeEmail from "../Mailers/sendWelcomeEmail";
 
 
 
-// Decode Token
+// Decode Token ONLY FOR EMAIL VERIFICATION
 // Check if user is already verified, if yes STOP if no...
 // Verify it on DB + Send Welcome email
 
@@ -53,7 +53,7 @@ const JWTVerifyer = async (JWToken) => {
         return { success: sendWlc.success, result: sendWlc.result }
     }
 
-    return { success: true, result: "Email verification sent!" }
+    return { success: true, result: "Welcome email sent!" }
 }
 
 export default JWTVerifyer

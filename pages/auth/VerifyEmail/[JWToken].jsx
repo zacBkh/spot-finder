@@ -4,6 +4,7 @@ import JWTVerifyer from "../../../utils/JWTMailToken/JWTVerifyer"
 
 
 
+
 // Get Server Side Props
 export const getServerSideProps = async (context) => {
 
@@ -13,7 +14,7 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      JWToken, emailVerifResult
+      emailVerifResult
     },
   };
 }
@@ -24,7 +25,7 @@ export const getServerSideProps = async (context) => {
 
 
 // Component
-const VerifyEmail = ({ JWToken, emailVerifResult }) => {
+const VerifyEmail = ({ emailVerifResult }) => {
 
   // Display current status
   const [status, setStatus] = useState(emailVerifResult.result);

@@ -13,6 +13,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { useRouter } from 'next/router'
 
 import Link from "next/link"
+import Image from 'next/image'
 
 
 
@@ -22,7 +23,7 @@ import { signIn } from "next-auth/react"
 // This form component is used for both Registration & Login
 // The action can be "Registration" || "Login" and depending on this, it will render and validate or not some fields + the submit fx will change
 
-const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
+const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPassword }) => {
 
     const router = useRouter()
 
@@ -77,7 +78,6 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
         };
         password2Field = null
     }
-    console.log('nameField', nameField)
 
 
 
@@ -153,26 +153,19 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
         if (action === "Register") { // REGISTER MODE
 
-            console.log('Register - FormValues -->', formValues)
-
             const userCreation = await addUserHandler(formValues)
-            console.log('userCreation', userCreation)
 
             if (!userCreation.success) {
-                console.log('ERROR DUE TO --> ', userCreation.message)
                 setActionStatus(userCreation.message)
 
             } else {
-                console.log('SUCCESS -->', userCreation.message)
-
-
                 // If registration OK, sign the user in and redirect to all spot
                 await signIn('credentials', { email, password, callbackUrl: 'http://localhost:3008/spots/allSpots' });
             }
 
 
+
         } else { // LOGIN MODE
-            console.log('THIS IS LOGIN MODE CHILL-----')
 
             // https://next-auth.js.org/v3/getting-started/client#using-the-redirect-false-option
             const loginResult = await signIn(
@@ -183,8 +176,6 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
                 }
             )
-
-            console.log('loginResult', loginResult)
 
             // if auth issue linked to creds...
             if (!loginResult.ok && loginResult.error === "CredentialsSignin") {
@@ -214,21 +205,23 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
     // Logic to deliver valid error msg or red border color
     const validStyling = (field) => {
-
-        if (formik.errors === {}) { // if nothing happenned, no styling warning...
+        if (formik.errors[field] && formik.touched[field]) {
+            return { border: "border-2 border-rose-500", message: <span className="text-red-600">{formik.errors[field]}</span> }
+        } else { // if no error on this specific field...
             return { border: null, message: null }
-
-        } else { // if at least one field has been touched
-
-            if (formik.errors[field] && formik.touched[field]) { // if there is an error on the passed field...
-                return { border: "border-2 border-rose-500", message: <span className="text-red-600">{formik.errors[field]}</span> }
-
-            } else { // if no error on this specific field...
-                return { border: null, message: null }
-            }
-
         }
     }
+
+
+
+    // Should button be disabled?
+    const shouldFormBeDisabled = () => {
+        if (!formik.dirty) { return true }
+        if (Object.keys(formik.errors).length !== 0) { return true }
+        return false
+    }
+
+    console.log('shouldFormBeDisabled', shouldFormBeDisabled())
 
 
     console.log('formik', formik)
@@ -372,8 +365,10 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
                             {/* lOGIN OR REGISTER */}
                             <button
+                                disabled={shouldFormBeDisabled()}
                                 type="submit"
-                                className="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300">{action}
+                                className="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300 mb-2
+                                disabled:opacity-50 disabled:cursor-not-allowed">{action}
                             </button>
                         </form>
 
@@ -384,13 +379,17 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
 
                         {
                             action === "Login" &&
-                            <div className=" hover:underline text-center text-xs mt-4 text-[#002D74]">
-                                <a href="#">Forgot your password?</a>
+                            <div
+                                className="cursor-pointer hover:underline  font-semibold text-center text-sm mt-4 text-[#002D74]">
+                                <span onClick={() => onForgotPassword()}
+                                >Forgot your password?
+                                </span>
+
                             </div>
                         }
 
-                        {/*      {
-                            action === "Login" && */}
+
+
                         <>
                             <div className="mt-5 grid grid-cols-3 items-center text-gray-400">
                                 <hr className="border-gray-400" />
@@ -436,7 +435,9 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                             <Link
                                 href={`/auth/${action === "Register" ? "SignIn" : "Register"}`}>
                                 <button
-                                    className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300">{action === "Register" ? "Login" : "Register"}
+
+                                    className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300
+                                    ">{action === "Register" ? "Login" : "Register"}
                                 </button>
                             </Link>
 
@@ -444,9 +445,13 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg }) => {
                     </div>
 
                     {/* image */}
-                    <div className="md:block hidden w-1/2">
-                        <img className="rounded-2xl" src="https://images.unsplash.com/photo-1616606103915-dea7be788566?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80" />
-                    </div>
+                    <Image
+                        src="https://images.unsplash.com/photo-1516148066593-477d571e507f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                        className="md:block hidden w-1/2 rounded-2xl"
+                        alt="Photographer half hero image"
+                        width={450}
+                        height={600}
+                    />
                 </div>
             </section>
         </>

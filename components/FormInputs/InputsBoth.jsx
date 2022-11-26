@@ -7,13 +7,6 @@ const InputsBoth = ({
 }) => {
 
 
-    // Logic to deicde to display erorrMsg or not (depending of if mistake and if touched before)
-    const showValidErrorMsg = () => {
-        if (formikError && formikHasFieldBeenTouched) {
-            return <span className="text-red-600">{formikError[formikName]}</span>
-        }
-    }
-
 
     // Logic to deliver valid error msg or red border color
     const validStyling = () => {
@@ -48,7 +41,6 @@ const InputsBoth = ({
                     {...wizard(formikName)}
                 />
                 {
-                    // showValidErrorMsg()
                     validStyling().message
                 }
             </div>
