@@ -18,7 +18,7 @@ export default async function resetPwdLink(req, res) {
         const { id, name } = doesUserExist
 
         // Helper fx that creates tokens
-        const token = await createToken(id, email, "5m")
+        const token = await createToken(id, email, "1d")
         if (!token.success) {
             res.status(400).json({ success: token.success, message: token.result });
         }

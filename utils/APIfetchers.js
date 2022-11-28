@@ -154,6 +154,12 @@ export
 
 
 
+
+
+
+// PASSWORD RESET
+
+// Send an email holding a JWT to reset pwd
 export
     const sendPwdResetMail = async (email) => {
         console.log("sendPwdResetMail -->", email)
@@ -169,5 +175,23 @@ export
 
         const data = await response.json()
         console.log("Data received fromsendPwdResetMail -->", data)
+        return data
+    }
+
+// Change PWD in DB
+export
+    const editUserHandler = async (editedEnteredData, userID) => {
+        console.log("userID", userID)
+        console.log("editedEnteredDatUser", editedEnteredData)
+        const response = await fetch(
+            `/api/users/${userID}`,
+            {
+                method: "PATCH",
+                body: JSON.stringify(editedEnteredData), //conv to JSON
+                headers: { "Content-Type": "application/json" }
+            }
+        )
+        const data = await response.json()
+        console.log("Result of USER edition", data)
         return data
     }

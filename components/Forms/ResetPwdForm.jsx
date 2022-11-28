@@ -8,7 +8,12 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 import Image from 'next/image'
 
+import capitalize from "../../utils/capitalize";
 
+import { editUserHandler } from "../../utils/APIfetchers";
+
+
+// Component receives full userData
 const ResetPwdForm = ({ userData }) => {
 
 
@@ -43,12 +48,12 @@ const ResetPwdForm = ({ userData }) => {
 
     // Formik - Submit Fx 
     const onSubmitFormik = async (formValues) => {
-        console.log('formValues RESET PWD', formValues)
-        const { password, password2 } = formValues;
+        const { password } = formValues;
 
 
+        const changeUserPwd = await editUserHandler(password, userData._id)
+        console.log('changeUserPwd', changeUserPwd)
         // change passowrd of userData (received as props) rehash it etc
-        // go through API route
     }
 
 
@@ -95,7 +100,10 @@ const ResetPwdForm = ({ userData }) => {
 
 
                     <div className="md:w-1/2 px-8 md:px-4">
-                        <h2 className="font-bold text-2xl text-[#002D74]">Reset your password</h2>
+
+                        <h2 className="font-bold text-2xl text-[#002D74] mb-5">Welcome {capitalize(userData.name)}!</h2>
+
+                        <h2 className="font-bold text-2xl text-[#002D74]">Reset your password below</h2>
                         <p className="text-xs mt-4 text-[#002D74]">Enter your new credentials</p>
 
 
