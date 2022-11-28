@@ -12,6 +12,8 @@ import capitalize from "../../utils/capitalize";
 
 import { editUserHandler } from "../../utils/APIfetchers";
 
+import { signIn } from "next-auth/react"
+
 
 // Component receives full userData
 const ResetPwdForm = ({ userData }) => {
@@ -48,12 +50,17 @@ const ResetPwdForm = ({ userData }) => {
 
     // Formik - Submit Fx 
     const onSubmitFormik = async (formValues) => {
-        const { password } = formValues;
+        console.log('formValues', formValues)
+        const { password: newPwd } = formValues;
 
 
-        const changeUserPwd = await editUserHandler(password, userData._id)
-        console.log('changeUserPwd', changeUserPwd)
-        // change passowrd of userData (received as props) rehash it etc
+
+        const changeUserPwd = await editUserHandler(newPwd, userData._id)
+
+        const { email } = changeUserPwd.result
+        console.log('changeUserPwd -->', changeUserPwd)
+
+        await signIn('credentials', { email, password: newPwd, callbackUrl: 'http://localhost:3008/spots/allSpots' });
     }
 
 

@@ -159,7 +159,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
                 setActionStatus(userCreation.message)
 
             } else {
-                // If registration OK, sign the user in and redirect to all spot
+                // If registration OK, log the user in and redirect to all spot
                 await signIn('credentials', { email, password, callbackUrl: 'http://localhost:3008/spots/allSpots' });
             }
 

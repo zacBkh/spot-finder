@@ -180,14 +180,14 @@ export
 
 // Change PWD in DB
 export
-    const editUserHandler = async (editedEnteredData, userID) => {
+    const editUserHandler = async (newPwd, userID) => {
         console.log("userID", userID)
-        console.log("editedEnteredDatUser", editedEnteredData)
+        console.log("newPwd", newPwd)
         const response = await fetch(
             `/api/users/${userID}`,
             {
                 method: "PATCH",
-                body: JSON.stringify(editedEnteredData), //conv to JSON
+                body: JSON.stringify(newPwd), //conv to JSON
                 headers: { "Content-Type": "application/json" }
             }
         )

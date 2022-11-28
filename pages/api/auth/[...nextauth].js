@@ -57,9 +57,10 @@ export const authOptions = {
 
                 try {
 
-                    console.log("credentials", credentials)
+                    console.log("credentials --->", credentials)
                     // Attempting to find the user
                     const userExist = await User.findOne({ email: credentials.email })
+                    console.log("userExist --*---> ", userExist)
 
                     if (!userExist) { // if user does not exist
 
@@ -70,10 +71,12 @@ export const authOptions = {
                         const checkPassword = await compare(credentials.password, userExist.password);
 
                         if (credentials.email === userExist.email && checkPassword) { // if email and hashed password match --> authenticate
+                            console.log("11111111")
                             return userExist
 
                         } else {
                             // throw new Error('Invalid credentials [password incorrect]');
+                            console.log("22222222222222")
                             return null
 
                         }

@@ -46,7 +46,7 @@ export default async function editUserData(req, res) {
 
             console.log('USER TO EDIT -->', userEdition);
 
-            res.status(200).json({ UserEdited: userEdition });
+            res.status(200).json({ success: true, result: userEdition });
 
 
         } catch (error) {
