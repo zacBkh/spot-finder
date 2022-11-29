@@ -98,32 +98,36 @@ const allSpots = ({ spots }) => {
         });
     }
 
-    // Display toaster --> TO IMPROVE ?
+    // Display toaster
     useEffect(() => {
         console.log('-- RUNNING IN BROWSER -- ')
 
 
-        // Reset PWD
-        const shouldToastPwdReset = localStorage.getItem("toast.resetPwd")
-        if (shouldToastPwdReset === "true") { notifyToast("Password changed!", "resetPwd") }
-        localStorage.removeItem("toast.resetPwd");
+        const getLS = localStorage.getItem("toast");
+        console.log('getLS', getLS)
+        switch (getLS) {
+            case "newSpot":
+                notifyToast("Password changed!", "resetPwd");
+                break;
 
+            case "editSpot":
+                notifyToast("You edited your spot successfully!", "editSpot");
+                break;
 
-        // Added new CG
-        const shouldToastNewSpot = localStorage.getItem("toast.newSpot")
-        if (shouldToastNewSpot === "true") { notifyToast("You added a new spot successfully!", "addSpot") }
-        localStorage.removeItem("toast.newSpot");
+            case "deleteSpot":
+                notifyToast("You deleted your spot successfully!", "deleteSpot");
+                break;
 
+            case "resetPwd":
+                notifyToast("Password changed!", "resetPwd")
+                break;
 
-        // Edit CG
-        const shouldToastEditSpot = localStorage.getItem("toast.editSpot")
-        if (shouldToastEditSpot === "true") { notifyToast("You edited your spot successfully!", "editSpot") }
-        localStorage.removeItem("toast.editSpot");
+            default:
+                console.log("MAN WTF IDK THAT");
+        }
 
-        // Delete CG
-        const shouldToastDeleteSpot = localStorage.getItem("toast.deleteSpot")
-        if (shouldToastDeleteSpot === "true") { notifyToast("You deleted your spot successfully!", "deleteSpot") }
-        localStorage.removeItem("toast.deleteSpot");
+        localStorage.removeItem("toast");
+
     }, [])
 
 

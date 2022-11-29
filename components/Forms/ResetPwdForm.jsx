@@ -61,7 +61,7 @@ const ResetPwdForm = ({ userData }) => {
         console.log('changeUserPwd -->', changeUserPwd)
 
         // For toaster notif
-        localStorage.setItem("toast.resetPwd", true);
+        localStorage.setItem("toast", "resetPwd");
 
         await signIn('credentials', { email, password: newPwd, callbackUrl: 'http://localhost:3008/spots/allSpots' });
     }

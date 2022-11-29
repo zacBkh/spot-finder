@@ -88,7 +88,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         await editSpotHandler(editedEnteredData, spotID)
 
         // For toaster notif
-        localStorage.setItem("toast.editSpot", true);
+        localStorage.setItem("toast", "editSpot");
 
         router.push("/spots/allSpots") //Navigate back to root
     }
@@ -140,7 +140,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         await deleteSpotHandler(spotID)
 
         // For toaster notif
-        localStorage.setItem("toast.deleteSpot", true);
+        localStorage.setItem("toast", "deleteSpot");
 
         router.push("/spots/allSpots") //Navigate back to root
     }
