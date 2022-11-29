@@ -1,14 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
-
-
-
-
-
-
-
-
-
 
 
 
@@ -22,10 +12,6 @@ export default function Home() {
       </Head>
 
       <h1>HOME PAGE</h1>
-
-
-
-
     </div>
   )
 }

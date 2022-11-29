@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource/roboto": "^4.5.8",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@next-auth/mongodb-adapter": "^1.1.1",
     "bcryptjs": "^2.4.3",
@@ -26,6 +27,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.6.0",
     "react-map-gl": "^7.0.19",
+    "react-toastify": "^9.1.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {

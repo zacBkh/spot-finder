@@ -11,6 +11,14 @@ import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs';
 
 import { GETSpotFetcherAll } from "../../utils/GETfetchers";
 
+
+
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
+
+
+
 export const getServerSideProps = async (context) => {
 
     try {
@@ -47,6 +55,8 @@ const allSpots = ({ spots }) => {
 
     const [filterMode, setFilterMode] = useState(false);
 
+    const [toastNotif, setToastNotif] = useState(false);
+
 
 
     // Execute when click on filter
@@ -77,10 +87,64 @@ const allSpots = ({ spots }) => {
     }, [activeCategories])
 
 
+
+
+
+    // Toast after pwd change attempd
+    const notifyToast = () => {
+        // toast.error("Error Notification !", {
+        //     position: toast.POSITION.TOP_LEFT
+        // });
+
+
+        toast.success("Password changed!", {
+            position: toast.POSITION.BOTTOM_LEFT,
+            toastId: "123" // prevent duplicates
+        });
+
+        // toast("Default Notification !");
+
+        // toast.warn("Warning Notification !", {
+        //     position: toast.POSITION.BOTTOM_LEFT
+        // });
+
+        // toast.info("Info Notification !", {
+        //     position: toast.POSITION.BOTTOM_CENTER
+        // });
+
+        // toast("Custom Style Notification with css class!", {
+        //     position: toast.POSITION.BOTTOM_RIGHT,
+        //     className: 'foo-bar'
+        // });
+    }
+
+    // Display toaster --> TO IMPROVE ?
+    useEffect(() => {
+        console.log('-- RUNNING IN BROWSER -- ')
+        const geta = localStorage.getItem("toastConfResetPwd")
+        if (geta === "true") { notifyToast() }
+        localStorage.setItem("toastConfResetPwd", false);
+    }, [])
+
+
     // ES6 filtering way
     // If filterMode is on, then filter, otherwise, just map components
     return (
         <>
+
+            <button
+                onClick={notifyToast}
+                type="button"
+                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Blue
+            </button>
+
+            {
+                <ToastContainer
+                    autoClose={4000}
+                />
+            }
+
+
 
             <div className="flex flex-row justify-center">
                 <FilterSpots
@@ -106,7 +170,7 @@ const allSpots = ({ spots }) => {
             </div>
 
 
-            
+
             <div
                 className=" 
                     mt-14 max-w-6xl	mx-auto 
