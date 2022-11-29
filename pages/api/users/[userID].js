@@ -51,7 +51,7 @@ export default async function editUserData(req, res) {
 
         } catch (error) {
             console.log(error);
-            res.status(400).json({ success: false, result: error });
+            res.status(400).json({ success: false, result: `There has been an arror changing your password: ${error} ` });
         }
 
 
@@ -82,7 +82,7 @@ export default async function editUserData(req, res) {
 
 
     } else {
-        res.status(401).json({ success: false, message: 'You are authorized but you should not try to access this endpoint this way [amend existing User]...' });
+        res.status(401).json({ success: false, result: 'You are authorized but you should not try to access this endpoint this way [amend existing User]...' });
     }
 
 }

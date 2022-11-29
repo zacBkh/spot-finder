@@ -14,8 +14,6 @@ import { GETSpotFetcherOne } from "../../utils/GETfetchers";
 
 import SpotAction from "../../components/SpotAction";
 
-import { Toast } from 'flowbite-react';
-import { FaUserLock } from 'react-icons/Fa';
 
 import Link from 'next/link';
 
@@ -23,6 +21,10 @@ import Toggler from '../../components/Toggler';
 
 
 import MapShow from '../../components/Maps/MapShow';
+
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
 
 
 
@@ -73,8 +75,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     const [nbOfVisit, setNbOfVisit] = useState(nbVisit);
 
 
-    // Toast notif
-    const [addVisitNotif, setAddVisitNotif] = useState(undefined);
 
 
     // To tell to API route which spot are we talking about -- can replace by info coming from GSP ? 
@@ -86,44 +86,62 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     // Will call the fetcher for Edit located in utils - params come from children
     const handleEdit = async (editedEnteredData) => {
         await editSpotHandler(editedEnteredData, spotID)
+
+        // For toaster notif
+        localStorage.setItem("toast.editSpot", true);
+
         router.push("/spots/allSpots") //Navigate back to root
     }
 
 
-    // Will call the fetcher for DELETE located in utils
+
+    // This will be rendered in the toast
+    const CustomToastWithLink = () => (
+        <>
+            <Link
+                href="/auth/SignIn">
+                <a className='text-[#3498db] underline'>Please login</a>
+            </Link>
+            <span> to mark this spot as verified</span>
+        </>
+    );
+
+
+
+    // Will call the fetcher for ADDING visit
     const handleAddVisit = async () => {
         const addVisit = await addOneVisitSpotHandler(currentUserID, spotID, didUserVisitSpot)
-        console.log('addVisit', addVisit)
 
-        if (!addVisit.success && !currentUserID) { // if failure in add success and user not logged in...
+        // if failure in add success and user not logged in...
+        if (!addVisit.success && !currentUserID) {
             console.log('111')
-            setAddVisitNotif(
-                <>
-                    <Link
-                        href="/api/auth/signin">
-                        <a className='text-blue-600 underline'>Log in</a>
-                    </Link>
-                    <span> to mark this spot as visited! </span>
-                </>
-            )
+            toast.error(CustomToastWithLink, {
+                position: toast.POSITION.BOTTOM_LEFT,
+                toastId: "connectToMarkVisitedSuccess"
+            });
 
 
+            // if success...
+        } else {
+            toast.success("You marked this spot as visited!", {
+                position: toast.POSITION.BOTTOM_LEFT,
+                toastId: "connectToMarkVisitedSuccess"
+            });
 
-        } else { // if success...
             setDidUserVisitSpot((prevState) => !prevState)
             setNbOfVisit((prevState) => didUserVisitSpot ? prevState - 1 : prevState + 1)
         }
-
-        // Redirect
-        <Link
-            href="/login">
-            <a>Login Manual</a>
-        </Link>
     }
+
+
 
     // Will call the fetcher for DELETE located in utils
     const handleDelete = async () => {
         await deleteSpotHandler(spotID)
+
+        // For toaster notif
+        localStorage.setItem("toast.deleteSpot", true);
+
         router.push("/spots/allSpots") //Navigate back to root
     }
 
@@ -142,6 +160,14 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
     return (
         <>
+            {
+                <ToastContainer
+                    autoClose={4000}
+                    style={{ width: "400px" }}
+                />
+            }
+
+
 
             <MapShow
                 initialView={{
@@ -171,27 +197,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     didUserVisitSpot={didUserVisitSpot}
                 />
             }
-
-
-
-            {/* Toast */}
-            {
-                addVisitNotif &&
-                <Toast>
-                    <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-500 dark:bg-blue-800 dark:text-blue-200">
-                        <FaUserLock className="h-5 w-5" />
-                    </div>
-                    <div className="ml-3 text-sm font-normal">
-                        {addVisitNotif}
-                    </div>
-                    <Toast.Toggle />
-                </Toast>
-            }
-
-
-
-
-
 
 
 

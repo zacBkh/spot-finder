@@ -18,6 +18,10 @@ const Home = () => {
   const handleAdd = async (enteredData) => {
 
     await addSpotHandler(enteredData)
+
+    // For toaster notif
+    localStorage.setItem("toast.newSpot", true);
+
     router.push("/spots/allSpots") //Navigate back to root
   }
 

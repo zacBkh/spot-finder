@@ -184,7 +184,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
 
 
 
-    // console.log('formik', formik)
+    console.log('formik', formik)
     console.log('formik.values', formik.values)
 
     return (

@@ -15,7 +15,7 @@ export default async function newSpot(req, res) {
   const session = await unstable_getServerSession(req, res, authOptions)
 
   if (!session) { // If not authenticated
-    res.status(401).send({ success: false, message: "You should be authenticated to access this endpoint [create New Spot]" })
+    res.status(401).send({ success: false, result: "You should be authenticated to access this endpoint [create New Spot]" })
     return
 
 
@@ -35,17 +35,17 @@ export default async function newSpot(req, res) {
         console.log('CREATED DOCUMENT -->', newCamp);
 
 
-        res.status(200).json({ success: true, message: newCamp });
+        res.status(200).json({ success: true, result: newCamp });
 
 
       } catch (error) {
         console.log(error);
-        res.status(400).json({ success: false, message: `There has been an error creating your new spot:${error.message}` });
+        res.status(400).json({ success: false, result: `There has been an error creating your new spot:${error.message}` });
       }
 
 
     } else {
-      res.status(401).send({ success: false, message: 'You are authenticated but you should not try to access this endpoint this way... [create New Spot]' })
+      res.status(401).send({ success: false, result: 'You are authenticated but you should not try to access this endpoint this way... [create New Spot]' })
     }
   }
 }

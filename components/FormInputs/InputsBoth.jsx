@@ -10,7 +10,7 @@ const InputsBoth = ({
 
     // Logic to deliver valid error msg or red border color
     const validStyling = () => {
-        if (formikError && formikHasFieldBeenTouched) {
+        if (formikError[formikName] && formikHasFieldBeenTouched) {
             return {
                 border: "border-2 border-rose-500",
                 message: <span className="text-red-600">{formikError[formikName]}</span>

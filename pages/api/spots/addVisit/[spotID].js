@@ -23,14 +23,14 @@ export default async function APIHandler(req, res) {
 
 
     if (!session) { // If not authenticated
-        res.status(401).json({ success: false, message: 'You should be authenticated to access this endpoint [add to Visits count]' });
+        res.status(401).json({ success: false, result: 'You should be authenticated to access this endpoint [add to Visits count]' });
         return
 
 
 
 
     } else if (await isAuthor(spotID, session.userID)) { // if the author tries to remove his own visited mark camp...
-        res.status(401).json({ success: false, message: 'You are the owner of the camp, you cannot remove your visited label [add to Visits count]' });
+        res.status(401).json({ success: false, result: 'You are the owner of the camp, you cannot remove your visited label [add to Visits count]' });
         return
 
 
@@ -72,20 +72,20 @@ export default async function APIHandler(req, res) {
                 );
 
 
-                res.status(200).json({ success: true, message: spotToEdit });
+                res.status(200).json({ success: true, result: spotToEdit });
 
 
 
             } catch (error) {
                 console.log(error);
-                res.status(400).json({ success: false, message: `There has been an error adding a visit to the spot: ${error.message}` });
+                res.status(400).json({ success: false, result: `There has been an error adding a visit to the spot: ${error.message}` });
             }
 
 
 
 
         } else {
-            res.status(401).json({ success: false, message: 'You are authenticated but you should not try to access this endpoint this way [add to Visits count]...' });
+            res.status(401).json({ success: false, result: 'You are authenticated but you should not try to access this endpoint this way [add to Visits count]...' });
         }
     }
 }

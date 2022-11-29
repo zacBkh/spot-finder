@@ -33,7 +33,7 @@ export default async function newUser(req, res) {
             // Helper fx that creates tokens
             const token = await createToken(newUser._id, newUser.email, "1d")
             if (!token.success) {
-                res.status(400).json({ success: token.success, message: token.result });
+                res.status(400).json({ success: token.success, result: token.result });
                 console.log("error", token.result)
 
                 return // stop fx execution if failure (will not send email)
@@ -45,15 +45,15 @@ export default async function newUser(req, res) {
             // Fx that sends email
             const sender = await sendVerifEmail("zachariedupain@hotmail.fr", finalUserData, token.result)
             if (!sender.success) {
-                res.status(400).json({ success: sender.success, message: sender.result });
+                res.status(400).json({ success: sender.success, result: sender.result });
             } else {
-                res.status(200).json({ success: sender.success, message: sender.result });
+                res.status(200).json({ success: sender.success, result: sender.result });
             }
 
 
 
         } else {
-            res.status(422).json({ success: false, message: 'User already exists' });
+            res.status(422).json({ success: false, result: 'User already exists' });
         }
 
 

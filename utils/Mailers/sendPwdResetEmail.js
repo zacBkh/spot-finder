@@ -5,7 +5,7 @@ import capitalize from '../capitalize';
 const sendPwdResetEmail = async (userRecipient, userName, token) => {
 
     if (!userRecipient || !userName || !token) {
-        return { success: false, message: `At least one parameter to send the email is missing [sendPwdReset email]` }
+        return { success: false, result: `At least one parameter to send the email is missing [sendPwdReset email]` }
     }
 
     try {

@@ -91,39 +91,39 @@ const allSpots = ({ spots }) => {
 
 
     // Toast after pwd change attempd
-    const notifyToast = () => {
-        // toast.error("Error Notification !", {
-        //     position: toast.POSITION.TOP_LEFT
-        // });
-
-
-        toast.success("Password changed!", {
+    const notifyToast = (text, id) => {
+        toast.success(text, {
             position: toast.POSITION.BOTTOM_LEFT,
-            toastId: "123" // prevent duplicates
+            toastId: id // prevent duplicates
         });
-
-        // toast("Default Notification !");
-
-        // toast.warn("Warning Notification !", {
-        //     position: toast.POSITION.BOTTOM_LEFT
-        // });
-
-        // toast.info("Info Notification !", {
-        //     position: toast.POSITION.BOTTOM_CENTER
-        // });
-
-        // toast("Custom Style Notification with css class!", {
-        //     position: toast.POSITION.BOTTOM_RIGHT,
-        //     className: 'foo-bar'
-        // });
     }
 
     // Display toaster --> TO IMPROVE ?
     useEffect(() => {
         console.log('-- RUNNING IN BROWSER -- ')
-        const geta = localStorage.getItem("toastConfResetPwd")
-        if (geta === "true") { notifyToast() }
-        localStorage.setItem("toastConfResetPwd", false);
+
+
+        // Reset PWD
+        const shouldToastPwdReset = localStorage.getItem("toast.resetPwd")
+        if (shouldToastPwdReset === "true") { notifyToast("Password changed!", "resetPwd") }
+        localStorage.removeItem("toast.resetPwd");
+
+
+        // Added new CG
+        const shouldToastNewSpot = localStorage.getItem("toast.newSpot")
+        if (shouldToastNewSpot === "true") { notifyToast("You added a new spot successfully!", "addSpot") }
+        localStorage.removeItem("toast.newSpot");
+
+
+        // Edit CG
+        const shouldToastEditSpot = localStorage.getItem("toast.editSpot")
+        if (shouldToastEditSpot === "true") { notifyToast("You edited your spot successfully!", "editSpot") }
+        localStorage.removeItem("toast.editSpot");
+
+        // Delete CG
+        const shouldToastDeleteSpot = localStorage.getItem("toast.deleteSpot")
+        if (shouldToastDeleteSpot === "true") { notifyToast("You deleted your spot successfully!", "deleteSpot") }
+        localStorage.removeItem("toast.deleteSpot");
     }, [])
 
 
@@ -138,11 +138,10 @@ const allSpots = ({ spots }) => {
                 className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Blue
             </button>
 
-            {
-                <ToastContainer
-                    autoClose={4000}
-                />
-            }
+            <ToastContainer
+                autoClose={4000}
+                style={{ width: "400px" }}
+            />
 
 
 

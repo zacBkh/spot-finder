@@ -26,14 +26,14 @@ export default async function APIHandler(req, res) {
 
 
     if (!session) { // If not authenticated
-        res.status(401).json({ success: false, message: 'You should be authenticated to access this endpoint [amend existing Spot]' });
+        res.status(401).json({ success: false, result: 'You should be authenticated to access this endpoint [amend existing Spot]' });
         return
 
 
 
     } else if (!await isAuthor(spotID, session.userID)) { // if not author
         console.log("session.userID", session.userID)
-        res.status(401).json({ success: false, message: 'You are not the owner of the camp [amend existing Spot]' });
+        res.status(401).json({ success: false, result: 'You are not the owner of the camp [amend existing Spot]' });
         return
 
 
@@ -58,12 +58,11 @@ export default async function APIHandler(req, res) {
 
                 console.log('FOUND SPOT TO EDIT -->', spotToEdit);
 
-                res.json({ SpotEdited: spotToEdit });
-
+                res.status(200).json({ success: true, result: spotToEdit });
 
             } catch (error) {
                 console.log(error);
-                res.json({ error });
+                res.status(200).json({ success: false, result: error });
             }
 
 
@@ -91,7 +90,7 @@ export default async function APIHandler(req, res) {
 
 
         else {
-            res.status(401).json({ success: false, message: 'You are authenticated but you should not try to access this endpoint this way [amend existing Spot]...' });
+            res.status(401).json({ success: false, result: 'You are authenticated but you should not try to access this endpoint this way [amend existing Spot]...' });
         }
     }
 }

@@ -6,21 +6,22 @@ import Image from 'next/image'
 import imageTesting from "../public/imageTesting.jpg"
 
 
-const SpotCard = ({ title, description, id, categories,author }) => {
+const SpotCard = ({ title, description, id, categories, author }) => {
     const router = useRouter()
 
 
 
 
     const clickDetailsHandler = () => {
-        console.log("ID", id)
         router.push(`/spots/${id}`)
     }
 
 
     return (
         <>
-            <div onClick={clickDetailsHandler} className=" mb-6">
+            <div
+                onClick={clickDetailsHandler}
+                className="mb-6 cursor-pointer">
 
                 <div className=
                     "max-w-sm		">
