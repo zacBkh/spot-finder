@@ -60,7 +60,7 @@ const SignIn = ({ }) => {
 
         setStatus("If an account is linked to this address, you will receive an email to reset your password.")
 
-        
+
         if (isNotUser.result === true) { return } // if no user has been found STOP
 
         if (isNotUser.provider !== "credentials") { return } // if user uses oAuth STOP
