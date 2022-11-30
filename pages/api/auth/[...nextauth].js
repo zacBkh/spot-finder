@@ -14,6 +14,8 @@ import connectMongo from "../../../utils/connectMongo";
 
 import { compare } from 'bcryptjs';
 import sendWelcomeEmail from "../../../utils/Mailers/sendWelcomeEmail";
+import isUserVerified from "../../../utils/Auth/isUserVerified";
+
 
 
 // Authentication logic
@@ -121,10 +123,15 @@ export const authOptions = {
 
         //The session callback is called whenever a session is checked.
         async session({ session, token, user }) {
+            const isCurrentUserVerified = await isUserVerified(token.sub)
+
             // Send properties to the client, like an access_token and user id from a provider.
+            // Loading session with custom values
             session.accessToken = token.accessToken // XX
             session.userID = token.sub
             session.user.provider = token.provider
+            session.user.emailVerified = isCurrentUserVerified.result
+            // session.user.emailVerified = user.emailVerified
             // session.user.id = token.id
             console.log("sess from SESSION", session)
             console.log("token from SESSION", token)

@@ -1,8 +1,10 @@
-
 import SpotCard from "../../components/SpotCard";
 import { useState, useEffect } from "react";
 
+import { unstable_getServerSession } from "next-auth/next"
+import { authOptions } from '../api/auth/[...nextauth]';
 
+import capitalize from "../../utils/capitalize";
 
 import FilterSpots from "../../components/CategoriesCheckboxes/FilterSpots";
 
@@ -21,6 +23,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 export const getServerSideProps = async (context) => {
 
+
+    const session = await unstable_getServerSession(context.req, context.res, authOptions)
+
     try {
         // Executing the fx that will fetch all Spots
         const resultFetchGET = await GETSpotFetcherAll()
@@ -29,6 +34,7 @@ export const getServerSideProps = async (context) => {
         return {
             props: {
                 spots: resultFetchGET,
+                currentUserName: session ? session.user.name : null
             },
         };
 
@@ -50,12 +56,11 @@ export const getServerSideProps = async (context) => {
 
 
 
-const allSpots = ({ spots }) => {
+const allSpots = ({ spots, currentUserName }) => {
     const [activeCategories, setActiveCategories] = useState([]);
 
     const [filterMode, setFilterMode] = useState(false);
 
-    const [toastNotif, setToastNotif] = useState(false);
 
 
 
@@ -98,38 +103,41 @@ const allSpots = ({ spots }) => {
         });
     }
 
+
+    // Capitalize and take only first string of current user
+    if (currentUserName) { currentUserName = capitalize(currentUserName.split(" ")[0]) }
+
+
     // Display toaster
     useEffect(() => {
-        console.log('-- RUNNING IN BROWSER -- ')
-
 
         const getLS = localStorage.getItem("toast");
         console.log('getLS', getLS)
         switch (getLS) {
 
             case "newUser":
-                notifyToast(success, "Welcome to spot-finder!", "newUser")
+                notifyToast("success", "Welcome to spot-finder!", "newUser")
+                break;
+
+            case "loggedIn":
+                notifyToast("success", `Hi ${currentUserName}, welcome back!`, "newUser")
                 break;
 
             case "newSpot":
-                notifyToast(success, "Password changed!", "resetPwd");
+                notifyToast("success", "Password changed!", "resetPwd");
                 break;
 
             case "editSpot":
-                notifyToast(success, "You edited your spot successfully!", "editSpot");
+                notifyToast("success", "You edited your spot successfully!", "editSpot");
                 break;
 
             case "deleteSpot":
-                notifyToast(success, "You deleted your spot successfully!", "deleteSpot");
+                notifyToast("success", "You deleted your spot successfully!", "deleteSpot");
                 break;
 
             case "resetPwd":
-                notifyToast(success, "Password changed!", "resetPwd")
+                notifyToast("success", "Password changed!", "resetPwd")
                 break;
-
-
-            default:
-                console.log("MAN WTF IDK THAT");
         }
 
         localStorage.removeItem("toast");

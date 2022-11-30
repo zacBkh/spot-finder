@@ -1,13 +1,14 @@
 import connectMongo from "../connectMongo";
 import User from "../../models/user";
 
+
 const isUserVerified = async (userID) => {
 
     await connectMongo();
 
     const isVerified = await User.findById(userID).select("emailVerified")
 
-    console.log("miracle", isVerified) // will return obj with obect ID
+    console.log("isVerified??", isVerified) // will return obj with obect ID
 
     if (isVerified === null) { // If could not find user...
         return {

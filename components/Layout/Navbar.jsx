@@ -42,15 +42,7 @@ const Navigation = () => {
                             </Link>
                         </li>
 
-                        <li
-                            className={`
-                                text-base 2xl:text-lg medium 
-                            `}>
-                            <Link
-                                href="/api/tester">
-                                <a>Tester</a>
-                            </Link>
-                        </li>
+
 
 
                         <li
@@ -75,17 +67,6 @@ const Navigation = () => {
                             </Link>
                         </li>
 
-
-
-                        <li
-                            className={`
-                                text-base 2xl:text-lg medium
-                            `}>
-                            <Link
-                                href="/login">
-                                <a>Login Manual</a>
-                            </Link>
-                        </li>
 
 
                         {status !== "authenticated" &&
@@ -152,9 +133,7 @@ const Navigation = () => {
                             className={`
                                 text-base 2xl:text-lg medium
                             `}>
-                            {status === "authenticated" && <p> Welcome {session.user.name}! </p>}
-
-
+                            {status === "authenticated" && <p> {session.user.name} </p>}
                         </li>
 
                     </ul>

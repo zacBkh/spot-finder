@@ -201,6 +201,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
 
                 // if auth OK...
             } else {
+                localStorage.setItem("toast", "loggedIn");
                 router.push(`/spots/allSpots`)
             }
         }

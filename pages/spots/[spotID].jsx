@@ -47,7 +47,7 @@ export const getServerSideProps = async (context) => {
         return {
             props: {
                 indivSpot: resultFetchGETOne,
-                currentUserID: session ? session.userID : null,
+                currentUserID: session ? session.userID : null
             },
         };
 
