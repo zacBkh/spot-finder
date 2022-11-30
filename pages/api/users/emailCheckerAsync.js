@@ -1,6 +1,8 @@
 import connectMongo from "../../../utils/connectMongo"
 import User from "../../../models/user"
 
+// USE for Async valid but also for reset PWD
+
 // Function return values
 // TRUE : EMAIL DOES NOT EXIST YET IN DB
 // FALSE : EMAIL ALREADY EXIST! 
@@ -21,7 +23,7 @@ export default async function emailChecker(req, res) {
                 return res.json({ success: true, result: true })
 
             } else {  // exist 
-                return res.json({ success: true, result: false })
+                return res.json({ success: true, result: false, provider: queryDB.provider })
             }
 
 

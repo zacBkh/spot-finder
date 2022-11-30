@@ -54,15 +54,16 @@ const SignIn = ({ }) => {
         // logic send email there
         console.log('email', email)
 
-        // Check if email exists
+        // Check if email exists && if provider is not oAuth
         const isNotUser = await checkEmailUniq(email.toLowerCase())
-
-
         console.log('isNotUser', isNotUser)
 
         setStatus("If an account is linked to this address, you will receive an email to reset your password.")
 
+        
         if (isNotUser.result === true) { return } // if no user has been found STOP
+
+        if (isNotUser.provider !== "credentials") { return } // if user uses oAuth STOP
 
 
         const sendPwdRecover = await sendPwdResetMail(email)
@@ -120,7 +121,7 @@ const SignIn = ({ }) => {
             </>
         )
 
-    
+
 
 
         // If in forgot password
