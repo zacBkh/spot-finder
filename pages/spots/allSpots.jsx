@@ -91,8 +91,8 @@ const allSpots = ({ spots }) => {
 
 
     // Toast after pwd change attempd
-    const notifyToast = (text, id) => {
-        toast.success(text, {
+    const notifyToast = (type, text, id) => {
+        toast[type](text, {
             position: toast.POSITION.BOTTOM_LEFT,
             toastId: id // prevent duplicates
         });
@@ -106,21 +106,27 @@ const allSpots = ({ spots }) => {
         const getLS = localStorage.getItem("toast");
         console.log('getLS', getLS)
         switch (getLS) {
+
+            case "newUser":
+                notifyToast(success, "Welcome to spot-finder!", "newUser")
+                break;
+
             case "newSpot":
-                notifyToast("Password changed!", "resetPwd");
+                notifyToast(success, "Password changed!", "resetPwd");
                 break;
 
             case "editSpot":
-                notifyToast("You edited your spot successfully!", "editSpot");
+                notifyToast(success, "You edited your spot successfully!", "editSpot");
                 break;
 
             case "deleteSpot":
-                notifyToast("You deleted your spot successfully!", "deleteSpot");
+                notifyToast(success, "You deleted your spot successfully!", "deleteSpot");
                 break;
 
             case "resetPwd":
-                notifyToast("Password changed!", "resetPwd")
+                notifyToast(success, "Password changed!", "resetPwd")
                 break;
+
 
             default:
                 console.log("MAN WTF IDK THAT");

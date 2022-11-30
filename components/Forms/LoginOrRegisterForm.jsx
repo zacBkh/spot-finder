@@ -40,13 +40,11 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
     const { query: { error: oAuthError } } = router; // Deep destructuring
     console.log('oAuthError', oAuthError)
 
-    // if (oAuthError === "OAuthAccountNotLinked") { setActionStatus("You already signed in with another provider") }
 
     // Display erorr msg if user already signed in with another provider
     useEffect(() => {
         if (oAuthError === "OAuthAccountNotLinked") {
             setActionStatus("You already signed in with another provider")
-            console.log('-----1-----')
         }
     }, [oAuthError])
 
@@ -166,7 +164,6 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
 
     // Formik - Submit Fx 
     const onSubmitFormik = async (formValues) => {
-
         const { email, password } = formValues;
 
         if (action === "Register") { // REGISTER MODE
@@ -177,9 +174,11 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
                 setActionStatus(userCreation.message)
 
             } else {
+                localStorage.setItem("toast", "newUser");
                 // If registration OK, log the user in and redirect to all spot
                 await signIn('credentials', { email, password, callbackUrl: 'http://localhost:3008/spots/allSpots' });
             }
+
 
 
 

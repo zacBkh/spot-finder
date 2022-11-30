@@ -123,10 +123,18 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
             // if success...
         } else {
-            toast.success("You marked this spot as visited!", {
-                position: toast.POSITION.BOTTOM_LEFT,
-                toastId: "connectToMarkVisitedSuccess"
-            });
+
+            if (!didUserVisitSpot) {
+                toast.success("You marked this spot as visited!", {
+                    position: toast.POSITION.BOTTOM_LEFT,
+                    toastId: "connectToMarkVisitedSuccess"
+                });
+            } else {
+                toast.success("You removed this spot from visited!", {
+                    position: toast.POSITION.BOTTOM_LEFT,
+                    toastId: "connectToMarkVisitedSuccess"
+                });
+            }
 
             setDidUserVisitSpot((prevState) => !prevState)
             setNbOfVisit((prevState) => didUserVisitSpot ? prevState - 1 : prevState + 1)

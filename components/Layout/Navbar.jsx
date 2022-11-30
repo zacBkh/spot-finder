@@ -123,13 +123,10 @@ const Navigation = () => {
                                     className={`
                                     text-base 2xl:text-lg medium
                                 `}>
-                                    <Link
-                                        href="/api/auth/signout">
-                                        <a onClick={
-                                            () => signOut({ callbackUrl: 'http://localhost:3008/spots/allSpots' })
-                                        }>Logout
-                                        </a>
-                                    </Link>
+                                    <a onClick={
+                                        () => signOut({ redirect: false })
+                                    }>Logout
+                                    </a>
                                 </li>
                         }
 
