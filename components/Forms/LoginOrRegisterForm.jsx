@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import { addUserHandler, checkEmailUniq } from "../../utils/APIfetchers";
 
@@ -25,8 +25,6 @@ import { signIn } from "next-auth/react"
 
 const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPassword }) => {
 
-    const router = useRouter()
-
 
     // For toggler password visible
     const [isPwdVisible, setIsPwdVisible] = useState(false);
@@ -34,8 +32,28 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
     // Store login failure/success info
     const [actionStatus, setActionStatus] = useState(null);
 
-    // Check if email field is focused, if yes will trigger email async valid, otherwise no (perf)
-    // const [isEmailFocused, setisEmailFocused] = useState(null);
+
+
+
+    const router = useRouter()
+
+    const { query: { error: oAuthError } } = router; // Deep destructuring
+    console.log('oAuthError', oAuthError)
+
+    // if (oAuthError === "OAuthAccountNotLinked") { setActionStatus("You already signed in with another provider") }
+
+    // Display erorr msg if user already signed in with another provider
+    useEffect(() => {
+        if (oAuthError === "OAuthAccountNotLinked") {
+            setActionStatus("You already signed in with another provider")
+            console.log('-----1-----')
+        }
+    }, [oAuthError])
+
+
+
+
+
 
 
 
