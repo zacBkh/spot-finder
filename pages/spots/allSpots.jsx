@@ -95,12 +95,23 @@ const allSpots = ({ spots, currentUserName }) => {
 
 
 
-    // Toast after pwd change attempd
-    const notifyToast = (type, text, id) => {
-        toast[type](text, {
-            position: toast.POSITION.BOTTOM_LEFT,
-            toastId: id // prevent duplicates
-        });
+    // Toast display function
+    const notifyToast = (type, text, id, icon) => {
+        if (type === "default") {
+            toast(text, {
+                position: toast.POSITION.BOTTOM_LEFT,
+                toastId: id, // prevent duplicates
+                icon: icon
+            });
+
+        } else {
+
+            toast[type](text, {
+                position: toast.POSITION.BOTTOM_LEFT,
+                toastId: id, // prevent duplicates
+                icon: icon
+            });
+        }
     }
 
 
@@ -113,6 +124,9 @@ const allSpots = ({ spots, currentUserName }) => {
 
         const getLS = localStorage.getItem("toast");
         console.log('getLS', getLS)
+        if (getLS === null) { return }
+
+
         switch (getLS) {
 
             case "newUser":
@@ -124,11 +138,11 @@ const allSpots = ({ spots, currentUserName }) => {
                 break;
 
             case "newSpot":
-                notifyToast("success", "Password changed!", "resetPwd");
+                notifyToast("success", "Successfully created a new spot!", "newSpot");
                 break;
 
             case "editSpot":
-                notifyToast("success", "You edited your spot successfully!", "editSpot");
+                notifyToast("info", "You edited your spot successfully!", "editSpot");
                 break;
 
             case "deleteSpot":
@@ -138,7 +152,12 @@ const allSpots = ({ spots, currentUserName }) => {
             case "resetPwd":
                 notifyToast("success", "Password changed!", "resetPwd")
                 break;
+
+            case "deleteUser":
+                notifyToast("info", "You deleted your account", "newSpot", "💔");
+                break;
         }
+
 
         localStorage.removeItem("toast");
 
@@ -150,11 +169,7 @@ const allSpots = ({ spots, currentUserName }) => {
     return (
         <>
 
-            <button
-                onClick={notifyToast}
-                type="button"
-                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Blue
-            </button>
+
 
             <ToastContainer
                 autoClose={4000}

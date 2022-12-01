@@ -16,11 +16,6 @@ const tokenGen = async (resArg) => {
 
 
 
-
-
-
-
-
 async function showAllSpots(resArg) {
     const DBData = await Spot.find({})
     return resArg.send(DBData);
@@ -32,10 +27,6 @@ async function deleteAllSpots(resArg) {
     const DBData = await Spot.deleteMany({})
     return resArg.send(DBData);
 }
-
-
-
-
 
 
 
@@ -56,7 +47,12 @@ async function checkUserExists(resArg, email) {
 }
 
 
+//Delete all users except
+async function deleteAllUsersBut(resArg, userIDToKeep) {
+    const DBData = await User.deleteMany({ _id: { $nin: [userIDToKeep] } })
 
+    return resArg.send(DBData);
+}
 
 
 
@@ -72,6 +68,7 @@ export default async function TESTER(req, res) {
 
     await showAllUsers(res)
     // await deleteAllUsers(res)
+    // await deleteAllUsersBut(res, "637c4b8252e6f480e190104f")
     // await checkUserExists(res, "roblaf93@gmail.com")
     // await tokenGen(res)
 

@@ -4,24 +4,19 @@ import User from '../../../models/user';
 
 import { hash } from 'bcryptjs';
 
-// import { unstable_getServerSession } from "next-auth/next"
-// import { authOptions } from "../auth/[...nextauth]"
+import { unstable_getServerSession } from "next-auth/next"
+import { authOptions } from "../auth/[...nextauth]"
 
 
 // RIGHT NOW ONLY WORKING FOR PASSWORD CHANGE
 
 // Edit some user data including pwd
 // Receive payload (req.body = new userDATA) and userID in URL (req.query) 
-export default async function editUserData(req, res) {
-
-    console.log('req.body -->', req.body);
-
-    const { userID } = req.query
-    console.log("userID -->", userID)
-
+export default async function editOrDeleteUser(req, res) {
 
     await connectMongo();
 
+    const { userID } = req.query
 
     // If does not find user
     const userExist = await User.findById(userID)
@@ -32,6 +27,9 @@ export default async function editUserData(req, res) {
 
 
     if (req.method === "PATCH") {
+
+        console.log('req.body -->', req.body);
+
         try {
 
             //Hash password
@@ -59,30 +57,41 @@ export default async function editUserData(req, res) {
 
 
     } else if (req.method === "DELETE") {
-        // try {
+        // Protecting the API endpoint
+        const session = await unstable_getServerSession(req, res, authOptions)
 
-        console.log("WANT TO DELETE USER")
+        try {
 
-        //     console.log('CONNECTED TO MONGO FOR EDIT !');
-        //     console.log('Spot to delete --> ', spotID); // id of the form to DELETE
+            if (!session) { // If not authenticated
+                res.status(401).json({ success: false, result: 'You should be authenticated to access this endpoint [delete User]' });
+                return
+            }
+
+            if (session.userID !== userID) {
+                res.status(401).json({ success: false, result: 'You cannot delete the account of another user [delete User]' });
+                return
+            }
 
 
-        //     const spotToDelete = await Spot.findByIdAndDelete(spotID);
-        //     console.log('SPOT DELETED -->', spotToDelete);
+            // Delete user
+            // Mongoose middleware also delete corresponding documents + visited marks
+            await User.findByIdAndDelete(userID);
 
-        //     res.json({ SpotDeleted: spotToDelete });
+            res.status(200).json({ success: true, result: "The user has been deleted" });
+
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({ success: false, result: `There has been an arror deleting the user: ${error.message}` });
+        }
 
 
-        // } catch (error) {
-        //     console.log(error);
-        //     res.json({ error });
-        // }
+
 
 
 
 
     } else {
-        res.status(401).json({ success: false, result: 'You are authorized but you should not try to access this endpoint this way [amend existing User]...' });
+        res.status(401).json({ success: false, result: 'You are authorized but you should not try to access this endpoint this way [edit/delete existing User]...' });
     }
 
 }

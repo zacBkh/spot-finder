@@ -109,6 +109,58 @@ export
 
 
 
+// // Delete a user
+// export
+//     const deleteUserHandler = async (enteredData) => {
+
+//         console.log("USER TO DELETE", enteredData)
+
+//         // POSTING to MONGO
+//         const response = await fetch(
+//             "/api/users/delete",
+//             {
+//                 method: "POST",
+//                 body: JSON.stringify(enteredData), //conv to JSON
+//                 headers: { "Content-Type": "application/json" }
+//             }
+//         )
+
+
+//         const data = await response.json()
+//         console.log("data", data)
+//         return data // returning data for handling if mistake
+//     }
+
+
+
+// // Delete a user
+export
+    const deleteUserHandler = async (userID) => {
+
+        console.log("USER TO DELETE", userID)
+        console.log("TYPEEE", typeof userID)
+
+        // POSTING to MONGO
+        const response = await fetch(
+            `/api/users/${userID}`,
+            {
+                method: "DELETE",
+            }
+        )
+
+
+        const data = await response.json()
+        console.log("data", data)
+        return data // returning data for handling if mistake
+    }
+
+
+
+
+
+
+
+
 
 
 // Check email uniqueness in DB for Yup async valid
@@ -158,8 +210,8 @@ export
     }
 
 
-    
-// Change PWD in DB
+
+// Change PWD in DB ONLY FOR NOW CHANGE PWD
 export
     const editUserHandler = async (newPwd, userID) => {
         console.log("userID", userID)

@@ -33,7 +33,7 @@ export default async function APIHandler(req, res) {
 
     } else if (!await isAuthor(spotID, session.userID)) { // if not author
         console.log("session.userID", session.userID)
-        res.status(401).json({ success: false, result: 'You are not the owner of the camp [amend existing Spot]' });
+        res.status(401).json({ success: false, result: 'You are not the owner of the spot [amend existing Spot]' });
         return
 
 

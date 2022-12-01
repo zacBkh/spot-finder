@@ -95,7 +95,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
 
 
-    // This will be rendered in the toast
+    // // This will be rendered in the toast
     const CustomToastWithLink = () => (
         <>
             <Link
