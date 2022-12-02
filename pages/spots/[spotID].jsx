@@ -114,9 +114,8 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
         // if failure in add success and user not logged in...
         if (!addVisit.success && !currentUserID) {
-            console.log('111')
             toast.error(CustomToastWithLink, {
-                position: toast.POSITION.BOTTOM_LEFT,
+                position: "bottom-left",
                 toastId: "connectToMarkVisitedSuccess"
             });
 
@@ -126,12 +125,12 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
             if (!didUserVisitSpot) {
                 toast.success("You marked this spot as visited!", {
-                    position: toast.POSITION.BOTTOM_LEFT,
+                    position: "bottom-left",
                     toastId: "connectToMarkVisitedSuccess"
                 });
             } else {
                 toast.success("You removed this spot from visited!", {
-                    position: toast.POSITION.BOTTOM_LEFT,
+                    position: "bottom-left",
                     toastId: "connectToMarkVisitedSuccess"
                 });
             }

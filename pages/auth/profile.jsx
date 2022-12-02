@@ -64,8 +64,9 @@ const MyProfile = ({ currentUserSession }) => {
         // For toaster notif
         localStorage.setItem("toast", "deleteUser");
 
-        signOut();
-        router.push("/spots/allSpots");
+
+        // Signing out user and redirect
+        signOut({ callbackUrl: 'http://localhost:3008/spots/allSpots' })
     }
 
 

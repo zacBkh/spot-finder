@@ -1,6 +1,8 @@
 import SpotCard from "../../components/SpotCard";
 import { useState, useEffect } from "react";
 
+import { useRouter } from 'next/router'
+
 import { unstable_getServerSession } from "next-auth/next"
 import { authOptions } from '../api/auth/[...nextauth]';
 
@@ -99,7 +101,7 @@ const allSpots = ({ spots, currentUserName }) => {
     const notifyToast = (type, text, id, icon) => {
         if (type === "default") {
             toast(text, {
-                position: toast.POSITION.BOTTOM_LEFT,
+                position: "bottom-left",
                 toastId: id, // prevent duplicates
                 icon: icon
             });
@@ -107,7 +109,7 @@ const allSpots = ({ spots, currentUserName }) => {
         } else {
 
             toast[type](text, {
-                position: toast.POSITION.BOTTOM_LEFT,
+                position: "bottom-left",
                 toastId: id, // prevent duplicates
                 icon: icon
             });
@@ -157,11 +159,24 @@ const allSpots = ({ spots, currentUserName }) => {
                 notifyToast("info", "You deleted your account", "newSpot", "💔");
                 break;
         }
-
-
         localStorage.removeItem("toast");
-
     }, [])
+
+
+    const router = useRouter()
+    const message = router.query.alreadyLoggedIn
+    // To get the URL param for toast
+    useEffect(() => {
+        if (message) {
+            toast.info("You are already logged in!", {
+                position: "bottom-left",
+                toastId: "alreadyLoggedIn", // prevent duplicates
+            });
+        }
+    }, [router.isReady])
+
+
+
 
 
     // ES6 filtering way
@@ -169,13 +184,10 @@ const allSpots = ({ spots, currentUserName }) => {
     return (
         <>
 
-
-
             <ToastContainer
                 autoClose={4000}
                 style={{ width: "400px" }}
             />
-
 
 
             <div className="flex flex-row justify-center">

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 import LoginOrRegisterForm from "../../components/Forms/LoginOrRegisterForm"
 
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 
 import { sendPwdResetMail } from "../../utils/APIfetchers";
@@ -13,6 +14,11 @@ import { useFormik } from "formik"
 import * as Yup from "yup";
 
 import { checkEmailUniq } from "../../utils/APIfetchers";
+
+
+
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 
 // Component
@@ -32,6 +38,20 @@ const SignIn = ({ }) => {
 
 
 
+
+    // Toast (if land on this page due to middleware redirection)
+    const router = useRouter()
+    const message = router.query.mustLogIn
+
+    // To get the URL param for toast
+    useEffect(() => {
+        if (message) {
+            toast.info(`You must be logged in to ${message}!`, {
+                position: "top-center",
+                // toastId: "mustBeLoggedIn", // prevent duplicates
+            });
+        }
+    }, [router.isReady])
 
 
 
@@ -112,6 +132,12 @@ const SignIn = ({ }) => {
     if (!isForgotPasswordMode) {
         return (
             <>
+                <ToastContainer
+                    autoClose={4000}
+                    style={{ width: "400px" }}
+                />
+
+
                 <LoginOrRegisterForm
                     action={"Login"}
                     headerMsg={"Welcome back! Please log in"}
@@ -130,7 +156,6 @@ const SignIn = ({ }) => {
 
         return (
             <>
-
                 <section
                     className="bg-gray-50 mt-2 flex items-center justify-center gap-x-12">
 

@@ -99,10 +99,12 @@ const Navigation = () => {
                                     </Link>
 
                                 </li>
+
                                 :
+
                                 <li
                                     className={`
-                                    text-base 2xl:text-lg medium
+                                    text-base 2xl:text-lg medium cursor-pointer	
                                 `}>
                                     <a onClick={
                                         () => signOut({ redirect: false })

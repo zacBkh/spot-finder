@@ -16,6 +16,9 @@ import Link from "next/link"
 import Image from 'next/image'
 
 
+import { Button, Spinner } from "flowbite-react";
+
+
 
 import { signIn } from "next-auth/react"
 
@@ -37,12 +40,15 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
 
     const router = useRouter()
 
-    const { query: { error: oAuthError } } = router; // Deep destructuring
-    console.log('oAuthError', oAuthError)
+
+
+    const { query: { error: oAuthError } } = router; // Deep destructuring + alias
 
 
     // Display erorr msg if user already signed in with another provider
     useEffect(() => {
+        if (action !== "Login") { return }
+
         if (oAuthError === "OAuthAccountNotLinked") {
             setActionStatus("You already signed in with another provider")
         }
@@ -115,13 +121,10 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
                 async (valueToTest) => {
                     if (action === "Register") {
 
-                        console.log('valueToTest', valueToTest)
-
                         if (!valueToTest) { // if no value in email field
                             return
 
                         } else {
-                            console.log("1111111")
                             const isUniq = await checkEmailUniq(valueToTest)
                             return await isUniq.result
                         }
@@ -234,6 +237,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
 
     // Should button be disabled?
     const shouldFormBeDisabled = () => {
+        if (formik.isSubmitting) { return true }
         if (!formik.dirty) { return true }
         if (Object.keys(formik.errors).length !== 0) { return true }
         return false
@@ -379,17 +383,23 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
                             }
 
 
-
-
                             {/* lOGIN OR REGISTER */}
+
                             <button
                                 disabled={shouldFormBeDisabled()}
                                 type="submit"
-                                className="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300 mb-2
+                                className="
+                                bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300 mb-2
                                 disabled:opacity-50 disabled:cursor-not-allowed">{action}
+                                {formik.isSubmitting &&
+                                    <Spinner
+                                        size="sm"
+                                        light={true}
+                                        className="ml-2"
+                                    />
+                                }
                             </button>
                         </form>
-
 
                         <span className="text-red-600">{actionStatus}</span>
 
