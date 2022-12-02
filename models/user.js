@@ -35,6 +35,16 @@ const userSchema = new Schema(
             type: String,
             required: true,
         },
+
+
+        spotsOwned:[
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Spot",
+                default: []
+            },
+    ]
+
     }, { timestamps: true }
 );
 

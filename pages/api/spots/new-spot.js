@@ -1,6 +1,6 @@
 import connectMongo from '../../../utils/connectMongo';
 import Spot from '../../../models/spot';
-
+import User from '../../../models/user';
 
 // End point protection
 import { unstable_getServerSession } from "next-auth/next"
@@ -29,13 +29,22 @@ export default async function newSpot(req, res) {
         console.log('CONNECTED TO MONGO !');
         console.log("bodypayloadfrom API ROUTE", req.body)
 
-        const newCamp = await Spot.create(req.body);
+        const newSpot = await Spot.create(req.body);
         //Will create the document + save() (that's why we await)
 
-        console.log('CREATED DOCUMENT -->', newCamp);
+        console.log('CREATED DOCUMENT -->', newSpot);
+        console.log('IDD -->', newSpot._id);
 
 
-        res.status(200).json({ success: true, result: newCamp });
+
+        // Adding in the user model the spot he owns
+        const user = await User.findByIdAndUpdate(
+          session.userID,
+          { $addToSet: { spotsOwned: newSpot._id } },
+        );
+
+
+        res.status(200).json({ success: true, result: newSpot });
 
 
       } catch (error) {

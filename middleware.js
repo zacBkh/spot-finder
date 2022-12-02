@@ -9,7 +9,7 @@
 
 
 const arrayOfProtectedPaths = [
-    "/protected", "/spots/newSpot", "/auth/profile", "/auth/profile"
+    "/spots/newSpot", "/auth/profile"
 ]
 
 

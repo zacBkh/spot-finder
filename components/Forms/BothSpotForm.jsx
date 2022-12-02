@@ -102,9 +102,6 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
             visited: visitedField
         };
 
-
-
-
         onAddOrEditFx(finalNewSpotObject) // submit data
     }
 

@@ -132,11 +132,11 @@ const allSpots = ({ spots, currentUserName }) => {
         switch (getLS) {
 
             case "newUser":
-                notifyToast("success", "Welcome to spot-finder!", "newUser")
+                notifyToast("success", `Hi ${currentUserName}, welcome to spot-finder!`, "newUser")
                 break;
 
             case "loggedIn":
-                notifyToast("success", `Hi ${currentUserName}, welcome back!`, "newUser")
+                notifyToast("success", `Hi ${currentUserName}, welcome back!`, "login")
                 break;
 
             case "newSpot":

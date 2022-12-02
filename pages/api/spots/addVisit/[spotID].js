@@ -1,6 +1,5 @@
 import connectMongo from '../../../../utils/connectMongo';
 import Spot from '../../../../models/spot';
-import User from '../../../../models/user';
 
 import isAuthor from '../../../../utils/Auth/isAuthor';
 
