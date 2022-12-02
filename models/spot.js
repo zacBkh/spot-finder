@@ -1,5 +1,6 @@
 import { Schema, model, models } from 'mongoose';
 import spotCategories from '../utils/spotCategories';
+import User from './user';
 
 const spotSchema = new Schema(
     {
@@ -74,7 +75,7 @@ const spotSchema = new Schema(
                 // required: true,
                 default: 1
             },
-            
+
             // Array of userIDs
             visitors: [{
                 type: Schema.Types.ObjectId,
@@ -110,6 +111,34 @@ const spotSchema = new Schema(
     }, { timestamps: true }
     //opts //passing virtual to JSON for map pop up
 );
+
+
+
+
+
+// Query Middleware --> when spot is deleted : remove the id of the deleted spot from ownerSpots
+
+spotSchema.post("findOneAndDelete", async function (spotDeleted) {
+    console.log("spot that has just been deleted from mongoose query middleware", spotDeleted)
+
+    const spotID = spotDeleted._id.toString();
+
+
+    // Remove the deleted spot from "spotsOwned" array of his author
+    const removeDeletedSpot = await User.findByIdAndUpdate(
+        spotDeleted.author,
+        {
+            $pull: { spotsOwned: spotID } // pull the deleted spot from spotsOwned array
+        }
+    )
+})
+
+
+
+
+
+
+
 
 // Model creation
 // Model creation (=> a db collection called "spots" will be created => pluralized & lowercased)

@@ -37,13 +37,13 @@ const userSchema = new Schema(
         },
 
 
-        spotsOwned:[
+        spotsOwned: [
             {
                 type: Schema.Types.ObjectId,
                 ref: "Spot",
                 default: []
             },
-    ]
+        ]
 
     }, { timestamps: true }
 );
@@ -51,33 +51,14 @@ const userSchema = new Schema(
 
 
 
-// Deletion Middleware
-// To delete respective Spots  when a user is deleted 
-// Should : remove in spot.visited numberOfVisits -1 && in spot.visitors the id
-// "userDeleted" is passed in => it's what we queried to delete
-
-// userSchema.pre("findOneAndDelete", async function (userDeleted) {
-//     console.log("==>111 MONGOOSE DELETION OF SPOT CREATED BY DELETED USERS TRIGGERED !! <==")
-//     console.log("111 USER DELETED -->", userDeleted)
-//     // console.log("***", userDeleted)
-
-//     // const userIDToDelete = userDeleted._id;
-//     // console.log("==> userIDToDelete <==", userIDToDelete)
-
-//     // // Delete all CG which have this author
-//     // const spotOfUserDeletion = await Spot.deleteMany({ author: userIDToDelete })
-//     // console.log("spotOfUserDeletion", spotOfUserDeletion)
-// })
-
+// Query Middleware --> when user is deleted : 
+// delete his ID from visited and decrement 
+// remove all the spots he created
 
 userSchema.post("findOneAndDelete", async function (userDeleted) {
     console.log("user that has just been deleted from mongoose query middleware", userDeleted)
 
     const userID = userDeleted._id.toString();
-
-    // const stringified = userID.toString()
-    // console.log("stringified ----> ", stringified)
-    // console.log("type of stringified ----> ", typeof stringified)
 
 
     // Decrement visit and remove from visitors array
@@ -86,19 +67,10 @@ userSchema.post("findOneAndDelete", async function (userDeleted) {
 
         {
             $inc: { "visited.numberOfVisits": -1 }, // decrement the counter of visits
-            $pull: { "visited.visitors": ObjectId(userID) } // pull the deleted user from visitor array
+            $pull: { "visited.visitors": ObjectId(userID) } // pull the deleted user from visited.visitor array
         }
     )
 
-
-
-
-    console.log("decrementVisited", decrementVisited)
-
-    // db.dogs.updateMany(
-    //     { catFriendly: false }, // For all catFriendly that are false...
-    //     { $set: { catFriendly: true, isAvailable: true } } // I will make them true and available
-    // )
 
     // Delete all spots which have this author
     const spotOfUserDeletion = await Spot.deleteMany({ author: userID })

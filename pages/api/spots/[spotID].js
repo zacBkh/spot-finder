@@ -1,5 +1,6 @@
 import connectMongo from '../../../utils/connectMongo';
 import Spot from '../../../models/spot';
+import User from '../../../models/user';
 
 import isAuthor from '../../../utils/Auth/isAuthor';
 
@@ -39,7 +40,7 @@ export default async function APIHandler(req, res) {
 
 
     } else {
-        console.log("Session", JSON.stringify(session, null, 2))
+        console.log("Sessiooooon", JSON.stringify(session, null, 2))
 
         await connectMongo();
 
@@ -77,9 +78,16 @@ export default async function APIHandler(req, res) {
 
                 const spotToDelete = await Spot.findByIdAndDelete(spotID);
                 console.log('SPOT DELETED -->', spotToDelete);
+                console.log('spotToDelete.author-->', spotToDelete.author);
+
+
+                // Deleting the spot in the spotsOwned of author
+                const user = await User.findByIdAndUpdate(
+                    spotToDelete.author,
+                    { $pull: { spotsOwned: spotID } },
+                );
 
                 res.json({ SpotDeleted: spotToDelete });
-
 
             } catch (error) {
                 console.log(error);
