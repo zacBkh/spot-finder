@@ -33,15 +33,19 @@ export async function middleware(req) {
     //https://stackoverflow.com/questions/70157936/cannot-access-the-nextauth-session-data-in-next-js-12-middleware
 
 
-    // Protect protected pages and send back query string for toastify
+    // Protect protected pages
+    //  send back query string for toastify + returnTo behaviour
     if (arrayOfProtectedPaths.includes(pathname)) {
         if (session === null) {
 
+            const returnTo = req.nextUrl.pathname
+            console.log("returnTo", returnTo) // /spots/newSpot
+
             if (pathname === "/auth/profile") {
-                return NextResponse.redirect(`http://localhost:3008/auth/SignIn?mustLogIn=access your profile`)
+                return NextResponse.redirect(`http://localhost:3008/auth/SignIn?mustLogIn=access your profile&returnTo=/auth/profile`)
             }
             if (pathname === "/spots/newSpot") {
-                return NextResponse.redirect(`http://localhost:3008/auth/SignIn?mustLogIn=create a new spot`)
+                return NextResponse.redirect(`http://localhost:3008/auth/SignIn?mustLogIn=create a new spot&returnTo=${returnTo}`)
             }
         }
     }

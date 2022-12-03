@@ -41,12 +41,12 @@ const SignIn = ({ }) => {
 
     // Toast (if land on this page due to middleware redirection)
     const router = useRouter()
-    const message = router.query.mustLogIn
+    const { mustLogIn, returnTo } = router.query;
 
     // To get the URL param for toast
     useEffect(() => {
-        if (message) {
-            toast.info(`You must be logged in to ${message}!`, {
+        if (mustLogIn) {
+            toast.info(`You must be logged in to ${mustLogIn}!`, {
                 position: "top-center",
                 // toastId: "mustBeLoggedIn", // prevent duplicates
             });
@@ -143,6 +143,7 @@ const SignIn = ({ }) => {
                     headerMsg={"Welcome back! Please log in"}
                     alternativeMsg={"Don't have an account?"}
                     onForgotPassword={forgotPasswordHandler}
+                    returnToURL={returnTo ? returnTo : null}
                 />
             </>
         )

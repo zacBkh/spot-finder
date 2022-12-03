@@ -16,7 +16,7 @@ import Link from "next/link"
 import Image from 'next/image'
 
 
-import { Button, Spinner } from "flowbite-react";
+import { Spinner } from "flowbite-react";
 
 
 
@@ -26,7 +26,7 @@ import { signIn } from "next-auth/react"
 // This form component is used for both Registration & Login
 // The action can be "Registration" || "Login" and depending on this, it will render and validate or not some fields + the submit fx will change
 
-const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPassword }) => {
+const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPassword, returnToURL }) => {
 
 
     // For toggler password visible
@@ -182,7 +182,9 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
                 localStorage.setItem("toast", "newUser");
                 // If registration OK, log the user in and redirect to all spot
                 await signIn('credentials', { redirect: false, email, password });
-                router.push(`/spots/allSpots`)
+
+                // If user should not be redirected back where he was (he clicked directly on login) then redirect him in hime page, otherwise redirectTo behaviour
+                returnToURL !== null ? router.push(returnToURL) : router.push("/spots/allSpots")
             }
 
 
@@ -207,7 +209,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
                 // if auth OK...
             } else {
                 localStorage.setItem("toast", "loggedIn");
-                router.push(`/spots/allSpots`)
+                returnToURL !== null ? router.push(returnToURL) : router.push("/spots/allSpots")
             }
         }
     }
