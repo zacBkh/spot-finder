@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb';
 import { Schema, model, models } from 'mongoose';
 
 import Spot from './spot';
@@ -63,11 +62,11 @@ userSchema.post("findOneAndDelete", async function (userDeleted) {
 
     // Decrement visit and remove from visitors array
     const decrementVisited = await Spot.updateMany(
-        { "visited.visitors": ObjectId(userID) }, // filter only docs where visited.visitors field contains the id 
+        { "visited.visitors": userID }, // filter only docs where visited.visitors field contains the id 
 
         {
             $inc: { "visited.numberOfVisits": -1 }, // decrement the counter of visits
-            $pull: { "visited.visitors": ObjectId(userID) } // pull the deleted user from visited.visitor array
+            $pull: { "visited.visitors": userID } // pull the deleted user from visited.visitor array
         }
     )
 

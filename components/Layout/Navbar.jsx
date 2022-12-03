@@ -1,8 +1,7 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 
-
-
+import capitalize from "../../utils/capitalize"
 import Link from "next/link"
 import { useRouter } from 'next/router';
 
@@ -28,19 +27,6 @@ const Navigation = () => {
     const navigation = [
         { name: 'Home', href: '/spots/allSpots', current: true },
         { name: 'Add your Spot!', href: '/spots/newSpot', current: false },
-
-        /*   status !== "authenticated"
-              ?
-              { name: 'Register', href: '/auth/Register', current: false }
-              :
-              null
-  
-          ,
-          status !== "authenticated"
-              ?
-              { name: 'Login', href: '/auth/SignIn', current: false }
-              :
-              { name: 'Logout', href: '#', onClick: () => signOut(), current: false } */
     ]
 
     function classNames(...classes) {
@@ -97,7 +83,6 @@ const Navigation = () => {
                                                                 'px-3 py-2 rounded-md text-sm font-medium list-none	'
                                                             )}
                                                             key={item.name}
-                                                        // onClick={item.onClick ? item.onClick : null}
                                                         >
                                                             <Link href={item.href}>{item.name}</Link>
                                                         </li>
@@ -117,6 +102,24 @@ const Navigation = () => {
 
                                 {/* Right part of the navbar */}
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+
+                                    {
+                                        status === "authenticated" &&
+                                        <li
+                                            className=" cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium list-none">
+                                            <Link
+                                                href="/auth/profile">
+                                                {`Hello, ${capitalize(session.user.name)}`}
+                                            </Link>
+
+
+                                        </li>
+                                    }
+
+
+
+
                                     <button
                                         type="button"
                                         className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -124,6 +127,8 @@ const Navigation = () => {
                                         <span className="sr-only">View notifications</span>
                                         <AiOutlineBell className="h-6 w-6" aria-hidden="true" />
                                     </button>
+
+
 
                                     {/* Profile dropdown */}
                                     <Menu as="div" className="relative ml-3">

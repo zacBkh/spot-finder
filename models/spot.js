@@ -81,7 +81,15 @@ const spotSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: "User",
             }]
-        }
+        },
+
+        reviews: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Review",
+                default: []
+            }
+        ]
 
         // continent: {
         //     type: String,
@@ -102,12 +110,7 @@ const spotSchema = new Schema(
         //     ref: "Users",
         // },
 
-        // reviews: [
-        //     {
-        //         type: Schema.Types.ObjectId,
-        //         ref: "Reviews",
-        //     }
-        // ]
+
     }, { timestamps: true }
     //opts //passing virtual to JSON for map pop up
 );
