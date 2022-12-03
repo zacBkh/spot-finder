@@ -1,23 +1,21 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 
 
 
 import Link from "next/link"
-import { useState } from "react";
+import { useRouter } from 'next/router';
+
 
 import { useSession, signOut } from "next-auth/react"
 
 import { AiOutlineMenu, AiOutlineBell, AiOutlineClose } from 'react-icons/ai';
-
+import { BiUserCircle } from 'react-icons/bi';
 
 
 const Navigation = () => {
-    const [isHamburgerOpened, setIsHamburgerOpened] = useState(false);
 
-    const hamburgerMenuToggler = () => {
-        setIsHamburgerOpened((prevState) => !prevState)
-    }
+    const router = useRouter();
 
     const { data: session, status } = useSession()
 
@@ -91,7 +89,7 @@ const Navigation = () => {
                                                     return (
                                                         <li
                                                             className={classNames(
-                                                                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                                router.pathname === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                                 'px-3 py-2 rounded-md text-sm font-medium list-none	'
                                                             )}
                                                             key={item.name}
@@ -126,13 +124,22 @@ const Navigation = () => {
                                     {/* Profile dropdown */}
                                     <Menu as="div" className="relative ml-3">
                                         <div>
-                                            <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                            <Menu.Button className="flex rounded-full bg-gray-800 text-sm ">
                                                 <span className="sr-only">Open user menu</span>
-                                                <img
-                                                    className="h-8 w-8 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                    alt=""
-                                                />
+
+                                                {
+                                                    session ?
+                                                        <img
+                                                            className="h-8 w-8 rounded-full"
+                                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                                            alt=""
+                                                        />
+                                                        :
+                                                        <BiUserCircle
+                                                            className='text-3xl text-white'
+                                                        />
+                                                }
+
                                             </Menu.Button>
                                         </div>
                                         <Transition
@@ -201,83 +208,83 @@ const Navigation = () => {
                                                                 </li>
                                                             )}
                                                         </Menu.Item> */}
-                                            </>
+                                                    </>
                                                 }
 
 
 
 
-                                            {
-                                                status === "authenticated" &&
-                                                <>
-                                                    <Menu.Item>
-                                                        {({ active }) => (
-                                                            <li
-                                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 list-none')}>
-                                                                <Link href="/auth/profile"> Your Profile
-                                                                </Link>
-                                                            </li>
-                                                        )}
-                                                    </Menu.Item>
-                                                    <Menu.Item>
-                                                        {({ active }) => (
-                                                            <a
-                                                                href="#"
-                                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                                            >
-                                                                Settings
-                                                            </a>
-                                                        )}
-                                                    </Menu.Item>
-                                                    <Menu.Item>
-                                                        {({ active }) => (
-                                                            <a
-                                                                href="#"
-                                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                                                onClick={() => signOut({ redirect: false })}
-                                                            >
-                                                                Sign out
-                                                            </a>
-                                                        )}
-                                                    </Menu.Item>
-                                                </>
-                                            }
-                                        </Menu.Items>
-                                    </Transition>
-                                </Menu>
+                                                {
+                                                    status === "authenticated" &&
+                                                    <>
+                                                        <Menu.Item>
+                                                            {({ active }) => (
+                                                                <li
+                                                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 list-none')}>
+                                                                    <Link href="/auth/profile"> Your Profile
+                                                                    </Link>
+                                                                </li>
+                                                            )}
+                                                        </Menu.Item>
+                                                        <Menu.Item>
+                                                            {({ active }) => (
+                                                                <a
+                                                                    href="#"
+                                                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                                                >
+                                                                    Settings
+                                                                </a>
+                                                            )}
+                                                        </Menu.Item>
+                                                        <Menu.Item>
+                                                            {({ active }) => (
+                                                                <a
+                                                                    href="#"
+                                                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                                                    onClick={() => signOut({ redirect: false })}
+                                                                >
+                                                                    Sign out
+                                                                </a>
+                                                            )}
+                                                        </Menu.Item>
+                                                    </>
+                                                }
+                                            </Menu.Items>
+                                        </Transition>
+                                    </Menu>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
 
 
                         {/* Hamburger menu */}
-                <Disclosure.Panel className="sm:hidden">
-                    <div className="space-y-1 px-2 pt-2 pb-3">
-                        {navigation.map((item) => {
-                            if (item !== null) {
-                                return (
-                                    <Disclosure.Button
-                                        onClick={item.onClick ? item.onClick : null}
-                                        key={item.name}
-                                        as="a"
-                                        href={item.href}
-                                        className={classNames(
-                                            item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                            'block px-3 py-2 rounded-md text-base font-medium'
-                                        )}
-                                        aria-current={item.current ? 'page' : undefined}
-                                    >
-                                        {item.name}
-                                    </Disclosure.Button>
-                                )
-                            }
-                        })}
-                    </div>
-                </Disclosure.Panel>
-            </>
+                        <Disclosure.Panel className="sm:hidden">
+                            <div className="space-y-1 px-2 pt-2 pb-3">
+                                {navigation.map((item) => {
+                                    if (item !== null) {
+                                        return (
+                                            <Disclosure.Button
+                                                onClick={item.onClick ? item.onClick : null}
+                                                key={item.name}
+                                                as="a"
+                                                href={item.href}
+                                                className={classNames(
+                                                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                    'block px-3 py-2 rounded-md text-base font-medium'
+                                                )}
+                                                aria-current={item.current ? 'page' : undefined}
+                                            >
+                                                {item.name}
+                                            </Disclosure.Button>
+                                        )
+                                    }
+                                })}
+                            </div>
+                        </Disclosure.Panel>
+                    </>
                 )}
-        </Disclosure>
+            </Disclosure>
         </>
     )
 }
