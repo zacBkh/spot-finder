@@ -169,7 +169,9 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
     const onSubmitFormik = async (formValues) => {
         const { email, password } = formValues;
 
-        if (action === "Register") { // REGISTER MODE
+
+        // REGISTER MODE
+        if (action === "Register") {
 
             const userCreation = await addUserHandler(formValues)
 
@@ -179,13 +181,14 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
             } else {
                 localStorage.setItem("toast", "newUser");
                 // If registration OK, log the user in and redirect to all spot
-                await signIn('credentials', { email, password, callbackUrl: 'http://localhost:3008/spots/allSpots' });
+                await signIn('credentials', { redirect: false, email, password });
+                router.push(`/spots/allSpots`)
             }
 
 
 
-
-        } else { // LOGIN MODE
+            // LOGIN MODE
+        } else {
 
             // https://next-auth.js.org/v3/getting-started/client#using-the-redirect-false-option
             const loginResult = await signIn(
@@ -193,7 +196,6 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
                 {
                     ...formValues,
                     redirect: false,
-
                 }
             )
 
@@ -428,9 +430,10 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
 
 
 
+
                             {/* Google */}
                             <button
-                                onClick={() => signIn("google")}
+                                onClick={() => { signIn("google", { callbackUrl: 'http://localhost:3008/spots/allSpots' }); }}
                                 className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300">
                                 <FcGoogle
                                     className="mr-2 text-2xl" />
@@ -440,7 +443,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
 
                             {/* Facebook */}
                             <button
-                                onClick={() => signIn("facebook")}
+                                onClick={() => signIn("facebook", { callbackUrl: 'http://localhost:3008/spots/allSpots' })}
                                 className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300">
                                 <BsFacebook
                                     className="mr-2 text-2xl text-blue-facebook" />

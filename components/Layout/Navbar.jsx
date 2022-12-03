@@ -29,24 +29,28 @@ const Navigation = () => {
         { name: 'Home', href: '/spots/allSpots', current: true },
         { name: 'Add your Spot!', href: '/spots/newSpot', current: false },
 
-        status !== "authenticated"
-            ?
-            { name: 'Register', href: '/auth/Register', current: false }
-            :
-            null
-
-        ,
-        status !== "authenticated"
-            ?
-            { name: 'Login', href: '/auth/SignIn', current: false }
-            :
-            { name: 'Logout', href: '#', onClick: () => signOut({ redirect: false }), current: false }
+        /*   status !== "authenticated"
+              ?
+              { name: 'Register', href: '/auth/Register', current: false }
+              :
+              null
+  
+          ,
+          status !== "authenticated"
+              ?
+              { name: 'Login', href: '/auth/SignIn', current: false }
+              :
+              { name: 'Logout', href: '#', onClick: () => signOut(), current: false } */
     ]
 
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
     }
 
+    const essaiHandler = async () => {
+        await signOut({ redirect: false });
+        router.push("/")
+    }
     return (
         <>
             {/* Left part of the navbar */}
@@ -93,9 +97,9 @@ const Navigation = () => {
                                                                 'px-3 py-2 rounded-md text-sm font-medium list-none	'
                                                             )}
                                                             key={item.name}
-                                                            onClick={item.onClick ? item.onClick : null}>
+                                                        // onClick={item.onClick ? item.onClick : null}
+                                                        >
                                                             <Link href={item.href}>{item.name}</Link>
-
                                                         </li>
                                                     )
                                                 }
@@ -127,17 +131,17 @@ const Navigation = () => {
                                             <Menu.Button className="flex rounded-full bg-gray-800 text-sm ">
                                                 <span className="sr-only">Open user menu</span>
 
-                                                {
-                                                    session ?
-                                                        <img
-                                                            className="h-8 w-8 rounded-full"
-                                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                            alt=""
-                                                        />
-                                                        :
-                                                        <BiUserCircle
-                                                            className='text-3xl text-white'
-                                                        />
+                                                {session &&
+                                                    session.user.image ?
+                                                    <img
+                                                        className="h-8 w-8 rounded-full"
+                                                        src={session.user.image}
+                                                        alt="Profile picture"
+                                                    />
+                                                    :
+                                                    <BiUserCircle
+                                                        className='text-3xl text-white'
+                                                    />
                                                 }
 
                                             </Menu.Button>
@@ -154,28 +158,14 @@ const Navigation = () => {
 
 
 
-
-                                            <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            {/* Replaced Menu.Items with a div so hamburger menu closes on click */}
+                                            <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 
 
 
                                                 {
                                                     status !== "authenticated" &&
                                                     <>
-                                                        {/*                                                         <div className='hover:bg-gray-100'>
-                                                            <Menu.Item>
-                                                                {({ active }) => (
-                                                                    <Link
-                                                                        href="/auth/SignIn"> 
-                                                                        <a
-                                                                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 list-none')}>Login
-                                                                        </a>
-                                                                    </Link>
-
-                                                                )}
-                                                            </Menu.Item>
-                                                        </div> */}
-
                                                         <Menu.Item>
                                                             <li
                                                                 className={"block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"}>
@@ -196,18 +186,6 @@ const Navigation = () => {
                                                                 </Link>
                                                             </li>
                                                         </Menu.Item>
-
-
-                                                        {/*                                                <Menu.Item>
-                                                            {({ active }) => (
-                                                                <li
-                                                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 list-none')}>
-                                                                    <Link
-                                                                        href="/auth/Register"> Register
-                                                                    </Link>
-                                                                </li>
-                                                            )}
-                                                        </Menu.Item> */}
                                                     </>
                                                 }
 
@@ -218,38 +196,43 @@ const Navigation = () => {
                                                     status === "authenticated" &&
                                                     <>
                                                         <Menu.Item>
-                                                            {({ active }) => (
-                                                                <li
-                                                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 list-none')}>
-                                                                    <Link href="/auth/profile"> Your Profile
-                                                                    </Link>
-                                                                </li>
-                                                            )}
+                                                            <li
+                                                                className={"block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"}>
+                                                                <Link
+                                                                    href="/auth/profile">
+                                                                    <a className='block'> My Profile </a>
+                                                                </Link>
+                                                            </li>
                                                         </Menu.Item>
                                                         <Menu.Item>
-                                                            {({ active }) => (
-                                                                <a
-                                                                    href="#"
-                                                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                                                >
-                                                                    Settings
-                                                                </a>
-                                                            )}
+                                                            <li
+                                                                className={"block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"}>
+                                                                <Link
+                                                                    href="/auth/profile">
+                                                                    <a className='block'> Settings </a>
+                                                                </Link>
+                                                            </li>
                                                         </Menu.Item>
                                                         <Menu.Item>
-                                                            {({ active }) => (
-                                                                <a
-                                                                    href="#"
-                                                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                                                    onClick={() => signOut({ redirect: false })}
-                                                                >
-                                                                    Sign out
-                                                                </a>
-                                                            )}
+
+                                                            <li
+                                                                className={"block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"}>
+                                                                <Link
+                                                                    href="">
+                                                                    {/* Signing out and avoiding page reload */}
+                                                                    <a
+                                                                        onClick={async () => {
+                                                                            await signOut({ redirect: false });
+                                                                            router.push("/spots/allSpots");
+                                                                        }}
+                                                                        className='block'> Sign out
+                                                                    </a>
+                                                                </Link>
+                                                            </li>
                                                         </Menu.Item>
                                                     </>
                                                 }
-                                            </Menu.Items>
+                                            </div>
                                         </Transition>
                                     </Menu>
                                 </div>
