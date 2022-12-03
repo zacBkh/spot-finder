@@ -21,7 +21,7 @@ const MapShow = ({ markerCoordinates }) => {
 
 
     return (
-        <div className='flex justify-center'>
+        <div className='flex justify-center mt-6'>
             <Map
                 initialViewState={{
                     latitude: markerCoordinates.Latitude,

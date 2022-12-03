@@ -12,6 +12,8 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fontsource/roboto": "^4.5.8",
+    "@headlessui/react": "^1.7.4",
+    "@heroicons/react": "^2.0.13",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@mui/material": "^5.10.16",
     "@next-auth/mongodb-adapter": "^1.1.1",
