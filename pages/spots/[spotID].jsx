@@ -27,14 +27,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 
-import Reviews from '../../components/Reviews/Reviews';
-import ModalReviews from '../../components/Reviews/ModalReviews';
-import { Rating } from '@mui/material';
 
-
-
+import Review from '../../components/Reviews/Review';
 
 export const getServerSideProps = async (context) => {
+
 
     const session = await unstable_getServerSession(context.req, context.res, authOptions)
 
@@ -80,23 +77,18 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     const [nbOfVisit, setNbOfVisit] = useState(nbVisit);
 
 
-    // For star rating
-    const [value, setValue] = useState(2);
 
 
-    // Review modal
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const onModalClose = () => {
-        setIsModalOpen(false)
-    }
+    // Review
+    const [isReviewOpen, setIsReviewOpen] = useState(false);
+
 
 
     // To tell to API route which spot are we talking about -- can replace by info coming from GSP ? 
     const router = useRouter();
-    const { spotID } = router.query
 
-
+    const { _id: spotID } = indivSpot
 
 
 
@@ -181,6 +173,25 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         shouldTogglerDisplay = true
     }
 
+
+
+
+    const onReviewSubmit = (reviewValues) => {
+        console.log("reviewValuesfrom parent !!", reviewValues)
+
+        // logic to add review to the spot
+        // use spotID
+        // need to find a way to stick to REST without replacing everything ??
+        /* 
+        
+    const parentCG = await CampGrounds.findById(campId); // Finding the CG
+    const newReview = new Reviews({ rating, body }) //Adding to review model
+    newReview.authorReview = req.user._id // ==> Adding the current user as author of the review
+    console.log("NEW REV ==>", newReview)
+    
+    */
+    }
+
     return (
         <>
             {
@@ -233,52 +244,21 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
 
             <a className='cursor-pointer'
-                onClick={() => setIsModalOpen(true)} >REVIEW THE SPOT
+                onClick={() => setIsReviewOpen((prev) => !prev)} >REVIEW THE SPOT
             </a>
 
 
-            <Reviews
-                value={value}
-                isModalOpen={isModalOpen}
-                onModalClose={onModalClose}>
 
+            {
+                isReviewOpen &&
 
-                <ModalReviews
-                    isModalOpen={isModalOpen}
-                    onModalClose={onModalClose}>
-
-                    <div>
-                        <Rating
-                            name="simple-controlled"
-                            value={value}
-                            onChange={(event, newValue) => {
-                                setValue(newValue);
-                            }}
-                        />
-                    </div>
-
-
-                    <div>
-                        <Rating name="read-only" value={value} readOnly />
-                    </div>
-
-
-                    <form>
-                        {/* Text Area */}
-                        <div class="w-full  border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-                            <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
-                                <label for="comment" class="sr-only">Your comment</label>
-                                <textarea id="comment" rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
-                            </div>
+                <Review
+                    onReviewSubmit={onReviewSubmit}
+                />
+            }
 
 
 
-
-
-                        </div>
-                    </form>
-                </ModalReviews>
-            </Reviews>
 
 
 

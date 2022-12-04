@@ -88,10 +88,6 @@ const SignIn = ({ }) => {
 
         const sendPwdRecover = await sendPwdResetMail(email)
         if (!sendPwdRecover.success) { setStatus("An error occured"); return } // if error in sending email occured STOP
-
-
-
-
     }
 
 
