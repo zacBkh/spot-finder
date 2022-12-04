@@ -2,6 +2,7 @@
 // These utils fx send request to my API routes for Spot & Auth
 
 
+/* SC SPOTS */
 export
     const addSpotHandler = async (enteredData) => {
         console.log("NEW SPOT DATA from FETCHER", enteredData)
@@ -74,6 +75,7 @@ export
         const data = await response.json()
         console.log("Result of deletion", data)
     }
+/ *!SC */
 
 
 
@@ -82,9 +84,8 @@ export
 
 
 
-// FOR USERS
 
-
+/* SC USERS */
 // Registers a new user
 export
     const addUserHandler = async (enteredData) => {
@@ -109,31 +110,8 @@ export
 
 
 
-// // Delete a user
-// export
-//     const deleteUserHandler = async (enteredData) => {
 
-//         console.log("USER TO DELETE", enteredData)
-
-//         // POSTING to MONGO
-//         const response = await fetch(
-//             "/api/users/delete",
-//             {
-//                 method: "POST",
-//                 body: JSON.stringify(enteredData), //conv to JSON
-//                 headers: { "Content-Type": "application/json" }
-//             }
-//         )
-
-
-//         const data = await response.json()
-//         console.log("data", data)
-//         return data // returning data for handling if mistake
-//     }
-
-
-
-// // Delete a user
+// Delete a user
 export
     const deleteUserHandler = async (userID) => {
 
@@ -228,3 +206,30 @@ export
         console.log("Result of USER edition", data)
         return data
     }
+/ *!SC */
+
+
+
+
+
+
+
+
+/*SC REVIEWS */
+export
+    const addOneReview = async (spotID, reviewAuthorID, review) => {
+        const response = await fetch(
+            `/api/reviews/new-review`,
+            {
+                method: "POST",
+                body: JSON.stringify({spotID, reviewAuthorID, review}), //conv to JSON
+                headers: { "Content-Type": "application/json" }
+            }
+        )
+        const result = await response.json()
+        return result
+    }
+
+
+
+/* !SC */

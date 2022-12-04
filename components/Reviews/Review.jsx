@@ -32,10 +32,6 @@ const Review = ({ onReviewSubmit }) => {
     const onSubmitFormik = async ({ comment }) => {
         if (grade <= 0) { return }
 
-
-        console.log('comment from formik', comment)
-
-
         // Putting it in an object
         const reviewValues = {
             comment: comment,

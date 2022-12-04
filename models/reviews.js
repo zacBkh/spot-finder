@@ -3,14 +3,14 @@ import { Schema, model, models } from 'mongoose';
 
 const reviewSchema = new Schema(
     {
-        rating: {
+        rate: {
             type: Number,
             min: [0, "Rate cannot be less than 0"],
             max: [5, "Rate cannot be more than 5"],
             required: true,
         },
 
-        body: {
+        comment: {
             type: String,
         },
 

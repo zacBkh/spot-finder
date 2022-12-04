@@ -29,6 +29,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 import Review from '../../components/Reviews/Review';
+import { addOneReview } from '../../utils/APIfetchers';
 
 export const getServerSideProps = async (context) => {
 
@@ -176,20 +177,12 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
 
 
-    const onReviewSubmit = (reviewValues) => {
+    const onReviewSubmit = async (reviewValues) => {
         console.log("reviewValuesfrom parent !!", reviewValues)
 
-        // logic to add review to the spot
-        // use spotID
-        // need to find a way to stick to REST without replacing everything ??
-        /* 
-        
-    const parentCG = await CampGrounds.findById(campId); // Finding the CG
-    const newReview = new Reviews({ rating, body }) //Adding to review model
-    newReview.authorReview = req.user._id // ==> Adding the current user as author of the review
-    console.log("NEW REV ==>", newReview)
-    
-    */
+        const addRev = await addOneReview(spotID, currentUserID, reviewValues)
+
+        console.log('addRev', addRev)
     }
 
     return (
