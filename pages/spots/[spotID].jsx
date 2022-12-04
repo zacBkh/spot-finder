@@ -30,6 +30,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Review from '../../components/Reviews/Review';
 import { addOneReview } from '../../utils/APIfetchers';
+import { REVERSE_GEOCODE_COORD_RGX } from '@mapbox/mapbox-gl-geocoder/lib/utils';
 
 export const getServerSideProps = async (context) => {
 
@@ -106,13 +107,13 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
 
     // // This will be rendered in the toast
-    const CustomToastWithLink = () => (
+    const CustomToastWithLink = (actionNotAllowed) => (
         <>
             <Link
                 href="/auth/SignIn">
                 <a className='text-[#3498db] underline'>Please login</a>
             </Link>
-            <span> to mark this spot as verified</span>
+            <span>{actionNotAllowed}</span>
         </>
     );
 
@@ -124,7 +125,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
         // if failure in add success and user not logged in...
         if (!addVisit.success && !currentUserID) {
-            toast.error(CustomToastWithLink, {
+            toast.error(CustomToastWithLink(" to mark this spot as verified"), {
                 position: "bottom-left",
                 toastId: "connectToMarkVisitedSuccess"
             });
@@ -176,14 +177,43 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
 
 
-
+    // Adding review + pushing its ID in Spot document
     const onReviewSubmit = async (reviewValues) => {
         console.log("reviewValuesfrom parent !!", reviewValues)
-
         const addRev = await addOneReview(spotID, currentUserID, reviewValues)
+
+        if (!addRev.success) { console.log("ERROR ADDING A REVIEW", addRev.result) }
 
         console.log('addRev', addRev)
     }
+
+
+
+    const openReviewHandler = () => {
+        // If not logged in
+        if (!currentUserID) {
+            // HELPERR
+            toast.error(CustomToastWithLink(" to add a review to the spot"), {
+                position: "bottom-left",
+                toastId: "connectToAddReview"
+            });
+            return
+        }
+
+        // If author tries to comment
+        if (currentUserID === indivSpot.author) {
+            toast.error("You cannot review a Spot you created, think about editing its content!", {
+                position: "bottom-left",
+                toastId: "cannotCommentIfAuthor"
+            });
+            return
+        }
+
+
+        setIsReviewOpen((prev) => !prev)
+    }
+
+
 
     return (
         <>
@@ -237,7 +267,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
 
             <a className='cursor-pointer'
-                onClick={() => setIsReviewOpen((prev) => !prev)} >REVIEW THE SPOT
+                onClick={openReviewHandler} >REVIEW THE SPOT
             </a>
 
 
@@ -246,6 +276,8 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                 isReviewOpen &&
 
                 <Review
+                    isLoggedIn={currentUserID}
+                    isAuthor={currentUserID === indivSpot.author}
                     onReviewSubmit={onReviewSubmit}
                 />
             }
@@ -283,19 +315,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     previousValues={indivSpot}
                 />
             }
-            <p className='mb-60'>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa, reiciendis illo aut ad nam nostrum saepe. Eum tempore consequatur ut? Error libero minus assumenda placeat, quia voluptatibus? Recusandae, quibusdam accusamus.
-                Quibusdam, exercitationem. Aliquid recusandae quisquam voluptas maxime quod adipisci natus obcaecati! Sapiente quia ea, nihil unde nemo in rem dolor! Neque, reprehenderit voluptatem? Labore iure laboriosam assumenda voluptate aut ullam!
-                Cumque numquam repudiandae natus deleniti molestiae similique eligendi obcaecati debitis corrupti necessitatibus eius error quod quidem doloribus possimus quibusdam, labore, quasi voluptate sed, nemo eos fugit esse voluptatibus. Iste, distinctio.
-                Tota
-                ate aut ullam!
-                Cumque numquam repudiandae natus deleniti molestiae similique eligendi obcaecati debitis corrupti necessitatibus eius error quod quidem doloribus possimus quibusdam, labore, quasi voluptate sed, n
-                ate aut ullam!
-                Cumque numquam repudiandae natus deleniti molestiae similique eligendi obcaecati debitis corrupti necessitatibus eius error quod quidem doloribus possimus quibusdam, labore, quasi voluptate sed, n
-
-                ate aut ullam!
-                Cumque numquam repudiandae natus deleniti molestiae similique eligendi obcaecati debitis corrupti necessitatibus eius error quod quidem doloribus possimus quibusdam, labore, quasi voluptate sed, n
-            </p>
         </>
     )
 }

@@ -36,17 +36,13 @@ export default async function APIHandler(req, res) {
         if (req.method === "POST") {
             try {
 
-                console.log("HELLO!!")
-
-
-                const reva = {
+                const reviewObject = {
                     rate: req.body.review.rate,
                     comment: req.body.review.comment,
                     reviewAuthor: req.body.reviewAuthorID,
                 }
 
-                const newReview = await Review.create(reva);
-                console.log("newReview", newReview)
+                const newReview = await Review.create(reviewObject);
 
 
                 const spotToAddReview = await Spot.findByIdAndUpdate(
@@ -54,34 +50,14 @@ export default async function APIHandler(req, res) {
                     { $addToSet: { reviews: newReview.id } },
                     { runValidators: true, new: true }
                 );
-                console.log("spotToAddReview", spotToAddReview)
-
 
                 res.status(200).json({ success: true, result: newReview });
-
-
-                // const spotToEdit = await Spot.findByIdAndUpdate(
-                //     spotID,
-                //     queryOptions,
-                //     { runValidators: true, new: true }
-                // );
-
-
-                // const parentCG = await CampGrounds.findById(campId); // Finding the CG
-                // const newReview = new Reviews({ rating, body }) //Adding to review model
-                // newReview.authorReview = req.user._id // ==> Adding the current user as author of the review
-                // console.log("NEW REV ==>", newReview)
-                // parentCG.reviews.push(newReview) // ==> Adding the review to the review array of the CG model
-
-
 
 
             } catch (error) {
                 console.log(error);
                 res.status(400).json({ success: false, result: `There has been an error adding your review: ${error.message}` });
             }
-
-
 
 
         } else {

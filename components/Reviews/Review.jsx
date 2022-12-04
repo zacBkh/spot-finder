@@ -8,7 +8,21 @@ import { useFormik } from "formik"
 import * as Yup from "yup";
 
 
-const Review = ({ onReviewSubmit }) => {
+const Review = ({ isAuthor, isLoggedIn, onReviewSubmit }) => {
+
+
+
+
+    if (!isLoggedIn) {
+        return (<h1> You must be logged in !</h1>)
+    }
+
+
+
+    if (isAuthor) {
+        return (<h1> You are te author you cannot comment !</h1>)
+    }
+
 
     // For star rating
     const [grade, setGrade] = useState(3);
