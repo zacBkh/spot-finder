@@ -3,8 +3,8 @@
 
 
 
-
-
+import PATHS from './utils/URLs';
+const { domain } = PATHS
 
 
 
@@ -53,10 +53,12 @@ export async function middleware(req) {
     // Prevent logged in user to access to register and sign in 
     if (shouldNotBeUser.includes(pathname)) {
         if (session !== null) {
-            return NextResponse.redirect("http://localhost:3008/spots/allSpots?alreadyLoggedIn=true")
+            return NextResponse.redirect(`${domain}?alreadyLoggedIn=true`)
         }
     }
 }
+
+
 
 
 

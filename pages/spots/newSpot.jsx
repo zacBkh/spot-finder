@@ -6,7 +6,8 @@ import { useRouter } from 'next/router'
 import BothSpotForm from '../../components/Forms/BothSpotForm'
 import { addSpotHandler } from '../../utils/APIfetchers'
 
-
+import PATHS from '../../utils/URLs'
+const { home } = PATHS
 
 
 const Home = () => {
@@ -22,7 +23,7 @@ const Home = () => {
     // For toaster notif
     localStorage.setItem("toast", "newSpot");
 
-    router.push("/spots/allSpots") //Navigate back to root
+    router.push(home) //Navigate back to root
   }
 
 

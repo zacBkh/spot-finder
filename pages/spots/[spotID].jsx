@@ -26,10 +26,13 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 
-
-
 import Review from '../../components/Reviews/Review';
 import { addOneReview } from '../../utils/APIfetchers';
+
+
+import PATHS from '../../utils/URLs';
+const { home } = PATHS
+
 
 export const getServerSideProps = async (context) => {
 
@@ -98,7 +101,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         // For toaster notif
         localStorage.setItem("toast", "editSpot");
 
-        router.push("/spots/allSpots") //Navigate back to root
+        router.push(home) //Navigate back to root
     }
 
 
@@ -157,7 +160,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         // For toaster notif
         localStorage.setItem("toast", "deleteSpot");
 
-        router.push("/spots/allSpots") //Navigate back to root
+        router.push(home) //Navigate back to root
     }
 
 

@@ -11,6 +11,8 @@ import { useSession, signOut } from "next-auth/react"
 import { AiOutlineMenu, AiOutlineBell, AiOutlineClose } from 'react-icons/ai';
 import { BiUserCircle } from 'react-icons/bi';
 
+import PATHS from '../../utils/URLs';
+const { home } = PATHS
 
 const Navigation = () => {
 
@@ -19,13 +21,13 @@ const Navigation = () => {
     const { data: session, status } = useSession()
 
 
-    console.log('Session from Navbar', session)
-    console.log('Status from Navbar', status)
-
+    // console.log('Session from Navbar', session)
+    // console.log('Status from Navbar', status)
+    console.log(router.pathname)
 
 
     const navigation = [
-        { name: 'Home', href: '/spots/allSpots', current: true },
+        { name: 'Home', href: home, current: true },
         { name: 'Add your Spot!', href: '/spots/newSpot', current: false },
     ]
 
@@ -77,15 +79,17 @@ const Navigation = () => {
                                             {navigation.map((item) => {
                                                 if (item !== null) {
                                                     return (
-                                                        <li
-                                                            className={classNames(
-                                                                router.pathname === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                                                'px-3 py-2 rounded-md text-sm font-medium list-none	'
-                                                            )}
-                                                            key={item.name}
-                                                        >
-                                                            <Link href={item.href}>{item.name}</Link>
-                                                        </li>
+                                                        <Link href={item.href}>
+                                                            <a
+                                                                className={classNames(
+                                                                    router.pathname === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                                    'px-3 py-2 rounded-md text-sm font-medium list-none	'
+                                                                )}
+                                                                key={item.name}
+                                                            >
+                                                                {item.name}
+                                                            </a>
+                                                        </Link>
                                                     )
                                                 }
                                             })}
@@ -106,19 +110,25 @@ const Navigation = () => {
 
                                     {
                                         status === "authenticated" &&
-                                        <li
-                                            className=" cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium list-none">
-                                            <Link
-                                                href="/auth/profile">
+                                        <Link
+                                            href="/auth/profile">
+                                            <a className={classNames(
+                                                router.pathname === "/auth/profile" ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                'px-3 py-2 rounded-md text-sm font-medium list-none')}>
+
                                                 {`Hello, ${capitalize(session.user.name)}`}
-                                            </Link>
+                                            </a>
+                                        </Link>
 
-
-                                        </li>
                                     }
 
 
-
+                                    {/* classNames(
+                                router.pathname === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                'px-3 py-2 rounded-md text-sm font-medium list-none	'
+                                )
+                                router.pathname === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                'px-3 py-2 rounded-md text-sm font-medium list-none	' */}
 
                                     <button
                                         type="button"
@@ -201,41 +211,41 @@ const Navigation = () => {
                                                     status === "authenticated" &&
                                                     <>
                                                         <Menu.Item>
-                                                            <li
-                                                                className={"block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"}>
-                                                                <Link
-                                                                    href="/auth/profile">
-                                                                    <a className='block'> My Profile </a>
-                                                                </Link>
-                                                            </li>
+                                                            <Link
+                                                                href="/auth/profile">
+                                                                <a
+                                                                    className={"block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"}> My Profile
+                                                                </a>
+                                                            </Link>
+
                                                         </Menu.Item>
+
+
                                                         <Menu.Item>
-                                                            <li
-                                                                className={"block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"}>
-                                                                <Link
-                                                                    href="/auth/profile">
-                                                                    <a className='block'> Settings </a>
-                                                                </Link>
-                                                            </li>
+                                                            <Link
+                                                                href="/auth/profile">
+                                                                <a
+                                                                    className={"block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"}> Settings
+                                                                </a>
+                                                            </Link>
                                                         </Menu.Item>
+
+
                                                         <Menu.Item>
 
-                                                            <li
-                                                                className={"block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"}>
-                                                                <Link
-                                                                    href="">
-                                                                    {/* Signing out and avoiding page reload */}
-                                                                    <a
-                                                                        onClick={async () => {
-                                                                            // await signOut({ redirect: false });
-                                                                            await signOut();
-                                                                            // Removed the avoid reload because causing error when signing out from show page
-                                                                            router.push("/spots/allSpots");
-                                                                        }}
-                                                                        className='block'> Sign out
-                                                                    </a>
-                                                                </Link>
-                                                            </li>
+                                                            <Link
+                                                                href="/auth/profile">
+                                                                <a
+                                                                    className={"block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"}
+                                                                    onClick={async () => {
+                                                                        // await signOut({ redirect: false });
+                                                                        await signOut();
+                                                                        // Removed the avoid reload because causing error when signing out from show page
+                                                                        router.push(home);
+                                                                    }}> Sign out
+                                                                </a>
+                                                            </Link>
+
                                                         </Menu.Item>
                                                     </>
                                                 }

@@ -4,7 +4,8 @@ import LoginOrRegisterForm from "../../components/Forms/LoginOrRegisterForm";
 import { useSession } from "next-auth/react"
 
 
-
+import PATHS from "../../utils/URLs";
+const { domain } = PATHS
 
 
 const Register = ({ }) => {
@@ -40,14 +41,14 @@ export async function middleware(req) {
     // Protect protected pages
     if (arrayOfProtectedPaths.includes(pathname)) {
         if (session === null) {
-            return NextResponse.redirect("http://localhost:3008/spots/allSpots")
+            return NextResponse.redirect(domain)
         }
     }
 
     // Prevent logged in user to access to register and sign in 
     if (shouldNotBeUser.includes(pathname)) {
         if (session !== null) {
-            return NextResponse.redirect("http://localhost:3008/spots/allSpots")
+            return NextResponse.redirect(domain)
         }
     }
 }

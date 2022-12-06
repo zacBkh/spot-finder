@@ -67,7 +67,7 @@ const MyProfile = ({ currentUserSession }) => {
 
 
         // Signing out user and redirect
-        signOut({ callbackUrl: 'http://localhost:3008/spots/allSpots' })
+        signOut({ callbackUrl: home })
     }
 
 

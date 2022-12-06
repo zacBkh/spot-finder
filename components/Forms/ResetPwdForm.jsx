@@ -15,6 +15,10 @@ import { editUserHandler } from "../../utils/APIfetchers";
 import { signIn } from "next-auth/react"
 
 
+import PATHS from "../../utils/URLs";
+const { home } = PATHS
+
+
 // Component receives full userData
 const ResetPwdForm = ({ userData }) => {
 
@@ -63,7 +67,7 @@ const ResetPwdForm = ({ userData }) => {
         // For toaster notif
         localStorage.setItem("toast", "resetPwd");
 
-        await signIn('credentials', { email, password: newPwd, callbackUrl: 'http://localhost:3008/spots/allSpots' });
+        await signIn('credentials', { email, password: newPwd, callbackUrl: domain });
     }
 
 

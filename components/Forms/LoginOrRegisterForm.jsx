@@ -23,6 +23,9 @@ import { Spinner } from "flowbite-react";
 import { signIn } from "next-auth/react"
 
 
+import PATHS from "../../utils/URLs";
+const { home, domain } = PATHS
+
 // This form component is used for both Registration & Login
 // The action can be "Registration" || "Login" and depending on this, it will render and validate or not some fields + the submit fx will change
 
@@ -184,7 +187,8 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
                 await signIn('credentials', { redirect: false, email, password });
 
                 // If user should not be redirected back where he was (he clicked directly on login) then redirect him in hime page, otherwise redirectTo behaviour
-                returnToURL !== null ? router.push(returnToURL) : router.push("/spots/allSpots")
+                // returnToURL !== null ? router.push(returnToURL) : router.push(home)
+                returnToURL !== null ? router.push("/") : router.push("/")
             }
 
 
@@ -209,7 +213,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
                 // if auth OK...
             } else {
                 localStorage.setItem("toast", "loggedIn");
-                returnToURL !== null ? router.push(returnToURL) : router.push("/spots/allSpots")
+                returnToURL !== null ? router.push(home) : router.push(home)
             }
         }
     }
@@ -435,7 +439,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
 
                             {/* Google */}
                             <button
-                                onClick={() => { signIn("google", { callbackUrl: 'http://localhost:3008/spots/allSpots' }); }}
+                                onClick={() => { signIn("google", { callbackUrl: domain }); }}
                                 className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300">
                                 <FcGoogle
                                     className="mr-2 text-2xl" />
@@ -445,7 +449,7 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
 
                             {/* Facebook */}
                             <button
-                                onClick={() => signIn("facebook", { callbackUrl: 'http://localhost:3008/spots/allSpots' })}
+                                onClick={() => signIn("facebook", { callbackUrl: domain })}
                                 className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300">
                                 <BsFacebook
                                     className="mr-2 text-2xl text-blue-facebook" />
