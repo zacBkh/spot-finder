@@ -56,17 +56,38 @@ async function deleteAllUsersBut(resArg, userIDToKeep) {
 
 
 
+async function helpppp(resArg, userDeleted) {
+    const DBData = await Spot.find({}).populate("reviews")
+
+
+    // .find({ "reviews.reviewAuthor": userDeleted })
+    // .populate("reviews")
+
+    return resArg.send(DBData);
+}
+
+
+
+// async function help(resArg) {
+//     const DBData = Spot.find({})/* .populate("reviews") */
+
+//     return resArg.send(DBData);
+// }
+
+
 export default async function TESTER(req, res) {
     await connectMongo();
 
 
 
 
+    await helpppp(res, "638d7783050b1dd32d06c7c1")
+
     // await showAllSpots(res)
     // await deleteAllSpots(res)
 
 
-    await showAllUsers(res)
+    // await showAllUsers(res)
     // await deleteAllUsers(res)
     // await deleteAllUsersBut(res, "637c4b8252e6f480e190104f")
     // await checkUserExists(res, "roblaf93@gmail.com")

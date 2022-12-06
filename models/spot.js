@@ -1,6 +1,7 @@
 import { Schema, model, models } from 'mongoose';
 import spotCategories from '../utils/spotCategories';
 import User from './user';
+import Review from './reviews';
 
 const spotSchema = new Schema(
     {
@@ -119,12 +120,20 @@ const spotSchema = new Schema(
 
 
 
-// Query Middleware --> when spot is deleted : remove the id of the deleted spot from ownerSpots
-
+// Query Middleware --> when spot is deleted :
 spotSchema.post("findOneAndDelete", async function (spotDeleted) {
     console.log("spot that has just been deleted from mongoose query middleware", spotDeleted)
-
     const spotID = spotDeleted._id.toString();
+
+
+
+    // Remove the reviews of the deleted spot from review model
+    if (spotDeleted.reviews.length) {
+        const deleteRev = await Review.deleteMany({ _id: { $in: spotDeleted.reviews } })
+    }
+
+
+
 
 
     // Remove the deleted spot from "spotsOwned" array of his author
@@ -134,6 +143,24 @@ spotSchema.post("findOneAndDelete", async function (spotDeleted) {
             $pull: { spotsOwned: spotID } // pull the deleted spot from spotsOwned array
         }
     )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 })
 
 

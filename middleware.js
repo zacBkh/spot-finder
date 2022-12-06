@@ -26,10 +26,10 @@ import { getToken } from 'next-auth/jwt';
 export async function middleware(req) {
 
     const pathname = req.nextUrl.pathname
-    console.log("pathname from middleware -->", pathname)
+    // console.log("pathname from middleware -->", pathname)
 
     const session = await getToken({ req: req, secret: process.env.NEXTAUTH_SECRET });
-    console.log('session in middleware: ', session)
+    // console.log('session in middleware: ', session)
     //https://stackoverflow.com/questions/70157936/cannot-access-the-nextauth-session-data-in-next-js-12-middleware
 
 
@@ -39,7 +39,7 @@ export async function middleware(req) {
         if (session === null) {
 
             const returnTo = req.nextUrl.pathname
-            console.log("returnTo", returnTo) // /spots/newSpot
+            // console.log("returnTo", returnTo) // /spots/newSpot
 
             if (pathname === "/auth/profile") {
                 return NextResponse.redirect(`http://localhost:3008/auth/SignIn?mustLogIn=access your profile&returnTo=/auth/profile`)

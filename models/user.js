@@ -1,6 +1,7 @@
 import { Schema, model, models } from 'mongoose';
 
 import Spot from './spot';
+import Review from './reviews';
 
 const userSchema = new Schema(
     {
@@ -74,8 +75,32 @@ userSchema.post("findOneAndDelete", async function (userDeleted) {
     // Delete all spots which have this author
     const spotOfUserDeletion = await Spot.deleteMany({ author: userID })
     console.log("spotOfUserDeletion", spotOfUserDeletion)
+
+
+
+    // Delete all review in the review model the user let 
+    const revDeletion = await Review.deleteMany({ reviewAuthor: userID })
+
+
+
+
+
+    // https://mongoosejs.com/docs/populate.html#populate-middleware:~:text=books.%24*.author%27)%3B-,Populate%20in%20Middleware,-You%20can%20populate
+
+
+    // Delete the old referenced reviews from spot.reviews array of objectIDs
+    // 
+    // const revDeletionInSpot = await Spot.updateMany(
+    //     { reviews: userID },
+    //     {
+    //         $pull: { spotsOwned: spotID } // pull the deleted spot from spotsOwned array
+    //     }
+    // )
 })
 
+
+
+// .populate("reviews")
 
 // Model creation
 // Model creation (=> a db collection called "users" will be created => pluralized & lowercased)

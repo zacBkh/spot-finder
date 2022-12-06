@@ -77,6 +77,14 @@ export default async function editOrDeleteUser(req, res) {
             // Mongoose middleware also delete corresponding documents + visited marks
             await User.findByIdAndDelete(userID);
 
+
+            // HERE I NEED TO REMOVE ALL THE REVIEWS HE CREATED FROM REVIEW ARRAY OF SPOT MODEL
+            // // Removing the reference of the Review in the reviews array of the CG model
+            // await CampGrounds.findByIdAndUpdate(campId, //Finding the CG
+            //     { $pull: { reviews: reviewId } } // Will pull out anything with reviewId as an ID from [reviews] array
+            // )
+            // //As a reminder => reviews is just an array of ID's even if in Mongo it populates it for us
+
             res.status(200).json({ success: true, result: "The user has been deleted" });
 
         } catch (error) {

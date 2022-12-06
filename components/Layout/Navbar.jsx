@@ -40,7 +40,7 @@ const Navigation = () => {
     return (
         <>
             {/* Left part of the navbar */}
-            <Disclosure as="nav" className="bg-gray-800">
+            <Disclosure as="nav" className="bg-gray-800   fixed w-full z-20 top-0 left-0 ">
                 {({ open }) => (
                     <>
                         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -227,7 +227,9 @@ const Navigation = () => {
                                                                     {/* Signing out and avoiding page reload */}
                                                                     <a
                                                                         onClick={async () => {
-                                                                            await signOut({ redirect: false });
+                                                                            // await signOut({ redirect: false });
+                                                                            await signOut();
+                                                                            // Removed the avoid reload because causing error when signing out from show page
                                                                             router.push("/spots/allSpots");
                                                                         }}
                                                                         className='block'> Sign out

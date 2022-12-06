@@ -30,7 +30,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Review from '../../components/Reviews/Review';
 import { addOneReview } from '../../utils/APIfetchers';
-import { REVERSE_GEOCODE_COORD_RGX } from '@mapbox/mapbox-gl-geocoder/lib/utils';
 
 export const getServerSideProps = async (context) => {
 
@@ -82,8 +81,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
 
 
-    // Review
-    const [isReviewOpen, setIsReviewOpen] = useState(false);
 
 
 
@@ -177,14 +174,26 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
 
 
+    // Review
+    const [isReviewOpen, setIsReviewOpen] = useState(false);
+
+
+
     // Adding review + pushing its ID in Spot document
     const onReviewSubmit = async (reviewValues) => {
         console.log("reviewValuesfrom parent !!", reviewValues)
         const addRev = await addOneReview(spotID, currentUserID, reviewValues)
+        console.log('addRev', addRev)
 
         if (!addRev.success) { console.log("ERROR ADDING A REVIEW", addRev.result) }
 
-        console.log('addRev', addRev)
+        setIsReviewOpen(false)
+
+        toast.success("Thanks for the comment!", {
+            position: "bottom-left",
+            toastId: "commentSuccess"
+        })
+
     }
 
 

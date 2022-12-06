@@ -7,7 +7,7 @@ const Layout = (props) => {
     return (
         <>
             <Navigation />
-            <main>{props.children}</main>
+            <main className="mt-24">{props.children}</main>
 
         </>
     )
