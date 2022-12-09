@@ -1,5 +1,7 @@
 import SpotCard from "../components/SpotCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+
+import AppContext from "../context/AppContext";
 
 import Head from "next/head"
 import { useRouter } from 'next/router'
@@ -20,8 +22,9 @@ import { GETSpotFetcherAll } from "../utils/GETfetchers";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
-import PATHS from "../utils/URLs";
-const { home, newSpot } = PATHS
+import SelectRegion from "../components/FilterRegion/SelectRegion";
+
+
 
 export const getServerSideProps = async (context) => {
 
@@ -59,25 +62,32 @@ export const getServerSideProps = async (context) => {
 
 
 const allSpots = ({ spots, currentUserName }) => {
-  const [activeCategories, setActiveCategories] = useState([]);
+
+  const searchContext = useContext(AppContext)
+
+  console.log('CONTEXT', searchContext)
+
 
   const [filterMode, setFilterMode] = useState(false);
+
+
+  const [activeCategories, setActiveCategories] = useState([]);
+
 
 
 
 
   // Execute when click on filter
-  const handleClickFilter = (e) => {
-    const filterRequired = e.target.value
-    console.log('filterRequired', filterRequired)
+  const handleClickFilter = (filter) => {
+    console.log('filterRequired', filter)
 
-    if (activeCategories.includes(filterRequired)) { // if already in array -> remove
+    if (activeCategories.includes(filter)) { // if already in array -> remove
       setActiveCategories(
-        (prevState) => prevState.filter(x => x !== filterRequired)
+        (prevState) => prevState.filter(x => x !== filter)
       )
     } else { // if NOT already in array -> add
       setActiveCategories(
-        (prevState) => [...prevState, filterRequired]
+        (prevState) => [...prevState, filter]
       )
     }
   }
@@ -185,11 +195,10 @@ const allSpots = ({ spots, currentUserName }) => {
     <>
 
       <Head>
-        <title>Find the best spots</title>
+        <title>Find the best spots!</title>
         <meta name="description" content="Browse the best spots, in a minute!" />
       </Head>
 
-      <button onClick={() => router.push(`/${newSpot}`)}> HOME</button>
 
       <ToastContainer
         autoClose={4000}
@@ -197,67 +206,103 @@ const allSpots = ({ spots, currentUserName }) => {
       />
 
 
-      <div className="flex flex-row justify-center">
-        <FilterSpots
-          icon={<BsSunset />}
-          value={"Sunset"}
-          onClick={handleClickFilter}
-          activeCategories={activeCategories}
-        />
-
-        <FilterSpots
-          icon={<BsBuilding />}
-          value={"Urban"}
-          onClick={handleClickFilter}
-          activeCategories={activeCategories}
-        />
-
-        <FilterSpots
-          icon={<BsFillTreeFill />}
-          value={"Nature"}
-          onClick={handleClickFilter}
-          activeCategories={activeCategories}
-        />
-      </div>
+      {/* Global container */}
+      <div className="flex mt-16 h-full justify-start space-x-12	">
 
 
+        {/* Filter container */}
+        <div className="flex-column border border-gray py-6 px-1	">
 
-      <div
-        className=" 
-                    mt-14 max-w-6xl	mx-auto 
+
+          {/* Category filter container */}
+          <div className="flex space-x-1">
+            <FilterSpots
+              icon={<BsSunset />}
+              value={"Sunset"}
+              onClick={handleClickFilter}
+              activeCategories={activeCategories}
+            />
+
+            <FilterSpots
+              icon={<BsBuilding />}
+              value={"Urban"}
+              onClick={handleClickFilter}
+              activeCategories={activeCategories}
+            />
+
+            <FilterSpots
+              icon={<BsFillTreeFill />}
+              value={"Nature"}
+              onClick={handleClickFilter}
+              activeCategories={activeCategories}
+            />
+          </div>
+
+          <hr className="my-4 mx-auto w-4/5	 h-0.5	 bg-gray-200 border-0" />
+
+
+          {/* Region filter container */}
+          <SelectRegion />
+
+
+          <hr className="my-4 mx-auto w-4/5	 h-0.5	 bg-gray-200 border-0" />
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div
+          className=" 
+                    max-w-6xl	
                     grid grid-cols-4 gap-4 justify-center">
-        {
-          filterMode ?
-            spots
-              .filter((spot) =>
-                spot.categories.some(x => activeCategories.includes(x))
-              )
-              .map((spot) =>
-                <SpotCard
-                  key={spot._id}
-                  id={spot._id}
-                  title={spot.title}
-                  description={spot.description}
-                  categories={spot.categories}
-                  author={spot.author.name}
-                />
-              )
-            :
-            spots
-              .map((spot) =>
-                <SpotCard
-                  key={spot._id}
-                  id={spot._id}
-                  title={spot.title}
-                  description={spot.description}
-                  categories={spot.categories}
-                  author={spot.author.name}
-                />
-              )
-        }
+          {
+            filterMode ?
+              spots
+                .filter((spot) =>
+                  spot.categories.some(x => activeCategories.includes(x))
+                )
+                .map((spot) =>
+                  <SpotCard
+                    key={spot._id}
+                    id={spot._id}
+                    title={spot.title}
+                    description={spot.description}
+                    categories={spot.categories}
+                    author={spot.author.name}
+                  />
+                )
+
+              :
+
+              spots
+                .map((spot) =>
+                  <SpotCard
+                    key={spot._id}
+                    id={spot._id}
+                    title={spot.title}
+                    description={spot.description}
+                    categories={spot.categories}
+                    author={spot.author.name}
+                  />
+                )
+          }
+        </div>
+
       </div>
-
-
 
 
     </>

@@ -6,12 +6,11 @@ import { SessionProvider } from "next-auth/react"
 
 // For loading bar
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import NProgress from 'nprogress'
 import '../styles/nprogress.css'
 
-
-
+import AppContext from '../context/AppContext'
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
 
@@ -39,14 +38,29 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
 
 
 
+  // State manaegement for context
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Holder of all global data we want to put into context 
+  const searchBarContext = {
+    value: searchQuery,
+    addSearch: (query) => { setSearchQuery(query) },
+  };
+
+
+
   return (
     <SessionProvider session={session}>
+      <AppContext.Provider value={searchBarContext}>
 
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
 
-    </SessionProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+
+
+      </AppContext.Provider>
+    </SessionProvider >
   )
 }
 

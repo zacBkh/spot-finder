@@ -24,7 +24,7 @@ const SpotCard = ({ title, description, id, categories, author }) => {
                 className="mb-6 cursor-pointer">
 
                 <div className=
-                    "max-w-sm		">
+                    "w-48">
                     <Image
                         src={imageTesting}
                         alt="Picture"
@@ -45,3 +45,7 @@ const SpotCard = ({ title, description, id, categories, author }) => {
 }
 
 export default SpotCard 
+
+
+//  class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+  

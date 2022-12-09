@@ -5,6 +5,8 @@ import capitalize from "../../utils/capitalize"
 import Link from "next/link"
 import { useRouter } from 'next/router';
 
+import { useState, useContext } from 'react';
+import AppContext from '../../context/AppContext';
 
 import { useSession, signOut } from "next-auth/react"
 
@@ -14,7 +16,19 @@ import { BiUserCircle } from 'react-icons/bi';
 import PATHS from '../../utils/URLs';
 const { home } = PATHS
 
+
+
+
+
+
+
 const Navigation = () => {
+
+    const searchContext = useContext(AppContext)
+
+
+    const [navbarSearch, setNavbarSearch] = useState("");
+
 
     const router = useRouter();
 
@@ -85,7 +99,7 @@ const Navigation = () => {
                                                                     router.pathname === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                                     'px-3 py-2 rounded-md text-sm font-medium list-none	'
                                                                 )}
-                                                                key={item.name}
+                                                                key={item.href}
                                                             >
                                                                 {item.name}
                                                             </a>
@@ -123,17 +137,37 @@ const Navigation = () => {
                                     }
 
 
-                                    {/* classNames(
-                                router.pathname === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                'px-3 py-2 rounded-md text-sm font-medium list-none	'
-                                )
-                                router.pathname === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                'px-3 py-2 rounded-md text-sm font-medium list-none	' */}
+
+
+
+
+                                    <div
+                                        className="relative hidden md:block mr-12">
+                                        <div
+                                            className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg className="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
+
+                                            <span className="sr-only">Search icon</span>
+                                        </div>
+
+                                        <input
+                                            // onChange={(e) => setNavbarSearch(e.target.value)}
+                                            onChange={(e) => searchContext.addSearch(e.target.value)}
+                                            value={searchContext.value}
+                                            type="text" id="search-navbar" placeholder="Search..."
+                                            className="text-white text-sm 	 block w-full p-2 pl-10 rounded-lg bg-gray-700 focus:ring-white focus:border-white border-none" />
+                                    </div>
+
+
+
+
+
+
 
                                     <button
                                         type="button"
-                                        className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                                    >
+                                        className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+
                                         <span className="sr-only">View notifications</span>
                                         <AiOutlineBell className="h-6 w-6" aria-hidden="true" />
                                     </button>
@@ -266,7 +300,7 @@ const Navigation = () => {
                                         return (
                                             <Disclosure.Button
                                                 onClick={item.onClick ? item.onClick : null}
-                                                key={item.name}
+                                                key={item.href}
                                                 as="a"
                                                 href={item.href}
                                                 className={classNames(
