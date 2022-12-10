@@ -81,7 +81,7 @@ export default async function TESTER(req, res) {
 
 
 
-    await helpppp(res, "638d7783050b1dd32d06c7c1")
+    // await helpppp(res, "638d7783050b1dd32d06c7c1")
 
     // await showAllSpots(res)
     // await deleteAllSpots(res)
@@ -90,6 +90,8 @@ export default async function TESTER(req, res) {
     // await showAllUsers(res)
     // await deleteAllUsers(res)
     // await deleteAllUsersBut(res, "637c4b8252e6f480e190104f")
+
+
     // await checkUserExists(res, "roblaf93@gmail.com")
     // await tokenGen(res)
 

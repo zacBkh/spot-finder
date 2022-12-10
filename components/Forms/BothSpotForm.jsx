@@ -11,6 +11,8 @@ import CategoryCheckBoxItemBoth from '../CategoriesCheckboxes/CheckboxItemBoth';
 import MapForm from '../Maps/MapForm';
 
 import getCountryName from '../../utils/getCountryFetcher';
+import { countryContinent } from '../../utils/countryContinent';
+
 
 import { useSession } from "next-auth/react"
 
@@ -83,10 +85,16 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
         // Adding country
         const Longitude = formValues.locationDrag.Longitude;
         const Latitude = formValues.locationDrag.Latitude;
-        const country = await getCountryName(Longitude, Latitude)
+        const countryData = await getCountryName(Longitude, Latitude)
+        const { country, countryCode } = countryData
+
+        // Adding region
+        const found = countryContinent.find(country => country.code === countryCode)
+        const region = found.region ? found.region : null
+        console.log('regionnnnnnnnn --> ', region)
 
         // Combining values + GeoJSON + country
-        const newObjectWithGeoJSON = { ...formValues, geometry, country };
+        const newObjectWithGeoJSON = { ...formValues, geometry, country, region };
 
 
         let visitedField

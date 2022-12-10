@@ -9,11 +9,12 @@ const getCountryName = async (Longitude, Latitude) => {
     try {
         const response = await fetch(APIEndpoint)
         const data = await response.json()
-        console.log("data", data)
-        const country = await data.features[0].text
-        console.log("country", country)
+        console.log("data get country !!", data)
+        const country = data.features[0].text
+        const countryCode = data.features[0].properties.short_code
 
-        return country
+
+        return { country, countryCode }
     }
     catch (err) {
         console.log("There has been an error =>", err);

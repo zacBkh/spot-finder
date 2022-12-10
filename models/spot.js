@@ -90,12 +90,12 @@ const spotSchema = new Schema(
                 ref: "Review",
                 default: []
             }
-        ]
+        ],
 
-        // continent: {
-        //     type: String,
-        //     // required: true,
-        // },
+        region: {
+            type: String,
+            required: true,
+        },
 
 
         // images: [

@@ -5,12 +5,12 @@ import capitalize from "../../utils/capitalize"
 import Link from "next/link"
 import { useRouter } from 'next/router';
 
-import { useState, useContext } from 'react';
+import { useContext, useRef } from 'react';
 import AppContext from '../../context/AppContext';
 
 import { useSession, signOut } from "next-auth/react"
 
-import { AiOutlineMenu, AiOutlineBell, AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineMenu, AiOutlineBell, AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
 import { BiUserCircle } from 'react-icons/bi';
 
 import PATHS from '../../utils/URLs';
@@ -19,15 +19,15 @@ const { home } = PATHS
 
 
 
-
+// const [filters, setFilters] = useState({ isActive: false, whichFilter: "" });
 
 
 const Navigation = () => {
 
     const searchContext = useContext(AppContext)
 
+    const refFocus = useRef(null);
 
-    const [navbarSearch, setNavbarSearch] = useState("");
 
 
     const router = useRouter();
@@ -122,6 +122,49 @@ const Navigation = () => {
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
 
+
+
+
+
+                                    {/* Search bar */}
+                                    <div
+                                        className=" 
+                                           0/10
+                                            relative hidden md:block mr-12">
+                                        <div
+                                            className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <AiOutlineSearch className=" text-gray-400 text-lg " />
+
+
+                                            <span className="sr-only">Search icon</span>
+                                        </div>
+
+                                        <input
+                                            ref={refFocus}
+                                            value={searchContext.value}
+                                            onChange={(e) => searchContext.addSearch(e.target.value)}
+                                            type="text" id="search-navbar" placeholder="Search..."
+                                            className="
+                                                focus:ring-white focus:border-white border-0
+                                                text-white text-sm 	 block w-full p-2 pl-10 rounded-lg bg-gray-700  "
+                                        />
+
+                                        {searchContext.value.length > 0 &&
+                                            <button
+                                                type="button"
+                                                class="absolute inset-y-0 right-0 flex items-center pr-3">
+
+                                                <AiOutlineClose
+                                                    onMouseDown={e => e.preventDefault()} // prevent focus
+                                                    onClick={() => searchContext.addSearch("")}
+                                                    className="text-lg text-gray-400"
+                                                />
+                                            </button>
+                                        }
+                                    </div>
+
+
+
                                     {
                                         status === "authenticated" &&
                                         <Link
@@ -135,31 +178,6 @@ const Navigation = () => {
                                         </Link>
 
                                     }
-
-
-
-
-
-
-                                    <div
-                                        className="relative hidden md:block mr-12">
-                                        <div
-                                            className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                            <svg className="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
-
-                                            <span className="sr-only">Search icon</span>
-                                        </div>
-
-                                        <input
-                                            // onChange={(e) => setNavbarSearch(e.target.value)}
-                                            onChange={(e) => searchContext.addSearch(e.target.value)}
-                                            value={searchContext.value}
-                                            type="text" id="search-navbar" placeholder="Search..."
-                                            className="text-white text-sm 	 block w-full p-2 pl-10 rounded-lg bg-gray-700 focus:ring-white focus:border-white border-none" />
-                                    </div>
-
-
-
 
 
 

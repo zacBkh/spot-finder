@@ -25,7 +25,6 @@ import "react-toastify/dist/ReactToastify.css";
 import SelectRegion from "../components/FilterRegion/SelectRegion";
 
 
-
 export const getServerSideProps = async (context) => {
 
 
@@ -39,7 +38,8 @@ export const getServerSideProps = async (context) => {
     return {
       props: {
         spots: resultFetchGET,
-        currentUserName: session ? session.user.name : null
+        currentUserName: session ? session.user.name : null,
+        queryString: context.query
       },
     };
 
@@ -61,27 +61,27 @@ export const getServerSideProps = async (context) => {
 
 
 
-const allSpots = ({ spots, currentUserName }) => {
+const allSpots = ({ spots, currentUserName, queryString }) => {
 
   const searchContext = useContext(AppContext)
-
   console.log('CONTEXT', searchContext)
+  console.log('CONTEXT-value', searchContext.value.toLowerCase())
+  console.log('CONTEXT-value', searchContext.value.length)
 
-
-  const [filterMode, setFilterMode] = useState(false);
 
 
   const [activeCategories, setActiveCategories] = useState([]);
 
+  const [filteredSpots, setFilteredSpots] = useState(spots);
 
 
 
-
-  // Execute when click on filter
+  // Maintain the current activee categorie(s) array
   const handleClickFilter = (filter) => {
     console.log('filterRequired', filter)
 
     if (activeCategories.includes(filter)) { // if already in array -> remove
+
       setActiveCategories(
         (prevState) => prevState.filter(x => x !== filter)
       )
@@ -92,16 +92,44 @@ const allSpots = ({ spots, currentUserName }) => {
     }
   }
 
-
-
-  // Once category state has been updated, check if there is something inside or not...
+  // Filter the spots
   useEffect(() => {
-    if (!activeCategories.length) { //  if nothing, reset filters
-      setFilterMode(false)
-    } else {
-      setFilterMode(true) // if at least one item, filter mode on
+
+    // // If categories + search bar, double filter  
+    // if (activeCategories.length && searchContext.value.length) {
+    //   setFilteredSpots(spots
+    //     .filter((spot) =>
+    //       spot.categories.some(x => activeCategories.includes(x))
+    //     )
+    //     .filter((spot) =>
+    //       spot.title.toLowerCase().includes(searchContext.value.toLowerCase())
+    //     )
+    //   )
+    //   return
+    // }
+
+
+    // If search bar only  
+    if (searchContext.value.length) {
+      setActiveCategories([])
+      setFilteredSpots(spots.filter((spot) =>
+        spot.title.toLowerCase().includes(searchContext.value.toLowerCase())
+      ))
+      return
     }
-  }, [activeCategories])
+
+
+    // If categories only  
+    if (activeCategories.length) {
+      setFilteredSpots(spots.filter((spot) =>
+        spot.categories.some(x => activeCategories.includes(x))
+      ))
+      return
+    }
+
+
+    setFilteredSpots(spots)
+  }, [activeCategories, searchContext])
 
 
 
@@ -129,7 +157,6 @@ const allSpots = ({ spots, currentUserName }) => {
 
   // Capitalize and take only first string of current user
   if (currentUserName) { currentUserName = capitalize(currentUserName.split(" ")[0]) }
-
 
   // Display toaster
   useEffect(() => {
@@ -173,24 +200,30 @@ const allSpots = ({ spots, currentUserName }) => {
   }, [])
 
 
-  const router = useRouter()
-  const message = router.query.alreadyLoggedIn
   // To get the URL param for toast
-  useEffect(() => {
-    if (message) {
-      toast.info("You are already logged in!", {
-        position: "bottom-left",
-        toastId: "alreadyLoggedIn", // prevent duplicates
-      });
-    }
-  }, [router.isReady])
+  if (queryString.alreadyLoggedIn) {
+    toast.info(`${currentUserName}, you are already logged in!`, {
+      position: "bottom-left",
+      toastId: "alreadyLoggedIn", // prevent duplicates
+    });
+  }
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 
   // ES6 filtering way
-  // If filterMode is on, then filter, otherwise, just map components
+  // If filters is on, then filter, otherwise, just map components
   return (
     <>
 
@@ -270,35 +303,18 @@ const allSpots = ({ spots, currentUserName }) => {
                     max-w-6xl	
                     grid grid-cols-4 gap-4 justify-center">
           {
-            filterMode ?
-              spots
-                .filter((spot) =>
-                  spot.categories.some(x => activeCategories.includes(x))
-                )
-                .map((spot) =>
-                  <SpotCard
-                    key={spot._id}
-                    id={spot._id}
-                    title={spot.title}
-                    description={spot.description}
-                    categories={spot.categories}
-                    author={spot.author.name}
-                  />
-                )
-
-              :
-
-              spots
-                .map((spot) =>
-                  <SpotCard
-                    key={spot._id}
-                    id={spot._id}
-                    title={spot.title}
-                    description={spot.description}
-                    categories={spot.categories}
-                    author={spot.author.name}
-                  />
-                )
+            // isFilterMode ? filteredSpots : spots
+            filteredSpots
+              .map((spot) =>
+                <SpotCard
+                  key={spot._id}
+                  id={spot._id}
+                  title={spot.title}
+                  description={spot.description}
+                  categories={spot.categories}
+                  author={spot.author.name}
+                />
+              )
           }
         </div>
 
