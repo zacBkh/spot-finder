@@ -91,8 +91,8 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
         // Adding region
         const found = countryContinent.find(country => country.code === countryCode)
         const region = found.region ? found.region : null
-        console.log('regionnnnnnnnn --> ', region)
 
+        
         // Combining values + GeoJSON + country
         const newObjectWithGeoJSON = { ...formValues, geometry, country, region };
 

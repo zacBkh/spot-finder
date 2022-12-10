@@ -4,7 +4,6 @@ import { useState, useEffect, useContext } from "react";
 import AppContext from "../context/AppContext";
 
 import Head from "next/head"
-import { useRouter } from 'next/router'
 
 import { unstable_getServerSession } from "next-auth/next"
 import { authOptions } from "./api/auth/[...nextauth]";
@@ -63,14 +62,12 @@ export const getServerSideProps = async (context) => {
 
 const allSpots = ({ spots, currentUserName, queryString }) => {
 
+  // Context API holding value from navbar search input + method to add
   const searchContext = useContext(AppContext)
-  console.log('CONTEXT', searchContext)
-  console.log('CONTEXT-value', searchContext.value.toLowerCase())
-  console.log('CONTEXT-value', searchContext.value.length)
-
 
 
   const [activeCategories, setActiveCategories] = useState([]);
+  const [activeRegion, setActiveRegion] = useState("");
 
   const [filteredSpots, setFilteredSpots] = useState(spots);
 
@@ -92,31 +89,45 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
     }
   }
 
-  // Filter the spots
+
+
+
+  // Filter the spots -- can be improved
   useEffect(() => {
 
-    // // If categories + search bar, double filter  
-    // if (activeCategories.length && searchContext.value.length) {
-    //   setFilteredSpots(spots
-    //     .filter((spot) =>
-    //       spot.categories.some(x => activeCategories.includes(x))
-    //     )
-    //     .filter((spot) =>
-    //       spot.title.toLowerCase().includes(searchContext.value.toLowerCase())
-    //     )
-    //   )
-    //   return
-    // }
 
 
-    // If search bar only  
+
+    // If search bar only, disable all other filters
     if (searchContext.value.length) {
-      setActiveCategories([])
+      setActiveCategories([]);
+      setActiveRegion("")
+
       setFilteredSpots(spots.filter((spot) =>
         spot.title.toLowerCase().includes(searchContext.value.toLowerCase())
       ))
       return
     }
+
+
+
+
+
+    // If categories + region --> double filter  
+    if (activeCategories.length && activeRegion.length) {
+      setFilteredSpots(spots
+        .filter((spot) =>
+          spot.categories.some(x => activeCategories.includes(x))
+        )
+        .filter((spot) =>
+          spot.region === activeRegion
+        )
+      )
+      return
+    }
+
+
+
 
 
     // If categories only  
@@ -128,8 +139,16 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
     }
 
 
+    // If region only  
+    if (activeRegion.length) {
+      setFilteredSpots(spots.filter((spot) =>
+        spot.region === activeRegion
+      ))
+      return
+    }
+
     setFilteredSpots(spots)
-  }, [activeCategories, searchContext])
+  }, [activeCategories, searchContext, activeRegion])
 
 
 
@@ -155,7 +174,7 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
   }
 
 
-  // Capitalize and take only first string of current user
+  // Capitalize and take only first string of current user for toaster
   if (currentUserName) { currentUserName = capitalize(currentUserName.split(" ")[0]) }
 
   // Display toaster
@@ -219,11 +238,6 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
 
 
 
-
-
-
-  // ES6 filtering way
-  // If filters is on, then filter, otherwise, just map components
   return (
     <>
 
@@ -275,11 +289,13 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
 
 
           {/* Region filter container */}
-          <SelectRegion />
+          <SelectRegion
+            regionState={activeRegion}
+            onRegionFilterChange={(e) => setActiveRegion(e)}
+          />
 
 
           <hr className="my-4 mx-auto w-4/5	 h-0.5	 bg-gray-200 border-0" />
-
 
         </div>
 
@@ -291,19 +307,12 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
 
 
 
-
-
-
-
-
-
-
+        {/* Main section with spots */}
         <div
           className=" 
                     max-w-6xl	
                     grid grid-cols-4 gap-4 justify-center">
           {
-            // isFilterMode ? filteredSpots : spots
             filteredSpots
               .map((spot) =>
                 <SpotCard
