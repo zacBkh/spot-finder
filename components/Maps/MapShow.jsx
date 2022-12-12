@@ -1,3 +1,6 @@
+import { useState } from 'react';
+
+import { Skeleton } from '@mui/material';
 
 
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -18,43 +21,59 @@ import Map, {
 
 const MapShow = ({ markerCoordinates }) => {
 
+    const [isMapLoading, setIsMapLoading] = useState(true);
+    const [aaa, setAAA] = useState(false);
+
+
+    const onLoad = (arg) => {
+        setIsMapLoading(arg.fullyLoaded)
+    }
 
 
     return (
-        <div className='flex justify-center mt-6'>
-            <Map
-                initialViewState={{
-                    latitude: markerCoordinates.Latitude,
-                    longitude: markerCoordinates.Longitude,
-                    zoom: 3
-                }}
-                style={{ width: 700, height: 500 }}
-                mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
-                mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
-                attributionControl={false} >
+        <>
+            <div
+                className={`justify-center mt-6 ${isMapLoading ? "flex" : "hidden"}`}>
+                <Skeleton animation="wave" variant="rectangular" width={700} height={500} />
+            </div >
 
+            <div className={`justify-center mt-6 ${isMapLoading ? "invisible" : "flex"}`}>
 
-
-
-
-                <Marker
-                    longitude={markerCoordinates.Longitude}
-                    latitude={markerCoordinates.Latitude}
-                    color="red"
+                <Map
+                    initialViewState={{
+                        latitude: markerCoordinates.Latitude,
+                        longitude: markerCoordinates.Longitude,
+                        zoom: 3
+                    }}
+                    style={{ width: 700, height: 500 }}
+                    mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
+                    mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+                    attributionControl={false}
+                    // onLoad={() => setIsMapLoading(false)}
+                    onLoad={onLoad}
 
                 >
-                    <Pin
-                        size={20}
-                    />
-                </Marker>
 
-                <FullscreenControl />
-                <GeolocateControl />
-                <NavigationControl />
-                <ScaleControl />
 
-            </Map>
-        </div >
+
+                    <Marker
+                        longitude={markerCoordinates.Longitude}
+                        latitude={markerCoordinates.Latitude}
+                        color="red"
+
+                    >
+                        <Pin
+                            size={20}
+                        />
+                    </Marker>
+
+                    <FullscreenControl />
+                    <GeolocateControl />
+                    <NavigationControl />
+                    <ScaleControl />
+                </Map>
+            </div >
+        </>
     )
 }
 

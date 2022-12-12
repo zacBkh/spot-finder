@@ -13,9 +13,8 @@ export
 
         const res = await Spot.find({})
             .populate("author", "name") // Populating ONLY author name
+            .populate("reviews") // Populating ONLY author name
         const allSpots = JSON.parse(JSON.stringify(res));
-        console.log('allSpots', allSpots)
-
         return allSpots;
     }
 
@@ -26,10 +25,8 @@ export
     const GETSpotFetcherOne = async (ID) => {
         await connectMongo()
 
-        const response = await Spot.findById(ID)
+        const response = await Spot.findById(ID).populate("reviews")
         const indivSpot = JSON.parse(JSON.stringify(response));
-        console.log('indivSpot', indivSpot)
-
         return indivSpot;
     }
 

@@ -53,7 +53,7 @@ export const getServerSideProps = async (context) => {
         return {
             props: {
                 indivSpot: resultFetchGETOne,
-                currentUserID: session ? session.userID : null
+                currentUserID: session ? session.userID : null,
             },
         };
 
@@ -79,11 +79,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     // Did this to update in real time nb of visits when user toggle
     const nbVisit = indivSpot.visited.numberOfVisits
     const [nbOfVisit, setNbOfVisit] = useState(nbVisit);
-
-
-
-
-
 
 
 

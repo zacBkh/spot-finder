@@ -247,8 +247,6 @@ const SignIn = ({ }) => {
                     </div>
 
                 </section>
-
-
             </>
         )
     }

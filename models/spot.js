@@ -3,6 +3,9 @@ import spotCategories from '../utils/spotCategories';
 import User from './user';
 import Review from './reviews';
 
+
+// To enable passing of virtuals to JSON (for the map popup )
+
 const spotSchema = new Schema(
     {
         title: {
@@ -112,8 +115,12 @@ const spotSchema = new Schema(
         // },
 
 
-    }, { timestamps: true }
-    //opts //passing virtual to JSON for map pop up
+    },
+    {
+        timestamps: true,
+        toObject: { virtuals: true },
+        toJSON: { virtuals: true }
+    },
 );
 
 
@@ -143,29 +150,54 @@ spotSchema.post("findOneAndDelete", async function (spotDeleted) {
             $pull: { spotsOwned: spotID } // pull the deleted spot from spotsOwned array
         }
     )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 })
 
 
 
 
+spotSchema.virtual("virtuals.averageGrade").get(function () {
+
+    // Doing average of grade
+    let gradeSum = 0
+    let length = 0
+    for (const i of this.reviews) {
+        gradeSum = gradeSum + i.rate
+        length++
+    }
+    return gradeSum / length
+});
+
+
+// // If we add "query.populate(virtualName)" this will become available
+// spotSchema.virtual("virtuals.averageGrade", {
+//     ref: 'Review',
+//     localField: 'reviews',
+//     foreignField: '_id'
+// });
+
+// // return "I am a virtual"
+
+// const numbOfReviews = this.reviews.length
+
+// return this.reviews[0]
+
+//     // let gradeSum = 0
+//     // for (const i of this.reviews) {
+//     //     gradeSum = gradeSum + i.rate
+//     // }
+
+//     // return gradeSum
+//     // return gradeSum / numbOfReviews
+
+//     // return `${this.title} ${this.description}`;
+//     // let gradeSum = 0
+//     // let length = 0
+//     // for (const i of this.reviews) {
+//     //     gradeSum = gradeSum + i.rating
+//     //     length++
+//     // }
+//     // return gradeSum / length
+// });
 
 
 

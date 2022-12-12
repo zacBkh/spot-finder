@@ -6,7 +6,7 @@ import Image from 'next/image'
 import imageTesting from "../public/imageTesting.jpg"
 
 
-const SpotCard = ({ title, description, id, categories, author }) => {
+const SpotCard = ({ rate, title, description, id, categories, author }) => {
     const router = useRouter()
 
 
@@ -37,6 +37,7 @@ const SpotCard = ({ title, description, id, categories, author }) => {
                     <p className="font-semibold">{title}</p>
                     <p className="font-light">{description}</p>
                     <p className="font-light">Shared by {author}</p>
+                    <p className="font-light">Grade: {rate}</p>
                     <p className="font-light">{categories.join(", ")}</p>
                 </div>
             </div>
@@ -44,8 +45,7 @@ const SpotCard = ({ title, description, id, categories, author }) => {
     )
 }
 
-export default SpotCard 
+export default SpotCard
 
 
 //  class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-  

@@ -472,7 +472,6 @@ const LoginOrRegisterForm = ({ action, headerMsg, alternativeMsg, onForgotPasswo
                             <Link
                                 href={`/auth/${action === "Register" ? "SignIn" : "Register"}`}>
                                 <button
-
                                     className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300
                                     ">{action === "Register" ? "Login" : "Register"}
                                 </button>

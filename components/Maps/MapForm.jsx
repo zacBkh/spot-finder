@@ -66,13 +66,15 @@ const MapForm = ({ initialView, markerCoordinates, onNewCoor }) => {
         onNewCoor(goodCoordinates)
     }
 
+
+
     return (
         <div className='flex justify-center'>
             <Map
                 initialViewState={initialView}
                 style={{ width: 700, height: 500 }}
                 mapStyle="mapbox://styles/mapbox/satellite-streets-v11"
-              
+
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
                 attributionControl={false}
                 onClick={clickMapHandler}
@@ -89,8 +91,8 @@ const MapForm = ({ initialView, markerCoordinates, onNewCoor }) => {
                         // onClick={clickMarkerHandler}
                         // onDragStart={dragStartHandler}
                         // onDrag={dragWhileHandler}
-                        onDragEnd={dragStopHandler}
-                    >
+                        onDragEnd={dragStopHandler}>
+
                         <Pin
                             size={20}
                         />

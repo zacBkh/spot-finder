@@ -22,6 +22,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 import SelectRegion from "../components/FilterRegion/SelectRegion";
+import SelectSort from "../components/Sorting/SelectSort";
 
 
 export const getServerSideProps = async (context) => {
@@ -68,6 +69,7 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
 
   const [activeCategories, setActiveCategories] = useState([]);
   const [activeRegion, setActiveRegion] = useState("");
+  const [activeSort, setActiveSort] = useState("");
 
   const [filteredSpots, setFilteredSpots] = useState(spots);
 
@@ -97,7 +99,6 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
 
 
 
-
     // If search bar only, disable all other filters
     if (searchContext.value.length) {
       setActiveCategories([]);
@@ -109,8 +110,18 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
       return
     }
 
-
-
+    // If region + sorting --> double filter  
+    if (activeRegion.length && activeSort.length) {
+      setFilteredSpots(spots
+        .filter((spot) =>
+          spot.region === activeRegion
+        )
+        .sort(
+          ((a, b) => b.virtuals.averageGrade - a.virtuals.averageGrade)
+        )
+      )
+      return
+    }
 
 
     // If categories + region --> double filter  
@@ -125,8 +136,6 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
       )
       return
     }
-
-
 
 
 
@@ -147,8 +156,28 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
       return
     }
 
+
+    if (activeSort.length) {
+      // If sort only  
+      setFilteredSpots(spots.sort(
+        ((a, b) => b.virtuals.averageGrade - a.virtuals.averageGrade)
+      ))
+      return
+    }
+
+
+
+
+
+    // If no filter mathced, just keep it like it is
     setFilteredSpots(spots)
-  }, [activeCategories, searchContext, activeRegion])
+
+
+
+
+    // setFilteredSpots(spots)
+  }, [activeCategories, searchContext, activeRegion, activeSort])
+
 
 
 
@@ -256,46 +285,68 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
       {/* Global container */}
       <div className="flex mt-16 h-full justify-start space-x-12	">
 
+        {/* Filter category container */}
+        <div className="flex-column border border-gray py-2 ">
+          <h3 className="font-semibold text-base px-2">Filter by...</h3>
 
-        {/* Filter container */}
-        <div className="flex-column border border-gray py-6 px-1	">
+          <hr className="mt-2 mb-4 mx-auto h-0.5 bg-gray-200 border-0" />
 
+          <div className="px-2">
+            <h4 className="font-semibold text-sm mb-2">Category</h4>
 
-          {/* Category filter container */}
-          <div className="flex space-x-1">
-            <FilterSpots
-              icon={<BsSunset />}
-              value={"Sunset"}
-              onClick={handleClickFilter}
-              activeCategories={activeCategories}
-            />
+            {/* Category filter container */}
+            <div className="flex space-x-1">
+              <FilterSpots
+                icon={<BsSunset />}
+                value={"Sunset"}
+                onClick={handleClickFilter}
+                activeCategories={activeCategories}
+              />
 
-            <FilterSpots
-              icon={<BsBuilding />}
-              value={"Urban"}
-              onClick={handleClickFilter}
-              activeCategories={activeCategories}
-            />
+              <FilterSpots
+                icon={<BsBuilding />}
+                value={"Urban"}
+                onClick={handleClickFilter}
+                activeCategories={activeCategories}
+              />
 
-            <FilterSpots
-              icon={<BsFillTreeFill />}
-              value={"Nature"}
-              onClick={handleClickFilter}
-              activeCategories={activeCategories}
-            />
+              <FilterSpots
+                icon={<BsFillTreeFill />}
+                value={"Nature"}
+                onClick={handleClickFilter}
+                activeCategories={activeCategories}
+              />
+            </div>
           </div>
 
-          <hr className="my-4 mx-auto w-4/5	 h-0.5	 bg-gray-200 border-0" />
+          <hr className="my-4 mx-auto 	 h-px		 bg-gray-200 border-0" />
 
 
           {/* Region filter container */}
-          <SelectRegion
-            regionState={activeRegion}
-            onRegionFilterChange={(e) => setActiveRegion(e)}
+          <div className="px-2">
+            <h4 className="font-semibold text-sm mb-2">Region</h4>
+            <SelectRegion
+              regionState={activeRegion}
+              onRegionFilterChange={(e) => setActiveRegion(e)}
+            />
+          </div>
+
+
+
+
+
+
+          <h3 className="font-semibold text-base px-2 mt-8">Sort by...</h3>
+          <hr className="mt-2 mb-4 mx-auto h-0.5 bg-gray-200 border-0" />
+
+          <SelectSort
+            sortingState={activeSort}
+            onSortChange={(e) => setActiveSort(e)}
           />
 
 
-          <hr className="my-4 mx-auto w-4/5	 h-0.5	 bg-gray-200 border-0" />
+
+
 
         </div>
 
@@ -310,8 +361,10 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
         {/* Main section with spots */}
         <div
           className=" 
-                    max-w-6xl	
-                    grid grid-cols-4 gap-4 justify-center">
+                    grid grid-cols-4 
+                    2xl:grid-cols-6 
+                    justify-center
+                    ">
           {
             filteredSpots
               .map((spot) =>
@@ -322,6 +375,7 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
                   description={spot.description}
                   categories={spot.categories}
                   author={spot.author.name}
+                  rate={spot.virtuals.averageGrade}
                 />
               )
           }
