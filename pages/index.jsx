@@ -3,69 +3,54 @@ import { useState, useEffect, useContext } from "react";
 
 import AppContext from "../context/AppContext";
 
-import Head from "next/head"
+import Head from "next/head";
 
-import { unstable_getServerSession } from "next-auth/next"
+import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]";
 
 import capitalize from "../utils/capitalize";
 
 import FilterSpots from "../components/CategoriesCheckboxes/FilterSpots";
 
-import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs';
-
+import { BsFillTreeFill, BsBuilding, BsSunset } from "react-icons/bs";
 
 import { GETSpotFetcherAll } from "../utils/GETfetchers";
 
-
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import SelectRegion from "../components/FilterRegion/SelectRegion";
 import SelectSort from "../components/Sorting/SelectSort";
 
-
 export const getServerSideProps = async (context) => {
-
-
-  const session = await unstable_getServerSession(context.req, context.res, authOptions)
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
 
   try {
     // Executing the fx that will fetch all Spots
-    const resultFetchGET = await GETSpotFetcherAll()
-
+    const resultFetchGET = await GETSpotFetcherAll();
 
     return {
       props: {
         spots: resultFetchGET,
         currentUserName: session ? session.user.name : null,
-        queryString: context.query
+        queryString: context.query,
       },
     };
-
-
-
   } catch (error) {
     console.log(error);
     return {
       notFound: true,
-    }
+    };
   }
-}
-
-
-
-
-
-
-
-
+};
 
 const allSpots = ({ spots, currentUserName, queryString }) => {
-
   // Context API holding value from navbar search input + method to add
-  const searchContext = useContext(AppContext)
-
+  const searchContext = useContext(AppContext);
 
   const [activeCategories, setActiveCategories] = useState([]);
   const [activeRegion, setActiveRegion] = useState("");
@@ -73,115 +58,102 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
 
   const [filteredSpots, setFilteredSpots] = useState(spots);
 
-
-
   // Maintain the current activee categorie(s) array
   const handleClickFilter = (filter) => {
-    console.log('filterRequired', filter)
+    console.log("filterRequired", filter);
 
-    if (activeCategories.includes(filter)) { // if already in array -> remove
+    if (activeCategories.includes(filter)) {
+      // if already in array -> remove
 
-      setActiveCategories(
-        (prevState) => prevState.filter(x => x !== filter)
-      )
-    } else { // if NOT already in array -> add
-      setActiveCategories(
-        (prevState) => [...prevState, filter]
-      )
+      setActiveCategories((prevState) => prevState.filter((x) => x !== filter));
+    } else {
+      // if NOT already in array -> add
+      setActiveCategories((prevState) => [...prevState, filter]);
     }
-  }
-
-
-
+  };
 
   // Filter the spots -- can be improved
   useEffect(() => {
-
-
-
-    // If search bar only, disable all other filters
-    if (searchContext.value.length) {
-      setActiveCategories([]);
-      setActiveRegion("")
-
-      setFilteredSpots(spots.filter((spot) =>
-        spot.title.toLowerCase().includes(searchContext.value.toLowerCase())
-      ))
-      return
-    }
-
-    // If region + sorting --> double filter  
+    // If region + sorting --> double filter
     if (activeRegion.length && activeSort.length) {
-      setFilteredSpots(spots
-        .filter((spot) =>
-          spot.region === activeRegion
-        )
-        .sort(
-          ((a, b) => b.virtuals.averageGrade - a.virtuals.averageGrade)
-        )
-      )
-      return
+      setFilteredSpots(
+        spots
+          .filter((spot) => spot.region === activeRegion)
+          .sort((a, b) => b.virtuals.averageGrade - a.virtuals.averageGrade)
+      );
+      return;
     }
 
-
-    // If categories + region --> double filter  
+    // If categories + region --> double filter
     if (activeCategories.length && activeRegion.length) {
-      setFilteredSpots(spots
-        .filter((spot) =>
-          spot.categories.some(x => activeCategories.includes(x))
-        )
-        .filter((spot) =>
-          spot.region === activeRegion
-        )
-      )
-      return
+      setFilteredSpots(
+        spots
+          .filter((spot) =>
+            spot.categories.some((x) => activeCategories.includes(x))
+          )
+          .filter((spot) => spot.region === activeRegion)
+      );
+      return;
     }
 
-
-
-    // If categories only  
+    // If categories only
     if (activeCategories.length) {
-      setFilteredSpots(spots.filter((spot) =>
-        spot.categories.some(x => activeCategories.includes(x))
-      ))
-      return
+      setFilteredSpots(
+        spots.filter((spot) =>
+          spot.categories.some((x) => activeCategories.includes(x))
+        )
+      );
+      return;
     }
 
-
-    // If region only  
+    // If region only
     if (activeRegion.length) {
-      setFilteredSpots(spots.filter((spot) =>
-        spot.region === activeRegion
-      ))
-      return
+      setFilteredSpots(spots.filter((spot) => spot.region === activeRegion));
+      return;
     }
-
 
     if (activeSort.length) {
-      // If sort only  
-      setFilteredSpots(spots.sort(
-        ((a, b) => b.virtuals.averageGrade - a.virtuals.averageGrade)
-      ))
-      return
+      switch (activeSort) {
+        case "Grade":
+          setFilteredSpots(
+            [...spots].sort(
+              // .sort returns same array so we need to mutate it
+              (a, b) => b.virtuals.averageGrade - a.virtuals.averageGrade
+            )
+          );
+          break;
+
+        case "Number of Visits":
+          setFilteredSpots(
+            [...spots].sort(
+              (a, b) => b.visited.numberOfVisits - a.visited.numberOfVisits
+            )
+          );
+          break;
+      }
+      return;
     }
 
-
-
-
-
     // If no filter mathced, just keep it like it is
-    setFilteredSpots(spots)
-
-
-
+    setFilteredSpots(spots);
 
     // setFilteredSpots(spots)
-  }, [activeCategories, searchContext, activeRegion, activeSort])
+  }, [activeCategories, activeRegion, activeSort]);
 
+  // If search bar only, disable all other filters
+  useEffect(() => {
+    if (searchContext.value.length) {
+      setActiveCategories([]);
+      setActiveRegion("");
 
-
-
-
+      setFilteredSpots(
+        spots.filter((spot) =>
+          spot.title.toLowerCase().includes(searchContext.value.toLowerCase())
+        )
+      );
+      return;
+    }
+  }, [searchContext]);
 
   // Toast display function
   const notifyToast = (type, text, id, icon) => {
@@ -189,39 +161,41 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
       toast(text, {
         position: "bottom-left",
         toastId: id, // prevent duplicates
-        icon: icon
+        icon: icon,
       });
-
     } else {
-
       toast[type](text, {
         position: "bottom-left",
         toastId: id, // prevent duplicates
-        icon: icon
+        icon: icon,
       });
     }
-  }
-
+  };
 
   // Capitalize and take only first string of current user for toaster
-  if (currentUserName) { currentUserName = capitalize(currentUserName.split(" ")[0]) }
+  if (currentUserName) {
+    currentUserName = capitalize(currentUserName.split(" ")[0]);
+  }
 
   // Display toaster
   useEffect(() => {
-
     const getLS = localStorage.getItem("toast");
-    console.log('getLS', getLS)
-    if (getLS === null) { return }
-
+    console.log("getLS", getLS);
+    if (getLS === null) {
+      return;
+    }
 
     switch (getLS) {
-
       case "newUser":
-        notifyToast("success", `Hi ${currentUserName}, welcome to spot-finder!`, "newUser")
+        notifyToast(
+          "success",
+          `Hi ${currentUserName}, welcome to spot-finder!`,
+          "newUser"
+        );
         break;
 
       case "loggedIn":
-        notifyToast("success", `Hi ${currentUserName}, welcome back!`, "login")
+        notifyToast("success", `Hi ${currentUserName}, welcome back!`, "login");
         break;
 
       case "newSpot":
@@ -233,11 +207,15 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
         break;
 
       case "deleteSpot":
-        notifyToast("success", "You deleted your spot successfully!", "deleteSpot");
+        notifyToast(
+          "success",
+          "You deleted your spot successfully!",
+          "deleteSpot"
+        );
         break;
 
       case "resetPwd":
-        notifyToast("success", "Password changed!", "resetPwd")
+        notifyToast("success", "Password changed!", "resetPwd");
         break;
 
       case "deleteUser":
@@ -245,8 +223,7 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
         break;
     }
     localStorage.removeItem("toast");
-  }, [])
-
+  }, []);
 
   // To get the URL param for toast
   if (queryString.alreadyLoggedIn) {
@@ -256,35 +233,20 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
     });
   }
 
-
-
-
-
-
-
-
-
-
-
-
   return (
     <>
-
       <Head>
         <title>Find the best spots!</title>
-        <meta name="description" content="Browse the best spots, in a minute!" />
+        <meta
+          name="description"
+          content="Browse the best spots, in a minute!"
+        />
       </Head>
 
-
-      <ToastContainer
-        autoClose={4000}
-        style={{ width: "400px" }}
-      />
-
+      <ToastContainer autoClose={4000} style={{ width: "400px" }} />
 
       {/* Global container */}
       <div className="flex mt-16 h-full justify-start space-x-12	">
-
         {/* Filter category container */}
         <div className="flex-column border border-gray py-2 ">
           <h3 className="font-semibold text-base px-2">Filter by...</h3>
@@ -321,7 +283,6 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
 
           <hr className="my-4 mx-auto 	 h-px		 bg-gray-200 border-0" />
 
-
           {/* Region filter container */}
           <div className="px-2">
             <h4 className="font-semibold text-sm mb-2">Region</h4>
@@ -331,11 +292,6 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
             />
           </div>
 
-
-
-
-
-
           <h3 className="font-semibold text-base px-2 mt-8">Sort by...</h3>
           <hr className="mt-2 mb-4 mx-auto h-0.5 bg-gray-200 border-0" />
 
@@ -343,49 +299,30 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
             sortingState={activeSort}
             onSortChange={(e) => setActiveSort(e)}
           />
-
-
-
-
-
         </div>
-
-
-
-
-
-
-
-
 
         {/* Main section with spots */}
         <div
           className=" 
-                    grid grid-cols-4 
-                    2xl:grid-cols-6 
-                    justify-center
-                    ">
-          {
-            filteredSpots
-              .map((spot) =>
-                <SpotCard
-                  key={spot._id}
-                  id={spot._id}
-                  title={spot.title}
-                  description={spot.description}
-                  categories={spot.categories}
-                  author={spot.author.name}
-                  rate={spot.virtuals.averageGrade}
-                />
-              )
-          }
+          grid grid-cols-4 
+          2xl:grid-cols-6 
+          justify-center"
+        >
+          {filteredSpots.map((spot) => (
+            <SpotCard
+              key={spot._id}
+              id={spot._id}
+              title={spot.title}
+              description={spot.description}
+              categories={spot.categories}
+              author={spot.author.name}
+              rate={spot.virtuals.averageGrade}
+            />
+          ))}
         </div>
-
       </div>
-
-
     </>
-  )
-}
+  );
+};
 
-export default allSpots 
+export default allSpots;
