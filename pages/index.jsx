@@ -63,9 +63,7 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
     console.log("filterRequired", filter);
 
     if (activeCategories.includes(filter)) {
-      // if already in array -> remove
-
-      setActiveCategories((prevState) => prevState.filter((x) => x !== filter));
+      setActiveCategories((prevState) => prevState.filter((x) => x !== filter)); // if already in array -> remove
     } else {
       // if NOT already in array -> add
       setActiveCategories((prevState) => [...prevState, filter]);
@@ -73,17 +71,8 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
   };
 
   // Filter the spots -- can be improved
+  // This use effect takes care of all filters except search bar
   useEffect(() => {
-    // If region + sorting --> double filter
-    if (activeRegion.length && activeSort.length) {
-      setFilteredSpots(
-        spots
-          .filter((spot) => spot.region === activeRegion)
-          .sort((a, b) => b.virtuals.averageGrade - a.virtuals.averageGrade)
-      );
-      return;
-    }
-
     // If categories + region --> double filter
     if (activeCategories.length && activeRegion.length) {
       setFilteredSpots(
@@ -114,6 +103,14 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
 
     if (activeSort.length) {
       switch (activeSort) {
+        case "Number of Visits":
+          setFilteredSpots(
+            [...spots].sort(
+              // .sort returns same array so we need to mutate it
+              (a, b) => b.visited.numberOfVisits - a.visited.numberOfVisits
+            )
+          );
+          break;
         case "Grade":
           setFilteredSpots(
             [...spots].sort(
@@ -123,19 +120,30 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
           );
           break;
 
-        case "Number of Visits":
+        case "Oldest to newest":
           setFilteredSpots(
             [...spots].sort(
-              (a, b) => b.visited.numberOfVisits - a.visited.numberOfVisits
+              (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
             )
           );
           break;
+
+        case "Newest to oldest":
+          setFilteredSpots(
+            [...spots].sort(
+              (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+            )
+          );
       }
       return;
     }
 
+    if (!searchContext.value.length) {
+      setFilteredSpots(spots);
+    }
+
     // If no filter mathced, just keep it like it is
-    setFilteredSpots(spots);
+    // setFilteredSpots(spots);
 
     // setFilteredSpots(spots)
   }, [activeCategories, activeRegion, activeSort]);
@@ -145,6 +153,7 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
     if (searchContext.value.length) {
       setActiveCategories([]);
       setActiveRegion("");
+      setActiveSort("");
 
       setFilteredSpots(
         spots.filter((spot) =>
@@ -153,6 +162,8 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
       );
       return;
     }
+
+    setFilteredSpots(spots);
   }, [searchContext]);
 
   // Toast display function
