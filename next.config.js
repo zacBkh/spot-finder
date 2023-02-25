@@ -2,11 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-}
-
+};
 
 module.exports = {
   images: {
-    domains: ['images.unsplash.com'],
+    domains: ["images.unsplash.com", "tailwindui.com"],
   },
-}
+};

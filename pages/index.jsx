@@ -48,7 +48,7 @@ export const getServerSideProps = async (context) => {
   }
 };
 
-const allSpots = ({ spots, currentUserName, queryString }) => {
+const AllSpots = ({ spots, currentUserName, queryString }) => {
   // Context API holding value from navbar search input + method to add
   const searchContext = useContext(AppContext);
 
@@ -146,7 +146,13 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
     // setFilteredSpots(spots);
 
     // setFilteredSpots(spots)
-  }, [activeCategories, activeRegion, activeSort]);
+  }, [
+    activeCategories,
+    activeRegion,
+    activeSort,
+    searchContext.value.length,
+    spots,
+  ]);
 
   // If search bar only, disable all other filters
   useEffect(() => {
@@ -164,7 +170,7 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
     }
 
     setFilteredSpots(spots);
-  }, [searchContext]);
+  }, [searchContext.value.length, spots]);
 
   // Toast display function
   const notifyToast = (type, text, id, icon) => {
@@ -234,7 +240,7 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
         break;
     }
     localStorage.removeItem("toast");
-  }, []);
+  }, [currentUserName]);
 
   // To get the URL param for toast
   if (queryString.alreadyLoggedIn) {
@@ -336,4 +342,4 @@ const allSpots = ({ spots, currentUserName, queryString }) => {
   );
 };
 
-export default allSpots;
+export default AllSpots;
