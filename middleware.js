@@ -13,7 +13,7 @@ import { getToken } from "next-auth/jwt";
 
 export async function middleware(req) {
   const pathname = req.nextUrl.pathname;
-  // console.log("pathname from middleware -->", pathname)
+  console.log("pathname from middleware -->", pathname);
 
   const session = await getToken({
     req: req,

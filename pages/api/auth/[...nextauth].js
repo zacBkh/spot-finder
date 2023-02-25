@@ -17,6 +17,11 @@ import isUserVerified from "../../../utils/Auth/isUserVerified";
 
 // Authentication logic
 
+console.log("process.env FB ID", process.env.FACEBOOK_CLIENT_ID);
+console.log("process.env FB SEC", process.env.FACEBOOK_CLIENT_SECRET);
+console.log("process.env G ID", process.env.GOOGLE_CLIENT_ID);
+console.log("process.env G ID", process.env.FACEBOOK_CLIENT_SECRET);
+
 export const authOptions = {
   // Configure one or more authentication providers
   providers: [
@@ -27,7 +32,6 @@ export const authOptions = {
       //     maxAge: 10,
       // }
     }),
-
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
