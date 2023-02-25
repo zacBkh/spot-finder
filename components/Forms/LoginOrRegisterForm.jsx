@@ -45,14 +45,14 @@ const LoginOrRegisterForm = ({
 
   // Display erorr msg if user already signed in with another provider
   useEffect(() => {
-    if (action !== "Login") {
-      return;
-    }
+    // if (action !== "Login") {
+    //   return;
+    // }
 
     if (oAuthError === "OAuthAccountNotLinked") {
       setActionStatus("You already signed in with another provider");
     }
-  }, [oAuthError, action]);
+  }, [oAuthError]);
 
   // Yup stuff
 
