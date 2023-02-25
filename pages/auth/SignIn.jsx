@@ -22,6 +22,7 @@ const SignIn = ({}) => {
   console.log("process.env FB SEC", process.env.FACEBOOK_CLIENT_SECRET);
   console.log("process.env G ID", process.env.GOOGLE_CLIENT_ID);
   console.log("process.env G ID", process.env.FACEBOOK_CLIENT_SECRET);
+  console.log("NEXT_PUBLIC_TEST", process.env.NEXT_PUBLIC_TEST);
 
   // State handling which form to display (password reset or not)
   const [isForgotPasswordMode, setIsForgotPasswordMode] = useState(false);
