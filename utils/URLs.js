@@ -1,12 +1,7 @@
-const PATHS =
-{
-    domain: "http://localhost:3008",
-    home: "/",
-    newSpot: "spots/newSpot"
-}
+const PATHS = {
+  domain: process.env.NEXT_PUBLIC_VERCEL_URL,
+  home: "/",
+  newSpot: "spots/newSpot",
+};
 
-
-
-
-
-export default PATHS
+export default PATHS;
