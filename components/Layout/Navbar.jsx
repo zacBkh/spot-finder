@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import Image from "next/image";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 
 import capitalize from "../../utils/capitalize";
@@ -71,12 +71,12 @@ const Navigation = () => {
                 </div>
                 <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                   <div className="flex flex-shrink-0 items-center">
-                    <img
+                    <Image
                       className="block h-8 w-auto lg:hidden"
                       src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                       alt="Your Company"
                     />
-                    <img
+                    <Image
                       className="hidden h-8 w-auto lg:block"
                       src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                       alt="Your Company"
@@ -175,7 +175,7 @@ const Navigation = () => {
                         <span className="sr-only">Open user menu</span>
 
                         {session && session.user.image ? (
-                          <img
+                          <Image
                             className="h-8 w-8 rounded-full"
                             src={session.user.image}
                             alt="Profile picture"
