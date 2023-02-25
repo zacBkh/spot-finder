@@ -2,12 +2,9 @@
 
 import mongoose from "mongoose";
 
-import { MongoClient } from "mongodb";
-import clientPromise from "../lib/mongodb";
 const connectMongo = async () => {
   try {
-    // const client = await MongoClient.connect(process.env.MONGO_URI);
-    const clientaa = await clientPromise;
+    mongoose.connect(process.env.MONGO_URI);
     console.log(
       "==> SUCCESS : Our DB and Mongoose successfully connected! <=="
     );
