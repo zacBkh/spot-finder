@@ -17,20 +17,12 @@ import isUserVerified from "../../../utils/Auth/isUserVerified";
 
 // Authentication logic
 
-console.log("process.env FB ID", process.env.FACEBOOK_CLIENT_ID);
-console.log("process.env FB SEC", process.env.FACEBOOK_CLIENT_SECRET);
-console.log("process.env G ID", process.env.GOOGLE_CLIENT_ID);
-console.log("process.env G ID", process.env.FACEBOOK_CLIENT_SECRET);
-
 export const authOptions = {
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
-      clientId:
-        "848134171573-16nct8nds97u7v55dhm1ktqq0m2aokkh.apps.googleusercontent.com",
-      //   clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: "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",
-      //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       // jwt: {
       //     maxAge: 10,
       // }
