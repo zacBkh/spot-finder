@@ -259,8 +259,8 @@ const Navigation = () => {
                                     "block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"
                                   }
                                   onClick={async () => {
-                                    // await signOut({ redirect: false });
-                                    await signOut();
+                                    await signOut({ redirect: false });
+                                    // signOut();
                                     // Removed the avoid reload because causing error when signing out from show page
                                     router.push(home);
                                   }}
