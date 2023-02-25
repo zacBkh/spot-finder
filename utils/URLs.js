@@ -1,5 +1,5 @@
 const PATHS = {
-  domain: process.env.NEXT_PUBLIC_VERCEL_URL,
+  domain: "https://spot-finder.vercel.app/",
   home: "/",
   newSpot: "spots/newSpot",
 };

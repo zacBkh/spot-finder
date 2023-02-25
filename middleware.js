@@ -30,12 +30,12 @@ export async function middleware(req) {
 
       if (pathname === "/auth/profile") {
         return NextResponse.redirect(
-          `http://localhost:3008/auth/SignIn?mustLogIn=access your profile&returnTo=/auth/profile`
+          `https://spot-finder.vercel.app/auth/SignIn?mustLogIn=access your profile&returnTo=/auth/profile`
         );
       }
       if (pathname === "/spots/newSpot") {
         return NextResponse.redirect(
-          `http://localhost:3008/auth/SignIn?mustLogIn=create a new spot&returnTo=${returnTo}`
+          `https://spot-finder.vercel.app/auth/SignIn?mustLogIn=create a new spot&returnTo=${returnTo}`
         );
       }
     }
