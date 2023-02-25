@@ -26,8 +26,11 @@ export const authOptions = {
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId:
+        "848134171573-16nct8nds97u7v55dhm1ktqq0m2aokkh.apps.googleusercontent.com",
+      //   clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: "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",
+      //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       // jwt: {
       //     maxAge: 10,
       // }
