@@ -97,7 +97,8 @@ const spotSchema = new Schema(
 
         region: {
             type: String,
-            required: true,
+            // required: true,
+            required: false,
         },
 
 
