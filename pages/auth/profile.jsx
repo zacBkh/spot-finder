@@ -52,11 +52,11 @@ const MyProfile = ({ currentUserSession }) => {
     const deleteUser = await deleteAPIFetcher(userID);
     console.log("deleteUser", deleteUser);
 
-    // For toaster notif
-    localStorage.setItem("toast", "deleteUser");
-
     // Signing out user and redirect
     signOut({ callbackUrl: home });
+
+    // For toaster notif
+    localStorage.setItem("toast", "deleteUser");
   };
 
   return (
