@@ -149,8 +149,8 @@ const SignIn = ({}) => {
               {formik.submitCount === 0 ? (
                 <div>
                   <p className="text-xs mt-4 text-[#002D74]">
-                    Enter the email address associated with your account and
-                    we'll send you a link to reset your password.{" "}
+                    Enter the email address associated with your account and we
+                    will send you a link to reset your password.{" "}
                   </p>
                 </div>
               ) : (
