@@ -33,6 +33,12 @@ export const getServerSideProps = async (context) => {
     // Executing the fx that will fetch all Spots
     const resultFetchGET = await GETSpotFetcherAll();
 
+    if (!resultFetchGET) {
+      return {
+        notFound: true,
+      };
+    }
+
     return {
       props: {
         spots: resultFetchGET,
@@ -41,7 +47,7 @@ export const getServerSideProps = async (context) => {
       },
     };
   } catch (error) {
-    console.log(error);
+    console.log("ERROR IN GETTING THEM ALL ++", error);
     return {
       notFound: true,
     };
