@@ -88,7 +88,7 @@ const Navigation = () => {
                       {navigation.map((item) => {
                         if (item !== null) {
                           return (
-                            <Link href={item.href}>
+                            <Link href={item.href} key={item.href}>
                               <a
                                 className={classNames(
                                   router.pathname === item.href
@@ -96,7 +96,6 @@ const Navigation = () => {
                                     : "text-gray-300 hover:bg-gray-700 hover:text-white",
                                   "px-3 py-2 rounded-md text-sm font-medium list-none	"
                                 )}
-                                key={item.href}
                               >
                                 {item.name}
                               </a>
