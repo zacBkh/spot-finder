@@ -49,11 +49,12 @@ const MyProfile = ({ currentUserSession }) => {
   // Will delete the user + his spots (mongoose middleware)
   const deleteUserHandler = async () => {
     console.log("WANT TO DELETE USER...");
-    const deleteUser = await deleteAPIFetcher(userID);
-    console.log("deleteUser", deleteUser);
 
     // Signing out user and redirect
     signOut({ callbackUrl: home });
+
+    const deleteUser = await deleteAPIFetcher(userID);
+    console.log("deleteUser", deleteUser);
 
     // For toaster notif
     localStorage.setItem("toast", "deleteUser");
