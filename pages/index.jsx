@@ -257,6 +257,13 @@ const AllSpots = ({ spots, currentUserName, queryString }) => {
   }
 
   console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+  if (process.env.NODE_ENV === "production") {
+    console.log("VERCEL_ENV PROD", VERCEL_ENV);
+  }
+
+  if (process.env.NODE_ENV === "preview") {
+    console.log("VERCEL_ENV PREV", VERCEL_ENV);
+  }
   return (
     <>
       <Head>
