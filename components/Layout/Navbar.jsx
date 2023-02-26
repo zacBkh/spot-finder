@@ -249,24 +249,31 @@ const Navigation = () => {
                               </Link>
                             </Menu.Item>
 
-                            <Menu.Item>
-                              <Link href="">
-                                <button
-                                  className={
-                                    "block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"
-                                  }
-                                  // onClick={async () => {
-                                  //   await signOut({ redirect: false });
-                                  //   // signOut();
-                                  //   // Removed the avoid reload because causing error when signing out from show page
-                                  //   router.push(home);
-                                  // }}
-                                  onClick={() => signOut()}
-                                >
-                                  Sign out
-                                </button>
-                              </Link>
-                            </Menu.Item>
+                            <button
+                              onClick={() => signOut()}
+                              className={
+                                "block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"
+                              }
+                            >
+                              Sign out
+                            </button>
+
+                            {/* <Menu.Item>
+                              <button
+                                onClick={() => signOut()}
+                                className={
+                                  "block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"
+                                }
+                                // onClick={async () => {
+                                //   await signOut({ redirect: false });
+                                //   // signOut();
+                                //   // Removed the avoid reload because causing error when signing out from show page
+                                //   router.push(home);
+                                // }}
+                              >
+                                Sign out
+                              </button>
+                            </Menu.Item> */}
                           </>
                         )}
                       </div>
