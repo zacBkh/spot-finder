@@ -1,6 +1,9 @@
 import nodemailer from "nodemailer";
 import capitalize from "../capitalize";
 
+import { whichDomain } from "../env-helper";
+const currDomain = whichDomain();
+
 const sendVerifEmail = async (userRecipient, userData, token) => {
   if (!userRecipient || !userData || !token) {
     return {
@@ -36,9 +39,7 @@ const sendVerifEmail = async (userRecipient, userData, token) => {
         <h3> Hello ${capitalize(name)} !  </h3>
         <p> Thanks for registering. Just one more step... </p>
         <p> To activate account, please follow this link : 
-        <a target = "_" href="${
-          process.env.NEXT_PUBLIC_VERCEL_URL
-        }/auth/VerifyEmail/${token}"> Activate my Account 
+        <a target = "_" href="${currDomain}/auth/VerifyEmail/${token}"> Activate my Account 
         </a> </p>
         <p> Thank you</p>`;
 

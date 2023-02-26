@@ -18,9 +18,10 @@ import { Spinner } from "flowbite-react";
 
 import { signIn } from "next-auth/react";
 
-import PATHS from "../../utils/URLs";
+import PATHS from "../../constants/URLs";
+import { whichEnv } from "../../utils/env-helper";
 
-const { home, domain } = PATHS;
+const { home, DOMAIN } = PATHS;
 
 // This form component is used for both Registration & Login
 // The action can be "Registration" || "Login" and depending on this, it will render and validate or not some fields + the submit fx will change
@@ -32,17 +33,8 @@ const LoginOrRegisterForm = ({
   onForgotPassword,
   returnToURL,
 }) => {
-  if (process.env.NODE_ENV === "production") {
-    console.log(
-      "process.env.NEXT_PUBLIC_VERCEL_ENV",
-      process.env.NEXT_PUBLIC_VERCEL_ENV
-    );
-
-    console.log(
-      "process.env.NEXT_PUBLIC_VERCEL_URL",
-      process.env.NEXT_PUBLIC_VERCEL_URL
-    );
-  }
+  const currentEnvironment = whichEnv();
+  console.log("currentEnvironment", currentEnvironment);
 
   // For toggler password visible
   const [isPwdVisible, setIsPwdVisible] = useState(false);
@@ -361,7 +353,7 @@ const LoginOrRegisterForm = ({
                 </span>
               </div>
             )}
-            {process.env.NEXT_PUBLIC_VERCEL_ENV !== "preview" ? (
+            {currentEnvironment !== "preview" ? (
               <div>
                 <div className="mt-5 grid grid-cols-3 items-center text-gray-400">
                   <hr className="border-gray-400" />

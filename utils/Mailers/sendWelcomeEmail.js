@@ -1,8 +1,8 @@
 import nodemailer from "nodemailer";
 import capitalize from "../capitalize";
 
-import PATHS from "../URLs";
-const { domain, newSpot } = PATHS;
+import PATHS from "../../constants/URLs";
+const { DOMAIN, NEW_SPOT } = PATHS;
 
 const sendWelcomeEmail = async (userRecipient, userName) => {
   console.log("userRecipient", userRecipient);
@@ -40,8 +40,8 @@ const sendWelcomeEmail = async (userRecipient, userName) => {
         <h3> Hello ${capitalize(userName)} !  </h3>
         <p> Welcome to the Spot Finder Community!... </p>
         <p> 
-        Start <a target = "_" href="${domain}/${newSpot}"> adding new spots here
-        </a> or <a target = "_" href="${domain}"> browse through our amazing existing spots </a> already shared by our community!
+        Start <a target = "_" href="${DOMAIN}/${newSpot}"> adding new spots here
+        </a> or <a target = "_" href="${DOMAIN}"> browse through our amazing existing spots </a> already shared by our community!
         </p>
         <p> Thank you</p>`;
 

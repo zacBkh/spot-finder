@@ -30,7 +30,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Review from "../../components/Reviews/Review";
 import { addOneReview } from "../../utils/APIfetchers";
 
-import PATHS from "../../utils/URLs";
+import PATHS from "../../constants/URLs";
 const { home } = PATHS;
 
 export const getServerSideProps = async (context) => {

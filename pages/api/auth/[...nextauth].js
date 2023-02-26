@@ -14,10 +14,9 @@ import connectMongo from "../../../utils/connectMongo";
 import { compare } from "bcryptjs";
 import sendWelcomeEmail from "../../../utils/Mailers/sendWelcomeEmail";
 import isUserVerified from "../../../utils/Auth/isUserVerified";
+import { whichEnv } from "../../../utils/env-helper";
 
-console.log("VERCEL_ENV -->", process.env.VERCEL_ENV);
-console.log("VERCEL_URL --> ", process.env.VERCEL_URL);
-
+const currEnv = whichEnv();
 // Authentication logic
 // Added id because : https://stackoverflow.com/questions/69424685/custom-sign-in-page-not-redirecting-correctly-in-next-auth#:~:text=I%20found%20the%20solution%2C%20but%20I%20think%20the%20documentation%20is%20misleading.
 const cred = CredentialsProvider({
@@ -75,7 +74,7 @@ const cred = CredentialsProvider({
 export const authOptions = {
   // Configure one or more authentication providers
   providers: [
-    process.env.VERCEL_ENV === "preview" ? cred : cred,
+    currEnv === "preview" ? cred : cred,
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,

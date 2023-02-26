@@ -1,6 +1,8 @@
 import nodemailer from "nodemailer";
 import capitalize from "../capitalize";
 
+import { whichDomain } from "../env-helper";
+const currDomain = whichDomain();
 const sendPwdResetEmail = async (userRecipient, userName, token) => {
   if (!userRecipient || !userName || !token) {
     return {
@@ -34,9 +36,7 @@ const sendPwdResetEmail = async (userRecipient, userName, token) => {
         <h3> Hello ${capitalize(userName)} ! </h3>
         <p> You asked to reset your password. </p>
         <p> Please follow this link : 
-        <a target = "_" href="${
-          process.env.NEXT_PUBLIC_VERCEL_URL
-        }/auth/VerifyResetPwd/${token}"> to reset your password 
+        <a target = "_" href="${currDomain}/auth/VerifyResetPwd/${token}"> to reset your password 
         </a> </p>
         <p> Thank you</p>`;
 

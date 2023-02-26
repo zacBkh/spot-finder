@@ -21,7 +21,7 @@ import {
 } from "react-icons/ai";
 import { BiUserCircle } from "react-icons/bi";
 
-import PATHS from "../../utils/URLs";
+import PATHS from "../../constants/URLs";
 const { home } = PATHS;
 
 // const [filters, setFilters] = useState({ isActive: false, whichFilter: "" });

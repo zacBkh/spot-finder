@@ -1,8 +1,8 @@
 // This will protect my pages but NOT MY API ROUTES
 // To protect API routes --> unstable_getServerSession
 
-import PATHS from "./utils/URLs";
-const { domain } = PATHS;
+import PATHS from "./constants/URLs";
+const { DOMAIN } = PATHS;
 
 const arrayOfProtectedPaths = ["/spots/newSpot", "/auth/profile"];
 
@@ -30,12 +30,12 @@ export async function middleware(req) {
 
       if (pathname === "/auth/profile") {
         return NextResponse.redirect(
-          `https://spot-finder.vercel.app/auth/SignIn?mustLogIn=access your profile&returnTo=/auth/profile`
+          `${DOMAIN}auth/SignIn?mustLogIn=access your profile&returnTo=/auth/profile`
         );
       }
       if (pathname === "/spots/newSpot") {
         return NextResponse.redirect(
-          `https://spot-finder.vercel.app/auth/SignIn?mustLogIn=create a new spot&returnTo=${returnTo}`
+          `${DOMAIN}auth/SignIn?mustLogIn=create a new spot&returnTo=${returnTo}`
         );
       }
     }
@@ -44,7 +44,7 @@ export async function middleware(req) {
   // Prevent logged in user to access to register and sign in
   if (shouldNotBeUser.includes(pathname)) {
     if (session !== null) {
-      return NextResponse.redirect(`${domain}?alreadyLoggedIn=true`);
+      return NextResponse.redirect(`${DOMAIN}?alreadyLoggedIn=true`);
     }
   }
 }
