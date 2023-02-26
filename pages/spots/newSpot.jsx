@@ -6,7 +6,7 @@ import BothSpotForm from "../../components/Forms/BothSpotForm";
 import { addSpotHandler } from "../../utils/APIfetchers";
 
 import PATHS from "../../constants/URLs";
-const { home } = PATHS;
+const { HOME } = PATHS;
 
 const Home = () => {
   const router = useRouter();
@@ -18,7 +18,7 @@ const Home = () => {
     // For toaster notif
     localStorage.setItem("toast", "newSpot");
 
-    router.push(home); //Navigate back to root
+    router.push(HOME); //Navigate back to root
   };
 
   return (

@@ -21,7 +21,7 @@ import { signIn } from "next-auth/react";
 import PATHS from "../../constants/URLs";
 import { whichEnv } from "../../utils/env-helper";
 
-const { home, DOMAIN } = PATHS;
+const { HOME, DOMAIN } = PATHS;
 
 // This form component is used for both Registration & Login
 // The action can be "Registration" || "Login" and depending on this, it will render and validate or not some fields + the submit fx will change
@@ -163,7 +163,7 @@ const LoginOrRegisterForm = ({
         await signIn("credentials", { redirect: false, email, password });
 
         // If user should not be redirected back where he was (he clicked directly on login) then redirect him in hime page, otherwise redirectTo behaviour
-        // returnToURL !== null ? router.push(returnToURL) : router.push(home)
+        // returnToURL !== null ? router.push(returnToURL) : router.push(HOME)
         returnToURL !== null ? router.push("/") : router.push("/");
       }
 
@@ -182,7 +182,7 @@ const LoginOrRegisterForm = ({
         // if auth OK...
       } else {
         localStorage.setItem("toast", "loggedIn");
-        returnToURL !== null ? router.push(home) : router.push(home);
+        returnToURL !== null ? router.push(HOME) : router.push(HOME);
       }
     }
   };
@@ -363,7 +363,7 @@ const LoginOrRegisterForm = ({
 
                 <button
                   onClick={() => {
-                    signIn("google", { callbackUrl: home });
+                    signIn("google", { callbackUrl: HOME });
                   }}
                   className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300"
                 >
@@ -372,7 +372,7 @@ const LoginOrRegisterForm = ({
                 </button>
 
                 <button
-                  onClick={() => signIn("facebook", { callbackUrl: home })}
+                  onClick={() => signIn("facebook", { callbackUrl: HOME })}
                   className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300"
                 >
                   <BsFacebook className="mr-2 text-2xl text-blue-facebook" />

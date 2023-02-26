@@ -31,7 +31,7 @@ import Review from "../../components/Reviews/Review";
 import { addOneReview } from "../../utils/APIfetchers";
 
 import PATHS from "../../constants/URLs";
-const { home } = PATHS;
+const { HOME } = PATHS;
 
 export const getServerSideProps = async (context) => {
   //   const session = await getServerSession(context.req, context.res, authOptions);
@@ -84,7 +84,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     // For toaster notif
     localStorage.setItem("toast", "editSpot");
 
-    router.push(home); //Navigate back to root
+    router.push(HOME); //Navigate back to root
   };
 
   // // This will be rendered in the toast
@@ -140,7 +140,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     // For toaster notif
     localStorage.setItem("toast", "deleteSpot");
 
-    router.push(home); //Navigate back to root
+    router.push(HOME); //Navigate back to root
   };
 
   // If owner of camp, don't display toggle

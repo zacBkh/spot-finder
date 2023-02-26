@@ -22,21 +22,17 @@ import {
 import { BiUserCircle } from "react-icons/bi";
 
 import PATHS from "../../constants/URLs";
-const { home } = PATHS;
-
-// const [filters, setFilters] = useState({ isActive: false, whichFilter: "" });
+const { HOME } = PATHS;
 
 const Navigation = () => {
   const searchContext = useContext(AppContext);
-
-  const refFocus = useRef(null);
 
   const router = useRouter();
 
   const { data: session, status } = useSession();
 
   const navigation = [
-    { name: "Home", href: home, current: true },
+    { name: "Home", href: HOME, current: true },
     { name: "Add your Spot!", href: "/spots/newSpot", current: false },
   ];
 
@@ -113,7 +109,6 @@ const Navigation = () => {
                       </div>
 
                       <input
-                        ref={refFocus}
                         value={searchContext.value}
                         onChange={(e) =>
                           searchContext.addSearch(e.target.value)
@@ -268,7 +263,7 @@ const Navigation = () => {
                                 //   await signOut({ redirect: false });
                                 //   // signOut();
                                 //   // Removed the avoid reload because causing error when signing out from show page
-                                //   router.push(home);
+                                //   router.push(HOME);
                                 // }}
                               >
                                 Sign out

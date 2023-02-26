@@ -51,7 +51,7 @@ const MyProfile = ({ currentUserSession }) => {
     console.log("WANT TO DELETE USER...");
 
     // Signing out user and redirect
-    signOut({ callbackUrl: home });
+    signOut({ callbackUrl: HOME });
 
     const deleteUser = await deleteAPIFetcher(userID);
     console.log("deleteUser", deleteUser);

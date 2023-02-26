@@ -14,7 +14,7 @@ import { editUserHandler } from "../../utils/APIfetchers";
 import { signIn } from "next-auth/react";
 
 import PATHS from "../../constants/URLs";
-const { home } = PATHS;
+const { HOME } = PATHS;
 
 // Component receives full userData
 const ResetPwdForm = ({ userData }) => {

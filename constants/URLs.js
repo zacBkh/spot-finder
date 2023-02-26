@@ -6,7 +6,7 @@ const PATHS = {
     currentEnvironment === "development"
       ? "http://localhost:3008/"
       : "https://spot-finder.vercel.app/",
-  home: "/",
+  HOME: "/",
   NEW_SPOT: "spots/newSpot",
 };
 
