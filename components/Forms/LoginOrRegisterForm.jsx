@@ -349,7 +349,7 @@ const LoginOrRegisterForm = ({
               </div>
             )}
 
-            {process.env.VERCEL_ENV === "preview" ? (
+            {process.env.VERCEL_ENV !== "preview" ? (
               <div>
                 <div className="mt-5 grid grid-cols-3 items-center text-gray-400">
                   <hr className="border-gray-400" />
