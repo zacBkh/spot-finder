@@ -13,7 +13,7 @@ import { editUserHandler } from "../../utils/APIfetchers";
 
 import { signIn } from "next-auth/react";
 
-import PATHS from "../../utils/URLs";
+import PATHS from "../../constants/URLs";
 const { home } = PATHS;
 
 // Component receives full userData

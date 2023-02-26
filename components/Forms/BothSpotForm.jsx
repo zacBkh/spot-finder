@@ -154,7 +154,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
   // Otherwise does not get as a value for formik when use geocoder
   useEffect(() => {
     formik.values.locationDrag = markerCoordinates;
-  }, [markerCoordinates, formik.values.locationDrag]);
+  }, [markerCoordinates, formik.values.locationDrag, formik.values]);
 
   // If edit mode, set initialView of the map as per the marker
   let initialCoor;

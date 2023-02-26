@@ -176,7 +176,7 @@ const AllSpots = ({ spots, currentUserName, queryString }) => {
     }
 
     setFilteredSpots(spots);
-  }, [searchContext.value.length, spots]);
+  }, [searchContext.value.length, searchContext.value, spots]);
 
   // Toast display function
   const notifyToast = (type, text, id, icon) => {
@@ -255,8 +255,6 @@ const AllSpots = ({ spots, currentUserName, queryString }) => {
       toastId: "alreadyLoggedIn", // prevent duplicates
     });
   }
-
-  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
 
   return (
     <>

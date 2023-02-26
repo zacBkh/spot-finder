@@ -2,7 +2,7 @@ import LoginOrRegisterForm from "../../components/Forms/LoginOrRegisterForm";
 
 import { useSession } from "next-auth/react";
 
-import PATHS from "../../utils/URLs";
+import PATHS from "../../constants/URLs";
 const { DOMAIN } = PATHS;
 
 const Register = ({}) => {
