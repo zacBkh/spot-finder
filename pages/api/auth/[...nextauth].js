@@ -15,8 +15,8 @@ import { compare } from "bcryptjs";
 import sendWelcomeEmail from "../../../utils/Mailers/sendWelcomeEmail";
 import isUserVerified from "../../../utils/Auth/isUserVerified";
 
-console.log("VERCEL_ENV", VERCEL_ENV);
-console.log("VERCEL_URL", VERCEL_URL);
+console.log("VERCEL_ENV", process.env.VERCEL_ENV);
+console.log("VERCEL_URL", process.env.VERCEL_URL);
 
 // Authentication logic
 // Added id because : https://stackoverflow.com/questions/69424685/custom-sign-in-page-not-redirecting-correctly-in-next-auth#:~:text=I%20found%20the%20solution%2C%20but%20I%20think%20the%20documentation%20is%20misleading.
