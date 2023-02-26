@@ -349,33 +349,35 @@ const LoginOrRegisterForm = ({
               </div>
             )}
 
-            <>
-              <div className="mt-5 grid grid-cols-3 items-center text-gray-400">
-                <hr className="border-gray-400" />
-                <p className="text-center text-sm">OR</p>
-                <hr className="border-gray-400" />
+            {process.env.VERCEL_ENV === "preview" ? (
+              <div>
+                <div className="mt-5 grid grid-cols-3 items-center text-gray-400">
+                  <hr className="border-gray-400" />
+                  <p className="text-center text-sm">OR</p>
+                  <hr className="border-gray-400" />
+                </div>
+
+                <button
+                  onClick={() => {
+                    signIn("google", { callbackUrl: home });
+                  }}
+                  className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300"
+                >
+                  <FcGoogle className="mr-2 text-2xl" />
+                  Login with Google
+                </button>
+
+                <button
+                  onClick={() => signIn("facebook", { callbackUrl: home })}
+                  className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300"
+                >
+                  <BsFacebook className="mr-2 text-2xl text-blue-facebook" />
+                  Login with Facebook
+                </button>
               </div>
-
-              {/* Google */}
-              <button
-                onClick={() => {
-                  signIn("google", { callbackUrl: home });
-                }}
-                className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300"
-              >
-                <FcGoogle className="mr-2 text-2xl" />
-                Login with Google
-              </button>
-
-              {/* Facebook */}
-              <button
-                onClick={() => signIn("facebook", { callbackUrl: home })}
-                className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300"
-              >
-                <BsFacebook className="mr-2 text-2xl text-blue-facebook" />
-                Login with Facebook
-              </button>
-            </>
+            ) : (
+              ""
+            )}
 
             <div className="mt-3 text-xs flex justify-between items-center text-[#002D74]">
               <p>{alternativeMsg}</p>
