@@ -359,7 +359,7 @@ const LoginOrRegisterForm = ({
               {/* Google */}
               <button
                 onClick={() => {
-                  signIn("google", { callbackUrl: domain });
+                  signIn("google", { callbackUrl: home });
                 }}
                 className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300"
               >
@@ -369,7 +369,7 @@ const LoginOrRegisterForm = ({
 
               {/* Facebook */}
               <button
-                onClick={() => signIn("facebook", { callbackUrl: domain })}
+                onClick={() => signIn("facebook", { callbackUrl: home })}
                 className="bg-white border py-2 w-full rounded-xl mt-3 flex justify-center items-center text-sm hover:scale-105 duration-300"
               >
                 <BsFacebook className="mr-2 text-2xl text-blue-facebook" />

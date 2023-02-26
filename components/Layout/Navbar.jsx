@@ -11,6 +11,8 @@ import AppContext from "../../context/AppContext";
 
 import { useSession, signOut } from "next-auth/react";
 
+import { BiTargetLock } from "react-icons/bi";
+
 import {
   AiOutlineMenu,
   AiOutlineBell,
@@ -71,21 +73,9 @@ const Navigation = () => {
                   </Disclosure.Button>
                 </div>
                 <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                  <div className="flex flex-shrink-0 items-center">
-                    <Image
-                      width={30}
-                      height={30}
-                      className="block h-8 w-auto lg:hidden"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                      alt="Your Company"
-                    />
-                    <Image
-                      width={30}
-                      height={30}
-                      className="hidden h-8 w-auto lg:block"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                      alt="Your Company"
-                    />
+                  <div className="text-white flex flex-shrink-0 items-center">
+                    <BiTargetLock className="mr-2 text-xl block h-8 w-auto lg:hidden" />
+                    <BiTargetLock className="mr-2 text-xl block h-8 w-auto lg:hidden" />
                   </div>
 
                   <div className="hidden sm:ml-6 sm:block">
@@ -181,6 +171,8 @@ const Navigation = () => {
 
                         {session && session.user.image ? (
                           <Image
+                            width={30}
+                            height={30}
                             className="h-8 w-8 rounded-full"
                             src={session.user.image}
                             alt="Profile picture"
@@ -263,12 +255,13 @@ const Navigation = () => {
                                   className={
                                     "block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"
                                   }
-                                  onClick={async () => {
-                                    await signOut({ redirect: false });
-                                    // signOut();
-                                    // Removed the avoid reload because causing error when signing out from show page
-                                    router.push(home);
-                                  }}
+                                  // onClick={async () => {
+                                  //   await signOut({ redirect: false });
+                                  //   // signOut();
+                                  //   // Removed the avoid reload because causing error when signing out from show page
+                                  //   router.push(home);
+                                  // }}
+                                  onClick={() => signOut()}
                                 >
                                   {" "}
                                   Sign out
