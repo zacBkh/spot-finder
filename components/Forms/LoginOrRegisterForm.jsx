@@ -19,6 +19,7 @@ import { Spinner } from "flowbite-react";
 import { signIn } from "next-auth/react";
 
 import PATHS from "../../utils/URLs";
+
 const { home, domain } = PATHS;
 
 // This form component is used for both Registration & Login
@@ -31,6 +32,18 @@ const LoginOrRegisterForm = ({
   onForgotPassword,
   returnToURL,
 }) => {
+  if (process.env.NODE_ENV === "production") {
+    console.log(
+      "process.env.NEXT_PUBLIC_VERCEL_ENV",
+      process.env.NEXT_PUBLIC_VERCEL_ENV
+    );
+
+    console.log(
+      "process.env.NEXT_PUBLIC_VERCEL_URL",
+      process.env.NEXT_PUBLIC_VERCEL_URL
+    );
+  }
+
   // For toggler password visible
   const [isPwdVisible, setIsPwdVisible] = useState(false);
 
@@ -348,8 +361,7 @@ const LoginOrRegisterForm = ({
                 </span>
               </div>
             )}
-
-            {process.env.VERCEL_ENV !== "preview" ? (
+            {process.env.NEXT_PUBLIC_VERCEL_ENV !== "preview" ? (
               <div>
                 <div className="mt-5 grid grid-cols-3 items-center text-gray-400">
                   <hr className="border-gray-400" />
