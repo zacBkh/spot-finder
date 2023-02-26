@@ -16,10 +16,63 @@ import sendWelcomeEmail from "../../../utils/Mailers/sendWelcomeEmail";
 import isUserVerified from "../../../utils/Auth/isUserVerified";
 
 // Authentication logic
+// Added id because : https://stackoverflow.com/questions/69424685/custom-sign-in-page-not-redirecting-correctly-in-next-auth#:~:text=I%20found%20the%20solution%2C%20but%20I%20think%20the%20documentation%20is%20misleading.
+const cred = CredentialsProvider({
+  id: "credentials",
+  name: "credentials",
+  credentials: {
+    email: {
+      label: "Email",
+      type: "text",
+      placeholder: "blabla@live.fr",
+      type: "email",
+    },
+    password: { label: "Password", type: "password" },
+  },
+
+  async authorize(credentials, req) {
+    await connectMongo();
+
+    try {
+      console.log("credentials --->", credentials);
+      // Attempting to find the user
+      const userExist = await User.findOne({
+        email: credentials.email,
+      });
+      console.log("userExist !!", userExist);
+
+      if (!userExist) {
+        // if user does not exist
+
+        return null;
+      } else {
+        // if user exists
+
+        const checkPassword = await compare(
+          credentials.password,
+          userExist.password
+        );
+
+        if (credentials.email === userExist.email && checkPassword) {
+          // if email and hashed password match --> authenticate
+          console.log("11111111");
+          return userExist;
+        } else {
+          // throw new Error('Invalid credentials [password incorrect]');
+          console.log("22222222222222");
+          return null;
+        }
+      }
+    } catch (error) {
+      console.log("Error due to -->", error.message);
+    }
+  },
+});
 
 export const authOptions = {
   // Configure one or more authentication providers
   providers: [
+    process.env.VERCEL_ENV === "preview" ? cred : cred,
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -30,57 +83,6 @@ export const authOptions = {
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-    }),
-
-    // Added id because : https://stackoverflow.com/questions/69424685/custom-sign-in-page-not-redirecting-correctly-in-next-auth#:~:text=I%20found%20the%20solution%2C%20but%20I%20think%20the%20documentation%20is%20misleading.
-    CredentialsProvider({
-      id: "credentials",
-      name: "credentials",
-      credentials: {
-        email: {
-          label: "Email",
-          type: "text",
-          placeholder: "blabla@live.fr",
-          type: "email",
-        },
-        password: { label: "Password", type: "password" },
-      },
-
-      async authorize(credentials, req) {
-        await connectMongo();
-
-        try {
-          console.log("credentials --->", credentials);
-          // Attempting to find the user
-          const userExist = await User.findOne({ email: credentials.email });
-          console.log("userExist !!", userExist);
-
-          if (!userExist) {
-            // if user does not exist
-
-            return null;
-          } else {
-            // if user exists
-
-            const checkPassword = await compare(
-              credentials.password,
-              userExist.password
-            );
-
-            if (credentials.email === userExist.email && checkPassword) {
-              // if email and hashed password match --> authenticate
-              console.log("11111111");
-              return userExist;
-            } else {
-              // throw new Error('Invalid credentials [password incorrect]');
-              console.log("22222222222222");
-              return null;
-            }
-          }
-        } catch (error) {
-          console.log("Error due to -->", error.message);
-        }
-      },
     }),
   ],
 

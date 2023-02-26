@@ -257,15 +257,7 @@ const AllSpots = ({ spots, currentUserName, queryString }) => {
   }
 
   console.log("process.env.NODE_ENV", process.env.NODE_ENV);
-  if (process.env.NODE_ENV === "production") {
-    console.log(" NEXT_PUBLIC_VERCEL_ENV PROD", NEXT_PUBLIC_VERCEL_ENV);
-    console.log(" NEXT_PUBLIC_VERCEL_URL PROD", NEXT_PUBLIC_VERCEL_URL);
-  }
 
-  if (process.env.NODE_ENV === "preview") {
-    console.log(" NEXT_PUBLIC_VERCEL_ENV PREV", NEXT_PUBLIC_VERCEL_ENV);
-    console.log(" NEXT_PUBLIC_VERCEL_URL PREV", NEXT_PUBLIC_VERCEL_URL);
-  }
   return (
     <>
       <Head>
