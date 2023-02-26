@@ -261,7 +261,7 @@ const Navigation = () => {
                                   //   // Removed the avoid reload because causing error when signing out from show page
                                   //   router.push(home);
                                   // }}
-                                  onClick={() => signOut()}
+                                  onClick={async () => await signOut()}
                                 >
                                   {" "}
                                   Sign out
