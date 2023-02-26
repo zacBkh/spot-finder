@@ -34,7 +34,7 @@ const LoginOrRegisterForm = ({
   returnToURL,
 }) => {
   const currentEnvironment = whichEnv();
-  console.log("currentEnvironment", currentEnvironment);
+  console.log("ola@mail.fr", currentEnvironment);
 
   // For toggler password visible
   const [isPwdVisible, setIsPwdVisible] = useState(false);

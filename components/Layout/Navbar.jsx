@@ -250,8 +250,8 @@ const Navigation = () => {
                             </Menu.Item>
 
                             <Menu.Item>
-                              <Link href="/auth/profile">
-                                <a
+                              <Link href="">
+                                <button
                                   className={
                                     "block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100"
                                   }
@@ -263,9 +263,8 @@ const Navigation = () => {
                                   // }}
                                   onClick={() => signOut()}
                                 >
-                                  {" "}
                                   Sign out
-                                </a>
+                                </button>
                               </Link>
                             </Menu.Item>
                           </>
