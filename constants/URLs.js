@@ -39,7 +39,7 @@ export const NAVBAR_USER_ITEMS = [
 
     {
         name: 'Settings',
-        link: PATHS.PROFILE,
+        link: PATHS.HOME,
     },
     {
         name: 'Sign Out',

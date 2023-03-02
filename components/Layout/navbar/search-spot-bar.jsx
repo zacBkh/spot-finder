@@ -23,7 +23,7 @@ const SearchSpotBar = () => {
                 text-white text-sm block w-full p-2 pl-10 rounded-lg bg-gray-700"
             />
 
-            {searchContext.value.length > 0 && (
+            {searchContext.value.length > 0 ? (
                 <button
                     type="button"
                     className="absolute inset-y-0 right-0 flex items-center pr-3"
@@ -34,6 +34,8 @@ const SearchSpotBar = () => {
                         className="text-lg text-gray-400"
                     />
                 </button>
+            ) : (
+                ''
             )}
         </div>
     )

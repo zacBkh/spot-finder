@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+import { signOut } from 'next-auth/react'
+
 // context === "navbar" OR "hamburgerMenu" OR "userMenu"
 const NavItems = ({ name, link, context, onUserMenuClick }) => {
     if (context === 'navbar')
@@ -19,7 +21,11 @@ const NavItems = ({ name, link, context, onUserMenuClick }) => {
     if (context === 'userMenu')
         return (
             <li key={link} onClick={onUserMenuClick} className="text-black">
-                <Link href={link}>{name}</Link>
+                {name === 'Sign Out' ? (
+                    <a onClick={() => signOut()}>{name}</a>
+                ) : (
+                    <Link href={link}>{name}</Link>
+                )}
             </li>
         )
 }
