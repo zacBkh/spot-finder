@@ -1,17 +1,12 @@
-import Navigation from "./Navbar"
+import NavigationBar from './navigation-bar'
 
-
-const Layout = (props) => {
-
-
+const Layout = props => {
     return (
         <>
-            <Navigation />
-            <main
-                className="mt-24 px-3 mx-auto">{props.children}
-            </main>
+            <NavigationBar />
+            <main className="mt-10 px-3 mx-auto">{props.children}</main>
         </>
     )
 }
 
-export default Layout 
+export default Layout

@@ -1,52 +1,52 @@
 // This will protect my pages but NOT MY API ROUTES
 // To protect API routes --> unstable_getServerSession
 
-import PATHS from "./constants/URLs";
-const { DOMAIN } = PATHS;
+import { PATHS } from './constants/URLs'
+const { DOMAIN } = PATHS
 
-const arrayOfProtectedPaths = ["/spots/newSpot", "/auth/profile"];
+const arrayOfProtectedPaths = ['/spots/newSpot', '/auth/profile']
 
-const shouldNotBeUser = ["/auth/Register", "/auth/SignIn"];
+const shouldNotBeUser = ['/auth/register', '/auth/SignIn']
 
-import { NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { NextResponse } from 'next/server'
+import { getToken } from 'next-auth/jwt'
 
 export async function middleware(req) {
-  const pathname = req.nextUrl.pathname;
-  console.log("pathname from middleware -->", pathname);
+    const pathname = req.nextUrl.pathname
+    console.log('pathname from middleware -->', pathname)
 
-  const session = await getToken({
-    req: req,
-    secret: process.env.NEXTAUTH_SECRET,
-  });
-  // console.log('session in middleware: ', session)
-  //https://stackoverflow.com/questions/70157936/cannot-access-the-nextauth-session-data-in-next-js-12-middleware
+    const session = await getToken({
+        req: req,
+        secret: process.env.NEXTAUTH_SECRET,
+    })
+    // console.log('session in middleware: ', session)
+    //https://stackoverflow.com/questions/70157936/cannot-access-the-nextauth-session-data-in-next-js-12-middleware
 
-  // Protect protected pages
-  //  send back query string for toastify + returnTo behaviour
-  if (arrayOfProtectedPaths.includes(pathname)) {
-    if (session === null) {
-      const returnTo = req.nextUrl.pathname;
+    // Protect protected pages
+    //  send back query string for toastify + returnTo behaviour
+    if (arrayOfProtectedPaths.includes(pathname)) {
+        if (session === null) {
+            const returnTo = req.nextUrl.pathname
 
-      if (pathname === "/auth/profile") {
-        return NextResponse.redirect(
-          `${DOMAIN}auth/SignIn?mustLogIn=access your profile&returnTo=/auth/profile`
-        );
-      }
-      if (pathname === "/spots/newSpot") {
-        return NextResponse.redirect(
-          `${DOMAIN}auth/SignIn?mustLogIn=create a new spot&returnTo=${returnTo}`
-        );
-      }
+            if (pathname === '/auth/profile') {
+                return NextResponse.redirect(
+                    `${DOMAIN}auth/SignIn?mustLogIn=access your profile&returnTo=/auth/profile`,
+                )
+            }
+            if (pathname === '/spots/newSpot') {
+                return NextResponse.redirect(
+                    `${DOMAIN}auth/SignIn?mustLogIn=create a new spot&returnTo=${returnTo}`,
+                )
+            }
+        }
     }
-  }
 
-  // Prevent logged in user to access to register and sign in
-  if (shouldNotBeUser.includes(pathname)) {
-    if (session !== null) {
-      return NextResponse.redirect(`${DOMAIN}?alreadyLoggedIn=true`);
+    // Prevent logged in user to access to register and sign in
+    if (shouldNotBeUser.includes(pathname)) {
+        if (session !== null) {
+            return NextResponse.redirect(`${DOMAIN}?alreadyLoggedIn=true`)
+        }
     }
-  }
 }
 
 // Middleware solution next auth with next js but didn't use it because could not add in on top of regular next js middleware
