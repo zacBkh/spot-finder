@@ -6,7 +6,7 @@ const { DOMAIN } = PATHS
 
 const arrayOfProtectedPaths = ['/spots/newSpot', '/auth/profile']
 
-const shouldNotBeUser = ['/auth/Register', '/auth/SignIn']
+const shouldNotBeUser = ['/auth/register', '/auth/SignIn']
 
 import { NextResponse } from 'next/server'
 import { getToken } from 'next-auth/jwt'

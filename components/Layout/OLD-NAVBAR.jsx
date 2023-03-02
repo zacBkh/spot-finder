@@ -146,7 +146,7 @@ const Navigation = () => {
                                                                     'block px-4 py-2 text-sm text-gray-700 list-none hover:bg-gray-100'
                                                                 }
                                                             >
-                                                                <Link href="/auth/Register">
+                                                                <Link href="/auth/register">
                                                                     <a className="block">
                                                                         {' '}
                                                                         Register{' '}
