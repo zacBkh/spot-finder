@@ -1,235 +1,141 @@
-
 // These utils fx send request to my API routes for Spot & Auth
 
-
 /* SC SPOTS */
-export
-    const addSpotHandler = async (enteredData) => {
-        console.log("NEW SPOT DATA from FETCHER", enteredData)
-        console.log("TYPE OF", typeof (enteredData.locationDrag))
+export const addSpotHandler = async enteredData => {
+    console.log('NEW SPOT DATA from FETCHER', enteredData)
+    console.log('TYPE OF', typeof enteredData.locationDrag)
 
-        // POSTING to MONGO
-        const response = await fetch(
-            "/api/spots/new-spot",
-            {
-                method: "POST",
-                body: JSON.stringify(enteredData), //conv to JSON
-                headers: { "Content-Type": "application/json" }
-            }
-        )
+    // POSTING to MONGO
+    const response = await fetch('/api/spots/new-spot', {
+        method: 'POST',
+        body: JSON.stringify(enteredData), //conv to JSON
+        headers: { 'Content-Type': 'application/json' },
+    })
 
-        const data = await response.json()
-        console.log("Status of spot creation: ", data)
-    }
+    const data = await response.json()
+    console.log('Status of spot creation: ', data)
+}
 
+export const editSpotHandler = async (editedEnteredData, spotID) => {
+    console.log('editedEnteredDatapp', editedEnteredData)
+    const response = await fetch(`/api/spots/${spotID}`, {
+        method: 'PATCH',
+        body: JSON.stringify(editedEnteredData), //conv to JSON
+        headers: { 'Content-Type': 'application/json' },
+    })
+    const data = await response.json()
+    console.log('Result of edition', data)
+}
 
+export const addOneVisitSpotHandler = async (visitorID, spotID, hadVisited) => {
+    const response = await fetch(`/api/spots/addVisit/${spotID}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ visitorID, hadVisited }), //conv to JSON
+        headers: { 'Content-Type': 'application/json' },
+    })
+    const result = await response.json()
+    return result
+}
 
-
-
-export
-    const editSpotHandler = async (editedEnteredData, spotID) => {
-        console.log("editedEnteredDatapp", editedEnteredData)
-        const response = await fetch(
-            `/api/spots/${spotID}`,
-            {
-                method: "PATCH",
-                body: JSON.stringify(editedEnteredData), //conv to JSON
-                headers: { "Content-Type": "application/json" }
-            }
-        )
-        const data = await response.json()
-        console.log("Result of edition", data)
-    }
-
-
-
-
-export
-    const addOneVisitSpotHandler = async (visitorID, spotID, hadVisited) => {
-        const response = await fetch(
-            `/api/spots/addVisit/${spotID}`,
-            {
-                method: "PATCH",
-                body: JSON.stringify({ visitorID, hadVisited }), //conv to JSON
-                headers: { "Content-Type": "application/json" }
-            }
-        )
-        const result = await response.json()
-        return result
-    }
-
-
-
-
-
-
-export
-    const deleteSpotHandler = async (spotID) => {
-        console.log("from aa", spotID)
-        const response = await fetch(
-            `/api/spots/${spotID}`,
-            {
-                method: "DELETE",
-            }
-        )
-        const data = await response.json()
-        console.log("Result of deletion", data)
-    }
-/ *!SC */
-
-
-
-
-
-
-
-
+export const deleteSpotHandler = async spotID => {
+    console.log('from aa', spotID)
+    const response = await fetch(`/api/spots/${spotID}`, {
+        method: 'DELETE',
+    })
+    const data = await response.json()
+    console.log('Result of deletion', data)
+}
+;/ *!SC */
 
 /* SC USERS */
 // Registers a new user
-export
-    const addUserHandler = async (enteredData) => {
+export const addUserHandler = async enteredData => {
+    console.log('NEW USER TO REGISTER', enteredData)
 
-        console.log("NEW USER TO REGISTER", enteredData)
+    // POSTING to MONGO
+    const response = await fetch('/api/users/register', {
+        method: 'POST',
+        body: JSON.stringify(enteredData), //conv to JSON
+        headers: { 'Content-Type': 'application/json' },
+    })
 
-        // POSTING to MONGO
-        const response = await fetch(
-            "/api/users/register",
-            {
-                method: "POST",
-                body: JSON.stringify(enteredData), //conv to JSON
-                headers: { "Content-Type": "application/json" }
-            }
-        )
-
-
-        const data = await response.json()
-        console.log("data", data)
-        return data // returning data for handling if mistake
-    }
-
-
-
+    const data = await response.json()
+    console.log('data', data)
+    return data // returning data for handling if mistake
+}
 
 // Delete a user
-export
-    const deleteUserHandler = async (userID) => {
+export const deleteUserHandler = async userID => {
+    console.log('USER TO DELETE', userID)
+    console.log('TYPEEE', typeof userID)
 
-        console.log("USER TO DELETE", userID)
-        console.log("TYPEEE", typeof userID)
+    // POSTING to MONGO
+    const response = await fetch(`/api/users/${userID}`, {
+        method: 'DELETE',
+    })
 
-        // POSTING to MONGO
-        const response = await fetch(
-            `/api/users/${userID}`,
-            {
-                method: "DELETE",
-            }
-        )
-
-
-        const data = await response.json()
-        console.log("data", data)
-        return data // returning data for handling if mistake
-    }
-
-
-
-
-
-
-
-
-
+    const data = await response.json()
+    console.log('data', data)
+    return data // returning data for handling if mistake
+}
 
 // Check email uniqueness in DB for Yup async valid
-export
-    const checkEmailUniq = async (email) => {
-        console.log("EMAIL FROM API FETCHER", email)
+// Can run client side
+export const checkEmailUniq = async email => {
+    console.log('EMAIL FROM API FETCHER', email)
 
-        const response = await fetch(
-            "/api/users/emailCheckerAsync",
-            {
-                method: "POST",
-                body: JSON.stringify(email),
-                headers: { "Content-Type": "application/json" }
-            }
-        )
+    const response = await fetch('/api/users/emailCheckerAsync', {
+        method: 'POST',
+        body: JSON.stringify(email),
+        headers: { 'Content-Type': 'application/json' },
+    })
 
-        const data = await response.json()
-        console.log("Data received from emailCheckerAsync -->", data)
-        return data
-    }
-
-
-
-
-
-
+    const data = await response.json()
+    console.log('Data received from emailCheckerAsync -->', data)
+    return data
+}
 
 // PASSWORD RESET
 
 // Send an email holding a JWT to reset pwd
-export
-    const sendPwdResetMail = async (email) => {
-        console.log("sendPwdResetMail -->", email)
+export const sendPwdResetMail = async email => {
+    console.log('sendPwdResetMail -->', email)
 
-        const response = await fetch(
-            "/api/users/send-pwdReset-link",
-            {
-                method: "POST",
-                body: JSON.stringify(email),
-                headers: { "Content-Type": "application/json" }
-            }
-        )
+    const response = await fetch('/api/users/send-pwdReset-link', {
+        method: 'POST',
+        body: JSON.stringify(email),
+        headers: { 'Content-Type': 'application/json' },
+    })
 
-        const data = await response.json()
-        console.log("Data received fromsendPwdResetMail -->", data)
-        return data
-    }
-
-
+    const data = await response.json()
+    console.log('Data received fromsendPwdResetMail -->', data)
+    return data
+}
 
 // Change PWD in DB ONLY FOR NOW CHANGE PWD
-export
-    const editUserHandler = async (newPwd, userID) => {
-        console.log("userID", userID)
-        console.log("newPwd", newPwd)
-        const response = await fetch(
-            `/api/users/${userID}`,
-            {
-                method: "PATCH",
-                body: JSON.stringify(newPwd), //conv to JSON
-                headers: { "Content-Type": "application/json" }
-            }
-        )
-        const data = await response.json()
-        console.log("Result of USER edition", data)
-        return data
-    }
-/ *!SC */
-
-
-
-
-
-
-
+export const editUserHandler = async (newPwd, userID) => {
+    console.log('userID', userID)
+    console.log('newPwd', newPwd)
+    const response = await fetch(`/api/users/${userID}`, {
+        method: 'PATCH',
+        body: JSON.stringify(newPwd), //conv to JSON
+        headers: { 'Content-Type': 'application/json' },
+    })
+    const data = await response.json()
+    console.log('Result of USER edition', data)
+    return data
+}
+;/ *!SC */
 
 /*SC REVIEWS */
-export
-    const addOneReview = async (spotID, reviewAuthorID, review) => {
-        const response = await fetch(
-            `/api/reviews/new-review`,
-            {
-                method: "POST",
-                body: JSON.stringify({spotID, reviewAuthorID, review}), //conv to JSON
-                headers: { "Content-Type": "application/json" }
-            }
-        )
-        const result = await response.json()
-        return result
-    }
-
-
+export const addOneReview = async (spotID, reviewAuthorID, review) => {
+    const response = await fetch(`/api/reviews/new-review`, {
+        method: 'POST',
+        body: JSON.stringify({ spotID, reviewAuthorID, review }), //conv to JSON
+        headers: { 'Content-Type': 'application/json' },
+    })
+    const result = await response.json()
+    return result
+}
 
 /* !SC */

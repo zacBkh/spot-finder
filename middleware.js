@@ -13,14 +13,11 @@ import { getToken } from 'next-auth/jwt'
 
 export async function middleware(req) {
     const pathname = req.nextUrl.pathname
-    console.log('pathname from middleware -->', pathname)
 
     const session = await getToken({
         req: req,
         secret: process.env.NEXTAUTH_SECRET,
     })
-    // console.log('session in middleware: ', session)
-    //https://stackoverflow.com/questions/70157936/cannot-access-the-nextauth-session-data-in-next-js-12-middleware
 
     // Protect protected pages
     //  send back query string for toastify + returnTo behaviour

@@ -9,7 +9,7 @@ export const PATHS = {
     HOME: '/',
     NEW_SPOT: 'spots/newSpot',
     PROFILE: '/auth/profile',
-    REGISTER: '/auth/register',
+    AUTH: '/auth/login',
 }
 
 export const NAVBAR_ITEMS = [
@@ -27,7 +27,7 @@ export const NAVBAR_ITEMS = [
 export const NAVBAR_VISITOR_ITEMS = [
     {
         name: 'Sign up or login',
-        link: PATHS.REGISTER,
+        link: PATHS.AUTH,
     },
 ]
 

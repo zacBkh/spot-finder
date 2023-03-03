@@ -1,14 +1,12 @@
-import connectMongo from '../connectMongo';
-import User from '../../models/user';
-
+import connectMongo from '../connectMongo'
+import User from '../../models/user'
 
 // Checking if user exists (email)
 // Return full user, null if does not exist
+// Can only run server side
 
-
-const checkEmailExist = async (email) => {
-
-    await connectMongo();
+const checkEmailExist = async email => {
+    await connectMongo()
 
     const queryDB = await User.findOne({ email: email })
 
@@ -16,7 +14,3 @@ const checkEmailExist = async (email) => {
 }
 
 export default checkEmailExist
-
-
-
-

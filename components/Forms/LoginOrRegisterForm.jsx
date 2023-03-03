@@ -21,6 +21,8 @@ import { signIn } from 'next-auth/react'
 import { PATHS } from '../../constants/URLs'
 import { whichEnv } from '../../utils/env-helper'
 
+import { TOAST_PARAMS } from '../../constants/toast-query-params'
+
 const { HOME, DOMAIN } = PATHS
 
 // This form component is used for both Registration & Login
@@ -34,7 +36,7 @@ const LoginOrRegisterForm = ({
     returnToURL,
 }) => {
     const currentEnvironment = whichEnv()
-    console.log('ola@mail.fr', currentEnvironment)
+    console.log('whichEnv -->', currentEnvironment)
 
     // For toggler password visible
     const [isPwdVisible, setIsPwdVisible] = useState(false)
@@ -164,7 +166,9 @@ const LoginOrRegisterForm = ({
 
                 // If user should not be redirected back where he was (he clicked directly on login) then redirect him in hime page, otherwise redirectTo behaviour
                 // returnToURL !== null ? router.push(returnToURL) : router.push(HOME)
-                returnToURL !== null ? router.push('/') : router.push('/')
+                returnToURL !== null
+                    ? router.push(`${HOME}${TOAST_PARAMS.NEW_USER}`)
+                    : router.push(`${HOME}${TOAST_PARAMS.NEW_USER}`)
             }
 
             // LOGIN MODE
@@ -220,11 +224,6 @@ const LoginOrRegisterForm = ({
         }
         return false
     }
-
-    console.log('shouldFormBeDisabled', shouldFormBeDisabled())
-
-    console.log('formik', formik)
-    console.log('formik.values', formik.values)
 
     return (
         <>

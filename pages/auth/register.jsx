@@ -1,7 +1,6 @@
 import LoginOrRegisterForm from '../../components/Forms/LoginOrRegisterForm'
 
 import { PATHS } from '../../constants/URLs'
-const { DOMAIN } = PATHS
 
 const Register = ({}) => {
     return (
