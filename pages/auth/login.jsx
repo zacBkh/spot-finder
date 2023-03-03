@@ -8,11 +8,15 @@ import EMailLogger from '../../components/auth/email-logger'
 import Image from 'next/image'
 
 const Login = ({}) => {
-    const [authDetails, setAuthDetails] = useState({ authMode: null, value: null })
+    // authMode : "credentials" || "oAuth" ---- value : email of user or provider
+    const [authDetails, setAuthDetails] = useState({
+        authMode: null,
+        value: null,
+        isNew: null,
+    })
 
-    // Can be either credentials or oAuth
-    const selectAuthModeHandler = (authMode, value) => {
-        setAuthDetails({ authMode, value })
+    const selectAuthModeHandler = (authMode, value, isNew) => {
+        setAuthDetails({ authMode, value, isNew })
     }
 
     const nullAuthMode = authDetails.authMode === null
@@ -22,7 +26,13 @@ const Login = ({}) => {
     return (
         <div className="flex justify-center gap-y-6 max-w-2xl mx-auto items-stretch gap-x-4">
             <div className="w-1/2 p-6 flex flex-col justify-center gap-y-6 bg-secondary align-middle rounded-lg">
-                {showEmailLogger && <EMailLogger onSelectEMail={selectAuthModeHandler} />}
+                {showEmailLogger && (
+                    <EMailLogger
+                        authMode={authDetails.authMode}
+                        isnewUser={authDetails.isNew}
+                        onSelectEMail={selectAuthModeHandler}
+                    />
+                )}
                 {nullAuthMode && <Divider />}
 
                 {showOAuthLogger && (
