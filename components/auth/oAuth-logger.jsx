@@ -2,18 +2,28 @@ import { BsFacebook } from 'react-icons/bs'
 import { FcGoogle } from 'react-icons/fc'
 
 import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 import capitalize from '../../utils/capitalize'
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
 const { KEY, VALUE_LOGIN, VALUE_NEW_USER } = TOAST_PARAMS
 
+import { PATHS } from '../../constants/URLs'
+
 import { BUTTON_FS } from '../../constants/responsive-fonts'
 
-const OAuthLogger = ({ provider, callbackURL, bgColor, txtColor, onSelectOAuth }) => {
-    const callbackURLWithToast = `${callbackURL}?${KEY}=${VALUE_LOGIN}`
-    const signInHandler = param => {
-        signIn(provider, { callbackUrl: callbackURLWithToast })
-        onSelectOAuth('oAuth', provider)
+const OAuthLogger = ({ returnToURL, provider, bgColor, txtColor, onSelectOAuth }) => {
+    const router = useRouter()
+
+    // const callbackURLWithToast = `${callbackURL}?${KEY}=${VALUE_LOGIN}`
+    const signInHandler = async param => {
+        await onSelectOAuth('oAuth', provider)
+
+        await signIn(provider, {
+            callbackUrl: returnToURL
+                ? `${returnToURL}?${KEY}=${VALUE_LOGIN}`
+                : `${PATHS.HOME}?${KEY}=${VALUE_LOGIN}`,
+        })
     }
     return (
         <>

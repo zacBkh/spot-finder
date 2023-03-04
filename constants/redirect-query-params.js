@@ -1,8 +1,8 @@
 // Only for middleware redirections
 const REDIRECT_QUERY_PARAMS = {
     KEY_AUTH: 'mustBeAuth',
-    VALUE_CREATE_SPOT: 'create a new Spot',
-    VALUE_ACCESS_PROFILE: 'access your profile',
+    VALUE_CREATE_SPOT: 'create-spot',
+    VALUE_ACCESS_PROFILE: 'access-your-profile',
 
     KEY_RETURN_TO: 'returnTo',
 

@@ -30,9 +30,6 @@ export async function middleware(req) {
     //  send back query string for toastify + returnTo behaviour
     if (arrayOfProtectedPaths.includes(pathname)) {
         if (session === null) {
-            const returnTo = req.nextUrl.pathname
-            console.log('returnto', returnTo)
-
             if (pathname === PROFILE) {
                 return NextResponse.redirect(
                     `${DOMAIN_WITHOUT_SLASH}${AUTH}?${KEY_AUTH}=${VALUE_ACCESS_PROFILE}&${KEY_RETURN_TO}=${PROFILE}`,

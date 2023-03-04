@@ -9,12 +9,14 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 
 import REDIRECT_QUERY_PARAMS from '../../constants/redirect-query-params'
-const { KEY_AUTH, VALUE_CREATE_SPOT, VALUE_ACCESS_PROFILE } = REDIRECT_QUERY_PARAMS
+const { KEY_AUTH, VALUE_CREATE_SPOT, VALUE_ACCESS_PROFILE, KEY_RETURN_TO } =
+    REDIRECT_QUERY_PARAMS
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Login = ({}) => {
     const router = useRouter()
+    console.log('router.query', router.query)
 
     useEffect(() => {
         if (router.query[KEY_AUTH] === VALUE_CREATE_SPOT) {
@@ -32,20 +34,22 @@ const Login = ({}) => {
         }
     }, [router.isReady, router.query])
 
-    // authMode : "credentials" || "oAuth" ---- value : email of user or provider
+    // authMode : "credentials" || "oAuth"
+    // value : email of user or provider
     const [authDetails, setAuthDetails] = useState({
         authMode: null,
         value: null,
         isNew: null,
     })
 
+    const { authMode, value: authValue, isNew } = authDetails
+
     const selectAuthModeHandler = (authMode, value, isNew) => {
         setAuthDetails({ authMode, value, isNew })
     }
 
-    const nullAuthMode = authDetails.authMode === null
-    const showEmailLogger = authDetails.authMode !== 'oAuth'
-    const showOAuthLogger = nullAuthMode || authDetails.authMode === 'oAuth'
+    const showEmailLogger = !authMode || authMode == 'credentials'
+    const showOAuthLogger = !authMode || authMode === 'oAuth'
 
     return (
         <>
@@ -54,29 +58,46 @@ const Login = ({}) => {
                 <div className="w-1/2 p-6 flex flex-col justify-center gap-y-6 bg-secondary align-middle rounded-lg">
                     {showEmailLogger && (
                         <EMailLogger
+                            returnToURL={
+                                router.isReady ? router.query[KEY_RETURN_TO] : null
+                            }
                             authMode={authDetails.authMode}
                             isnewUser={authDetails.isNew}
                             onSelectEMail={selectAuthModeHandler}
                         />
                     )}
-                    {nullAuthMode && <Divider />}
+                    {!authMode && <Divider />}
 
                     {showOAuthLogger && (
                         <>
-                            <OAuthLogger
-                                provider={'facebook'}
-                                callbackURL={PATHS.HOME}
-                                bgColor={'bg-blue-facebook'}
-                                txtColor={'text-white'}
-                                onSelectOAuth={selectAuthModeHandler}
-                            />
-                            <OAuthLogger
-                                provider={'google'}
-                                callbackURL={PATHS.HOME}
-                                bgColor={'bg-[#4285f4]'}
-                                txtColor={'text-white'}
-                                onSelectOAuth={selectAuthModeHandler}
-                            />
+                            {authValue === 'facebook' ||
+                                (!authMode && (
+                                    <OAuthLogger
+                                        returnToURL={
+                                            router.isReady
+                                                ? router.query[KEY_RETURN_TO]
+                                                : null
+                                        }
+                                        provider={'facebook'}
+                                        bgColor={'bg-blue-facebook'}
+                                        txtColor={'text-white'}
+                                        onSelectOAuth={selectAuthModeHandler}
+                                    />
+                                ))}
+                            {authValue === 'google' ||
+                                (!authMode && (
+                                    <OAuthLogger
+                                        returnToURL={
+                                            router.isReady
+                                                ? router.query[KEY_RETURN_TO]
+                                                : null
+                                        }
+                                        provider={'google'}
+                                        bgColor={'bg-[#4285f4]'}
+                                        txtColor={'text-white'}
+                                        onSelectOAuth={selectAuthModeHandler}
+                                    />
+                                ))}
                         </>
                     )}
                 </div>

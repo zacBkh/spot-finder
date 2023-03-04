@@ -16,7 +16,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 
 import Spinner from '../spinner'
 
-const EMailLogger = ({ authMode, onSelectEMail, isnewUser }) => {
+const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
     const router = useRouter()
 
     const [isPwdVisible, setIsPwdVisible] = useState(false)
@@ -112,14 +112,15 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser }) => {
                     redirect: false,
                 })
 
-                console.log('loginResult', loginResult)
-
                 // if auth issue linked to creds...
                 if (!loginResult.ok && loginResult.error === 'CredentialsSignin') {
                     setAuthResult('Invalid credentials.')
                 } else {
-                    // returnToURL !== null ? router.push(HOME) : router.push(HOME)
-                    router.push(`${PATHS.HOME}?${KEY}=${VALUE_LOGIN}`)
+                    router.push(
+                        returnToURL
+                            ? `${returnToURL}?${KEY}=${VALUE_LOGIN}`
+                            : `${PATHS.HOME}?${KEY}=${VALUE_LOGIN}`,
+                    )
                 }
             }
         } else {
