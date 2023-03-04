@@ -1,20 +1,19 @@
 import '../styles/globals.css'
 
 import Layout from '../components/Layout/layout'
+import { ToastContainer } from 'react-toastify'
 
 import { SessionProvider } from 'next-auth/react'
 
 // For loading bar
-import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import NProgress from 'nprogress'
 import '../styles/nprogress.css'
 
 import AppContext from '../context/AppContext'
+import Toaster from '../components/toaster-wrapper'
 
-const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
-    const router = useRouter()
-
+const MyApp = ({ Component, pageProps: { session, ...pageProps }, router }) => {
     // nProgress Bar
     useEffect(() => {
         // Tells NProgress to start/stop depending on the router state
@@ -45,6 +44,7 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps } }) => {
         <SessionProvider session={session}>
             <AppContext.Provider value={searchBarContext}>
                 <Layout>
+                    <Toaster />
                     <Component {...pageProps} />
                 </Layout>
             </AppContext.Provider>

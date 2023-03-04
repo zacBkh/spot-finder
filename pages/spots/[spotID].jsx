@@ -24,7 +24,7 @@ import Toggler from '../../components/Toggler'
 
 import MapShow from '../../components/Maps/MapShow'
 
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import Review from '../../components/Reviews/Review'
@@ -199,8 +199,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
     return (
         <>
-            {<ToastContainer autoClose={4000} style={{ width: '400px' }} />}
-
             <MapShow
                 initialView={{
                     longitude: 55.18,

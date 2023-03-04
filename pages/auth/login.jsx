@@ -53,7 +53,6 @@ const Login = ({}) => {
 
     return (
         <>
-            <ToastContainer autoClose={4000} style={{ width: '400px' }} />
             <div className="flex justify-center gap-y-6 max-w-2xl mx-auto items-stretch gap-x-4">
                 <div className="w-1/2 p-6 flex flex-col justify-center gap-y-6 bg-secondary align-middle rounded-lg">
                     {showEmailLogger && (

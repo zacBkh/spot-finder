@@ -1,21 +1,23 @@
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import SearchSpotBar from './navbar/search-spot-bar'
+import SearchSpotBar from './search-spot-bar'
 import { useSession, signOut } from 'next-auth/react'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
-import { PATHS, NAVBAR_ITEMS } from '../../constants/URLs'
+import { PATHS, NAVBAR_ITEMS } from '../../../constants/URLs'
 
-import UserHeader from './navbar/user-greet-header'
-import NavItems from './navbar/nav-items'
-import HamburgerIcon from './navbar/hamburger-icon'
-import HamburgerMenu from './navbar/hamburger-menu'
+import UserHeader from './user-greet-header'
+import NavItems from './nav-items'
+import HamburgerIcon from './hamburger-icon'
+import HamburgerMenu from './hamburger-menu'
 
-import UserAvatar from './navbar/user-profile-pic'
-import UserMenu from './navbar/user-menu'
+import UserAvatar from './user-profile-pic'
+import UserMenu from './user-menu'
 
-import DummyLogo from '../../public/images/logo.svg'
+import DummyLogo from '../../../public/images/logo.svg'
+
+import useOnClickOutside from '../../../hooks/useOnClickOutside'
 
 const { HOME } = PATHS
 
@@ -34,6 +36,10 @@ const Navigation = () => {
     const clickUserMenuHandler = () => {
         setIsUserMenuOpen(prev => !prev)
     }
+
+    const refOutside = useRef(null)
+
+    useOnClickOutside(refOutside, () => setIsUserMenuOpen(false))
 
     return (
         <>
@@ -65,7 +71,7 @@ const Navigation = () => {
                             ''
                         )}
 
-                        <div className="cursor-pointer">
+                        <div ref={refOutside} className="cursor-pointer">
                             <UserAvatar
                                 onUserMenuClick={clickUserMenuHandler}
                                 currentSession={session ?? null}

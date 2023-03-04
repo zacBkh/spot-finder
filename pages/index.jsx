@@ -5,32 +5,16 @@ import AppContext from '../context/AppContext'
 
 import Head from 'next/head'
 
-import { unstable_getServerSession } from 'next-auth/next'
-import { authOptions } from './api/auth/[...nextauth]'
-
-import capitalize from '../utils/capitalize'
-
 import FilterSpots from '../components/CategoriesCheckboxes/FilterSpots'
 
 import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs'
 
 import { GETSpotFetcherAll } from '../utils/GETfetchers'
 
-import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-
 import SelectRegion from '../components/FilterRegion/SelectRegion'
 import SelectSort from '../components/Sorting/SelectSort'
 
-import { TOAST_PARAMS } from '../constants/toast-query-params'
-const { KEY, VALUE_LOGIN, VALUE_LOGOUT, VALUE_NEW_USER } = TOAST_PARAMS
-
-import REDIRECT_QUERY_PARAMS from '../constants/redirect-query-params'
-const { KEY_AUTH, VALUE_ALREADY_LOGGED_IN } = REDIRECT_QUERY_PARAMS
-
 export const getServerSideProps = async context => {
-    const session = await unstable_getServerSession(context.req, context.res, authOptions)
-
     try {
         // Executing the fx that will fetch all Spots
         const resultFetchGET = await GETSpotFetcherAll()
@@ -44,7 +28,7 @@ export const getServerSideProps = async context => {
         return {
             props: {
                 spots: resultFetchGET,
-                currentUserName: session ? session.user.name : null,
+
                 queryString: context.query,
             },
         }
@@ -56,7 +40,7 @@ export const getServerSideProps = async context => {
     }
 }
 
-const AllSpots = ({ spots, currentUserName, queryString }) => {
+const AllSpots = ({ spots, queryString }) => {
     console.log('queryString', queryString)
 
     // Context API holding value from navbar search input + method to add
@@ -176,104 +160,7 @@ const AllSpots = ({ spots, currentUserName, queryString }) => {
         setFilteredSpots(spots)
     }, [searchContext.value.length, searchContext.value, spots])
 
-    // Toast display function
-    const notifyToast = (type, text, id, icon) => {
-        if (type === 'default') {
-            toast(text, {
-                position: 'bottom-left',
-                toastId: id, // prevent duplicates
-                icon: icon,
-            })
-        } else {
-            toast[type](text, {
-                position: 'bottom-left',
-                toastId: id, // prevent duplicates
-                icon: icon,
-            })
-        }
-    }
-
     // Capitalize and take only first string of current user for toaster
-    if (currentUserName) {
-        currentUserName = capitalize(currentUserName.split(' ')[0])
-    }
-
-    // Display toaster
-    useEffect(() => {
-        const getLS = localStorage.getItem('toast')
-        console.log('getLS', getLS)
-        if (getLS === null) {
-            return
-        }
-
-        switch (getLS) {
-            case 'newUser':
-                notifyToast(
-                    'success',
-                    `Hi ${currentUserName}, welcome to spot-finder!`,
-                    'newUser',
-                )
-                break
-
-            // case 'loggedIn':
-            //     notifyToast('success', `Hi ${currentUserName}, welcome back!`, 'login')
-            //     break
-
-            case 'newSpot':
-                notifyToast('success', 'Successfully created a new spot!', 'newSpot')
-                break
-
-            case 'editSpot':
-                notifyToast('info', 'You edited your spot successfully!', 'editSpot')
-                break
-
-            case 'deleteSpot':
-                notifyToast(
-                    'success',
-                    'You deleted your spot successfully!',
-                    'deleteSpot',
-                )
-                break
-
-            case 'resetPwd':
-                notifyToast('success', 'Password changed!', 'resetPwd')
-                break
-
-            case 'deleteUser':
-                notifyToast('info', 'You deleted your account', 'newSpot', '💔')
-                break
-        }
-        localStorage.removeItem('toast')
-    }, [currentUserName])
-
-    // Display toast depending on query params
-    if (queryString[KEY_AUTH] === VALUE_ALREADY_LOGGED_IN) {
-        toast.info(`${currentUserName}, you are already logged in!`, {
-            position: 'bottom-left',
-            toastId: 'alreadyLoggedIn', // prevent duplicates
-        })
-    }
-
-    if (queryString[KEY] === VALUE_LOGIN) {
-        toast.success(`Hi ${currentUserName}, welcome back!`, {
-            position: 'bottom-left',
-            toastId: 'loggedIn', // prevent duplicates
-        })
-    }
-
-    if (queryString[KEY] === VALUE_LOGOUT) {
-        toast.info(`You successfully logged out.`, {
-            position: 'bottom-left',
-            toastId: 'loggedOut', // prevent duplicates
-        })
-    }
-
-    if (queryString[KEY] === VALUE_NEW_USER) {
-        toast.success(`Hi ${currentUserName}, welcome to Spot Finder!`, {
-            position: 'bottom-left',
-            toastId: 'newUser', // prevent duplicates
-        })
-    }
 
     return (
         <>
@@ -281,8 +168,6 @@ const AllSpots = ({ spots, currentUserName, queryString }) => {
                 <title>Find the best spots!</title>
                 <meta name="description" content="Browse the best spots, in a minute!" />
             </Head>
-
-            <ToastContainer autoClose={4000} style={{ width: '400px' }} />
 
             {/* Global container */}
             <div className="flex mt-16 h-full justify-start space-x-12	">
@@ -320,7 +205,7 @@ const AllSpots = ({ spots, currentUserName, queryString }) => {
                         </div>
                     </div>
 
-                    <hr className="my-4 mx-auto 	 h-px		 bg-gray-200 border-0" />
+                    <hr className="my-4 mx-auto h-px		 bg-gray-200 border-0" />
 
                     {/* Region filter container */}
                     <div className="px-2">
