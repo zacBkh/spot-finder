@@ -144,6 +144,7 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser }) => {
                 {/* EMAIL FIELD */}
                 <div>
                     <input
+                        autoFocus
                         {...formik.getFieldProps('email')}
                         disabled={formik.isSubmitting}
                         className={`${validStyling('email').border}
@@ -180,6 +181,7 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser }) => {
                     <div>
                         <div className="relative">
                             <input
+                                autoFocus
                                 {...formik.getFieldProps('password')}
                                 className={`${
                                     validStyling('password').border
