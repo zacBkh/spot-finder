@@ -3,8 +3,12 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
+
+import { PATHS } from '../../constants/URLs'
 
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
+const { KEY, VALUE_LOGIN, VALUE_NEW_USER } = TOAST_PARAMS
 
 import { BUTTON_FS, FORM_VALID_FS } from '../../constants/responsive-fonts'
 import { checkEmailUniq } from '../../utils/APIfetchers'
@@ -13,7 +17,12 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import Spinner from '../spinner'
 
 const EMailLogger = ({ authMode, onSelectEMail, isnewUser }) => {
+    const router = useRouter()
+
     const [isPwdVisible, setIsPwdVisible] = useState(false)
+
+    // Store login failure/success info
+    const [authResult, setAuthResult] = useState('')
 
     const shouldBtnBeDisabled = () => {
         if (formik.isSubmitting) {
@@ -28,7 +37,7 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser }) => {
     const validStyling = field => {
         if (formik.errors[field] && formik.touched[field]) {
             return {
-                border: '!border-2 !border-primary',
+                border: 'border-2 border-primary',
                 message: (
                     <span className={`${FORM_VALID_FS} !text-primary `}>
                         {formik.errors[field]}
@@ -107,11 +116,10 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser }) => {
 
                 // if auth issue linked to creds...
                 if (!loginResult.ok && loginResult.error === 'CredentialsSignin') {
-                    // setActionStatus('Invalid Credentials')
+                    setAuthResult('Invalid credentials.')
                 } else {
-                    // if auth OK...
-                    // localStorage.setItem('toast', 'loggedIn') REPLACE WITH QS
                     // returnToURL !== null ? router.push(HOME) : router.push(HOME)
+                    router.push(`${PATHS.HOME}?${KEY}=${VALUE_LOGIN}`)
                 }
             }
         } else {
@@ -130,7 +138,6 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser }) => {
     })
 
     // console.log('formik', formik)
-    // const callbackURLWithToast = `${callbackURL}${TOAST_PARAMS.LOGIN}`
     return (
         <div>
             <form noValidate onSubmit={formik.handleSubmit} className="space-y-5">
@@ -197,6 +204,8 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser }) => {
                         <div className="mt-1">{validStyling('password').message}</div>
                     </div>
                 )}
+
+                <div className="text-primary text-center">{authResult}</div>
 
                 {/* SUBMIT FIELD */}
                 <button

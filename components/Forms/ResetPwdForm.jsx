@@ -55,7 +55,7 @@ const ResetPwdForm = ({ userData }) => {
         await signIn('credentials', {
             email,
             password: newPwd,
-            callbackUrl: DOMAIN,
+            callbackUrl: HOME,
         })
     }
 

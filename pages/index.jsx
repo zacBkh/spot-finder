@@ -22,6 +22,12 @@ import 'react-toastify/dist/ReactToastify.css'
 import SelectRegion from '../components/FilterRegion/SelectRegion'
 import SelectSort from '../components/Sorting/SelectSort'
 
+import { TOAST_PARAMS } from '../constants/toast-query-params'
+const { KEY, VALUE_LOGIN, VALUE_LOGOUT, VALUE_NEW_USER } = TOAST_PARAMS
+
+import REDIRECT_QUERY_PARAMS from '../constants/redirect-query-params'
+const { KEY_AUTH, VALUE_ALREADY_LOGGED_IN } = REDIRECT_QUERY_PARAMS
+
 export const getServerSideProps = async context => {
     const session = await unstable_getServerSession(context.req, context.res, authOptions)
 
@@ -240,25 +246,32 @@ const AllSpots = ({ spots, currentUserName, queryString }) => {
         localStorage.removeItem('toast')
     }, [currentUserName])
 
-    // To get the URL param for toast
-    if (queryString.alreadyLoggedIn) {
+    // Display toast depending on query params
+    if (queryString[KEY_AUTH] === VALUE_ALREADY_LOGGED_IN) {
         toast.info(`Hi ${currentUserName}, you are already logged in!`, {
             position: 'bottom-left',
             toastId: 'alreadyLoggedIn', // prevent duplicates
         })
     }
 
-    if (queryString.action === 'loggedIn') {
+    if (queryString[KEY] === VALUE_LOGIN) {
         toast.success(`Hi ${currentUserName}, welcome back!`, {
             position: 'bottom-left',
             toastId: 'loggedIn', // prevent duplicates
         })
     }
 
-    if (queryString.action === 'loggedOut') {
-        toast.info(`You are logged out`, {
+    if (queryString[KEY] === VALUE_LOGOUT) {
+        toast.info(`You successfully logged out.`, {
             position: 'bottom-left',
             toastId: 'loggedOut', // prevent duplicates
+        })
+    }
+
+    if (queryString[KEY] === VALUE_NEW_USER) {
+        toast.success(`Hi ${currentUserName}, welcome to Spot Finder!`, {
+            position: 'bottom-left',
+            toastId: 'newUser', // prevent duplicates
         })
     }
 

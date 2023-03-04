@@ -5,12 +5,12 @@ import { signIn } from 'next-auth/react'
 
 import capitalize from '../../utils/capitalize'
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
+const { KEY, VALUE_LOGIN, VALUE_NEW_USER } = TOAST_PARAMS
 
 import { BUTTON_FS } from '../../constants/responsive-fonts'
 
 const OAuthLogger = ({ provider, callbackURL, bgColor, txtColor, onSelectOAuth }) => {
-    const callbackURLWithToast = `${callbackURL}${TOAST_PARAMS.LOGIN}`
-
+    const callbackURLWithToast = `${callbackURL}?${KEY}=${VALUE_LOGIN}`
     const signInHandler = param => {
         signIn(provider, { callbackUrl: callbackURLWithToast })
         onSelectOAuth('oAuth', provider)

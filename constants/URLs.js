@@ -6,10 +6,15 @@ export const PATHS = {
         currentEnvironment === 'development'
             ? 'http://localhost:3008/'
             : 'https://spot-finder.vercel.app/',
+    DOMAIN_WITHOUT_SLASH:
+        currentEnvironment === 'development'
+            ? 'http://localhost:3008'
+            : 'https://spot-finder.vercel.app',
     HOME: '/',
-    NEW_SPOT: 'spots/newSpot',
+    NEW_SPOT: '/spots/newSpot',
     PROFILE: '/auth/profile',
     AUTH: '/auth/login',
+    PROFILE: '/auth/profile',
 }
 
 export const NAVBAR_ITEMS = [
