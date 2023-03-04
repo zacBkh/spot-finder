@@ -248,7 +248,7 @@ const AllSpots = ({ spots, currentUserName, queryString }) => {
 
     // Display toast depending on query params
     if (queryString[KEY_AUTH] === VALUE_ALREADY_LOGGED_IN) {
-        toast.info(`Hi ${currentUserName}, you are already logged in!`, {
+        toast.info(`${currentUserName}, you are already logged in!`, {
             position: 'bottom-left',
             toastId: 'alreadyLoggedIn', // prevent duplicates
         })
