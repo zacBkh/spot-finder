@@ -58,11 +58,15 @@ const EMailLogger = ({
             Object.keys(formik.errors).length > 0 &&
             !isResetPwd
         ) {
-            console.log('c caaa')
             return true
         }
 
         if (!formik.dirty) {
+            return true
+        }
+
+        if (formik.values.password === '' && authMode === 'credentials') {
+            // hacky way but formik does not update after state update
             return true
         }
         return false
@@ -228,6 +232,8 @@ const EMailLogger = ({
         validationSchema: validYupEmailLogger,
     })
 
+    console.log('validationSchema', validationSchema)
+
     const goBackReqHandler = param => {
         setAuthResult(null)
         if (isResetPwd) {
@@ -267,13 +273,6 @@ const EMailLogger = ({
             return 'Login'
         }
     }
-
-    // useEffect(() => {
-    //     if (isResetPwd) {
-    //         formik.errors = {}
-    //         formik.isValid = true
-    //     }
-    // }, [isResetPwd])
 
     console.log('formik', formik)
     return (
