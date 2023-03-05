@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react'
-
-import { BiArrowBack } from 'react-icons/bi'
+import { useState } from 'react'
 
 import Divider from '../../components/auth/divider'
 import OAuthLogger from '../../components/auth/oAuth-logger'
@@ -10,39 +8,19 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 
 import REDIRECT_QUERY_PARAMS from '../../constants/redirect-query-params'
-const { KEY_AUTH, VALUE_CREATE_SPOT, VALUE_ACCESS_PROFILE, KEY_RETURN_TO } =
-    REDIRECT_QUERY_PARAMS
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+const { KEY_RETURN_TO } = REDIRECT_QUERY_PARAMS
 
 const Login = ({}) => {
     const router = useRouter()
     console.log('router.query', router.query)
 
-    useEffect(() => {
-        if (router.query[KEY_AUTH] === VALUE_CREATE_SPOT) {
-            toast.error(`You must be authenticated to create a new Spot.`, {
-                position: 'bottom-left',
-                toastId: 'alreadyLoggedIn',
-            })
-        }
-
-        if (router.query[KEY_AUTH] === VALUE_ACCESS_PROFILE) {
-            toast.error(`You must be authenticated to view your profile.`, {
-                position: 'bottom-left',
-                toastId: 'mustBeAuthToViewProfile',
-            })
-        }
-    }, [router.isReady, router.query])
-
-    // authMode : "credentials" || "oAuth"
-    // value : email of user or provider
     const [authDetails, setAuthDetails] = useState({
         authMode: null,
         value: null,
         isNew: null,
     })
 
+    const [isResetPwd, setIsResetPwd] = useState(false)
     const { authMode, value: authValue, isNew } = authDetails
 
     const selectAuthModeHandler = (authMode, value, isNew) => {
@@ -52,54 +30,63 @@ const Login = ({}) => {
     const showEmailLogger = !authMode || authMode == 'credentials'
     const showOAuthLogger = !authMode || authMode === 'oAuth'
 
+    const forgotPasswordHandler = () => {
+        console.log('FORGOT IT')
+        setIsResetPwd(prevState => !prevState)
+    }
+
     return (
         <>
             <div className="flex justify-center gap-y-6 max-w-2xl mx-auto items-stretch gap-x-4">
-                <div className="w-1/2 p-6 flex flex-col justify-center gap-y-6 bg-secondary align-middle rounded-lg">
-                    {showEmailLogger && (
-                        <EMailLogger
-                            returnToURL={
-                                router.isReady ? router.query[KEY_RETURN_TO] : null
-                            }
-                            authMode={authMode}
-                            isnewUser={isNew}
-                            onSelectEMail={selectAuthModeHandler}
-                        />
-                    )}
-                    {!authMode && <Divider />}
+                <div className="w-1/2 p-6 bg-tertiary align-middle rounded-lg">
+                    <div className="flex flex-col justify-center gap-y-6 h-full">
+                        {showEmailLogger && (
+                            <EMailLogger
+                                returnToURL={
+                                    router.isReady ? router.query[KEY_RETURN_TO] : null
+                                }
+                                authMode={authMode}
+                                isnewUser={isNew}
+                                onSelectEMail={selectAuthModeHandler}
+                                onForgotPassword={forgotPasswordHandler}
+                                isResetPwd={isResetPwd}
+                            />
+                        )}
+                        {!authMode && <Divider />}
 
-                    {showOAuthLogger && (
-                        <>
-                            {authValue === 'facebook' ||
-                                (!authMode && (
-                                    <OAuthLogger
-                                        returnToURL={
-                                            router.isReady
-                                                ? router.query[KEY_RETURN_TO]
-                                                : null
-                                        }
-                                        provider={'facebook'}
-                                        bgColor={'bg-blue-facebook'}
-                                        txtColor={'text-white'}
-                                        onSelectOAuth={selectAuthModeHandler}
-                                    />
-                                ))}
-                            {authValue === 'google' ||
-                                (!authMode && (
-                                    <OAuthLogger
-                                        returnToURL={
-                                            router.isReady
-                                                ? router.query[KEY_RETURN_TO]
-                                                : null
-                                        }
-                                        provider={'google'}
-                                        bgColor={'bg-[#4285f4]'}
-                                        txtColor={'text-white'}
-                                        onSelectOAuth={selectAuthModeHandler}
-                                    />
-                                ))}
-                        </>
-                    )}
+                        {showOAuthLogger && (
+                            <>
+                                {authValue === 'facebook' ||
+                                    (!authMode && (
+                                        <OAuthLogger
+                                            returnToURL={
+                                                router.isReady
+                                                    ? router.query[KEY_RETURN_TO]
+                                                    : null
+                                            }
+                                            provider={'facebook'}
+                                            bgColor={'bg-blue-facebook'}
+                                            txtColor={'text-white'}
+                                            onSelectOAuth={selectAuthModeHandler}
+                                        />
+                                    ))}
+                                {authValue === 'google' ||
+                                    (!authMode && (
+                                        <OAuthLogger
+                                            returnToURL={
+                                                router.isReady
+                                                    ? router.query[KEY_RETURN_TO]
+                                                    : null
+                                            }
+                                            provider={'google'}
+                                            bgColor={'bg-[#4285f4]'}
+                                            txtColor={'text-white'}
+                                            onSelectOAuth={selectAuthModeHandler}
+                                        />
+                                    ))}
+                            </>
+                        )}
+                    </div>
                 </div>
 
                 <div className="w-1/2 hidden md:block ">

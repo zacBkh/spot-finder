@@ -11,7 +11,8 @@ module.exports = {
             colors: {
                 'blue-facebook': '#4C69BA',
                 'primary': '#D2412B',
-                'secondary': '#F7F5F5',
+                'secondary': '#007ea8',
+                'tertiary': '#F7F5F5',
                 'disabled': '#e3e3e3',
                 'neutral': '#b0b0b0',
             },

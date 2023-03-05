@@ -10,7 +10,8 @@ import { TOAST_PARAMS } from '../constants/toast-query-params'
 const { KEY, VALUE_LOGIN, VALUE_LOGOUT, VALUE_NEW_USER } = TOAST_PARAMS
 
 import REDIRECT_QUERY_PARAMS from '../constants/redirect-query-params'
-const { KEY_AUTH, VALUE_ALREADY_LOGGED_IN } = REDIRECT_QUERY_PARAMS
+const { KEY_AUTH, VALUE_ALREADY_LOGGED_IN, VALUE_CREATE_SPOT, VALUE_ACCESS_PROFILE } =
+    REDIRECT_QUERY_PARAMS
 import capitalize from '../utils/capitalize'
 
 const Toaster = () => {
@@ -50,6 +51,20 @@ const Toaster = () => {
             toast.info(`You successfully logged out.`, {
                 position: 'bottom-left',
                 toastId: 'loggedOut',
+            })
+        }
+
+        if (router.query[KEY_AUTH] === VALUE_CREATE_SPOT) {
+            toast.error(`You must be authenticated to create a new Spot.`, {
+                position: 'bottom-left',
+                toastId: 'alreadyLoggedIn',
+            })
+        }
+
+        if (router.query[KEY_AUTH] === VALUE_ACCESS_PROFILE) {
+            toast.error(`You must be authenticated to view your profile.`, {
+                position: 'bottom-left',
+                toastId: 'mustBeAuthToViewProfile',
             })
         }
     }, [router, router.isReady])

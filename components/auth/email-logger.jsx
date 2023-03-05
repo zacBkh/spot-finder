@@ -28,21 +28,41 @@ import Spinner from '../spinner'
 
 import useInputAutoFocus from '../../hooks/useInputAutoFocus'
 
-const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
+import { sendPwdResetMail } from '../../utils/APIfetchers'
+
+const EMailLogger = ({
+    authMode,
+    onSelectEMail,
+    isnewUser,
+    returnToURL,
+    onForgotPassword,
+    isResetPwd,
+}) => {
     const router = useRouter()
 
     const [isPwdVisible, setIsPwdVisible] = useState(false)
+
+    const [resetPwdStatus, setResetPwdStatus] = useState(
+        'If an account is linked to this addres, we will send you an e-mail to reset your password.',
+    )
 
     // Store login failure/success info
     const [authResult, setAuthResult] = useState(null)
 
     const shouldBtnBeDisabled = () => {
         if (formik.isSubmitting) {
-            console.log('111', 111)
             return true
         }
-        if (formik.touched.email && Object.keys(formik.errors).length > 0) {
-            console.log('222', 222)
+        if (
+            formik.touched.email &&
+            Object.keys(formik.errors).length > 0 &&
+            !isResetPwd
+        ) {
+            console.log('c caaa')
+            return true
+        }
+
+        if (!formik.dirty) {
             return true
         }
         return false
@@ -72,16 +92,17 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
     }
 
     const pwdFieldSchema = {
-        password: Yup.string()
-            .trim()
-            .min(6, 'Your password should be at least 6 characters long!')
-            .required('Password is required'),
+        password: Yup.string().trim().required('Password is required.'),
     }
 
     const number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     const nameFieldSchema = {
         name: Yup.string()
             .trim()
+            .matches(
+                /^[A-Za-zÀ-ÖØ-öø-ÿ]+$/,
+                'Name must be one word without special character.\n Example: John.',
+            )
             .min(3, 'Your name should be at least 3 characters long.')
             .max(18, 'Your name should not exceed 18 characters long.')
             .required('Name is required')
@@ -102,80 +123,113 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
     }
 
     let validationSchema
-    if (authMode === null) {
-        // if only email is required for now
+    if (isResetPwd) {
         validationSchema = mailFieldSchema
-    } else if (!isnewUser) {
-        // if pwd field appeared
-        validationSchema = { ...mailFieldSchema, ...pwdFieldSchema }
     } else {
-        // if is registering a new user
-        validationSchema = { ...mailFieldSchema, ...pwdFieldSchema, ...nameFieldSchema }
+        if (authMode === null) {
+            // if only email is required for now
+            validationSchema = mailFieldSchema
+        } else if (!isnewUser) {
+            // if pwd field appeared
+            validationSchema = { ...mailFieldSchema, ...pwdFieldSchema }
+        } else {
+            // if is registering a new user
+            validationSchema = {
+                ...mailFieldSchema,
+                ...pwdFieldSchema,
+                ...nameFieldSchema,
+            }
+        }
     }
     const validYupEmailLogger = Yup.object().shape({ ...validationSchema })
+    console.log('validYupEmailLogger', validYupEmailLogger)
 
     let onSubmitHandler
-    if (authMode === null) {
-        // if still on STEP 1 login (no pwd field)
+    console.log('validationSchema', validationSchema)
+    if (isResetPwd) {
         onSubmitHandler = async formValues => {
             const { email } = formValues
-
-            const isUserNew = await checkEmailUniq(email)
-            if (isUserNew.result) {
-                onSelectEMail('credentials', email, true)
-                formik.touched.name = false
-            } else {
-                onSelectEMail('credentials', email, false)
+            console.log('formValues', formValues)
+            const isNotUser = await checkEmailUniq(email.toLowerCase())
+            if (isNotUser.result || isNotUser.provider !== 'credentials') {
+                return
             }
-            formik.touched.password = false
+            const sendPwdRecover = await sendPwdResetMail(email)
+            if (!sendPwdRecover.success) {
+                setResetPwdStatus(
+                    'An error occured when sending you the email. Try again later.',
+                )
+                return
+            }
+
+            console.log('isUserNew', isNotUser)
+            // const { password: newPwd } = formValues
+            // const changeUserPwd = await editUserHandler(newPwd, userData._id)
         }
     } else {
-        if (!isnewUser) {
-            // login
+        if (authMode === null) {
+            // if still on STEP 1 login (no pwd field)
             onSubmitHandler = async formValues => {
-                const loginResult = await signIn('credentials', {
-                    ...formValues,
-                    redirect: false,
-                })
+                const { email } = formValues
 
-                // if auth issue linked to creds...
-                if (!loginResult.ok && loginResult.error === 'CredentialsSignin') {
-                    setAuthResult('Invalid credentials.')
+                const isUserNew = await checkEmailUniq(email)
+                // console.log('isUserNew', isUserNew)
+                if (isUserNew.result) {
+                    onSelectEMail('credentials', email, true)
+                    formik.touched.name = false
                 } else {
-                    router.push(
-                        returnToURL
-                            ? `${returnToURL}?${KEY}=${VALUE_LOGIN}`
-                            : `${PATHS.HOME}?${KEY}=${VALUE_LOGIN}`,
-                    )
+                    onSelectEMail('credentials', email, false)
                 }
+                formik.touched.password = false
             }
         } else {
-            // register
-            onSubmitHandler = async formValues => {
-                const { email, password, name } = formValues
-                // Trimming values except pwd
-                const formValuesFormatted = {
-                    password,
-                    email: email.trim(),
-                    name: capitalize(name).trim(),
-                }
-                const userCreation = await addUserHandler(formValuesFormatted)
-                if (!userCreation.success) {
-                    return setAuthResult(userCreation.result)
-                }
-                console.log('userCreation', userCreation)
+            if (!isnewUser) {
+                // login
+                onSubmitHandler = async formValues => {
+                    const loginResult = await signIn('credentials', {
+                        ...formValues,
+                        redirect: false,
+                    })
 
-                const login = await signIn('credentials', {
-                    redirect: false,
-                    email,
-                    password,
-                })
-                console.log('login', login)
-                router.push(
-                    returnToURL
-                        ? `${returnToURL}?${KEY}=${VALUE_NEW_USER}`
-                        : `${PATHS.HOME}?${KEY}=${VALUE_NEW_USER}`,
-                )
+                    // if auth issue linked to creds...
+                    if (!loginResult.ok && loginResult.error === 'CredentialsSignin') {
+                        setAuthResult('Invalid credentials.')
+                    } else {
+                        router.push(
+                            returnToURL
+                                ? `${returnToURL}?${KEY}=${VALUE_LOGIN}`
+                                : `${PATHS.HOME}?${KEY}=${VALUE_LOGIN}`,
+                        )
+                    }
+                }
+            } else {
+                // register
+                onSubmitHandler = async formValues => {
+                    const { email, password, name } = formValues
+                    // Trimming values except pwd
+                    const formValuesFormatted = {
+                        password,
+                        email: email.trim(),
+                        name: capitalize(name).trim(),
+                    }
+                    const userCreation = await addUserHandler(formValuesFormatted)
+                    if (!userCreation.success) {
+                        return setAuthResult(userCreation.result)
+                    }
+                    console.log('userCreation', userCreation)
+
+                    const login = await signIn('credentials', {
+                        redirect: false,
+                        email,
+                        password,
+                    })
+                    console.log('login', login)
+                    router.push(
+                        returnToURL
+                            ? `${returnToURL}?${KEY}=${VALUE_NEW_USER}`
+                            : `${PATHS.HOME}?${KEY}=${VALUE_NEW_USER}`,
+                    )
+                }
             }
         }
     }
@@ -188,25 +242,34 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
 
     const goBackReqHandler = param => {
         setAuthResult(null)
-        onSelectEMail(null, null, null)
+        if (isResetPwd) {
+            return onForgotPassword()
+        } else {
+            onSelectEMail(null, null, null)
+        }
         formik.touched.email = false
     }
 
     const mailRef = useRef(null)
     const nameRef = useRef(null)
     const pwdRef = useRef(null)
+    const submitBtnRef = useRef(null)
 
     useInputAutoFocus(
         mailRef,
         nameRef,
         pwdRef,
+        submitBtnRef,
 
+        isResetPwd,
         authMode,
         isnewUser,
     )
 
     const whichNameBtn = () => {
-        console.log('---EVALUATED ONCE')
+        if (isResetPwd) {
+            return 'Send me an e-mail'
+        }
         if (authMode === null) {
             return 'Continue'
         }
@@ -216,20 +279,30 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
             return 'Login'
         }
     }
+
+    // useEffect(() => {
+    //     if (isResetPwd) {
+    //         formik.errors = {}
+    //         formik.isValid = true
+    //     }
+    // }, [isResetPwd])
+
+    console.log('formik', formik)
     return (
         <>
             {authMode === 'credentials' && (
                 <button
-                    className={`${ARROW_TEXT_FS} mb-5 flex items-center gap-x-2 font-medium`}
+                    className={`${ARROW_TEXT_FS} mb-5 flex items-center gap-x-2 font-medium w-fit`}
                     onClick={goBackReqHandler}
                 >
                     <BiArrowBack className={`${ARROW_ICON_FS}`} />
                     <span>Back</span>
                 </button>
             )}
-            <form noValidate onSubmit={formik.handleSubmit} className="space-y-5">
+            <form noValidate onSubmit={formik.handleSubmit} className="space-y-4">
                 {/* EMAIL FIELD */}
                 <div>
+                    {isResetPwd && <p className="mb-4 text-center">{resetPwdStatus}</p>}
                     <input
                         {...formik.getFieldProps('email')}
                         ref={mailRef}
@@ -262,12 +335,14 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
                             name="name"
                             placeholder="Name"
                         />
-                        <div className="mt-1">{validStyling('name').message}</div>
+                        <div className="mt-1 whitespace-pre-wrap">
+                            {validStyling('name').message}
+                        </div>
                     </div>
                 )}
 
                 {/* PWD FIELD */}
-                {authMode === 'credentials' && (
+                {authMode === 'credentials' && !isResetPwd && (
                     <div>
                         <div className="relative">
                             <input
@@ -299,16 +374,28 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
                     </div>
                 )}
 
-                <div className="text-primary text-center">{authResult}</div>
+                {!isResetPwd && (
+                    <div className="text-primary text-center">{authResult}</div>
+                )}
+
+                {authMode === 'credentials' && !isnewUser && !isResetPwd && (
+                    <button
+                        type="button"
+                        onClick={onForgotPassword}
+                        className={`float-right text-secondary hover:underline`}
+                    >
+                        Forgot your password?
+                    </button>
+                )}
 
                 {/* SUBMIT FIELD */}
                 <button
+                    ref={submitBtnRef}
                     disabled={shouldBtnBeDisabled()}
                     className={`
                         ${BUTTON_FS} ${DISABLED_STYLE}
                         text-white font-bold py-3 bg-primary rounded-lg w-full
-                        
-                    `}
+                        `}
                     type="submit"
                 >
                     {whichNameBtn()}

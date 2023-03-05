@@ -79,7 +79,6 @@ export const deleteUserHandler = async userID => {
     return data // returning data for handling if mistake
 }
 
-// Check email uniqueness in DB for Yup async valid
 // Can run client side
 export const checkEmailUniq = async email => {
     console.log('EMAIL FROM API FETCHER', email)
@@ -101,7 +100,7 @@ export const checkEmailUniq = async email => {
 export const sendPwdResetMail = async email => {
     console.log('sendPwdResetMail -->', email)
 
-    const response = await fetch('/api/users/send-pwdReset-link', {
+    const response = await fetch('/api/users/send-link-pwd-reset', {
         method: 'POST',
         body: JSON.stringify(email),
         headers: { 'Content-Type': 'application/json' },

@@ -25,6 +25,7 @@ export default async function emailChecker(req, res) {
                     success: true,
                     result: false,
                     provider: queryDB.provider,
+                    email: queryDB.email,
                 })
             }
         } catch (error) {
