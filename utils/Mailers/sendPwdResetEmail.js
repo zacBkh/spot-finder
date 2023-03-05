@@ -1,11 +1,7 @@
 import nodemailer from 'nodemailer'
 import capitalize from '../capitalize'
-
-import { whichDomain } from '../env-helper'
+import { PATHS } from '../../constants/URLs'
 const sendPwdResetEmail = async (userRecipient, userName, token) => {
-    const currDomain = whichDomain()
-
-    console.log('currDomain', currDomain)
     console.log('userRecipient', userRecipient)
     console.log('userName', userName)
     console.log('token', token)
@@ -41,7 +37,9 @@ const sendPwdResetEmail = async (userRecipient, userName, token) => {
         const htmlToSend = `
         <h3>Hello ${capitalize(userName)}!</h3>
         <p>You asked to reset your password.</p>
-        <p>Please follow this link : <a href="${currDomain}/auth/VerifyResetPwd/${token}"> to reset your password</a></p>
+        <p>Please follow this link : <a href="${
+            PATHS.DOMAIN_WITHOUT_SLASH
+        }/auth/VerifyResetPwd/${token}"> to reset your password</a></p>
         <p>Thank you.</p>
 
         `
