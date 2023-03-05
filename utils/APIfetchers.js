@@ -60,7 +60,7 @@ export const addUserHandler = async enteredData => {
     })
 
     const data = await response.json()
-    console.log('data', data)
+    console.log('Add user from API  fetcher', data)
     return data // returning data for handling if mistake
 }
 
@@ -75,7 +75,7 @@ export const deleteUserHandler = async userID => {
     })
 
     const data = await response.json()
-    console.log('data', data)
+    console.log('Delete user from API fetcher', data)
     return data // returning data for handling if mistake
 }
 

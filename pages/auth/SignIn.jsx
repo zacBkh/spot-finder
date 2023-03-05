@@ -90,9 +90,6 @@ const SignIn = ({}) => {
         validationSchema: validationSchemaYup,
     })
 
-    console.log('formik', formik)
-    console.log('formik.touched', formik.touched)
-
     // Should button be disabled?
     const shouldFormBeDisabled = () => {
         if (!formik.dirty) {

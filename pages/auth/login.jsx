@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { PATHS } from '../../constants/URLs'
+
+import { BiArrowBack } from 'react-icons/bi'
 
 import Divider from '../../components/auth/divider'
 import OAuthLogger from '../../components/auth/oAuth-logger'
@@ -11,7 +12,7 @@ import Image from 'next/image'
 import REDIRECT_QUERY_PARAMS from '../../constants/redirect-query-params'
 const { KEY_AUTH, VALUE_CREATE_SPOT, VALUE_ACCESS_PROFILE, KEY_RETURN_TO } =
     REDIRECT_QUERY_PARAMS
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Login = ({}) => {
@@ -60,8 +61,8 @@ const Login = ({}) => {
                             returnToURL={
                                 router.isReady ? router.query[KEY_RETURN_TO] : null
                             }
-                            authMode={authDetails.authMode}
-                            isnewUser={authDetails.isNew}
+                            authMode={authMode}
+                            isnewUser={isNew}
                             onSelectEMail={selectAuthModeHandler}
                         />
                     )}

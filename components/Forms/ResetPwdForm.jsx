@@ -90,8 +90,6 @@ const ResetPwdForm = ({ userData }) => {
         return false
     }
 
-    console.log('formik', formik)
-
     return (
         <>
             <section className="bg-gray-50 mt-2 flex items-center justify-center">

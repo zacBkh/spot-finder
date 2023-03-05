@@ -1,7 +1,6 @@
 import '../styles/globals.css'
 
 import Layout from '../components/Layout/layout'
-import { ToastContainer } from 'react-toastify'
 
 import { SessionProvider } from 'next-auth/react'
 
@@ -11,7 +10,7 @@ import NProgress from 'nprogress'
 import '../styles/nprogress.css'
 
 import AppContext from '../context/AppContext'
-import Toaster from '../components/toaster-wrapper'
+import Toaster from '../components/toaster-wrapper.jsx'
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps }, router }) => {
     // nProgress Bar

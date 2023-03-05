@@ -16,7 +16,6 @@ import capitalize from '../utils/capitalize'
 const Toaster = () => {
     const router = useRouter()
     const { data: session } = useSession()
-
     useEffect(() => {
         if (!router.isReady) {
             return
@@ -53,7 +52,7 @@ const Toaster = () => {
                 toastId: 'loggedOut',
             })
         }
-    }, [router, router.isReady, session])
+    }, [router, router.isReady])
 
     return (
         <>

@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+
+import { BiArrowBack } from 'react-icons/bi'
 
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
@@ -10,11 +12,21 @@ import { PATHS } from '../../constants/URLs'
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
 const { KEY, VALUE_LOGIN, VALUE_NEW_USER } = TOAST_PARAMS
 
-import { BUTTON_FS, FORM_VALID_FS } from '../../constants/responsive-fonts'
-import { checkEmailUniq } from '../../utils/APIfetchers'
+import DISABLED_STYLE from '../../constants/disabled-style'
+
+import {
+    BUTTON_FS,
+    FORM_VALID_FS,
+    ARROW_ICON_FS,
+    ARROW_TEXT_FS,
+} from '../../constants/responsive-fonts'
+import { addUserHandler, checkEmailUniq } from '../../utils/APIfetchers'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 
+import capitalize from '../../utils/capitalize'
 import Spinner from '../spinner'
+
+import useInputAutoFocus from '../../hooks/useInputAutoFocus'
 
 const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
     const router = useRouter()
@@ -22,13 +34,15 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
     const [isPwdVisible, setIsPwdVisible] = useState(false)
 
     // Store login failure/success info
-    const [authResult, setAuthResult] = useState('')
+    const [authResult, setAuthResult] = useState(null)
 
     const shouldBtnBeDisabled = () => {
         if (formik.isSubmitting) {
+            console.log('111', 111)
             return true
         }
         if (formik.touched.email && Object.keys(formik.errors).length > 0) {
+            console.log('222', 222)
             return true
         }
         return false
@@ -64,11 +78,27 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
             .required('Password is required'),
     }
 
+    const number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     const nameFieldSchema = {
         name: Yup.string()
             .trim()
             .min(3, 'Your name should be at least 3 characters long.')
-            .required('Name is required'),
+            .max(18, 'Your name should not exceed 18 characters long.')
+            .required('Name is required')
+            .test(
+                'noNumber',
+                'Your name cannot contain any number.',
+                async valueToTest => {
+                    if (!valueToTest) {
+                        return
+                    }
+                    if (number.some(x => valueToTest.includes(x))) {
+                        return false
+                    } else {
+                        return true
+                    }
+                },
+            ),
     }
 
     let validationSchema
@@ -89,7 +119,6 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
         // if still on STEP 1 login (no pwd field)
         onSubmitHandler = async formValues => {
             const { email } = formValues
-            console.log('email', email)
 
             const isUserNew = await checkEmailUniq(email)
             if (isUserNew.result) {
@@ -104,9 +133,6 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
         if (!isnewUser) {
             // login
             onSubmitHandler = async formValues => {
-                console.log('LOGGING IN....')
-                console.log('formValues login', formValues)
-                // WRITE LOGIC TO LOGIN
                 const loginResult = await signIn('credentials', {
                     ...formValues,
                     redirect: false,
@@ -126,8 +152,30 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
         } else {
             // register
             onSubmitHandler = async formValues => {
-                console.log('REGISTERING....')
-                // WRITE LOGIC TO REGISTER
+                const { email, password, name } = formValues
+                // Trimming values except pwd
+                const formValuesFormatted = {
+                    password,
+                    email: email.trim(),
+                    name: capitalize(name).trim(),
+                }
+                const userCreation = await addUserHandler(formValuesFormatted)
+                if (!userCreation.success) {
+                    return setAuthResult(userCreation.result)
+                }
+                console.log('userCreation', userCreation)
+
+                const login = await signIn('credentials', {
+                    redirect: false,
+                    email,
+                    password,
+                })
+                console.log('login', login)
+                router.push(
+                    returnToURL
+                        ? `${returnToURL}?${KEY}=${VALUE_NEW_USER}`
+                        : `${PATHS.HOME}?${KEY}=${VALUE_NEW_USER}`,
+                )
             }
         }
     }
@@ -138,19 +186,58 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
         validationSchema: validYupEmailLogger,
     })
 
-    // console.log('formik', formik)
+    const goBackReqHandler = param => {
+        setAuthResult(null)
+        onSelectEMail(null, null, null)
+        formik.touched.email = false
+    }
+
+    const mailRef = useRef(null)
+    const nameRef = useRef(null)
+    const pwdRef = useRef(null)
+
+    useInputAutoFocus(
+        mailRef,
+        nameRef,
+        pwdRef,
+
+        authMode,
+        isnewUser,
+    )
+
+    const whichNameBtn = () => {
+        console.log('---EVALUATED ONCE')
+        if (authMode === null) {
+            return 'Continue'
+        }
+        if (authMode === 'credentials' && isnewUser === true) {
+            return 'Register'
+        } else {
+            return 'Login'
+        }
+    }
     return (
-        <div>
+        <>
+            {authMode === 'credentials' && (
+                <button
+                    className={`${ARROW_TEXT_FS} mb-5 flex items-center gap-x-2 font-medium`}
+                    onClick={goBackReqHandler}
+                >
+                    <BiArrowBack className={`${ARROW_ICON_FS}`} />
+                    <span>Back</span>
+                </button>
+            )}
             <form noValidate onSubmit={formik.handleSubmit} className="space-y-5">
                 {/* EMAIL FIELD */}
                 <div>
                     <input
-                        autoFocus
                         {...formik.getFieldProps('email')}
+                        ref={mailRef}
                         disabled={formik.isSubmitting}
-                        className={`${validStyling('email').border}
+                        className={`
+                            ${validStyling('email').border}
+                            ${DISABLED_STYLE}
                             rounded-lg border w-full
-                            disabled:bg-disabled disabled:cursor-not-allowed transition-colors duration-200
                         `}
                         type="email"
                         name="email"
@@ -164,10 +251,12 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
                     <div>
                         <input
                             {...formik.getFieldProps('name')}
+                            ref={nameRef}
                             disabled={formik.isSubmitting}
-                            className={`${validStyling('email').border}
-                            rounded-lg border w-full
-                            disabled:bg-disabled disabled:cursor-not-allowed transition-colors duration-200
+                            className={`
+                                ${validStyling('name').border}
+                                ${DISABLED_STYLE}
+                                rounded-lg border w-full
                         `}
                             type="text"
                             name="name"
@@ -182,11 +271,13 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
                     <div>
                         <div className="relative">
                             <input
-                                autoFocus
                                 {...formik.getFieldProps('password')}
-                                className={`${
-                                    validStyling('password').border
-                                } p-2 rounded-xl border w-full 
+                                ref={pwdRef}
+                                disabled={formik.isSubmitting}
+                                className={`
+                                    ${validStyling('password').border}
+                                    ${DISABLED_STYLE}  
+                                    p-2 rounded-xl border w-full 
                             `}
                                 type={isPwdVisible ? 'text' : 'password'}
                                 name="password"
@@ -198,7 +289,7 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
                                 className=""
                             >
                                 {isPwdVisible ? (
-                                    <AiFillEyeInvisible className="absolute top-1/2 right-3 -translate-y-1/2 text-xl " />
+                                    <AiFillEyeInvisible className="absolute top-1/2 right-3 -translate-y-1/2 text-xl" />
                                 ) : (
                                     <AiFillEye className="absolute top-1/2 right-3 -translate-y-1/2 text-xl" />
                                 )}
@@ -213,18 +304,20 @@ const EMailLogger = ({ authMode, onSelectEMail, isnewUser, returnToURL }) => {
                 {/* SUBMIT FIELD */}
                 <button
                     disabled={shouldBtnBeDisabled()}
-                    className={`text-white font-bold py-3 bg-primary rounded-lg w-full
-                        disabled:text-neutral disabled:bg-disabled transition-colors duration-200
+                    className={`
+                        ${BUTTON_FS} ${DISABLED_STYLE}
+                        text-white font-bold py-3 bg-primary rounded-lg w-full
+                        
                     `}
                     type="submit"
                 >
-                    Continue
+                    {whichNameBtn()}
                     {formik.isSubmitting && (
                         <Spinner size="sm" light={true} className="ml-2" />
                     )}
                 </button>
             </form>
-        </div>
+        </>
     )
 }
 

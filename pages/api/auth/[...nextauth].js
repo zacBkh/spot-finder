@@ -53,7 +53,10 @@ const cred = CredentialsProvider({
                     userExist.password,
                 )
 
-                if (credentials.email === userExist.email && checkPassword) {
+                if (
+                    credentials.email.toLowerCase() === userExist.email &&
+                    checkPassword
+                ) {
                     // if email and hashed password match --> authenticate
                     console.log('11111111')
                     return userExist

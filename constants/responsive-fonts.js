@@ -26,3 +26,9 @@ export const BUTTON_FS =
 
 export const FORM_VALID_FS =
     'text-xs sm:text-xs md:text-sm lg:text-sm xl:text-sm 2xl:text-base'
+
+export const ARROW_ICON_FS =
+    'text-base sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:3xl'
+
+export const ARROW_TEXT_FS =
+    'text-sm sm:text-sm md:text-base lg:text-base xl:text-base 2xl:text-base'
