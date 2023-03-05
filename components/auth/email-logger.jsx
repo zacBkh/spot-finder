@@ -143,7 +143,6 @@ const EMailLogger = ({
     if (isResetPwd) {
         onSubmitHandler = async formValues => {
             const { email } = formValues
-            console.log('formValues', formValues)
             const isNotUser = await checkEmailUniq(email.toLowerCase())
             if (isNotUser.result || isNotUser.provider !== 'credentials') {
                 return
@@ -155,10 +154,6 @@ const EMailLogger = ({
                 )
                 return
             }
-
-            console.log('isUserNew', isNotUser)
-            // const { password: newPwd } = formValues
-            // const changeUserPwd = await editUserHandler(newPwd, userData._id)
         }
     } else {
         if (authMode === null) {
