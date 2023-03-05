@@ -123,29 +123,23 @@ const EMailLogger = ({
     }
 
     let validationSchema
-    if (isResetPwd) {
+    if (authMode === null || isResetPwd) {
+        // if step 1 auth path or reset pwd mode just valid email
         validationSchema = mailFieldSchema
+    } else if (!isnewUser) {
+        // if pwd field appeared
+        validationSchema = { ...mailFieldSchema, ...pwdFieldSchema }
     } else {
-        if (authMode === null) {
-            // if only email is required for now
-            validationSchema = mailFieldSchema
-        } else if (!isnewUser) {
-            // if pwd field appeared
-            validationSchema = { ...mailFieldSchema, ...pwdFieldSchema }
-        } else {
-            // if is registering a new user
-            validationSchema = {
-                ...mailFieldSchema,
-                ...pwdFieldSchema,
-                ...nameFieldSchema,
-            }
+        // if is registering a new user
+        validationSchema = {
+            ...mailFieldSchema,
+            ...pwdFieldSchema,
+            ...nameFieldSchema,
         }
     }
     const validYupEmailLogger = Yup.object().shape({ ...validationSchema })
-    console.log('validYupEmailLogger', validYupEmailLogger)
 
     let onSubmitHandler
-    console.log('validationSchema', validationSchema)
     if (isResetPwd) {
         onSubmitHandler = async formValues => {
             const { email } = formValues
@@ -216,7 +210,6 @@ const EMailLogger = ({
                     if (!userCreation.success) {
                         return setAuthResult(userCreation.result)
                     }
-                    console.log('userCreation', userCreation)
 
                     const login = await signIn('credentials', {
                         redirect: false,
@@ -378,15 +371,19 @@ const EMailLogger = ({
                     <div className="text-primary text-center">{authResult}</div>
                 )}
 
-                {authMode === 'credentials' && !isnewUser && !isResetPwd && (
-                    <button
-                        type="button"
-                        onClick={onForgotPassword}
-                        className={`float-right text-secondary hover:underline`}
-                    >
-                        Forgot your password?
-                    </button>
-                )}
+                {authMode === 'credentials' &&
+                    !isnewUser &&
+                    !isResetPwd &&
+                    formik.submitCount > 1 &&
+                    authResult === 'Invalid credentials.' && (
+                        <button
+                            type="button"
+                            onClick={onForgotPassword}
+                            className={`float-right text-secondary hover:underline`}
+                        >
+                            Forgot your password?
+                        </button>
+                    )}
 
                 {/* SUBMIT FIELD */}
                 <button
