@@ -37,7 +37,6 @@ const LoginOrRegisterForm = ({
     returnToURL,
 }) => {
     const currentEnvironment = whichEnv()
-    console.log('whichEnv -->', currentEnvironment)
 
     // For toggler password visible
     const [isPwdVisible, setIsPwdVisible] = useState(false)
