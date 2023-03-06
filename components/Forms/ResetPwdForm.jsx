@@ -9,7 +9,7 @@ import Image from 'next/image'
 
 import capitalize from '../../utils/capitalize'
 
-import { editUserHandler } from '../../utils/APIfetchers'
+import { editUserHandler } from '../../services/mongo-fetchers'
 
 import { signIn } from 'next-auth/react'
 

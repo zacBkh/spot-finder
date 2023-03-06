@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { addUserHandler, checkEmailUniq } from '../../utils/APIfetchers'
+import { addUserHandler, checkEmailUniq } from '../../services/mongo-fetchers'
 
 import { useFormik } from 'formik'
 import * as Yup from 'yup'

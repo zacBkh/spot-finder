@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 import BothSpotForm from '../../components/Forms/BothSpotForm'
-import { addSpotHandler } from '../../utils/APIfetchers'
+import { addSpotHandler } from '../../services/mongo-fetchers'
 
 import { PATHS } from '../../constants/URLs'
 const { HOME } = PATHS

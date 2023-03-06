@@ -6,11 +6,13 @@ import { unstable_getServerSession } from 'next-auth/next'
 // import { getServerSession } from "next-auth/next";
 
 import { useRouter } from 'next/router'
+
 import {
     editSpotHandler,
     deleteSpotHandler,
     addOneVisitSpotHandler,
-} from '../../utils/APIfetchers'
+    addOneReview,
+} from '../../services/mongo-fetchers'
 
 import didUserVisited from '../../utils/Spots/didUserVisitedSpot'
 
@@ -28,7 +30,6 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import Review from '../../components/Reviews/Review'
-import { addOneReview } from '../../utils/APIfetchers'
 
 import { PATHS } from '../../constants/URLs'
 const { HOME } = PATHS

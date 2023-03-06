@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
 
 import { BiArrowBack } from 'react-icons/bi'
 
@@ -20,15 +19,21 @@ import {
     ARROW_ICON_FS,
     ARROW_TEXT_FS,
 } from '../../constants/responsive-fonts'
-import { addUserHandler, checkEmailUniq } from '../../utils/APIfetchers'
+import { addUserHandler, checkEmailUniq } from '../../services/mongo-fetchers'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+
+import {
+    validMail,
+    validMailPwd,
+    validMailPwdName,
+} from '../../constants/validation-schemas'
 
 import capitalize from '../../utils/capitalize'
 import Spinner from '../spinner'
 
 import useInputAutoFocus from '../../hooks/useInputAutoFocus'
 
-import { sendPwdResetMail } from '../../utils/APIfetchers'
+import { sendPwdResetMail } from '../../services/mongo-fetchers'
 
 const EMailLogger = ({
     authMode,
@@ -87,61 +92,17 @@ const EMailLogger = ({
         }
     }
 
-    const mailFieldSchema = {
-        email: Yup.string()
-            .trim()
-            .lowercase()
-            .required('Your Email is required.')
-            .email('It seems like this is not an email...'),
-    }
-
-    const pwdFieldSchema = {
-        password: Yup.string().trim().required('Password is required.'),
-    }
-
-    const number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    const nameFieldSchema = {
-        name: Yup.string()
-            .trim()
-            .matches(
-                /^[A-Za-zÀ-ÖØ-öø-ÿ]+$/,
-                'Name must be one word without special character.\n Example: John.',
-            )
-            .min(3, 'Your name should be at least 3 characters long.')
-            .max(18, 'Your name should not exceed 18 characters long.')
-            .required('Name is required')
-            .test(
-                'noNumber',
-                'Your name cannot contain any number.',
-                async valueToTest => {
-                    if (!valueToTest) {
-                        return
-                    }
-                    if (number.some(x => valueToTest.includes(x))) {
-                        return false
-                    } else {
-                        return true
-                    }
-                },
-            ),
-    }
-
-    let validationSchema
+    let finalValidationSchema
     if (authMode === null || isResetPwd) {
         // if step 1 auth path or reset pwd mode just valid email
-        validationSchema = mailFieldSchema
+        finalValidationSchema = validMail
     } else if (!isnewUser) {
         // if pwd field appeared
-        validationSchema = { ...mailFieldSchema, ...pwdFieldSchema }
+        finalValidationSchema = validMailPwd
     } else {
         // if is registering a new user
-        validationSchema = {
-            ...mailFieldSchema,
-            ...pwdFieldSchema,
-            ...nameFieldSchema,
-        }
+        finalValidationSchema = validMailPwdName
     }
-    const validYupEmailLogger = Yup.object().shape({ ...validationSchema })
 
     let onSubmitHandler
     if (isResetPwd) {
@@ -229,10 +190,8 @@ const EMailLogger = ({
     const formik = useFormik({
         initialValues: { email: '', password: '', name: '' },
         onSubmit: onSubmitHandler,
-        validationSchema: validYupEmailLogger,
+        validationSchema: finalValidationSchema,
     })
-
-    console.log('validationSchema', validationSchema)
 
     const goBackReqHandler = param => {
         setAuthResult(null)

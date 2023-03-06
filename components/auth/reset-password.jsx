@@ -6,7 +6,7 @@ import Spinner from '../spinner'
 import { FORM_VALID_FS } from '../../constants/responsive-fonts'
 import DISABLED_STYLE from '../../constants/disabled-style'
 import { BUTTON_FS } from '../../constants/responsive-fonts'
-import { pwdFieldSchema } from '../../constants/validation-schemas'
+import { doublePwdFieldSchema } from '../../constants/validation-schemas'
 const ResetPassword = ({}) => {
     const [isPwdVisible, setIsPwdVisible] = useState(false)
 
@@ -33,7 +33,7 @@ const ResetPassword = ({}) => {
     }
 
     // Yup Validation Schema
-    const validationSchemaYup = pwdFieldSchema
+    const validationSchemaYup = doublePwdFieldSchema
 
     // Formik - object that tells initial values of form + submit & valid fx
     const formik = useFormik({

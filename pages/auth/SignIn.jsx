@@ -1,20 +1,17 @@
 import { useState, useEffect } from 'react'
 
-import LoginOrRegisterForm from '../../components/Forms/LoginOrRegisterForm'
-
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-
-import { sendPwdResetMail } from '../../utils/APIfetchers'
 
 // For email verif
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
-import { checkEmailUniq } from '../../utils/APIfetchers'
-
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+
+import LoginOrRegisterForm from '../../components/Forms/LoginOrRegisterForm'
+import { sendPwdResetMail, checkEmailUniq } from '../../services/mongo-fetchers'
 
 // Component
 const SignIn = ({}) => {
