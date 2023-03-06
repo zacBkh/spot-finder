@@ -3,7 +3,9 @@ import AppContext from '../../../context/AppContext'
 
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai'
 
-const SearchSpotBar = () => {
+import DISABLED_STYLE from '../../../constants/disabled-style'
+
+const SearchSpotBar = ({ disabled }) => {
     const searchContext = useContext(AppContext)
 
     return (
@@ -14,13 +16,15 @@ const SearchSpotBar = () => {
             </div>
 
             <input
+                title={disabled && 'Visit the main page to search for Spots.'}
+                disabled={disabled}
                 value={searchContext.value}
                 onChange={e => searchContext.addSearch(e.target.value)}
                 type="text"
                 id="search-navbar"
                 placeholder="Search a Spot..."
-                className=" focus:ring-white focus:border-white border-0
-                text-white text-sm block w-full p-2 pl-10 rounded-lg bg-gray-700"
+                className={`${DISABLED_STYLE} focus:ring-white focus:border-white border-0
+                text-white text-sm block w-full p-2 pl-10 rounded-lg bg-gray-700`}
             />
 
             {searchContext.value.length > 0 ? (

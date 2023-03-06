@@ -43,7 +43,7 @@ const Navigation = () => {
 
     return (
         <>
-            <header className="mx-auto p-6 bg-slate-800 text-white">
+            <header className="mx-auto p-5 bg-slate-800 text-white">
                 <div className="flex items-center justify-between ">
                     <Image fill="true" src={DummyLogo} alt="logo" />
                     <nav className="hidden md:block">
@@ -60,7 +60,9 @@ const Navigation = () => {
                     </nav>
 
                     <div className="flex justify-between items-center gap-x-6">
-                        {router.pathname === HOME ? <SearchSpotBar /> : ''}
+                        <SearchSpotBar
+                            disabled={router.pathname === HOME ? false : true}
+                        />
 
                         {status === 'authenticated' ? (
                             <UserHeader
