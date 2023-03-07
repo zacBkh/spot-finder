@@ -10,8 +10,14 @@ import { TOAST_PARAMS } from '../constants/toast-query-params'
 const { KEY, VALUE_LOGIN, VALUE_LOGOUT, VALUE_NEW_USER } = TOAST_PARAMS
 
 import REDIRECT_QUERY_PARAMS from '../constants/redirect-query-params'
-const { KEY_AUTH, VALUE_ALREADY_LOGGED_IN, VALUE_CREATE_SPOT, VALUE_ACCESS_PROFILE } =
-    REDIRECT_QUERY_PARAMS
+const {
+    KEY_AUTH,
+    VALUE_ALREADY_LOGGED_IN,
+    VALUE_CREATE_SPOT,
+    VALUE_ACCESS_PROFILE,
+    KEY_AUTH_ERROR,
+    VALUE_AUTH_ERROR,
+} = REDIRECT_QUERY_PARAMS
 import capitalize from '../utils/capitalize'
 
 const Toaster = () => {
@@ -68,6 +74,13 @@ const Toaster = () => {
                 toast.error(`You must be authenticated to view your profile.`, {
                     position: 'bottom-left',
                     toastId: 'mustBeAuthToViewProfile',
+                })
+            }
+
+            if (router.query[KEY_AUTH_ERROR] === VALUE_AUTH_ERROR) {
+                toast.error(`Try to login with another provider: Facebook or Google.`, {
+                    position: 'bottom-left',
+                    toastId: 'oAuthError',
                 })
             }
         }

@@ -164,7 +164,7 @@ export const authOptions = {
 
     // Custom login page
     pages: {
-        signIn: '/auth/SignIn',
+        signIn: '/auth/login',
         // signOut: '/auth/signout',
         // error: '/auth/error', // Error code passed in QS
         // verifyRequest: '/auth/verify-request', // (used for check email message when doing email verification)

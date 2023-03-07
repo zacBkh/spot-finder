@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import Divider from '../../components/auth/divider'
 import OAuthLogger from '../../components/auth/oAuth-logger'
@@ -10,30 +10,44 @@ import Image from 'next/image'
 import REDIRECT_QUERY_PARAMS from '../../constants/redirect-query-params'
 const { KEY_RETURN_TO } = REDIRECT_QUERY_PARAMS
 
+const { KEY_AUTH_ERROR, VALUE_AUTH_ERROR } = REDIRECT_QUERY_PARAMS
+
 const Login = ({}) => {
     const router = useRouter()
-    console.log('router.query', router.query)
+    const { isReady, query } = router
 
+    // authMode --> null || 'credentals' || 'oAuth'
+    // value --> email of the user || 'facebook' || 'google'
     const [authDetails, setAuthDetails] = useState({
         authMode: null,
         value: null,
         isNew: null,
     })
 
-    const [isResetPwd, setIsResetPwd] = useState(false)
+    const [oAuthError, setOAuthError] = useState(null)
+
     const { authMode, value: authValue, isNew } = authDetails
 
     const selectAuthModeHandler = (authMode, value, isNew) => {
         setAuthDetails({ authMode, value, isNew })
+        setOAuthError(null)
     }
+
+    const [isResetPwd, setIsResetPwd] = useState(false)
 
     const showEmailLogger = !authMode || authMode == 'credentials'
-    const showOAuthLogger = !authMode || authMode === 'oAuth'
+    const showFbLogger = !authMode || authValue === 'facebook'
+    const showGoogleLogger = !authMode || authValue === 'google'
 
     const forgotPasswordHandler = () => {
-        console.log('FORGOT IT')
         setIsResetPwd(prevState => !prevState)
     }
+
+    useEffect(() => {
+        if (query[KEY_AUTH_ERROR] === VALUE_AUTH_ERROR) {
+            setOAuthError('You already signed in with another provider.')
+        }
+    }, [isReady, query])
 
     return (
         <>
@@ -42,9 +56,7 @@ const Login = ({}) => {
                     <div className="flex flex-col justify-center gap-y-6 h-full">
                         {showEmailLogger && (
                             <EMailLogger
-                                returnToURL={
-                                    router.isReady ? router.query[KEY_RETURN_TO] : null
-                                }
+                                returnToURL={isReady ? query[KEY_RETURN_TO] : null}
                                 authMode={authMode}
                                 isnewUser={isNew}
                                 onSelectEMail={selectAuthModeHandler}
@@ -54,38 +66,28 @@ const Login = ({}) => {
                         )}
                         {!authMode && <Divider />}
 
-                        {showOAuthLogger && (
-                            <>
-                                {authValue === 'facebook' ||
-                                    (!authMode && (
-                                        <OAuthLogger
-                                            returnToURL={
-                                                router.isReady
-                                                    ? router.query[KEY_RETURN_TO]
-                                                    : null
-                                            }
-                                            provider={'facebook'}
-                                            bgColor={'bg-blue-facebook'}
-                                            txtColor={'text-white'}
-                                            onSelectOAuth={selectAuthModeHandler}
-                                        />
-                                    ))}
-                                {authValue === 'google' ||
-                                    (!authMode && (
-                                        <OAuthLogger
-                                            returnToURL={
-                                                router.isReady
-                                                    ? router.query[KEY_RETURN_TO]
-                                                    : null
-                                            }
-                                            provider={'google'}
-                                            bgColor={'bg-[#4285f4]'}
-                                            txtColor={'text-white'}
-                                            onSelectOAuth={selectAuthModeHandler}
-                                        />
-                                    ))}
-                            </>
-                        )}
+                        <div className="text-primary text-center">{oAuthError}</div>
+
+                        <>
+                            {showFbLogger && (
+                                <OAuthLogger
+                                    returnToURL={isReady ? query[KEY_RETURN_TO] : null}
+                                    provider={'facebook'}
+                                    bgColor={'bg-blue-facebook'}
+                                    txtColor={'text-white'}
+                                    onSelectOAuth={selectAuthModeHandler}
+                                />
+                            )}
+                            {showGoogleLogger && (
+                                <OAuthLogger
+                                    returnToURL={isReady ? query[KEY_RETURN_TO] : null}
+                                    provider={'google'}
+                                    bgColor={'bg-[#4285f4]'}
+                                    txtColor={'text-white'}
+                                    onSelectOAuth={selectAuthModeHandler}
+                                />
+                            )}
+                        </>
                     </div>
                 </div>
 

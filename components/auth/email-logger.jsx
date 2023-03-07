@@ -350,7 +350,7 @@ const EMailLogger = ({
                 >
                     {whichNameBtn()}
                     {formik.isSubmitting && (
-                        <Spinner size="sm" light={true} className="ml-2" />
+                        <Spinner color={'border-t-secondary'} className="ml-2" />
                     )}
                 </button>
             </form>

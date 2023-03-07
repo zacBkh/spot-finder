@@ -16,7 +16,7 @@ const SearchSpotBar = ({ disabled }) => {
             </div>
 
             <input
-                title={disabled && 'Visit the main page to search for Spots.'}
+                title={disabled ? 'Visit the main page to search for Spots.' : undefined}
                 disabled={disabled}
                 value={searchContext.value}
                 onChange={e => searchContext.addSearch(e.target.value)}

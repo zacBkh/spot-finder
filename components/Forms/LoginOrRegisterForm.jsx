@@ -57,7 +57,7 @@ const LoginOrRegisterForm = ({
         // }
 
         if (oAuthError === 'OAuthAccountNotLinked') {
-            setActionStatus('You already signed in with another provider')
+            setActionStatus('You already signed in with another provider.')
         }
     }, [oAuthError])
 
@@ -338,7 +338,7 @@ const LoginOrRegisterForm = ({
                             >
                                 {action}
                                 {formik.isSubmitting && (
-                                    <Spinner size="sm" light={true} className="ml-2" />
+                                    <Spinner size="sm" className="ml-2" />
                                 )}
                             </button>
                         </form>
