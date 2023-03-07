@@ -16,7 +16,7 @@ import capitalize from '../utils/capitalize'
 
 const Toaster = () => {
     const router = useRouter()
-    const { data: session } = useSession()
+    const { data: session, status } = useSession()
     useEffect(() => {
         if (!router.isReady) {
             return
@@ -24,9 +24,12 @@ const Toaster = () => {
 
         const queryString = router.query
 
-        if (session) {
+        if (status === 'authenticated') {
             const currentUserName = capitalize(session.user.name.split(' ')[0])
+            console.log('session', session)
             if (queryString[KEY] === VALUE_LOGIN) {
+                console.log('session et QS')
+
                 toast.success(`Hi ${currentUserName}, welcome back!`, {
                     position: 'bottom-left',
                     toastId: 'loggedIn', // prevent duplicates
@@ -46,28 +49,29 @@ const Toaster = () => {
                     toastId: 'newUser',
                 })
             }
-        }
-        if (queryString[KEY] === VALUE_LOGOUT) {
-            toast.info(`You successfully logged out.`, {
-                position: 'bottom-left',
-                toastId: 'loggedOut',
-            })
-        }
+        } else {
+            if (queryString[KEY] === VALUE_LOGOUT) {
+                toast.info(`You successfully logged out.`, {
+                    position: 'bottom-left',
+                    toastId: 'loggedOut',
+                })
+            }
 
-        if (router.query[KEY_AUTH] === VALUE_CREATE_SPOT) {
-            toast.error(`You must be authenticated to create a new Spot.`, {
-                position: 'bottom-left',
-                toastId: 'alreadyLoggedIn',
-            })
-        }
+            if (router.query[KEY_AUTH] === VALUE_CREATE_SPOT) {
+                toast.error(`You must be authenticated to create a new Spot.`, {
+                    position: 'bottom-left',
+                    toastId: 'alreadyLoggedIn',
+                })
+            }
 
-        if (router.query[KEY_AUTH] === VALUE_ACCESS_PROFILE) {
-            toast.error(`You must be authenticated to view your profile.`, {
-                position: 'bottom-left',
-                toastId: 'mustBeAuthToViewProfile',
-            })
+            if (router.query[KEY_AUTH] === VALUE_ACCESS_PROFILE) {
+                toast.error(`You must be authenticated to view your profile.`, {
+                    position: 'bottom-left',
+                    toastId: 'mustBeAuthToViewProfile',
+                })
+            }
         }
-    }, [router, router.isReady])
+    }, [router, router.isReady, status])
 
     return (
         <>
