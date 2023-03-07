@@ -1,30 +1,27 @@
-import connectMongo from "../connectMongo";
-import User from "../../models/user";
+import connectMongo from '../connectMongo'
+import User from '../../models/user'
 
+// Check if user completed the verification process
+const isUserVerified = async userID => {
+    await connectMongo()
 
-const isUserVerified = async (userID) => {
+    const isVerified = await User.findById(userID).select('emailVerified')
 
-    await connectMongo();
+    console.log('isVerified??', isVerified) // will return obj with obect ID
 
-    const isVerified = await User.findById(userID).select("emailVerified")
-
-    console.log("isVerified??", isVerified) // will return obj with obect ID
-
-    if (isVerified === null) { // If could not find user...
+    if (isVerified === null) {
+        // If could not find user...
         return {
-            success: false, result: "Could not identify user"
+            success: false,
+            result: 'Could not identify user',
         }
-
-
-    } else { // If could find user
+    } else {
+        // If could find user
         return {
-            success: true, result: isVerified.emailVerified
+            success: true,
+            result: isVerified.emailVerified,
         }
     }
-
 }
 
 export default isUserVerified
-
-
-

@@ -14,7 +14,6 @@ const ResetPassword = ({}) => {
     const onSubmitFormik = async formValues => {
         console.log('YOU RESET YOUR Password')
 
-        console.log('formValues', formValues)
         // const { password: newPwd } = formValues
 
         // const changeUserPwd = await editUserHandler(newPwd, userData._id)

@@ -8,7 +8,7 @@ import capitalize from '../../utils/capitalize'
 
 import DISABLED_STYLE from '../../constants/disabled-style'
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
-const { KEY, VALUE_LOGIN, VALUE_NEW_USER } = TOAST_PARAMS
+const { KEY, VALUE_LOGIN } = TOAST_PARAMS
 
 import Spinner from '../spinner'
 import { PATHS } from '../../constants/URLs'
@@ -17,7 +17,7 @@ import { BUTTON_FS } from '../../constants/responsive-fonts'
 
 const OAuthLogger = ({ returnToURL, provider, bgColor, txtColor, onSelectOAuth }) => {
     const [isLoading, setIsLoading] = useState(false)
-    const signInHandler = async param => {
+    const signInHandler = async () => {
         setIsLoading(true)
         await onSelectOAuth('oAuth', provider)
 

@@ -4,7 +4,7 @@ import { signOut } from 'next-auth/react'
 
 import { PATHS } from '../../../constants/URLs'
 import { TOAST_PARAMS } from '../../../constants/toast-query-params'
-const { KEY, VALUE_LOGIN, VALUE_LOGOUT, VALUE_NEW_USER } = TOAST_PARAMS
+const { KEY, VALUE_LOGOUT } = TOAST_PARAMS
 // context === "navbar" OR "hamburgerMenu" OR "userMenu"
 const NavItems = ({ name, link, context, onUserMenuClick }) => {
     const callbackURLWithToast = `${PATHS.HOME}?${KEY}=${VALUE_LOGOUT}`

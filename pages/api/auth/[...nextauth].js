@@ -97,21 +97,18 @@ export const authOptions = {
 
     // Callbacks replace default next auth parameters
     callbacks: {
-        async jwt({ token, account, profile }) {
-            console.log('AVANT token from JWT', token)
-            console.log('AVANT account from JWT', account)
-            console.log('AVANT profile from JWT', profile)
-
+        async jwt({ token, account, profile, isNewUser }) {
             // Persist the OAuth access_token and or the user id to the token right after signin
             if (account) {
-                // token.accessToken = account.access_token
-                // token.id = profile.id
+                // need to do this since otherwise, as jwt is called multiple times, second attempt will erase
                 token.provider = account.provider
-            }
-            console.log('token from JWT', token)
-            console.log('account from JWT', account)
-            console.log('profile from JWT', profile)
+                token.isNewUser = isNewUser
 
+                console.log('AVANT token from JWT', token)
+                console.log('AVANT account from JWT', account)
+                console.log('AVANT profile from JWT', profile)
+                console.log('AVANT profile from JWT isNewUser', isNewUser)
+            }
             return token
         },
 
@@ -125,11 +122,13 @@ export const authOptions = {
             session.userID = token.sub
             session.user.provider = token.provider
             session.user.emailVerified = isCurrentUserVerified.result
+            session.isNewUser = token.isNewUser
             // session.user.emailVerified = user.emailVerified
             // session.user.id = token.id
             console.log('sess from SESSION', session)
             console.log('token from SESSION', token)
             console.log('user from SESSION', user)
+            console.log('session.isNewUser', session.isNewUser)
 
             // When user log in with oAuth, always mark email as verified  + adding provider + adding date
             // + send welcome Email

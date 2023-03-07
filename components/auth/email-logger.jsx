@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { PATHS } from '../../constants/URLs'
 
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
-const { KEY, VALUE_LOGIN, VALUE_NEW_USER } = TOAST_PARAMS
+const { KEY, VALUE_LOGIN } = TOAST_PARAMS
 
 import DISABLED_STYLE from '../../constants/disabled-style'
 
@@ -176,11 +176,10 @@ const EMailLogger = ({
                         email,
                         password,
                     })
-                    console.log('login', login)
                     router.push(
                         returnToURL
-                            ? `${returnToURL}?${KEY}=${VALUE_NEW_USER}`
-                            : `${PATHS.HOME}?${KEY}=${VALUE_NEW_USER}`,
+                            ? `${returnToURL}?${KEY}=${VALUE_LOGIN}`
+                            : `${PATHS.HOME}?${KEY}=${VALUE_LOGIN}`,
                     )
                 }
             }
@@ -233,7 +232,6 @@ const EMailLogger = ({
         }
     }
 
-    console.log('formik', formik)
     return (
         <>
             {authMode === 'credentials' && (
