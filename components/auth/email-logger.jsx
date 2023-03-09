@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { useFormik } from 'formik'
 
 import { BiArrowBack } from 'react-icons/bi'

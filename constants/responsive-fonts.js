@@ -32,3 +32,6 @@ export const ARROW_ICON_FS =
 
 export const ARROW_TEXT_FS =
     'text-sm sm:text-sm md:text-base lg:text-base xl:text-base 2xl:text-base'
+
+export const FORM_LABEL_FS =
+    'font-medium text-xs sm:text-sm md:text-sm lg:text-sm xl:text-base 2xl:text-2xl'

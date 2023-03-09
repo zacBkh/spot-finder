@@ -15,6 +15,8 @@ import { countryContinent } from '../../utils/countryContinent'
 
 import { useSession } from 'next-auth/react'
 
+import SpotTitle from '../new-forms/textual-inputs'
+
 // Using previousValues props to know if we are in edit mode or not
 
 const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {

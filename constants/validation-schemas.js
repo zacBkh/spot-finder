@@ -1,5 +1,6 @@
 import * as Yup from 'yup'
 
+// Auth
 const forbiddenNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 const mail = {
@@ -72,4 +73,34 @@ export const doublePwdFieldSchema = Yup.object().shape({
         .trim()
         .required('Please confirm your password')
         .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+})
+
+// ----------------
+
+// Add Spot
+const title = {
+    title: Yup.string()
+        .trim()
+        .min(6, `The title should be more than 6 characters.`)
+        .required('The title of your Spot is required.'),
+}
+
+const description = {
+    description: Yup.string()
+        .trim()
+        .min(15, `The description should be more than 15 characters.`)
+        .required('The description of your Spot is required.'),
+}
+
+const categories = {
+    categories: Yup.array()
+        .min(1, 'You must select at least one category for your spot.')
+        .required('--You must select at least one category for your spot.'),
+}
+
+// Title + Description + Categories
+export const validTitleDesc = Yup.object().shape({
+    ...title,
+    ...description,
+    ...categories,
 })
