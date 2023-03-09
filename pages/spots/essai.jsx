@@ -11,6 +11,7 @@ import SpotCategory from '../../components/new-forms/spots/category-checkbox'
 import { FORM_VALID_FS, BUTTON_FS, FORM_LABEL_FS } from '../../constants/responsive-fonts'
 import DISABLED_STYLE from '../../constants/disabled-style'
 import { validTitleDesc } from '../../constants/validation-schemas'
+import Spinner from '../../components/spinner'
 
 const AddYourFormTrial = ({}) => {
     const [currentStep, setCurrentStep] = useState(0)
