@@ -1,5 +1,5 @@
 import { FORM_LABEL_FS } from '../../constants/responsive-fonts'
-import DISABLED_STYLE from '../../constants/disabled-style'
+import { DISABLED_STYLE } from '../../constants/disabled-style'
 const SpotTextualInput = ({
     identifier,
     formikWizard,

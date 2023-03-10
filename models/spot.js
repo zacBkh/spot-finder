@@ -1,8 +1,7 @@
-import { Schema, model, models } from 'mongoose';
-import spotCategories from '../utils/spotCategories';
-import User from './user';
-import Review from './reviews';
-
+import { Schema, model, models } from 'mongoose'
+import spotCategories from '../utils/spotCategories'
+import User from './user'
+import Review from './reviews'
 
 // To enable passing of virtuals to JSON (for the map popup )
 
@@ -10,89 +9,88 @@ const spotSchema = new Schema(
     {
         title: {
             type: String,
-            required: [true, "Title is required"],
+            required: [true, 'Title is required'],
             trim: true,
             minLength: 6,
+            maxLength: 60,
         },
-
 
         description: {
             type: String, // Or convertible to a number
-            required: [true, "Description is required"],
+            required: [true, 'Description is required'],
             trim: true,
             minLength: 6,
         },
 
         categories: {
             type: [String],
-            required: [true, "Category is required"], // In Mongoose, non submitted array field will default to [] so there will always be something so this valid is useless?
+            required: [true, 'Category is required'], // In Mongoose, non submitted array field will default to [] so there will always be something so this valid is useless?
             // enum: {
             //     values: ["Category", "Nature", "Urban"],
             //     message: "You need to input one or more correct categorie(s)"
             // },
-            validate: [(array) => array.length !== 0,
-                'Category cannot be empty'],
+            validate: [array => array.length !== 0, 'Category cannot be empty'],
 
-            validate: [(array) => array.every(el => spotCategories.includes(el)),
-                'You need to input one or more correct categorie(s)'],
+            validate: [
+                array => array.every(el => spotCategories.includes(el)),
+                'You need to input one or more correct categorie(s)',
+            ],
             // Custom valid that says, every elements in the array of cat submitted should be included in spotCategories (same than enum)
-
         },
-
 
         locationDrag: {
             type: Object,
             required: true,
         },
 
-
-
         geometry: {
             type: {
                 type: String,
                 enum: ['Point'],
-                required: true
+                required: true,
             },
             coordinates: {
                 type: [Number], // = array of number
                 required: true,
-                validate: [(array) => array.length === 2, "The coordinates array must strictly contains two elements : Longitude and Latitude"]
-            }
+                validate: [
+                    array => array.length === 2,
+                    'The coordinates array must strictly contains two elements : Longitude and Latitude',
+                ],
+            },
         },
-
-
 
         country: {
             type: String,
             required: true,
         },
 
-        author:
-        {
+        author: {
             type: Schema.Types.ObjectId,
-            ref: "User",
+            ref: 'User',
         },
 
         visited: {
             numberOfVisits: {
                 type: Number,
                 // required: true,
-                default: 1
+                default: 1,
             },
 
             // Array of userIDs
-            visitors: [{
-                type: Schema.Types.ObjectId,
-                ref: "User",
-            }]
+            visitors: [
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: 'User',
+                },
+            ],
         },
 
         reviews: [
             {
                 type: Schema.Types.ObjectId,
-                ref: "Review",
-                default: []
-            }
+                ref: 'Review',
+                default: [],
+            },
         ],
 
         region: {
@@ -100,7 +98,6 @@ const spotSchema = new Schema(
             // required: true,
             required: false,
         },
-
 
         // images: [
         //     {
@@ -114,50 +111,34 @@ const spotSchema = new Schema(
         //     type: Schema.Types.ObjectId,
         //     ref: "Users",
         // },
-
-
     },
     {
         timestamps: true,
         toObject: { virtuals: true },
-        toJSON: { virtuals: true }
+        toJSON: { virtuals: true },
     },
-);
-
-
-
-
+)
 
 // Query Middleware --> when spot is deleted :
-spotSchema.post("findOneAndDelete", async function (spotDeleted) {
-    console.log("spot that has just been deleted from mongoose query middleware", spotDeleted)
-    const spotID = spotDeleted._id.toString();
-
-
+spotSchema.post('findOneAndDelete', async function (spotDeleted) {
+    console.log(
+        'spot that has just been deleted from mongoose query middleware',
+        spotDeleted,
+    )
+    const spotID = spotDeleted._id.toString()
 
     // Remove the reviews of the deleted spot from review model
     if (spotDeleted.reviews.length) {
         const deleteRev = await Review.deleteMany({ _id: { $in: spotDeleted.reviews } })
     }
 
-
-
-
-
     // Remove the deleted spot from "spotsOwned" array of his author
-    const removeDeletedSpot = await User.findByIdAndUpdate(
-        spotDeleted.author,
-        {
-            $pull: { spotsOwned: spotID } // pull the deleted spot from spotsOwned array
-        }
-    )
+    const removeDeletedSpot = await User.findByIdAndUpdate(spotDeleted.author, {
+        $pull: { spotsOwned: spotID }, // pull the deleted spot from spotsOwned array
+    })
 })
 
-
-
-
-spotSchema.virtual("virtuals.averageGrade").get(function () {
-
+spotSchema.virtual('virtuals.averageGrade').get(function () {
     // Doing average of grade
     let gradeSum = 0
     let length = 0
@@ -166,8 +147,7 @@ spotSchema.virtual("virtuals.averageGrade").get(function () {
         length++
     }
     return gradeSum / length
-});
-
+})
 
 // // If we add "query.populate(virtualName)" this will become available
 // spotSchema.virtual("virtuals.averageGrade", {
@@ -200,15 +180,9 @@ spotSchema.virtual("virtuals.averageGrade").get(function () {
 //     // return gradeSum / length
 // });
 
-
-
-
 // Model creation
 // Model creation (=> a db collection called "spots" will be created => pluralized & lowercased)
-const Spot = models.Spot || model('Spot', spotSchema);
-
+const Spot = models.Spot || model('Spot', spotSchema)
 
 // Exportation of model
-export default Spot;
-
-
+export default Spot

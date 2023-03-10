@@ -82,6 +82,7 @@ const title = {
     title: Yup.string()
         .trim()
         .min(6, `The title should be more than 6 characters.`)
+        .max(60, `The title should be less than 60 characters.`)
         .required('The title of your Spot is required.'),
 }
 
@@ -98,9 +99,23 @@ const categories = {
         .required('--You must select at least one category for your spot.'),
 }
 
+const coordinates = {
+    coordinates: Yup.object({
+        Latitude: Yup.number('Latitude must be a number.').required(
+            'Please search your Spot or drag the Marker',
+        ),
+        Longitude: Yup.number('Longitude must be a number.').required(
+            'Please search your Spot or drag the Marker',
+        ),
+    }).required(
+        'Please search your Spot with the search bar or click anywhere and drag the Marker',
+    ),
+}
+
 // Title + Description + Categories
 export const validTitleDesc = Yup.object().shape({
     ...title,
     ...description,
     ...categories,
+    ...coordinates,
 })

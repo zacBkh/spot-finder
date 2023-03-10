@@ -11,7 +11,7 @@ import { PATHS } from '../../constants/URLs'
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
 const { KEY, VALUE_LOGIN } = TOAST_PARAMS
 
-import DISABLED_STYLE from '../../constants/disabled-style'
+import { DISABLED_STYLE } from '../../constants/disabled-style'
 
 import {
     BUTTON_FS,
