@@ -4,7 +4,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import Spinner from '../spinner'
 
 import { FORM_VALID_FS } from '../../constants/responsive-fonts'
-import DISABLED_STYLE from '../../constants/disabled-style'
+import { DISABLED_STYLE } from '../../constants/disabled-style'
 import { BUTTON_FS } from '../../constants/responsive-fonts'
 import { doublePwdFieldSchema } from '../../constants/validation-schemas'
 const ResetPassword = ({}) => {

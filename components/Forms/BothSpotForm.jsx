@@ -10,8 +10,8 @@ import CategoryCheckBoxItemBoth from '../CategoriesCheckboxes/CheckboxItemBoth'
 
 import MapForm from '../Maps/MapForm'
 
-import getCountryName from '../../utils/getCountryFetcher'
-import { countryContinent } from '../../utils/countryContinent'
+import getCountryName from '../../services/get-country-name'
+import countryContinent from '../../utils/countryContinent'
 
 import { useSession } from 'next-auth/react'
 
@@ -166,6 +166,8 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
             zoom: 2,
         }
     }
+
+    console.log('formik', formik)
 
     return (
         <>

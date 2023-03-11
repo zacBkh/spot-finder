@@ -12,8 +12,7 @@ export const addSpotHandler = async enteredData => {
         headers: { 'Content-Type': 'application/json' },
     })
 
-    const data = await response.json()
-    console.log('Status of spot creation: ', data)
+    return await response.json()
 }
 
 export const editSpotHandler = async (editedEnteredData, spotID) => {

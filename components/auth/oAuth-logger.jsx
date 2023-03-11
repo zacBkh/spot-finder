@@ -6,7 +6,7 @@ import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 import capitalize from '../../utils/capitalize'
 
-import DISABLED_STYLE from '../../constants/disabled-style'
+import { DISABLED_STYLE } from '../../constants/disabled-style'
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
 const { KEY, VALUE_LOGIN } = TOAST_PARAMS
 

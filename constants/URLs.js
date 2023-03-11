@@ -11,7 +11,7 @@ export const PATHS = {
             ? 'http://localhost:3008'
             : 'https://spot-finder.vercel.app',
     HOME: '/',
-    NEW_SPOT: '/spots/newSpot',
+    NEW_SPOT: '/new-spot',
     PROFILE: '/auth/profile',
     AUTH: '/auth/login',
     PROFILE: '/auth/profile',

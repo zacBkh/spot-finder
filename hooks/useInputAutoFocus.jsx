@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-// Define the useRef where we call the component from
+// First, need to define the useRef in the component where we call the hook from
 // Takes the inputRef variables we want to focus on and the variables that will determine which field we focus on it
 // Return the right field to focus on
 const useInputAutoFocus = (

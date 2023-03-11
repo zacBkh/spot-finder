@@ -3,7 +3,7 @@ import AppContext from '../../../context/AppContext'
 
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai'
 
-import DISABLED_STYLE from '../../../constants/disabled-style'
+import { DISABLED_STYLE } from '../../../constants/disabled-style'
 
 const SearchSpotBar = ({ disabled }) => {
     const searchContext = useContext(AppContext)

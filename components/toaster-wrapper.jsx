@@ -7,7 +7,14 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useSession } from 'next-auth/react'
 
 import { TOAST_PARAMS } from '../constants/toast-query-params'
-const { KEY, VALUE_LOGIN, VALUE_LOGOUT } = TOAST_PARAMS
+const {
+    KEY,
+    VALUE_LOGIN,
+    VALUE_LOGOUT,
+    VALUE_NEW_USER,
+    VALUE_CREATED_SPOT_SUCCESS,
+    VALUE_CREATED_SPOT_FAILURE,
+} = TOAST_PARAMS
 
 import REDIRECT_QUERY_PARAMS from '../constants/redirect-query-params'
 const {
@@ -55,6 +62,23 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'loggedIn', // prevent duplicates
                 })
+            }
+
+            if (queryString[KEY] === VALUE_CREATED_SPOT_SUCCESS) {
+                toast.success(`You successfully created your Spot!`, {
+                    position: 'bottom-left',
+                    toastId: 'spotCreationSuccess', // prevent duplicates
+                })
+            }
+
+            if (queryString[KEY] === VALUE_CREATED_SPOT_FAILURE) {
+                toast.error(
+                    `There has been an issue creating your Spot. Please try again later.`,
+                    {
+                        position: 'bottom-left',
+                        toastId: 'spotCreationFailure', // prevent duplicates
+                    },
+                )
             }
 
             // Display toast depending on query params

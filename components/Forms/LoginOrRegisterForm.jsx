@@ -14,8 +14,6 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Image from 'next/image'
 
-import { Spinner } from 'flowbite-react'
-
 import { signIn } from 'next-auth/react'
 
 import { PATHS } from '../../constants/URLs'
@@ -337,9 +335,6 @@ const LoginOrRegisterForm = ({
                                 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {action}
-                                {formik.isSubmitting && (
-                                    <Spinner size="sm" className="ml-2" />
-                                )}
                             </button>
                         </form>
 
