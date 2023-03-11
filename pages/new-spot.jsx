@@ -105,7 +105,6 @@ const AddYourFormTrial = ({}) => {
             geometry,
             country,
         }
-        console.log('newObjectWithGeoJSON', newObjectWithGeoJSON)
 
         // Adding spot visit
         let visitedField
@@ -126,7 +125,6 @@ const AddYourFormTrial = ({}) => {
         } else {
             router.push(`${PATHS.HOME}?${KEY}=${VALUE_CREATED_SPOT_SUCCESS}`)
         }
-        console.log('submissionStatus', submissionStatus)
     }
 
     const initialValues = {
