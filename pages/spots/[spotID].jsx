@@ -214,7 +214,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
             <p>Title: {indivSpot.title}</p>
             <p>Description: {indivSpot.description}</p>
-            <p>Country: {indivSpot.country}</p>
+            <p>Country: {indivSpot.country.name}</p>
             <p> This Spot has been visited {nbOfVisit} times </p>
 
             {shouldTogglerDisplay && (
@@ -222,8 +222,8 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
             )}
 
             <p>CATEGORIES: {indivSpot.categories.join(', ')} </p>
-            <p>LATITUDE: {indivSpot.locationDrag.Latitude}</p>
-            <p>LONGITUDE: {indivSpot.locationDrag.Longitude}</p>
+            <p>LATITUDE: {indivSpot.geometry.coordinates[1]}</p>
+            <p>LONGITUDE: {indivSpot.geometry.coordinates[0]}</p>
 
             <a className="cursor-pointer" onClick={openReviewHandler}>
                 REVIEW THE SPOT

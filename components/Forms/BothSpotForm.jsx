@@ -10,12 +10,10 @@ import CategoryCheckBoxItemBoth from '../CategoriesCheckboxes/CheckboxItemBoth'
 
 import MapForm from '../Maps/MapForm'
 
-import getCountryName from '../../utils/getCountryFetcher'
-import { countryContinent } from '../../utils/countryContinent'
+import getCountryName from '../../services/get-country-name'
+import countryContinent from '../../utils/countryContinent'
 
 import { useSession } from 'next-auth/react'
-
-import SpotTitle from '../new-forms/textual-inputs'
 
 // Using previousValues props to know if we are in edit mode or not
 

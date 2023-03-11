@@ -1,5 +1,5 @@
 import { Schema, model, models } from 'mongoose'
-import spotCategories from '../utils/spotCategories'
+import spotCategories from '../constants/spot-categories'
 import User from './user'
 import Review from './reviews'
 
@@ -38,10 +38,10 @@ const spotSchema = new Schema(
             // Custom valid that says, every elements in the array of cat submitted should be included in spotCategories (same than enum)
         },
 
-        locationDrag: {
-            type: Object,
-            required: true,
-        },
+        // locationDrag: {
+        //     type: Object,
+        //     required: true,
+        // },
 
         geometry: {
             type: {
@@ -60,8 +60,11 @@ const spotSchema = new Schema(
         },
 
         country: {
-            type: String,
-            required: true,
+            name: { type: String, required: true },
+            code: { type: String, required: true },
+            region: { type: String, required: true },
+            subRegion: { type: String, required: true },
+            intermediateRegion: { type: String, required: true },
         },
 
         author: {
@@ -92,12 +95,6 @@ const spotSchema = new Schema(
                 default: [],
             },
         ],
-
-        region: {
-            type: String,
-            // required: true,
-            required: false,
-        },
 
         // images: [
         //     {

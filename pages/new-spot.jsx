@@ -1,4 +1,8 @@
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+
+import { useSession } from 'next-auth/react'
+
 import { useFormik } from 'formik'
 import {
     BsFillTreeFill,
@@ -19,7 +23,24 @@ import { FORM_VALID_FS, BUTTON_FS, FORM_LABEL_FS } from '../constants/responsive
 import { DISABLED_STYLE, DISABLED_STYLE_STATELESS } from '../constants/disabled-style'
 import { validTitleDesc } from '../constants/validation-schemas'
 
+import getCountryName from '../services/get-country-name'
+import worldCountryDetails from '../utils/world-country-continents'
+import { addSpotHandler } from '../services/mongo-fetchers'
+
+import { PATHS } from '../constants/URLs'
+import { TOAST_PARAMS } from '../constants/toast-query-params'
+const {
+    KEY,
+    VALUE_CREATED_SPOT,
+    VALUE_CREATED_SPOT_SUCCESS,
+    VALUE_CREATED_SPOT_FAILURE,
+} = TOAST_PARAMS
+
 const AddYourFormTrial = ({}) => {
+    const router = useRouter()
+
+    const { data: session } = useSession()
+
     const [currentStep, setCurrentStep] = useState(1)
 
     const incrementStepHandler = operator => {
@@ -56,7 +77,56 @@ const AddYourFormTrial = ({}) => {
     }, [markerCoordinates])
 
     const onSubmitHandler = async formValues => {
-        console.log('you submitted with', formValues)
+        const { title, description, categories, coordinates } = formValues
+        const descTitleCat = {
+            title: title.trim(),
+            description: description.trim(),
+            categories,
+        }
+
+        const geometry = {
+            type: 'Point',
+            coordinates: [coordinates.Longitude, coordinates.Latitude],
+        }
+
+        // Add country names
+        const countryData = await getCountryName(
+            coordinates.Longitude,
+            coordinates.Latitude,
+        )
+        const { countryCode } = countryData
+
+        // Adding region
+        const country = worldCountryDetails.find(country => country.code === countryCode)
+
+        // Combining values + GeoJSON + country
+        const newObjectWithGeoJSON = {
+            ...descTitleCat,
+            geometry,
+            country,
+        }
+        console.log('newObjectWithGeoJSON', newObjectWithGeoJSON)
+
+        // Adding spot visit
+        let visitedField
+        if (session) {
+            visitedField = { numberOfVisits: 1, visitors: session.userID }
+        }
+
+        // Adding the author + visitor
+        const finalNewSpotObject = {
+            ...newObjectWithGeoJSON,
+            author: session.userID,
+            visited: visitedField,
+        }
+
+        const submissionStatus = await addSpotHandler(finalNewSpotObject)
+        if (!submissionStatus.success) {
+            router.push(`${PATHS.HOME}?${KEY}=${VALUE_CREATED_SPOT_FAILURE}`)
+        } else {
+            router.push(`${PATHS.HOME}?${KEY}=${VALUE_CREATED_SPOT_SUCCESS}`)
+        }
+        console.log('submissionStatus', submissionStatus)
     }
 
     const initialValues = {
@@ -109,6 +179,10 @@ const AddYourFormTrial = ({}) => {
         }
 
         if (formik.errors[lookUp[currentStep]]) {
+            return true
+        }
+
+        if (formik.isSubmitting) {
             return true
         }
         return false
@@ -242,14 +316,17 @@ const AddYourFormTrial = ({}) => {
 
                 <div className="flex gap-x-2">
                     {/* SUBMIT  & BACK */}
-                    <button
-                        onClick={() => incrementStepHandler('-')}
-                        className={`${btnClassName} ${currentStep === 0 && 'hidden'}`}
-                        type="button"
-                        // disabled={currentStep > 0 ? true : false}
-                    >
-                        Back
-                    </button>
+
+                    {currentStep > 1 && (
+                        <button
+                            onClick={() => incrementStepHandler('-')}
+                            className={`${btnClassName}`}
+                            type="button"
+                            disabled={formik.isSubmitting}
+                        >
+                            Back
+                        </button>
+                    )}
                     <button
                         onClick={() => incrementStepHandler('+')}
                         // ref={submitBtnRef}

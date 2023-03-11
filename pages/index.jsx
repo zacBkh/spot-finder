@@ -74,7 +74,7 @@ const AllSpots = ({ spots, queryString }) => {
                     .filter(spot =>
                         spot.categories.some(x => activeCategories.includes(x)),
                     )
-                    .filter(spot => spot.region === activeRegion),
+                    .filter(spot => spot.country.region === activeRegion),
             )
             return
         }
@@ -91,7 +91,7 @@ const AllSpots = ({ spots, queryString }) => {
 
         // If region only
         if (activeRegion.length) {
-            setFilteredSpots(spots.filter(spot => spot.region === activeRegion))
+            setFilteredSpots(spots.filter(spot => spot.country.region === activeRegion))
             return
         }
 
