@@ -8,14 +8,13 @@ import Map, {
     FullscreenControl,
     ScaleControl,
     GeolocateControl,
-    shouldBeDisabled,
 } from 'react-map-gl'
 
 import GeocoderControl from './GeocoderControl.tsx'
 
 // markerCoordinates is Latitude and Longitude
 
-const MapForm = ({ initialView, markerCoordinates, onNewCoor }) => {
+const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }) => {
     // On marker click
     const clickMapHandler = evt => {
         console.log('You clicked the MAP', evt)
