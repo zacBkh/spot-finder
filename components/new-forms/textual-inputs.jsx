@@ -8,9 +8,18 @@ const SpotTextualInput = ({
     placeholder,
     isTextArea,
     shouldBeDisabled,
+    onEnterKeyPress,
 }) => {
     const inputClassnames = `${errorStying.border} ${DISABLED_STYLE} 
     text-sm border border-gray-300 text-gray-900 w-full p-2.5 mt-2`
+
+    const pressEnterHandler = e => {
+        console.log('e', e)
+        if (e.key === 'Enter') {
+            e.preventDefault()
+            onEnterKeyPress('+')
+        }
+    }
 
     return (
         <>
@@ -26,6 +35,7 @@ const SpotTextualInput = ({
 
                 {isTextArea ? (
                     <textarea
+                        onKeyDown={e => pressEnterHandler(e)}
                         {...formikWizard}
                         id={identifier}
                         placeholder={placeholder}
@@ -36,6 +46,7 @@ const SpotTextualInput = ({
                     />
                 ) : (
                     <input
+                        onKeyDown={e => pressEnterHandler(e)}
                         disabled={shouldBeDisabled}
                         {...formikWizard}
                         id={identifier}

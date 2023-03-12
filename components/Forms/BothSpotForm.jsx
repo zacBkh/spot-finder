@@ -171,7 +171,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
         <>
             <form
                 onSubmit={formik.handleSubmit}
-                className="flex flex-col justify-center px-96 mb-6"
+                className="flex flex-col justify-center px-12 mb-6"
             >
                 <div>
                     <InputsBoth

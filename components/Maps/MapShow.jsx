@@ -32,15 +32,17 @@ const MapShow = ({ markerCoordinates }) => {
                     initialViewState={{
                         latitude: markerCoordinates.Latitude,
                         longitude: markerCoordinates.Longitude,
-                        zoom: 3,
+                        zoom: 5,
                     }}
                     style={{ width: 700, height: 500 }}
-                    // mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
-                    mapStyle="mapbox://styles/zacharie123dxb/clcnu76zp000514pf3jx9c20g"
+                    mapStyle="mapbox://styles/mapbox/satellite-streets-v12?optimize=true"
                     mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
                     attributionControl={false}
                     // onLoad={() => setIsMapLoading(false)}
                     onLoad={onLoad}
+                    onZoom={e => console.log(e.viewState.zoom)}
+                    minZoom={3}
+                    maxZoom={12}
                 >
                     <Marker
                         longitude={markerCoordinates.Longitude}

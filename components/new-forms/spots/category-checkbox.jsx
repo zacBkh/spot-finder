@@ -1,4 +1,4 @@
-import { FORM_LABEL_FS } from '../../../constants/responsive-fonts'
+import { FORM_LABEL_FS, FORM_CAT_ICON_FS } from '../../../constants/responsive-fonts'
 import {
     DISABLED_STYLE,
     DISABLED_STYLE_STATELESS,
@@ -18,7 +18,7 @@ const SpotCategory = ({
             <button type="button" className={DISABLED_STYLE}>
                 <label
                     htmlFor={value}
-                    className={`${FORM_LABEL_FS} ${errorStying.border}  ${
+                    className={`${FORM_CAT_ICON_FS} ${errorStying.border}  ${
                         shouldBeDisabled && DISABLED_STYLE_STATELESS
                     }
                                           
@@ -42,7 +42,9 @@ const SpotCategory = ({
 
                     <div className="block mr-1">{icon}</div>
 
-                    <div className={`${FORM_LABEL_FS} text-md font-semibold w-fit h-fit`}>
+                    <div
+                        className={`${FORM_CAT_ICON_FS} text-md font-semibold w-fit h-fit`}
+                    >
                         {value}
                     </div>
                 </label>

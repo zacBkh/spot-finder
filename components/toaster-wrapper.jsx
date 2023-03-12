@@ -11,7 +11,6 @@ const {
     KEY,
     VALUE_LOGIN,
     VALUE_LOGOUT,
-    VALUE_NEW_USER,
     VALUE_CREATED_SPOT_SUCCESS,
     VALUE_CREATED_SPOT_FAILURE,
 } = TOAST_PARAMS
@@ -26,6 +25,8 @@ const {
     VALUE_AUTH_ERROR,
 } = REDIRECT_QUERY_PARAMS
 import capitalize from '../utils/capitalize'
+
+import { TOASTER_FS } from '../constants/responsive-fonts'
 
 const Toaster = () => {
     const router = useRouter()
@@ -121,7 +122,10 @@ const Toaster = () => {
 
     return (
         <>
-            <ToastContainer autoClose={4000} style={{ width: '400px' }} />
+            <ToastContainer
+                autoClose={4000}
+                className={`${TOASTER_FS} !w-screen sm:!w-fit sm:!min-w-[350px] !sm:max-w-[50vw] !bottom-0 !left-0 !mb-0`}
+            />
         </>
     )
 }

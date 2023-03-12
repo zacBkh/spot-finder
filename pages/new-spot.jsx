@@ -37,6 +37,21 @@ const {
 } = TOAST_PARAMS
 
 const AddYourFormTrial = ({}) => {
+    const logicDisableNextStep = () => {
+        if (!formik.dirty) {
+            return true
+        }
+
+        if (formik.errors[lookUp[currentStep]]) {
+            return true
+        }
+
+        if (formik.isSubmitting) {
+            return true
+        }
+        return false
+    }
+
     const router = useRouter()
 
     const { data: session } = useSession()
@@ -44,15 +59,19 @@ const AddYourFormTrial = ({}) => {
     const [currentStep, setCurrentStep] = useState(1)
 
     const incrementStepHandler = operator => {
-        operator === '+'
-            ? setCurrentStep(prevState => prevState + 1)
-            : setCurrentStep(prevState => prevState - 1)
+        console.log('operator', operator)
+
+        if (operator === '-') {
+            setCurrentStep(prevState => prevState - 1)
+        } else if (operator === '+' && logicDisableNextStep() === false) {
+            setCurrentStep(prevState => prevState + 1)
+        }
     }
 
     const validStyling = field => {
         if (formik.errors[field] && formik.touched[field]) {
             return {
-                border: 'border-1 border-primary',
+                border: '!border-1 !border-primary',
                 message: (
                     <span className={`${FORM_VALID_FS} !text-primary `}>
                         {formik.errors[field]}
@@ -171,34 +190,23 @@ const AddYourFormTrial = ({}) => {
         return false
     }
 
-    const mustNextBtnBeDisabled = () => {
-        if (!formik.dirty) {
-            return true
-        }
-
-        if (formik.errors[lookUp[currentStep]]) {
-            return true
-        }
-
-        if (formik.isSubmitting) {
-            return true
-        }
-        return false
-    }
-
     const btnClassName = `${BUTTON_FS} ${DISABLED_STYLE}
     text-white font-bold py-3 bg-primary rounded-lg w-full !mt-6`
 
     console.log('formik', formik)
     return (
         <>
-            <form onSubmit={formik.handleSubmit} className="w-1/2 mx-auto space-y-3">
+            <form
+                onSubmit={formik.handleSubmit}
+                className="w-[80%] max-w-3xl mx-auto space-y-3"
+            >
                 <SpotTextualInput
                     formikWizard={formik.getFieldProps('title')}
                     identifier="title"
                     errorStying={validStyling('title')}
                     placeholder="e.g: Amazing night cityscape in Dubai."
                     shouldBeDisabled={previousInputToBlur(1)}
+                    onEnterKeyPress={incrementStepHandler}
                 />
                 {currentStep > 1 && (
                     <SpotTextualInput
@@ -207,6 +215,7 @@ const AddYourFormTrial = ({}) => {
                         errorStying={validStyling('description')}
                         placeholder="e.g: Breathtaking point of view perfect for romantic escapades or timelapse sessions."
                         shouldBeDisabled={previousInputToBlur(2)}
+                        onEnterKeyPress={incrementStepHandler}
                         isTextArea
                     />
                 )}
@@ -328,7 +337,7 @@ const AddYourFormTrial = ({}) => {
                     <button
                         onClick={() => incrementStepHandler('+')}
                         // ref={submitBtnRef}
-                        disabled={mustNextBtnBeDisabled()}
+                        disabled={logicDisableNextStep()}
                         className={btnClassName}
                         type={rightBtnState().type}
                     >

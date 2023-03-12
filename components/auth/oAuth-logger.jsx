@@ -13,7 +13,7 @@ const { KEY, VALUE_LOGIN } = TOAST_PARAMS
 import Spinner from '../spinner'
 import { PATHS } from '../../constants/URLs'
 
-import { BUTTON_FS } from '../../constants/responsive-fonts'
+import { BUTTON_FS, OAUTH_LOGO_FS } from '../../constants/responsive-fonts'
 
 const OAuthLogger = ({ returnToURL, provider, bgColor, txtColor, onSelectOAuth }) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -33,14 +33,18 @@ const OAuthLogger = ({ returnToURL, provider, bgColor, txtColor, onSelectOAuth }
                 disabled={isLoading}
                 onClick={signInHandler}
                 className={`${bgColor} ${txtColor} ${BUTTON_FS} 
-                ${DISABLED_STYLE} w-full font-bold py-3 px-5 rounded-lg flex justify-center`}
+                ${DISABLED_STYLE} w-full font-bold py-3 px-5 rounded-lg flex items-center justify-center`}
             >
-                {provider === 'facebook' ? (
-                    <BsFacebook className="mr-2 text-2xl" />
-                ) : (
-                    <FcGoogle className="bg-white rounded-full mr-2 text-2xl" />
-                )}
-                Login with {capitalize(provider)}
+                <div>
+                    {provider === 'facebook' ? (
+                        <BsFacebook className={`mr-2 ${OAUTH_LOGO_FS}`} />
+                    ) : (
+                        <FcGoogle
+                            className={`bg-white rounded-full mr-2 ${OAUTH_LOGO_FS}`}
+                        />
+                    )}
+                </div>
+                <div>Login with {capitalize(provider)}</div>
                 {isLoading && <Spinner color={'border-t-secondary'} className="ml-2" />}
             </button>
         </>

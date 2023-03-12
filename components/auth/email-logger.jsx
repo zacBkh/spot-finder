@@ -58,11 +58,7 @@ const EMailLogger = ({
         if (formik.isSubmitting) {
             return true
         }
-        if (
-            formik.touched.email &&
-            Object.keys(formik.errors).length > 0 &&
-            !isResetPwd
-        ) {
+        if (Object.keys(formik.errors).length > 0 && !isResetPwd) {
             return true
         }
 
@@ -232,6 +228,8 @@ const EMailLogger = ({
         }
     }
 
+    console.log('formik', formik)
+
     return (
         <>
             {authMode === 'credentials' && (
@@ -255,6 +253,7 @@ const EMailLogger = ({
                             ${validStyling('email').border}
                             ${DISABLED_STYLE}
                             rounded-lg border w-full
+                            p-2
                         `}
                         type="email"
                         name="email"
@@ -274,6 +273,7 @@ const EMailLogger = ({
                                 ${validStyling('name').border}
                                 ${DISABLED_STYLE}
                                 rounded-lg border w-full
+                                p-2
                         `}
                             type="text"
                             name="name"
