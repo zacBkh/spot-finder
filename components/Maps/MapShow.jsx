@@ -15,10 +15,9 @@ import Map, {
 
 const MapShow = ({ markerCoordinates }) => {
     const [isMapLoading, setIsMapLoading] = useState(true)
-    const [aaa, setAAA] = useState(false)
 
     const onLoad = arg => {
-        setIsMapLoading(arg.fullyLoaded)
+        setIsMapLoading(false)
     }
 
     return (
@@ -42,7 +41,7 @@ const MapShow = ({ markerCoordinates }) => {
                     onLoad={onLoad}
                     onZoom={e => console.log(e.viewState.zoom)}
                     minZoom={3}
-                    maxZoom={12}
+                    maxZoom={17}
                 >
                     <Marker
                         longitude={markerCoordinates.Longitude}

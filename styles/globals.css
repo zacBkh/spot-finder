@@ -103,3 +103,11 @@ textarea:focus-visible {
     text-decoration: none;
     display: block;
 }
+
+/* Hover peer on [spotID] */
+/* When element with subItems as a class is hovered, target all <a> that are not hovered */
+.spotEditWrapper:hover .spotEditorElems {
+    --tw-border-opacity: 1 !important;
+    border-color: rgb(239 94 78 / var(--tw-border-opacity)) !important;
+    text-decoration: underline;
+}

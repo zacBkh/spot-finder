@@ -11,7 +11,7 @@ import CategoryCheckBoxItemBoth from '../CategoriesCheckboxes/CheckboxItemBoth'
 import MapForm from '../Maps/MapForm'
 
 import getCountryName from '../../services/get-country-name'
-import countryContinent from '../../utils/countryContinent'
+import worldCountryDetails from '../../utils/world-country-continents'
 
 import { useSession } from 'next-auth/react'
 
@@ -22,6 +22,11 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
 
     const [characterCountTitle, setCharacterCountTitle] = useState(0)
     const [characterCountDescription, setCharacterCountDescription] = useState(0)
+
+    // Map coordinates state, had to create this state otherwise there is no re render and marker never moves
+    const [markerCoordinates, setMarkerCoordinates] = useState(
+        previousValues ? previousValues.geometry.coordinates : '',
+    )
 
     // Yup stuff
 
@@ -51,12 +56,12 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
             .min(1, 'Please select at least one category!')
             .required('Category is required from Yup!'),
 
-        locationDrag: Yup.object({
-            Latitude: Yup.number().required('Please search your Spot or drag the Marker'),
-            Longitude: Yup.number().required(
-                'Please search your Spot or drag the Marker',
+        coordinates: Yup.array()
+            .min(2, 'Both Latitude and Longitude should be added? Try again later.')
+            .max(2, 'Both Latitude and Longitude should be added? Try again later.')
+            .required(
+                'Please search your Spot with the search bar or click anywhere and drag the Marker',
             ),
-        }).required('Please search your Spot or drag the Marker ++'),
     })
 
     // Formik stuff
@@ -66,7 +71,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
         title: previousValues ? previousValues.title : '',
         description: previousValues ? previousValues.description : '',
         categories: previousValues ? [...previousValues.categories] : [],
-        locationDrag: previousValues ? previousValues.locationDrag : {},
+        coordinates: previousValues ? previousValues.geometry.coordinates : {},
     }
 
     // Formik - Submit Fx
@@ -76,24 +81,19 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
         // Adding geoJSON coordinates
         const geometry = {
             type: 'Point',
-            coordinates: [
-                formValues.locationDrag.Longitude,
-                formValues.locationDrag.Latitude,
-            ],
+            coordinates: [formValues.coordinates[0], formValues.coordinates[1]],
         }
 
         // Adding country
-        const Longitude = formValues.locationDrag.Longitude
-        const Latitude = formValues.locationDrag.Latitude
+        const Longitude = formValues.coordinates[0]
+        const Latitude = formValues.coordinates[1]
         const countryData = await getCountryName(Longitude, Latitude)
-        const { country, countryCode } = countryData
+        const { countryCode } = countryData
 
-        // Adding region
-        const found = countryContinent.find(country => country.code === countryCode)
-        const region = found.region ? found.region : null
+        const country = worldCountryDetails.find(country => country.code === countryCode)
 
         // Combining values + GeoJSON + country
-        const newObjectWithGeoJSON = { ...formValues, geometry, country, region }
+        const newObjectWithGeoJSON = { ...formValues, geometry, country }
 
         let visitedField
         if (session) {
@@ -136,20 +136,15 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
         categoryErrorMsg = formik.errors.categories
     }
 
-    // Map coordinates state, had to create this state otherwise there is no re render and marker never moves
-    const [markerCoordinates, setMarkerCoordinates] = useState(
-        previousValues ? previousValues.locationDrag : '',
-    )
-
     const onNewCoor = param => {
         console.log('paramFromBeforeFormik', param)
         setMarkerCoordinates(param)
     }
 
-    // Otherwise does not get as a value for formik when use geocoder
+    // Set value of the field imperatively
     useEffect(() => {
-        formik.values.locationDrag = markerCoordinates
-    }, [markerCoordinates, formik.values.locationDrag, formik.values])
+        formik.setFieldValue('coordinates', markerCoordinates)
+    }, [markerCoordinates])
 
     // If edit mode, set initialView of the map as per the marker
     let initialCoor
@@ -167,6 +162,7 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
         }
     }
 
+    console.log('formik', formik)
     return (
         <>
             <form
@@ -246,18 +242,18 @@ const BothSpotForm = ({ onAddOrEditFx, previousValues }) => {
                     <input
                         disabled
                         type="text"
-                        name="locationDrag"
-                        {...formik.getFieldProps('locationDrag')}
+                        name="coordinates"
+                        {...formik.getFieldProps('coordinates')}
                     />
                 </div>
 
                 {/* Valid error for map */}
                 <div>
                     {markerCoordinates === '' &&
-                        formik.touched.locationDrag &&
-                        formik.errors.locationDrag && (
+                        formik.touched.coordinates &&
+                        formik.errors.coordinates && (
                             <span className="text-red-600">
-                                {formik.errors.locationDrag.Latitude}
+                                {formik.errors.coordinates[0]}
                             </span>
                         )}
                 </div>
