@@ -100,16 +100,12 @@ const categories = {
 }
 
 const coordinates = {
-    coordinates: Yup.object({
-        Latitude: Yup.number('Latitude must be a number.').required(
-            'Please search your Spot or drag the Marker',
+    coordinates: Yup.array()
+        .min(2, 'Both Latitude and Longitude should be added? Try again later.')
+        .max(2, 'Both Latitude and Longitude should be added? Try again later.')
+        .required(
+            'Please search your Spot with the search bar or click anywhere and drag the Marker',
         ),
-        Longitude: Yup.number('Longitude must be a number.').required(
-            'Please search your Spot or drag the Marker',
-        ),
-    }).required(
-        'Please search your Spot with the search bar or click anywhere and drag the Marker',
-    ),
 }
 
 // Title + Description + Categories

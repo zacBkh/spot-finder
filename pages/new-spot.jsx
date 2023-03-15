@@ -90,7 +90,7 @@ const AddYourFormTrial = ({}) => {
         setMarkerCoordinates(coordinates)
     }
 
-    // Set value of the vield imperatively
+    // Set value of the field imperatively
     useEffect(() => {
         formik.setFieldValue('coordinates', markerCoordinates)
     }, [markerCoordinates])
@@ -105,14 +105,11 @@ const AddYourFormTrial = ({}) => {
 
         const geometry = {
             type: 'Point',
-            coordinates: [coordinates.Longitude, coordinates.Latitude],
+            coordinates: [coordinates[0], coordinates[1]],
         }
 
         // Add country names
-        const countryData = await getCountryName(
-            coordinates.Longitude,
-            coordinates.Latitude,
-        )
+        const countryData = await getCountryName(coordinates[0], coordinates[1])
         const { countryCode } = countryData
 
         // Adding region
@@ -305,7 +302,7 @@ const AddYourFormTrial = ({}) => {
                         <div>
                             <input
                                 disabled
-                                value={`${markerCoordinates.Latitude},${markerCoordinates.Longitude}`}
+                                value={`${markerCoordinates}`}
                                 type="text"
                                 name="coordinates"
                                 onChange={formik.handleChange}
@@ -336,7 +333,6 @@ const AddYourFormTrial = ({}) => {
                     )}
                     <button
                         onClick={() => incrementStepHandler('+')}
-                        // ref={submitBtnRef}
                         disabled={logicDisableNextStep()}
                         className={btnClassName}
                         type={rightBtnState().type}

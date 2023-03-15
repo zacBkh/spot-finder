@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 
 import { authOptions } from '../api/auth/[...nextauth]'
 
@@ -26,22 +26,13 @@ import Toggler from '../../components/Toggler'
 
 import MapShow from '../../components/Maps/MapShow'
 
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import Review from '../../components/Reviews/Review'
 
 import { PATHS } from '../../constants/URLs'
 const { HOME } = PATHS
-
-import { FORM_VALID_FS } from '../../constants/responsive-fonts'
-
-// -----------
-
-import { BUTTON_FS } from '../../constants/responsive-fonts'
-import { DISABLED_STYLE } from '../../constants/disabled-style'
-
-import { useFormik } from 'formik'
-import { validTitleDesc } from '../../constants/validation-schemas'
-
-import UserFeedback from '../../components/new-forms/user-feedback-edit-spot'
 
 export const getServerSideProps = async context => {
     //   const session = await getServerSession(context.req, context.res, authOptions);
@@ -70,57 +61,6 @@ export const getServerSideProps = async context => {
 }
 
 const ShowSpot = ({ indivSpot, currentUserID }) => {
-    // --------
-
-    const [isInputEditable, setIsInputEditable] = useState({
-        title: false,
-        description: false,
-        categories: false,
-        coordinates: false,
-    })
-
-    const lookUp = {
-        0: 'title',
-        1: 'description',
-        2: 'categories',
-        3: 'coordinates',
-    }
-
-    const initialValuesEditSpot = {
-        title: indivSpot.title,
-        description: indivSpot.description,
-        categories: indivSpot.categories,
-        coordinates: indivSpot.geometry.coordinates, // lng lat
-    }
-
-    const onSubmitEditSpot = async formValues => {
-        console.log('formValues', formValues)
-    }
-
-    const formik = useFormik({
-        initialValues: initialValuesEditSpot,
-        onSubmit: onSubmitEditSpot,
-        validationSchema: validTitleDesc,
-    })
-
-    const validStyling = field => {
-        console.log('field++', field)
-        if (formik.errors[field]) {
-            return {
-                border: '!border !border-1 !border-primary',
-                message: (
-                    <span className={`${FORM_VALID_FS} !text-primary `}>
-                        {formik.errors[field]}
-                    </span>
-                ),
-            }
-        } else {
-            return { border: '', message: '' }
-        }
-    }
-
-    console.log('formik', formik)
-
     // State that manages toggler + give info to API route whether to decrement or increment
     const didVisit = didUserVisited(indivSpot.visited.visitors, currentUserID)
     const [didUserVisitSpot, setDidUserVisitSpot] = useState(didVisit)
@@ -258,46 +198,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         setIsReviewOpen(prev => !prev)
     }
 
-    const titleRef = useRef(null)
-    const descRef = useRef(null)
-
-    // If user clicks on "edit your spot's xx"
-    const startEditHandler = input => {
-        input === 'title' ? titleRef.current.focus() : descRef.current.focus()
-    }
-
-    // Will add true to the state
-    const inputFocusHandler = input => {
-        console.log('You want to focus on', input)
-        setIsInputEditable({ ...isInputEditable, [input]: true })
-    }
-
-    // If user leaves input
-    const inputBlurHandler = input => {
-        console.log('You want to leave', input)
-        formik.handleBlur
-        setIsInputEditable({ ...isInputEditable, [input]: false })
-    }
-
-    const inputsSharedClass =
-        'spotEditorElems !no-underline focus:!outline outline-offset-2 focus:bg-tertiary '
-
-    const shouldSubmitBtnBeDisabled = () => {
-        if (!formik.dirty) {
-            return true
-        }
-
-        if (Object.keys(formik.errors).length) {
-            return true
-        }
-
-        if (formik.isSubmitting) {
-            return true
-        }
-    }
-
-    const btnClassName = `${BUTTON_FS} ${DISABLED_STYLE}
-    text-white font-bold py-3 bg-primary rounded-lg w-full !mt-6`
     return (
         <>
             <MapShow
@@ -311,77 +211,24 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     Latitude: indivSpot.geometry.coordinates[1],
                 }}
             />
-            <form onSubmit={formik.handleSubmit} className="space-y-6 mx-auto w-fit">
-                <div className="spotEditWrapper flex justify-center items-center mt-6 gap-x-3 w-fit">
-                    <input
-                        onFocus={() => inputFocusHandler('title')}
-                        onBlur={() => inputBlurHandler('title')}
-                        onChange={formik.handleChange}
-                        value={formik.values.title}
-                        ref={titleRef}
-                        readOnly={!isInputEditable.title}
-                        id={'title'}
-                        name={'title'}
-                        spellCheck="false"
-                        className={`${validStyling('title').border}
-                        ${inputsSharedClass}`}
-                    />
-                    <UserFeedback
-                        input="title"
-                        isInputEditable={isInputEditable}
-                        formikErrors={formik.errors}
-                        onClickEdit={startEditHandler}
-                        text="Edit your Spot's title"
-                        errorMsg={validStyling('title').message}
-                    />
-                </div>
 
-                {/* TEXT AREA */}
-                <div className="flex justify-center items-center mt-6 gap-x-3 spotEditWrapper">
-                    <textarea
-                        onFocus={() => inputFocusHandler('description')}
-                        onBlur={() => inputBlurHandler('description')}
-                        onChange={formik.handleChange}
-                        value={formik.values.description}
-                        ref={descRef}
-                        readOnly={!isInputEditable.description}
-                        id={'description'}
-                        name={'description'}
-                        spellCheck="false"
-                        rows={3}
-                        cols={40}
-                        className={`${validStyling('description').border}
-                          ${inputsSharedClass}`}
-                    ></textarea>
-
-                    <UserFeedback
-                        input="description"
-                        isInputEditable={isInputEditable}
-                        formikErrors={formik.errors}
-                        onClickEdit={startEditHandler}
-                        text="Edit your Spot's description"
-                        errorMsg={validStyling('description').message}
-                    />
-                </div>
-                <button
-                    className={btnClassName}
-                    disabled={shouldSubmitBtnBeDisabled()}
-                    type="submit"
-                >
-                    Submit your changes
-                </button>
-            </form>
+            <p>Title: {indivSpot.title}</p>
+            <p>Description: {indivSpot.description}</p>
             <p>Country: {indivSpot.country.name}</p>
             <p> This Spot has been visited {nbOfVisit} times </p>
+
             {shouldTogglerDisplay && (
                 <Toggler onToggle={handleAddVisit} didUserVisitSpot={didUserVisitSpot} />
             )}
+
             <p>CATEGORIES: {indivSpot.categories.join(', ')} </p>
             <p>LATITUDE: {indivSpot.geometry.coordinates[1]}</p>
             <p>LONGITUDE: {indivSpot.geometry.coordinates[0]}</p>
+
             <a className="cursor-pointer" onClick={openReviewHandler}>
                 REVIEW THE SPOT
             </a>
+
             {isReviewOpen && (
                 <Review
                     isLoggedIn={currentUserID}
@@ -389,6 +236,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     onReviewSubmit={onReviewSubmit}
                 />
             )}
+
             {/* Spot Edition */}
             {currentUserID && currentUserID === indivSpot.author && (
                 <SpotAction
@@ -399,6 +247,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     previousValues={indivSpot}
                 />
             )}
+
             {/* Spot Deletion */}
             {
                 // status === "authenticated" &&

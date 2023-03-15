@@ -18,10 +18,8 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
     // On marker click
     const clickMapHandler = evt => {
         console.log('You clicked the MAP', evt)
-        const { lat: Latitude, lng: Longitude } = evt.lngLat
-        const goodCoordinates = { Latitude, Longitude }
-        console.log('goodCoordinates', goodCoordinates)
-        // console.log('goodCoordinates', goodCoordinates)
+        const { lat, lng } = evt.lngLat
+        const goodCoordinates = [lng, lat]
         onNewCoor(goodCoordinates)
     }
 
@@ -38,8 +36,8 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
     // End dragging
     const dragStopHandler = evt => {
         console.log('You stopped dragging the marker', evt.lngLat)
-        const { lat: Latitude, lng: Longitude } = evt.lngLat
-        const goodCoordinates = { Latitude, Longitude }
+        const { lat, lng } = evt.lngLat
+        const goodCoordinates = [lng, lat]
         console.log('goodCoordinates', goodCoordinates)
         onNewCoor(goodCoordinates)
     }
@@ -47,14 +45,13 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
     const getCoordinatesFromGeoCoder = geoCoderCoordinates => {
         console.log('geoCoderCoordinates', geoCoderCoordinates)
 
-        console.log('LONGITUDE', geoCoderCoordinates.result.center[0])
-        console.log('LATITUDE', geoCoderCoordinates.result.center[1])
+        // console.log('LONGITUDE', geoCoderCoordinates.result.center[0])
+        // console.log('LATITUDE', geoCoderCoordinates.result.center[1])
 
         const [Longitude, Latitude] = geoCoderCoordinates.result.center
         console.log('Longitude & Latitude', Longitude, Latitude)
-        const goodCoordinates = { Latitude, Longitude }
+        const goodCoordinates = [Longitude, Latitude]
         console.log('goodCoordinates', goodCoordinates)
-
         onNewCoor(goodCoordinates)
     }
 
@@ -71,8 +68,8 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
             >
                 {markerCoordinates && (
                     <Marker
-                        longitude={markerCoordinates.Longitude}
-                        latitude={markerCoordinates.Latitude}
+                        longitude={markerCoordinates[0]}
+                        latitude={markerCoordinates[1]}
                         color="red"
                         draggable
                         // onClick={clickMarkerHandler}

@@ -62,9 +62,9 @@ const spotSchema = new Schema(
         country: {
             name: { type: String, required: true },
             code: { type: String, required: true },
-            region: { type: String, required: true },
-            subRegion: { type: String, required: true },
-            intermediateRegion: { type: String, required: true },
+            region: { type: String },
+            subRegion: { type: String },
+            intermediateRegion: { type: String },
         },
 
         author: {
