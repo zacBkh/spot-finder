@@ -6,6 +6,7 @@ import { unstable_getServerSession } from 'next-auth/next'
 // import { getServerSession } from "next-auth/next";
 
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
 import {
     editSpotHandler,
@@ -22,8 +23,6 @@ import SpotAction from '../../components/SpotAction'
 
 import Link from 'next/link'
 
-import Toggler from '../../components/Toggler'
-
 import MapShow from '../../components/Maps/MapShow'
 
 import Review from '../../components/Reviews/Review'
@@ -31,15 +30,35 @@ import Review from '../../components/Reviews/Review'
 import { PATHS } from '../../constants/URLs'
 const { HOME } = PATHS
 
-import { FORM_VALID_FS } from '../../constants/responsive-fonts'
+import { TEXTAREA_INPUTS_FS } from '../../constants/responsive-fonts'
 
-// -----------
+import TemporaryImgUrls from '../../constants/temporary-imgs-urls'
 
-import { BUTTON_FS } from '../../constants/responsive-fonts'
+import { TOAST_PARAMS } from '../../constants/toast-query-params'
+const {
+    KEY,
+    KEY_REQUIRE,
+    VALUE_MUST_LOGIN,
+    VALUE_MUST_NOT_BE_OWNER,
+    VALUE_ADD_SPOT_AS_VISITED_SUCCESS,
+    VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS,
+} = TOAST_PARAMS
+
+import { BiEdit, BiCheck } from 'react-icons/bi'
+import { MdOutlineRateReview } from 'react-icons/md'
+
+import { BUTTON_FS, HEADER_TITLE_FS } from '../../constants/responsive-fonts'
 import { DISABLED_STYLE } from '../../constants/disabled-style'
+import DividerDesign from '../../components/design/divider'
 
 import { useFormik } from 'formik'
 import { validTitleDesc } from '../../constants/validation-schemas'
+
+import ButtonPhoto from '../../components/design/button-photo'
+import ButtonSpotCard from '../../components/design/button-spot-card'
+import Toggler from '../../components/toggler-visited-spot'
+import SpotGradeDisplayer from '../../components/grade-spot-displayer'
+import SpotterProfilePreview from '../../components/spotter-profile-preview'
 
 import UserFeedback from '../../components/new-forms/user-feedback-edit-spot'
 
@@ -54,6 +73,7 @@ export const getServerSideProps = async context => {
 
         // Executing the fx that will fetch the precise Spot
         const resultFetchGETOne = await GETSpotFetcherOne(ID)
+        console.log('resultFetchGETOne', resultFetchGETOne)
 
         return {
             props: {
@@ -71,7 +91,6 @@ export const getServerSideProps = async context => {
 
 const ShowSpot = ({ indivSpot, currentUserID }) => {
     // --------
-
     const [isInputEditable, setIsInputEditable] = useState({
         title: false,
         description: false,
@@ -95,6 +114,8 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
     const onSubmitEditSpot = async formValues => {
         console.log('formValues', formValues)
+        const spotEdition = await editSpotHandler(formValues, spotID)
+        console.log('spotEdition from FRONTEND', spotEdition)
     }
 
     const formik = useFormik({
@@ -108,14 +129,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         if (formik.errors[field]) {
             return {
                 border: '!border !border-1 !border-primary',
-                message: (
-                    <span className={`${FORM_VALID_FS} !text-primary `}>
-                        {formik.errors[field]}
-                    </span>
-                ),
+                message: <>{formik.errors[field]}</>,
             }
         } else {
-            return { border: '', message: '' }
+            return { border: '!border !border-1 !border-transparent', message: '' }
         }
     }
 
@@ -156,36 +173,64 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
     // Will call the fetcher for ADDING visit
     const handleAddVisit = async () => {
+        console.log('YOU WANT TO MARK AS VISITED')
+
+        // If user not auth, send a toaster
+        if (!currentUserID) {
+            return router.push(
+                { query: { ...router.query, [KEY_REQUIRE]: VALUE_MUST_LOGIN } },
+                undefined,
+                { shallow: true },
+            )
+        }
+
+        if (currentUserID === indivSpot.author) {
+            return router.push(
+                { query: { ...router.query, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER } },
+                undefined,
+                { shallow: true },
+            )
+        }
+
+        // can do here client side verif if current user === owner
         const addVisit = await addOneVisitSpotHandler(
             currentUserID,
             spotID,
             didUserVisitSpot,
         )
 
-        // if failure in add success and user not logged in...
-        if (!addVisit.success && !currentUserID) {
-            toast.error(CustomToastWithLink(' to mark this spot as verified'), {
-                position: 'bottom-left',
-                toastId: 'connectToMarkVisitedSuccess',
-            })
-
-            // if success...
-        } else {
-            if (!didUserVisitSpot) {
-                toast.success('You marked this spot as visited!', {
-                    position: 'bottom-left',
-                    toastId: 'connectToMarkVisitedSuccess',
-                })
-            } else {
-                toast.success('You removed this spot from visited!', {
-                    position: 'bottom-left',
-                    toastId: 'connectToMarkVisitedSuccess',
-                })
-            }
-
-            setDidUserVisitSpot(prevState => !prevState)
-            setNbOfVisit(prevState => (didUserVisitSpot ? prevState - 1 : prevState + 1))
+        //   if owner of Spot try to remove from visited send toaster
+        if (!addVisit.success) {
+            return router.push(
+                { query: { ...router.query, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER } },
+                undefined,
+                { shallow: true },
+            )
         }
+
+        // if did not visited this spot before, mark as visited
+        if (!didUserVisitSpot) {
+            router.push(
+                { query: { ...router.query, [KEY]: VALUE_ADD_SPOT_AS_VISITED_SUCCESS } },
+                undefined,
+                { shallow: true },
+            )
+        } else {
+            router.push(
+                {
+                    query: {
+                        ...router.query,
+                        [KEY]: VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS,
+                    },
+                },
+                undefined,
+                { shallow: true },
+            )
+        }
+
+        setDidUserVisitSpot(prevState => !prevState)
+        setNbOfVisit(prevState => (didUserVisitSpot ? prevState - 1 : prevState + 1))
+        //     }
     }
 
     // Will call the fetcher for DELETE located in utils
@@ -199,17 +244,17 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     }
 
     // If owner of camp, don't display toggle
-    let shouldTogglerDisplay
-    if (!currentUserID) {
-        // if not logged in
-        shouldTogglerDisplay = true
-    } else if (currentUserID === indivSpot.author) {
-        // if logged in and author
-        shouldTogglerDisplay = false
-    } else {
-        // if logged in and NOT author
-        shouldTogglerDisplay = true
-    }
+    // let shouldTogglerDisplay
+    // if (!currentUserID) {
+    //     // if not logged in
+    //     shouldTogglerDisplay = true
+    // } else if (currentUserID === indivSpot.author) {
+    //     // if logged in and author
+    //     shouldTogglerDisplay = false
+    // } else {
+    //     // if logged in and NOT author
+    //     shouldTogglerDisplay = true
+    // }
 
     // Review
     const [isReviewOpen, setIsReviewOpen] = useState(false)
@@ -233,27 +278,28 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     }
 
     const openReviewHandler = () => {
-        // If not logged in
-        if (!currentUserID) {
-            // HELPERR
-            toast.error(CustomToastWithLink(' to add a review to the spot'), {
-                position: 'bottom-left',
-                toastId: 'connectToAddReview',
-            })
-            return
-        }
+        console.log('YOU WANT TO REVIEW')
+        // // If not logged in
+        // if (!currentUserID) {
+        //     // HELPERR
+        //     toast.error(CustomToastWithLink(' to add a review to the spot'), {
+        //         position: 'bottom-left',
+        //         toastId: 'connectToAddReview',
+        //     })
+        //     return
+        // }
 
-        // If author tries to comment
-        if (currentUserID === indivSpot.author) {
-            toast.error(
-                'You cannot review a Spot you created, think about editing its content!',
-                {
-                    position: 'bottom-left',
-                    toastId: 'cannotCommentIfAuthor',
-                },
-            )
-            return
-        }
+        // // If author tries to comment
+        // if (currentUserID === indivSpot.author) {
+        //     toast.error(
+        //         'You cannot review a Spot you created, think about editing its content!',
+        //         {
+        //             position: 'bottom-left',
+        //             toastId: 'cannotCommentIfAuthor',
+        //         },
+        //     )
+        //     return
+        // }
 
         setIsReviewOpen(prev => !prev)
     }
@@ -280,10 +326,11 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     }
 
     const inputsSharedClass =
-        'spotEditorElems !no-underline focus:!outline outline-offset-2 focus:bg-tertiary '
+        '!no-underline focus:!outline outline-offset-2 focus:bg-tertiary hover:bg-tertiary p-1'
 
     const shouldSubmitBtnBeDisabled = () => {
         if (!formik.dirty) {
+            // if no value change
             return true
         }
 
@@ -296,122 +343,203 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         }
     }
 
-    const btnClassName = `${BUTTON_FS} ${DISABLED_STYLE}
+    const btnClassName = `${BUTTON_FS} ${DISABLED_STYLE}  
+    ${
+        Object.values(isInputEditable).includes(true)
+            ? 'opacity-100'
+            : '!opacity-0 invisible'
+    }
+    transition-all
     text-white font-bold py-3 bg-primary rounded-lg w-full !mt-6`
+
+    const [isMapVisible, setIsMapVisible] = useState(false)
+
+    const mapToggleHandler = () => {
+        setIsMapVisible(prev => !prev)
+    }
+
     return (
         <>
-            <MapShow
-                initialView={{
-                    longitude: 55.18,
-                    latitude: 25.07,
-                    zoom: 2,
-                }}
-                markerCoordinates={{
-                    Longitude: indivSpot.geometry.coordinates[0],
-                    Latitude: indivSpot.geometry.coordinates[1],
-                }}
-            />
-            <form onSubmit={formik.handleSubmit} className="space-y-6 mx-auto w-fit">
-                <div className="spotEditWrapper flex justify-center items-center mt-6 gap-x-3 w-fit">
-                    <input
-                        onFocus={() => inputFocusHandler('title')}
-                        onBlur={() => inputBlurHandler('title')}
-                        onChange={formik.handleChange}
-                        value={formik.values.title}
-                        ref={titleRef}
-                        readOnly={!isInputEditable.title}
-                        id={'title'}
-                        name={'title'}
-                        spellCheck="false"
-                        className={`${validStyling('title').border}
-                        ${inputsSharedClass}`}
-                    />
-                    <UserFeedback
-                        input="title"
-                        isInputEditable={isInputEditable}
-                        formikErrors={formik.errors}
-                        onClickEdit={startEditHandler}
-                        text="Edit your Spot's title"
-                        errorMsg={validStyling('title').message}
-                    />
+            <div className="px-4 md:px-9 xl:px-16 2xl:px-36">
+                <div className="grid grid-rows-3 grid-cols-3 gap-2 relative max-h-[100vh]">
+                    <div className="relative row-span-2 col-span-2">
+                        {isMapVisible ? (
+                            <MapShow
+                                initialView={{
+                                    longitude: 55.18,
+                                    latitude: 25.07,
+                                    zoom: 2,
+                                }}
+                                markerCoordinates={{
+                                    Longitude: indivSpot.geometry.coordinates[0],
+                                    Latitude: indivSpot.geometry.coordinates[1],
+                                }}
+                            />
+                        ) : (
+                            <Image
+                                src={TemporaryImgUrls[0]}
+                                alt="Picture"
+                                layout="fill"
+                                className="object-cover rounded-sm"
+                            />
+                        )}
+                        <div className="absolute float-left top-[85%]  2xl:top-[90%] left-[1.5%] flex gap-x-2">
+                            <ButtonPhoto type={'showPhotos'} />
+                            <ButtonPhoto
+                                isMapFullScreen={isMapVisible}
+                                onMapToggle={mapToggleHandler}
+                                type={'showMap'}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="relative row-span-1 col-span-1">
+                        <Image
+                            src={TemporaryImgUrls[1]}
+                            alt="Picture"
+                            layout="fill"
+                            className="object-cover rounded-sm"
+                        />
+                    </div>
+                    <div className="relative row-span-1 col-span-1">
+                        <Image
+                            src={TemporaryImgUrls[2]}
+                            alt="Picture"
+                            layout="fill"
+                            className="object-cover rounded-sm"
+                        />
+                    </div>
+
+                    <div className="row-span-1 col-span-2 h-fit mt-2">
+                        <form onSubmit={formik.handleSubmit}>
+                            <div className="space-y-4">
+                                <div
+                                    className={`inputElem flex items-center justify-between gap-x-3 text-form-color`}
+                                >
+                                    <input
+                                        onFocus={() => inputFocusHandler('title')}
+                                        onBlur={() => inputBlurHandler('title')}
+                                        onChange={formik.handleChange}
+                                        value={formik.values.title}
+                                        ref={titleRef}
+                                        readOnly={!isInputEditable.title}
+                                        id={'title'}
+                                        name={'title'}
+                                        spellCheck="false"
+                                        className={`${HEADER_TITLE_FS} ${
+                                            validStyling('title').border
+                                        }
+                                        ${inputsSharedClass} font-bold min-w-[60%]`}
+                                    />
+                                    <UserFeedback
+                                        input="title"
+                                        isInputEditable={isInputEditable}
+                                        formikErrors={formik.errors}
+                                        onClickEdit={startEditHandler}
+                                        text="Edit your Spot's title"
+                                        errorMsg={validStyling('title').message}
+                                    />
+                                </div>
+
+                                <div className="inputElem flex items-center justify-between gap-x-3 text-form-color">
+                                    <textarea
+                                        onFocus={() => inputFocusHandler('description')}
+                                        onBlur={() => inputBlurHandler('description')}
+                                        onChange={formik.handleChange}
+                                        value={formik.values.description}
+                                        ref={descRef}
+                                        readOnly={!isInputEditable.description}
+                                        id={'description'}
+                                        name={'description'}
+                                        spellCheck="false"
+                                        className={`${validStyling('description').border}
+                                    ${inputsSharedClass} ${TEXTAREA_INPUTS_FS} w-[64%] h-56`}
+                                    ></textarea>
+
+                                    <UserFeedback
+                                        input="description"
+                                        isInputEditable={isInputEditable}
+                                        formikErrors={formik.errors}
+                                        onClickEdit={startEditHandler}
+                                        text="Edit your Spot's description"
+                                        errorMsg={validStyling('description').message}
+                                    />
+                                </div>
+                            </div>
+                            <button
+                                className={btnClassName}
+                                disabled={shouldSubmitBtnBeDisabled()}
+                                type="submit"
+                            >
+                                Submit your changes
+                            </button>
+                        </form>
+                    </div>
+                    <div className="shadow-md border border-1 mt-2 flex flex-col gap-y-4 px-4 py-5">
+                        <SpotGradeDisplayer />
+                        <div className="flex justify-center gap-x-4">
+                            <ButtonSpotCard
+                                icon={<MdOutlineRateReview />}
+                                text={'Review'}
+                            />
+                            <ButtonSpotCard icon={<BiEdit />} text={'Suggest edits'} />
+                        </div>
+                        <SpotterProfilePreview
+                            authorName={indivSpot.author.name}
+                            text={'Momin Sultan usually responds within 5 minutes'}
+                        />
+                        <DividerDesign />
+                        <Toggler
+                            onToggle={handleAddVisit}
+                            didUserVisitSpot={didUserVisitSpot}
+                        />
+                    </div>
                 </div>
 
-                {/* TEXT AREA */}
-                <div className="flex justify-center items-center mt-6 gap-x-3 spotEditWrapper">
-                    <textarea
-                        onFocus={() => inputFocusHandler('description')}
-                        onBlur={() => inputBlurHandler('description')}
-                        onChange={formik.handleChange}
-                        value={formik.values.description}
-                        ref={descRef}
-                        readOnly={!isInputEditable.description}
-                        id={'description'}
-                        name={'description'}
-                        spellCheck="false"
-                        rows={3}
-                        cols={40}
-                        className={`${validStyling('description').border}
-                          ${inputsSharedClass}`}
-                    ></textarea>
+                {1 === 1 && (
+                    <div className="mt-20">
+                        <p>Country: {indivSpot.country.name}</p>
+                        <p> This Spot has been visited {nbOfVisit} times </p>
 
-                    <UserFeedback
-                        input="description"
-                        isInputEditable={isInputEditable}
-                        formikErrors={formik.errors}
-                        onClickEdit={startEditHandler}
-                        text="Edit your Spot's description"
-                        errorMsg={validStyling('description').message}
-                    />
-                </div>
-                <button
-                    className={btnClassName}
-                    disabled={shouldSubmitBtnBeDisabled()}
-                    type="submit"
-                >
-                    Submit your changes
-                </button>
-            </form>
-            <p>Country: {indivSpot.country.name}</p>
-            <p> This Spot has been visited {nbOfVisit} times </p>
-            {shouldTogglerDisplay && (
-                <Toggler onToggle={handleAddVisit} didUserVisitSpot={didUserVisitSpot} />
-            )}
-            <p>CATEGORIES: {indivSpot.categories.join(', ')} </p>
-            <p>LATITUDE: {indivSpot.geometry.coordinates[1]}</p>
-            <p>LONGITUDE: {indivSpot.geometry.coordinates[0]}</p>
-            <a className="cursor-pointer" onClick={openReviewHandler}>
-                REVIEW THE SPOT
-            </a>
-            {isReviewOpen && (
-                <Review
-                    isLoggedIn={currentUserID}
-                    isAuthor={currentUserID === indivSpot.author}
-                    onReviewSubmit={onReviewSubmit}
-                />
-            )}
-            {/* Spot Edition */}
-            {currentUserID && currentUserID === indivSpot.author && (
-                <SpotAction
-                    action={'edition'}
-                    message1={'Click here to Edit the Spot'}
-                    message2={'Cancel Spot Edition'}
-                    onSpotAction={handleEdit}
-                    previousValues={indivSpot}
-                />
-            )}
-            {/* Spot Deletion */}
-            {
-                // status === "authenticated" &&
-                currentUserID === indivSpot.author && (
-                    <SpotAction
-                        action={'deletion'}
-                        message1={'Click here to Delete the Spot'}
-                        message2={'Do you really want to delete the Spot?'}
-                        onSpotAction={handleDelete}
-                        previousValues={indivSpot}
-                    />
-                )
-            }
+                        <p>CATEGORIES: {indivSpot.categories.join(', ')} </p>
+                        <p>LATITUDE: {indivSpot.geometry.coordinates[1]}</p>
+                        <p>LONGITUDE: {indivSpot.geometry.coordinates[0]}</p>
+                        <a className="cursor-pointer" onClick={openReviewHandler}>
+                            REVIEW THE SPOT
+                        </a>
+                        {isReviewOpen && (
+                            <Review
+                                isLoggedIn={currentUserID}
+                                isAuthor={currentUserID === indivSpot.author}
+                                onReviewSubmit={onReviewSubmit}
+                            />
+                        )}
+                        {/* Spot Edition */}
+                        {currentUserID && currentUserID === indivSpot.author && (
+                            <SpotAction
+                                action={'edition'}
+                                message1={'Click here to Edit the Spot'}
+                                message2={'Cancel Spot Edition'}
+                                onSpotAction={handleEdit}
+                                previousValues={indivSpot}
+                            />
+                        )}
+                        {/* Spot Deletion */}
+                        {
+                            // status === "authenticated" &&
+                            currentUserID === indivSpot.author && (
+                                <SpotAction
+                                    action={'deletion'}
+                                    message1={'Click here to Delete the Spot'}
+                                    message2={'Do you really want to delete the Spot?'}
+                                    onSpotAction={handleDelete}
+                                    previousValues={indivSpot}
+                                />
+                            )
+                        }
+                    </div>
+                )}
+            </div>
         </>
     )
 }

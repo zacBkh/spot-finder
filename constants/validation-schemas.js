@@ -27,7 +27,7 @@ const name = {
         .trim()
         .matches(
             /^[A-Za-zÀ-ÖØ-öø-ÿ]+$/,
-            'Name must be one word without special character.\n Example: John.',
+            'Name must be one word without special character.\n Example: John',
         )
         .min(3, 'Your name should be at least 3 characters long.')
         .max(18, 'Your name should not exceed 18 characters long.')

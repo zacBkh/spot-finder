@@ -14,34 +14,27 @@ import Map, {
 } from 'react-map-gl'
 
 const MapShow = ({ markerCoordinates }) => {
-    const [isMapLoading, setIsMapLoading] = useState(true)
-
-    const onLoad = arg => {
-        setIsMapLoading(false)
-    }
+    // Will tell to parent the map finished loading
 
     return (
         <>
-            <div className={`justify-center mt-6 ${isMapLoading ? 'flex' : 'hidden'}`}>
-                <h3>Map Loading...</h3>
-            </div>
-
-            <div className={`justify-center mt-6 ${isMapLoading ? 'invisible' : 'flex'}`}>
+            <div className={`w-full h-full`}>
                 <Map
+                    // boxZoom={false}
+                    cooperativeGestures={true}
+                    secrollZoom={false}
+                    id={markerCoordinates}
                     initialViewState={{
                         latitude: markerCoordinates.Latitude,
                         longitude: markerCoordinates.Longitude,
-                        zoom: 5,
+                        zoom: 7,
                     }}
-                    style={{ width: 700, height: 500 }}
                     mapStyle="mapbox://styles/mapbox/satellite-streets-v12?optimize=true"
                     mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
                     attributionControl={false}
-                    // onLoad={() => setIsMapLoading(false)}
-                    onLoad={onLoad}
                     onZoom={e => console.log(e.viewState.zoom)}
-                    minZoom={3}
-                    maxZoom={17}
+                    minZoom={10}
+                    maxZoom={18}
                 >
                     <Marker
                         longitude={markerCoordinates.Longitude}

@@ -170,7 +170,7 @@ const AllSpots = ({ spots, queryString }) => {
             </Head>
 
             {/* Global container */}
-            <div className="flex mt-16 h-full justify-start space-x-12	">
+            <div className="flex mt-16 h-full justify-start">
                 {/* Filter category container */}
                 <div className="flex-column border border-gray py-2 ">
                     <h3 className="font-semibold text-base px-2">Filter by...</h3>
@@ -181,7 +181,7 @@ const AllSpots = ({ spots, queryString }) => {
                         <h4 className="font-semibold text-sm mb-2">Category</h4>
 
                         {/* Category filter container */}
-                        <div className="flex space-x-1">
+                        <div className="flex flex-wrap gap-1">
                             <FilterSpots
                                 icon={<BsSunset />}
                                 value={'Sunset'}
@@ -205,7 +205,7 @@ const AllSpots = ({ spots, queryString }) => {
                         </div>
                     </div>
 
-                    <hr className="my-4 mx-auto h-px		 bg-gray-200 border-0" />
+                    <hr className="my-4 mx-auto h-px bg-gray-200 border-0" />
 
                     {/* Region filter container */}
                     <div className="px-2">
@@ -228,9 +228,14 @@ const AllSpots = ({ spots, queryString }) => {
                 {/* Main section with spots */}
                 <div
                     className=" 
-          grid grid-cols-4 
-          2xl:grid-cols-6 
-          justify-center"
+                        grid 
+                        grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4
+                        
+                        justify-center
+                        w-full
+                        gap-y-5
+                        gap-x-0
+                        "
                 >
                     {filteredSpots.map(spot => (
                         <SpotCard
