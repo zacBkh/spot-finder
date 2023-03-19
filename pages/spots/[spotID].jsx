@@ -384,9 +384,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 alt="Picture"
                                 layout="fill"
                                 className="object-cover rounded-sm"
+                                priority={true}
                             />
                         )}
-                        <div className="absolute float-left top-[85%]  2xl:top-[90%] left-[1.5%] flex gap-x-2">
+                        <div className="md:bg-black absolute float-left top-[85%]  2xl:top-[90%] left-[1.5%] flex gap-x-2">
                             <ButtonPhoto type={'showPhotos'} />
                             <ButtonPhoto
                                 isMapFullScreen={isMapVisible}
@@ -402,6 +403,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             alt="Picture"
                             layout="fill"
                             className="object-cover rounded-sm"
+                            sizes="
+                                100vw
+                                (min-width: 768px) 33vw,
+                            "
                         />
                     </div>
                     <div className="relative row-span-1 col-span-1">
