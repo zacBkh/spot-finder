@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
+import Link from 'next/link'
+
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -13,6 +15,12 @@ const {
     VALUE_LOGOUT,
     VALUE_CREATED_SPOT_SUCCESS,
     VALUE_CREATED_SPOT_FAILURE,
+
+    KEY_REQUIRE,
+    VALUE_MUST_LOGIN,
+    VALUE_MUST_NOT_BE_OWNER,
+    VALUE_ADD_SPOT_AS_VISITED_SUCCESS,
+    VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS,
 } = TOAST_PARAMS
 
 import REDIRECT_QUERY_PARAMS from '../constants/redirect-query-params'
@@ -23,18 +31,38 @@ const {
     VALUE_ACCESS_PROFILE,
     KEY_AUTH_ERROR,
     VALUE_AUTH_ERROR,
+    KEY_RETURN_TO,
 } = REDIRECT_QUERY_PARAMS
+
 import capitalize from '../utils/capitalize'
 
 import { TOASTER_FS } from '../constants/responsive-fonts'
 
+import { PATHS } from '../constants/URLs'
+
 const Toaster = () => {
     const router = useRouter()
+    const { isReady, query } = router
+
+    console.log('router.query', router.query)
+    console.log('router.pathname', router.pathname)
     const { data: session, status } = useSession()
     useEffect(() => {
-        if (!router.isReady) {
+        if (!isReady) {
             return
         }
+
+        // User needs to be auth to mark spot as visited fx
+        const customToastWithLink = actionAttempted => (
+            <>
+                <Link
+                    href={`${PATHS.AUTH}?${KEY_RETURN_TO}=${PATHS.SPOT}/${query.spotID}`}
+                >
+                    <a className="underline">Please login</a>
+                </Link>
+                <span>{actionAttempted}</span>
+            </>
+        )
 
         const queryString = router.query
 
@@ -42,6 +70,7 @@ const Toaster = () => {
             const currentUserName = capitalize(session.user.name.split(' ')[0])
             console.log('session', session)
 
+            // Only work with oAuth
             if (session.isNewUser) {
                 toast.success(
                     <>
@@ -89,6 +118,29 @@ const Toaster = () => {
                     toastId: 'alreadyLoggedIn',
                 })
             }
+
+            if (queryString[KEY] === VALUE_ADD_SPOT_AS_VISITED_SUCCESS) {
+                toast.success(`You marked this Spot as visited!.`, {
+                    position: 'bottom-left',
+                    toastId: 'markSpotAsVisited',
+                })
+            }
+            if (queryString[KEY] === VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS) {
+                toast.info(`You removed this Spot from your visited Spots!`, {
+                    position: 'bottom-left',
+                    toastId: 'removeSpotFromVisited',
+                })
+            }
+
+            if (queryString[KEY_REQUIRE] === VALUE_MUST_NOT_BE_OWNER) {
+                toast.error(
+                    `You cannot remove this Spot from your visited Spots since you created it.`,
+                    {
+                        position: 'bottom-left',
+                        toastId: 'cannotRemoveFromVisited',
+                    },
+                )
+            }
         } else {
             if (queryString[KEY] === VALUE_LOGOUT) {
                 toast.info(`You successfully logged out.`, {
@@ -117,14 +169,21 @@ const Toaster = () => {
                     toastId: 'oAuthError',
                 })
             }
+
+            if (queryString[KEY_REQUIRE] === VALUE_MUST_LOGIN) {
+                toast.error(customToastWithLink(' to mark this Spot as visited.'), {
+                    position: 'bottom-left',
+                    toastId: 'mustLogInToMarkAsVisited',
+                })
+            }
         }
-    }, [router, router.isReady, status])
+    }, [router, isReady, status])
 
     return (
         <>
             <ToastContainer
                 autoClose={4000}
-                className={`${TOASTER_FS} !w-screen sm:!w-fit sm:!min-w-[350px] !sm:max-w-[50vw] !bottom-0 !left-0 !mb-0`}
+                className={`${TOASTER_FS} text-form-color !w-screen sm:!w-fit sm:!min-w-[350px] !sm:max-w-[50vw] !bottom-0 !left-0 !mb-0 ml-6`}
             />
         </>
     )

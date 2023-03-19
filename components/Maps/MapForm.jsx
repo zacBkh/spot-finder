@@ -12,8 +12,6 @@ import Map, {
 
 import GeocoderControl from './GeocoderControl.tsx'
 
-// markerCoordinates is Latitude and Longitude
-
 const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }) => {
     // On marker click
     const clickMapHandler = evt => {
@@ -60,11 +58,13 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
             <Map
                 initialViewState={initialView}
                 style={{ width: 700, height: 500 }}
-                mapStyle="mapbox://styles/mapbox/satellite-streets-v11"
+                mapStyle="mapbox://styles/mapbox/satellite-streets-v12?optimize=true"
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
                 attributionControl={false}
                 onClick={clickMapHandler}
                 interactive={!shouldBeDisabled}
+                minZoom={3}
+                maxZoom={20}
             >
                 {markerCoordinates && (
                     <Marker

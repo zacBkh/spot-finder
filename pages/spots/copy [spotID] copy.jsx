@@ -22,7 +22,7 @@ import SpotAction from '../../components/SpotAction'
 
 import Link from 'next/link'
 
-import Toggler from '../../components/Toggler'
+import Toggler from '../../components/toggler-visited-spot'
 
 import MapShow from '../../components/Maps/MapShow'
 

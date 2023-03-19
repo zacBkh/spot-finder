@@ -1,6 +1,8 @@
 import { BiEdit, BiCheck } from 'react-icons/bi'
 import { AiOutlineWarning } from 'react-icons/ai'
 
+import { FORM_LABEL_FS, ICON_EDITABLE_INPUTS_FS } from '../../constants/responsive-fonts'
+
 const UserFeedback = ({
     input,
     isInputEditable,
@@ -9,15 +11,16 @@ const UserFeedback = ({
     onClickEdit,
     text,
 }) => {
-    const baseDivClas = 'flex items-center gap-x-2'
+    const baseDivClas = 'flex items-center gap-x-2 mr-4 '
     if (!isInputEditable[input] && !formikErrors[input]) {
-        // if no edit started yet
+        // if user did not focus anywehre
         return (
-            <label onClick={() => onClickEdit(input)} className={`${baseDivClas}`}>
-                <BiEdit />
-                <span className="hover:underline cursor-text spotEditorElems">
-                    {text}
-                </span>
+            <label
+                onClick={() => onClickEdit(input)}
+                className={`${baseDivClas} spotEditorElems  cursor-pointer`}
+            >
+                <BiEdit className={ICON_EDITABLE_INPUTS_FS} />
+                <span className={`${FORM_LABEL_FS} hover:underline`}>{text}</span>
             </label>
         )
     }
@@ -25,17 +28,17 @@ const UserFeedback = ({
     if (formikErrors[input]) {
         // if field has an error
         return (
-            <label className={`${baseDivClas}`}>
-                <AiOutlineWarning className="text-primary" />
-                {errorMsg}
+            <label className={`${baseDivClas} text-primary cursor-auto`}>
+                <AiOutlineWarning className={ICON_EDITABLE_INPUTS_FS} />
+                <span className={`${FORM_LABEL_FS}`}>{errorMsg}</span>
             </label>
         )
     } else {
-        // if all good
+        // if no error
         return (
-            <label className={`${baseDivClas}`}>
-                <BiCheck />
-                <span className="">Your changes will be saved</span>
+            <label className={`${baseDivClas} text-success cursor-auto`}>
+                <BiCheck className={ICON_EDITABLE_INPUTS_FS} />
+                <span className={`${FORM_LABEL_FS}`}>Your changes will be saved.</span>
             </label>
         )
     }

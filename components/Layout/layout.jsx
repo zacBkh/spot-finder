@@ -4,7 +4,7 @@ const Layout = props => {
     return (
         <>
             <NavigationBar />
-            <main className="mt-6 lg:mt-12 xl:mt-14 2xl:mt-16">{props.children}</main>
+            <main className="mt-1 lg:mt-2 xl:mt-3">{props.children}</main>
         </>
     )
 }
