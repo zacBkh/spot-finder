@@ -12,6 +12,8 @@ export const TOAST_PARAMS = {
     VALUE_ADD_SPOT_AS_VISITED_SUCCESS: 'markedSpotAsVisitedSuccess',
     VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS: 'removedSpotAsVisitedSuccess',
 
+    VALUE_EDITED_SPOT_SUCCESS: 'editedSpotSuccess',
+
     KEY_REQUIRE: 'require',
 
     VALUE_MUST_LOGIN: 'auth', // when try to mark as visited but not logged in

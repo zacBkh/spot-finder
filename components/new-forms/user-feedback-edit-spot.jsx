@@ -11,7 +11,7 @@ const UserFeedback = ({
     onClickEdit,
     text,
 }) => {
-    const baseDivClas = 'flex items-center gap-x-2 mr-4 '
+    const baseDivClas = 'flex items-center gap-x-2 mr-4'
     if (!isInputEditable[input] && !formikErrors[input]) {
         // if user did not focus anywehre
         return (

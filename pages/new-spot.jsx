@@ -4,16 +4,6 @@ import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 
 import { useFormik } from 'formik'
-import {
-    BsFillTreeFill,
-    BsBuilding,
-    BsSunset,
-    BsWater,
-    BsQuestionCircle,
-} from 'react-icons/bs'
-import { GiPalette } from 'react-icons/gi'
-import { GoTelescope } from 'react-icons/go'
-
 import SpotTextualInput from '../components/new-forms/textual-inputs'
 import SpotCategory from '../components/new-forms/spots/category-checkbox'
 import MapForm from '../components/Maps/MapForm'
@@ -29,12 +19,10 @@ import { addSpotHandler } from '../services/mongo-fetchers'
 
 import { PATHS } from '../constants/URLs'
 import { TOAST_PARAMS } from '../constants/toast-query-params'
-const {
-    KEY,
-    VALUE_CREATED_SPOT,
-    VALUE_CREATED_SPOT_SUCCESS,
-    VALUE_CREATED_SPOT_FAILURE,
-} = TOAST_PARAMS
+
+import spotCategories from '../constants/spot-categories'
+
+const { KEY, VALUE_CREATED_SPOT_SUCCESS, VALUE_CREATED_SPOT_FAILURE } = TOAST_PARAMS
 
 const AddYourFormTrial = ({}) => {
     const logicDisableNextStep = () => {
@@ -226,69 +214,18 @@ const AddYourFormTrial = ({}) => {
                                 previousInputToBlur(3) && DISABLED_STYLE_STATELESS
                             } flex justify-center flex-wrap gap-2`}
                         >
-                            <SpotCategory
-                                errorStying={validStyling('categories')}
-                                formikWizard={formik.getFieldProps('categories')}
-                                icon={<BsFillTreeFill />}
-                                formikName="categories"
-                                value="Nature"
-                                catArray={formik.values.categories}
-                                shouldBeDisabled={previousInputToBlur(3)}
-                            />
-                            <SpotCategory
-                                errorStying={validStyling('categories')}
-                                formikWizard={formik.getFieldProps('categories')}
-                                icon={<BsBuilding />}
-                                formikName="categories"
-                                value="Urban"
-                                catArray={formik.values.categories}
-                                shouldBeDisabled={previousInputToBlur(3)}
-                            />
-                            <SpotCategory
-                                errorStying={validStyling('categories')}
-                                formikWizard={formik.getFieldProps('categories')}
-                                icon={<BsSunset />}
-                                formikName="categories"
-                                value="Sunset"
-                                catArray={formik.values.categories}
-                                shouldBeDisabled={previousInputToBlur(3)}
-                            />
-                            <SpotCategory
-                                errorStying={validStyling('categories')}
-                                formikWizard={formik.getFieldProps('categories')}
-                                icon={<GiPalette />}
-                                formikName="categories"
-                                value="Art"
-                                catArray={formik.values.categories}
-                                shouldBeDisabled={previousInputToBlur(3)}
-                            />
-                            <SpotCategory
-                                errorStying={validStyling('categories')}
-                                formikWizard={formik.getFieldProps('categories')}
-                                icon={<GoTelescope />}
-                                formikName="categories"
-                                value="Astronomy"
-                                catArray={formik.values.categories}
-                                shouldBeDisabled={previousInputToBlur(3)}
-                            />
-                            <SpotCategory
-                                errorStying={validStyling('categories')}
-                                formikWizard={formik.getFieldProps('categories')}
-                                icon={<BsWater />}
-                                formikName="categories"
-                                value="Oceans"
-                                catArray={formik.values.categories}
-                                shouldBeDisabled={previousInputToBlur(3)}
-                            />
-                            <SpotCategory
-                                errorStying={validStyling('categories')}
-                                formikWizard={formik.getFieldProps('categories')}
-                                icon={<BsQuestionCircle />}
-                                formikName="categories"
-                                value="Other"
-                                catArray={formik.values.categories}
-                                shouldBeDisabled={previousInputToBlur(3)}
-                            />
+                            {spotCategories.map(category => (
+                                <SpotCategory
+                                    key={category.name}
+                                    icon={category.icon}
+                                    value={category.name}
+                                    errorStying={validStyling('categories')}
+                                    formikWizard={formik.getFieldProps('categories')}
+                                    formikName="categories"
+                                    catArray={formik.values.categories}
+                                    shouldBeDisabled={previousInputToBlur(3)}
+                                />
+                            ))}
                         </div>
                         <div className="mx-auto w-fit">
                             {validStyling('categories').message}

@@ -15,6 +15,7 @@ const {
     VALUE_LOGOUT,
     VALUE_CREATED_SPOT_SUCCESS,
     VALUE_CREATED_SPOT_FAILURE,
+    VALUE_EDITED_SPOT_SUCCESS,
 
     KEY_REQUIRE,
     VALUE_MUST_LOGIN,
@@ -83,6 +84,13 @@ const Toaster = () => {
                     },
                 )
                 return
+            }
+
+            if (queryString[KEY] === VALUE_EDITED_SPOT_SUCCESS) {
+                toast.success(`Your Spot has been successfully edited!`, {
+                    position: 'bottom-left',
+                    toastId: 'editedSpotSuccess',
+                })
             }
 
             if (queryString[KEY] === VALUE_LOGIN) {
