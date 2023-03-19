@@ -1,5 +1,5 @@
 export const BUTTON_FS =
-    'text-xs sm:text-sm md:text-base lg:text-base xl:text-lg 2xl:text-lg'
+    'text-xs sm:text-sm md:text-base lg:text-base xl:text-base 2xl:text-lg'
 
 export const FORM_VALID_FS =
     'text-xs sm:text-xs md:text-sm lg:text-sm xl:text-sm 2xl:text-base'

@@ -361,7 +361,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     return (
         <>
             <div className="px-4 md:px-9 xl:px-16 2xl:px-36">
-                <div className="grid grid-rows-3 grid-cols-3 gap-2 relative max-h-[100vh]">
+                <div
+                    className="grid grid-rows-3 grid-cols-3 gap-2 relative 
+                max-h-[100vh]"
+                >
                     <div className="relative row-span-2 col-span-2">
                         {isMapVisible ? (
                             <MapShow
@@ -453,7 +456,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         name={'description'}
                                         spellCheck="false"
                                         className={`${validStyling('description').border}
-                                    ${inputsSharedClass} ${TEXTAREA_INPUTS_FS} w-[64%] h-56`}
+                                    ${inputsSharedClass} ${TEXTAREA_INPUTS_FS} w-[64%] h-60`}
                                     ></textarea>
 
                                     <UserFeedback
@@ -475,7 +478,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             </button>
                         </form>
                     </div>
-                    <div className="shadow-md border border-1 mt-2 flex flex-col gap-y-4 px-4 py-5">
+                    <div className="shadow-md border border-1 mt-2 flex flex-col gap-y-4 px-4 py-5 !h-fit">
                         <SpotGradeDisplayer />
                         <div className="flex justify-center gap-x-4">
                             <ButtonSpotCard
@@ -497,7 +500,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                 </div>
 
                 {1 === 1 && (
-                    <div className="mt-20">
+                    <div className="mt-36">
                         <p>Country: {indivSpot.country.name}</p>
                         <p> This Spot has been visited {nbOfVisit} times </p>
 

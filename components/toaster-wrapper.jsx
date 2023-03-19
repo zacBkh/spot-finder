@@ -31,7 +31,9 @@ const {
     VALUE_ACCESS_PROFILE,
     KEY_AUTH_ERROR,
     VALUE_AUTH_ERROR,
+    KEY_RETURN_TO,
 } = REDIRECT_QUERY_PARAMS
+
 import capitalize from '../utils/capitalize'
 
 import { TOASTER_FS } from '../constants/responsive-fonts'
@@ -40,15 +42,22 @@ import { PATHS } from '../constants/URLs'
 
 const Toaster = () => {
     const router = useRouter()
+    const { isReady, query } = router
+
+    console.log('router.query', router.query)
+    console.log('router.pathname', router.pathname)
     const { data: session, status } = useSession()
     useEffect(() => {
-        if (!router.isReady) {
+        if (!isReady) {
             return
         }
 
+        // User needs to be auth to mark spot as visited fx
         const customToastWithLink = actionAttempted => (
             <>
-                <Link href={PATHS.AUTH}>
+                <Link
+                    href={`${PATHS.AUTH}?${KEY_RETURN_TO}=${PATHS.SPOT}/${query.spotID}`}
+                >
                     <a className="underline">Please login</a>
                 </Link>
                 <span>{actionAttempted}</span>
@@ -61,6 +70,7 @@ const Toaster = () => {
             const currentUserName = capitalize(session.user.name.split(' ')[0])
             console.log('session', session)
 
+            // Only work with oAuth
             if (session.isNewUser) {
                 toast.success(
                     <>
@@ -167,7 +177,7 @@ const Toaster = () => {
                 })
             }
         }
-    }, [router, router.isReady, status])
+    }, [router, isReady, status])
 
     return (
         <>

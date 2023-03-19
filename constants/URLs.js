@@ -15,6 +15,7 @@ export const PATHS = {
     PROFILE: '/auth/profile',
     AUTH: '/auth/login',
     PROFILE: '/auth/profile',
+    SPOT: '/spots',
 }
 
 export const NAVBAR_ITEMS = [
