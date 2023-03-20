@@ -1,9 +1,8 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 
 import { authOptions } from '../api/auth/[...nextauth]'
 
 import { unstable_getServerSession } from 'next-auth/next'
-// import { getServerSession } from "next-auth/next";
 
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -42,9 +41,10 @@ const {
     VALUE_MUST_NOT_BE_OWNER,
     VALUE_ADD_SPOT_AS_VISITED_SUCCESS,
     VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS,
+    VALUE_EDITED_SPOT_SUCCESS,
 } = TOAST_PARAMS
 
-import { BiEdit, BiCheck } from 'react-icons/bi'
+import { BiEdit } from 'react-icons/bi'
 import { MdOutlineRateReview } from 'react-icons/md'
 
 import { BUTTON_FS, HEADER_TITLE_FS } from '../../constants/responsive-fonts'
@@ -62,8 +62,9 @@ import SpotterProfilePreview from '../../components/spotter-profile-preview'
 
 import UserFeedback from '../../components/new-forms/user-feedback-edit-spot'
 
+import SpotCategory from '../../components/new-forms/spots/category-checkbox'
+
 export const getServerSideProps = async context => {
-    //   const session = await getServerSession(context.req, context.res, authOptions);
     const session = await unstable_getServerSession(context.req, context.res, authOptions)
     console.log('sessio589n', session)
 
@@ -113,9 +114,13 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     }
 
     const onSubmitEditSpot = async formValues => {
-        console.log('formValues', formValues)
         const spotEdition = await editSpotHandler(formValues, spotID)
-        console.log('spotEdition from FRONTEND', spotEdition)
+
+        return router.push(
+            { query: { ...router.query, [KEY]: VALUE_EDITED_SPOT_SUCCESS } },
+            undefined,
+            { shallow: true },
+        )
     }
 
     const formik = useFormik({
@@ -136,7 +141,8 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         }
     }
 
-    console.log('formik', formik)
+    console.log('formik.values.categories ---> ', formik.values.categories)
+    console.log('formik.initialValues ---> ', formik.initialValues)
 
     // State that manages toggler + give info to API route whether to decrement or increment
     const didVisit = didUserVisited(indivSpot.visited.visitors, currentUserID)
@@ -155,21 +161,8 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     const handleEdit = async editedEnteredData => {
         await editSpotHandler(editedEnteredData, spotID)
 
-        // For toaster notif
-        localStorage.setItem('toast', 'editSpot')
-
         router.push(HOME) //Navigate back to root
     }
-
-    // // This will be rendered in the toast
-    const CustomToastWithLink = actionNotAllowed => (
-        <>
-            <Link href="/auth/SignIn">
-                <a className="text-[#3498db] underline">Please login</a>
-            </Link>
-            <span>{actionNotAllowed}</span>
-        </>
-    )
 
     // Will call the fetcher for ADDING visit
     const handleAddVisit = async () => {
@@ -184,6 +177,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
             )
         }
 
+        /// if user is author, send toaster
         if (currentUserID === indivSpot.author) {
             return router.push(
                 { query: { ...router.query, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER } },
@@ -192,7 +186,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
             )
         }
 
-        // can do here client side verif if current user === owner
         const addVisit = await addOneVisitSpotHandler(
             currentUserID,
             spotID,
@@ -242,19 +235,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
         router.push(HOME) //Navigate back to root
     }
-
-    // If owner of camp, don't display toggle
-    // let shouldTogglerDisplay
-    // if (!currentUserID) {
-    //     // if not logged in
-    //     shouldTogglerDisplay = true
-    // } else if (currentUserID === indivSpot.author) {
-    //     // if logged in and author
-    //     shouldTogglerDisplay = false
-    // } else {
-    //     // if logged in and NOT author
-    //     shouldTogglerDisplay = true
-    // }
 
     // Review
     const [isReviewOpen, setIsReviewOpen] = useState(false)
@@ -309,13 +289,22 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
     // If user clicks on "edit your spot's xx"
     const startEditHandler = input => {
-        input === 'title' ? titleRef.current.focus() : descRef.current.focus()
+        if (input === 'title') {
+            return titleRef.current.focus()
+        }
+        if (input === 'description') {
+            return descRef.current.focus()
+        }
+
+        if (input === 'categories') {
+            setIsInputEditable({ ...isInputEditable, categories: true }) // makes categories state editable manually
+        }
     }
 
     // Will add true to the state
     const inputFocusHandler = input => {
         console.log('You want to focus on', input)
-        setIsInputEditable({ ...isInputEditable, [input]: true })
+        setIsInputEditable({ ...isInputEditable, [input]: true, categories: false }) // have to reset manually categories to false since no blur on checkbox
     }
 
     // If user leaves input
@@ -326,7 +315,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     }
 
     const inputsSharedClass =
-        '!no-underline focus:!outline outline-offset-2 focus:bg-tertiary hover:bg-tertiary p-1'
+        '!no-underline focus:!outline outline-offset-2 focus:bg-tertiary hover:bg-tertiary p-1 pr-2'
 
     const shouldSubmitBtnBeDisabled = () => {
         if (!formik.dirty) {
@@ -344,18 +333,22 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     }
 
     const btnClassName = `${BUTTON_FS} ${DISABLED_STYLE}  
-    ${
-        Object.values(isInputEditable).includes(true)
-            ? 'opacity-100'
-            : '!opacity-0 invisible'
-    }
-    transition-all
-    text-white font-bold py-3 bg-primary rounded-lg w-full !mt-6`
+        ${
+            Object.values(isInputEditable).includes(true)
+                ? 'opacity-100'
+                : '!opacity-0 invisible'
+        }
+        transition-all
+        text-white font-bold py-3 bg-primary rounded-lg w-full !mt-6`
 
     const [isMapVisible, setIsMapVisible] = useState(false)
 
     const mapToggleHandler = () => {
         setIsMapVisible(prev => !prev)
+    }
+
+    const setsCatInputToFalse = () => {
+        setIsInputEditable({ ...isInputEditable, categories: false })
     }
 
     return (
@@ -434,7 +427,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         className={`${HEADER_TITLE_FS} ${
                                             validStyling('title').border
                                         }
-                                        ${inputsSharedClass} font-bold min-w-[60%]`}
+                                        ${inputsSharedClass} font-bold pr-2`}
                                     />
                                     <UserFeedback
                                         input="title"
@@ -445,7 +438,36 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         errorMsg={validStyling('title').message}
                                     />
                                 </div>
-
+                                <div className="flex items-center justify-between gap-x-3 text-form-color">
+                                    <div className="flex flex-wrap gap-1 pr-6 max-w-[60%]">
+                                        {indivSpot.categories.map(category => (
+                                            <SpotCategory
+                                                key={category}
+                                                icon={<MdOutlineRateReview />}
+                                                value={category}
+                                                isInputEditable={isInputEditable}
+                                                isSpotShowMode
+                                                errorStying={validStyling('categories')}
+                                                formikWizard={formik.getFieldProps(
+                                                    'categories',
+                                                )}
+                                                formikName="categories"
+                                                catArray={formik.values.categories}
+                                                shouldBeDisabled={
+                                                    !isInputEditable['categories']
+                                                }
+                                            />
+                                        ))}
+                                    </div>
+                                    <UserFeedback
+                                        input="categories"
+                                        isInputEditable={isInputEditable}
+                                        formikErrors={formik.errors}
+                                        onClickEdit={startEditHandler}
+                                        text="Edit your Spot's categories"
+                                        errorMsg={validStyling('categories').message}
+                                    />
+                                </div>
                                 <div className="inputElem flex items-center justify-between gap-x-3 text-form-color">
                                     <textarea
                                         onFocus={() => inputFocusHandler('description')}
@@ -458,7 +480,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         name={'description'}
                                         spellCheck="false"
                                         className={`${validStyling('description').border}
-                                    ${inputsSharedClass} ${TEXTAREA_INPUTS_FS} w-[64%] h-60`}
+                                        ${inputsSharedClass} ${TEXTAREA_INPUTS_FS} w-[64%] h-60`}
                                     ></textarea>
 
                                     <UserFeedback
@@ -472,6 +494,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 </div>
                             </div>
                             <button
+                                onClick={setsCatInputToFalse}
                                 className={btnClassName}
                                 disabled={shouldSubmitBtnBeDisabled()}
                                 type="submit"
@@ -502,7 +525,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                 </div>
 
                 {1 === 1 && (
-                    <div className="mt-36">
+                    <div className="mt-60">
                         <p>Country: {indivSpot.country.name}</p>
                         <p> This Spot has been visited {nbOfVisit} times </p>
 

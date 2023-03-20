@@ -4,7 +4,7 @@ import User from './user'
 import Review from './reviews'
 
 // To enable passing of virtuals to JSON (for the map popup )
-
+const arrayOfSpotCat = spotCategories.map(cat => cat.name)
 const spotSchema = new Schema(
     {
         title: {
@@ -32,7 +32,7 @@ const spotSchema = new Schema(
             validate: [array => array.length !== 0, 'Category cannot be empty'],
 
             validate: [
-                array => array.every(el => spotCategories.includes(el)),
+                array => array.every(el => arrayOfSpotCat.includes(el)),
                 'You need to input one or more correct categorie(s)',
             ],
             // Custom valid that says, every elements in the array of cat submitted should be included in spotCategories (same than enum)

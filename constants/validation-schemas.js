@@ -90,13 +90,11 @@ const description = {
     description: Yup.string()
         .trim()
         .min(15, `The description should be more than 15 characters.`)
-        .required('The description of your Spot is required.'),
+        .required('The description is required.'),
 }
 
 const categories = {
-    categories: Yup.array()
-        .min(1, 'You must select at least one category for your spot.')
-        .required('--You must select at least one category for your spot.'),
+    categories: Yup.array().min(1, 'Select at least one category.').required(),
 }
 
 const coordinates = {
