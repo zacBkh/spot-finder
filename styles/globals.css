@@ -24,17 +24,6 @@ textarea:focus-visible {
     outline: none !important;
 }
 
-@media (prefers-color-scheme: dark) {
-    html {
-        color-scheme: dark;
-    }
-
-    body {
-        color: white;
-        background: black;
-    }
-}
-
 /* Hamburger Menu */
 
 /* We will apply the "open" class through React */
