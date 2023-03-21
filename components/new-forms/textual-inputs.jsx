@@ -35,7 +35,6 @@ const SpotTextualInput = ({
 
                 {isTextArea ? (
                     <textarea
-                        onKeyDown={e => pressEnterHandler(e)}
                         {...formikWizard}
                         id={identifier}
                         placeholder={placeholder}

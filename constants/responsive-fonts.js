@@ -20,7 +20,7 @@ export const FORM_CAT_ICON_FS =
     'font-medium text-xs sm:text-xs md:text-sm lg:text-base xl:text-base 2xl:text-base'
 
 export const TOASTER_FS =
-    'text-sm sm:text-base md:text-base lg:text-base xl:text-lg 2xl:text-xl'
+    'text-sm sm:text-base md:text-base lg:text-base xl:text-base 2xl:text-lg'
 
 export const HEADER_TITLE_FS = 'text-base md:text-lg xl:text-lg 2xl:text-2xl'
 

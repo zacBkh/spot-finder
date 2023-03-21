@@ -427,7 +427,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         className={`${HEADER_TITLE_FS} ${
                                             validStyling('title').border
                                         }
-                                        ${inputsSharedClass} font-bold pr-2`}
+                                        ${inputsSharedClass} font-bold w-1/2 pr-2`}
                                     />
                                     <UserFeedback
                                         input="title"

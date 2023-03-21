@@ -5,11 +5,11 @@ export const PATHS = {
     DOMAIN:
         currentEnvironment === 'development'
             ? 'http://localhost:3008/'
-            : 'https://spot-finder.vercel.app/',
+            : 'https://www.spot-finder.com/',
     DOMAIN_WITHOUT_SLASH:
         currentEnvironment === 'development'
             ? 'http://localhost:3008'
-            : 'https://spot-finder.vercel.app',
+            : 'https://www.spot-finder.com',
     HOME: '/',
     NEW_SPOT: '/new-spot',
     PROFILE: '/auth/profile',

@@ -237,14 +237,6 @@ const AddYourFormTrial = ({}) => {
                 {currentStep > 3 && (
                     <>
                         <div>
-                            <input
-                                disabled
-                                value={`${markerCoordinates}`}
-                                type="text"
-                                name="coordinates"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                            />
                             <MapForm
                                 initialView={initialCoordinates}
                                 markerCoordinates={markerCoordinates}
