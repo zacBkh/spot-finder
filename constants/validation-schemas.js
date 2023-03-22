@@ -106,10 +106,19 @@ const coordinates = {
         ),
 }
 
+const images = {
+    images: Yup.array()
+        .of(Yup.string())
+        .min(1, 'At least one picture is required.')
+        .max(3, 'You can only add up to 3 pictures.')
+        .required('Please input pictures!'),
+}
+
 // Title + Description + Categories
 export const validTitleDesc = Yup.object().shape({
     ...title,
     ...description,
     ...categories,
     ...coordinates,
+    ...images,
 })

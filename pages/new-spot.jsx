@@ -5,8 +5,10 @@ import { useSession } from 'next-auth/react'
 
 import { useFormik } from 'formik'
 import SpotTextualInput from '../components/new-forms/textual-inputs'
-import SpotCategory from '../components/new-forms/spots/category-checkbox'
-import MapForm from '../components/Maps/MapForm'
+
+import DynamicSpotCategory from '../components/new-forms/spots/dynamic-category-checkbox'
+import DynamicMapForm from '../components/Maps/dynamic-map-form'
+
 import Spinner from '../components/spinner'
 
 import { FORM_VALID_FS, BUTTON_FS, FORM_LABEL_FS } from '../constants/responsive-fonts'
@@ -16,6 +18,8 @@ import { validTitleDesc } from '../constants/validation-schemas'
 import getCountryName from '../services/get-country-name'
 import worldCountryDetails from '../utils/world-country-continents'
 import { addSpotHandler } from '../services/mongo-fetchers'
+
+import ImageUploader from '../components/image-uploader'
 
 import { PATHS } from '../constants/URLs'
 import { TOAST_PARAMS } from '../constants/toast-query-params'
@@ -37,7 +41,7 @@ const AddYourFormTrial = ({}) => {
         if (formik.isSubmitting) {
             return true
         }
-        return false
+        return false // ok no error
     }
 
     const router = useRouter()
@@ -136,6 +140,7 @@ const AddYourFormTrial = ({}) => {
         description: '',
         categories: [],
         coordinates: markerCoordinates,
+        images: [],
     }
 
     const formik = useFormik({
@@ -155,6 +160,7 @@ const AddYourFormTrial = ({}) => {
         2: 'description',
         3: 'categories',
         4: 'coordinates',
+        5: 'pictures',
     }
 
     const rightBtnState = () => {
@@ -178,7 +184,17 @@ const AddYourFormTrial = ({}) => {
     const btnClassName = `${BUTTON_FS} ${DISABLED_STYLE}
     text-white font-bold py-3 bg-primary rounded-lg w-full !mt-6`
 
-    console.log('formik', formik)
+    // To be put in separate file to be reused on other image uploads
+    const uploadHandler = (error, result, widget) => {
+        if (error) {
+            console.log('error', error)
+            return
+        }
+        if (result) {
+            console.log('result', result)
+        }
+    }
+
     return (
         <>
             <form
@@ -215,7 +231,7 @@ const AddYourFormTrial = ({}) => {
                             } flex justify-center flex-wrap gap-2`}
                         >
                             {spotCategories.map(category => (
-                                <SpotCategory
+                                <DynamicSpotCategory
                                     key={category.name}
                                     icon={category.icon}
                                     value={category.name}
@@ -237,13 +253,35 @@ const AddYourFormTrial = ({}) => {
                 {currentStep > 3 && (
                     <>
                         <div>
-                            <MapForm
+                            <DynamicMapForm
                                 initialView={initialCoordinates}
                                 markerCoordinates={markerCoordinates}
                                 onNewCoor={newCoordinateHandler}
                                 shouldBeDisabled={previousInputToBlur(4)}
                             />
                         </div>
+                    </>
+                )}
+
+                {/* PICTURE UPLOAD */}
+                {currentStep > 4 && (
+                    <>
+                        <ImageUploader
+                            // What to do once upload is done
+                            onUpload={uploadHandler}
+                        >
+                            {({ open }) => {
+                                function handleOnClick(e) {
+                                    e.preventDefault()
+                                    open()
+                                }
+                                return (
+                                    <button onClick={handleOnClick}>
+                                        Upload an Image
+                                    </button>
+                                )
+                            }}
+                        </ImageUploader>
                     </>
                 )}
 

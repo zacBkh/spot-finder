@@ -115,3 +115,20 @@ textarea:focus-visible {
 .buttonWrapper:hover .iconToAnimate {
     transform: translateY(-25%);
 }
+
+.upload-widget-popup {
+    backdrop-filter: blur(5px) !important;
+}
+
+.footer.bg-window {
+    display: none !important;
+}
+
+/* #app-root
+    > div
+    > div
+    > div.panel.content-wrap.bg-source-bg.bg-source-bg-c.local.h-100.h-auto-ns.active.flex.items-center
+    > div
+    > footer {
+    display: none !important;
+} */

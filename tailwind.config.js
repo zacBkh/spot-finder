@@ -11,7 +11,6 @@ module.exports = {
                 'blue-facebook': '#4C69BA',
                 'primary': '#EF5E4E',
                 'secondary': '#3b97ba',
-                // 'secondary': '#007ea8',
                 'secondary-light': '#e8f4f6',
                 'secondary-hov': '#d2e7ed',
                 'tertiary': '#F7F5F5',
