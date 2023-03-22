@@ -20,8 +20,6 @@ import { GETSpotFetcherOne } from '../../utils/GETfetchers'
 
 import SpotAction from '../../components/SpotAction'
 
-import Link from 'next/link'
-
 import MapShow from '../../components/Maps/MapShow'
 
 import Review from '../../components/Reviews/Review'
@@ -378,6 +376,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 layout="fill"
                                 className="object-cover rounded-sm"
                                 priority={true}
+                                quality={10}
                             />
                         )}
                         <div className="absolute float-left top-[85%]  2xl:top-[90%] left-[1.5%] flex gap-x-2">
@@ -397,6 +396,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             layout="fill"
                             className="object-cover rounded-sm"
                             sizes="(max-width: 768px) 100vw, 33vw"
+                            quality={10}
                         />
                     </div>
                     <div className="relative row-span-1 col-span-1">
@@ -405,6 +405,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             alt="Picture"
                             layout="fill"
                             className="object-cover rounded-sm"
+                            quality={10}
                         />
                     </div>
 
