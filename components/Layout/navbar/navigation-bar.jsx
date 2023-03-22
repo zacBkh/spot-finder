@@ -45,7 +45,7 @@ const Navigation = () => {
         <>
             <header className="mx-auto p-5 bg-slate-800 text-white">
                 <div className="flex items-center justify-between ">
-                    <Image fill="true" src={DummyLogo} alt="logo" />
+                    <Image fill="true" src={DummyLogo} alt="logo" quality={20} />
                     <nav className="hidden md:block">
                         <ul className="flex gap-x-6">
                             {NAVBAR_ITEMS.map(item => (
