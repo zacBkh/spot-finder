@@ -38,7 +38,7 @@ const {
     KEY_UPLOADED_IMG_COUNT,
 } = TOAST_PARAMS
 
-const AddYourFormTrial = ({}) => {
+const AddNewSpot = ({}) => {
     const logicDisableNextStep = () => {
         if (!formik.dirty) {
             return true
@@ -375,4 +375,4 @@ const AddYourFormTrial = ({}) => {
     )
 }
 
-export default AddYourFormTrial
+export default AddNewSpot
