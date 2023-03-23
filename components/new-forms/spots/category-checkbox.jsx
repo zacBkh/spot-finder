@@ -42,7 +42,6 @@ const SpotCategory = ({
             checkboxStyle = styleWithoutSelection
         }
     }
-    console.log('checkboxStyle', checkboxStyle)
 
     // const shouldCatBeDisabled = () => {
     //     if (isInputEditable && !isInputEditable[formikName]) {

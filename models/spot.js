@@ -1,10 +1,10 @@
 import { Schema, model, models } from 'mongoose'
-import spotCategories from '../constants/spot-categories'
+import SPOT_CATEGORIES from '../constants/spot-categories'
 import User from './user'
 import Review from './reviews'
 
 // To enable passing of virtuals to JSON (for the map popup )
-const arrayOfSpotCat = spotCategories.map(cat => cat.name)
+const arrayOfSpotCat = SPOT_CATEGORIES.map(cat => cat.name)
 const spotSchema = new Schema(
     {
         title: {
@@ -35,7 +35,7 @@ const spotSchema = new Schema(
                 array => array.every(el => arrayOfSpotCat.includes(el)),
                 'You need to input one or more correct categorie(s)',
             ],
-            // Custom valid that says, every elements in the array of cat submitted should be included in spotCategories (same than enum)
+            // Custom valid that says, every elements in the array of cat submitted should be included in SPOT_CATEGORIES (same than enum)
         },
 
         // locationDrag: {

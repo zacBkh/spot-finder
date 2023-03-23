@@ -35,6 +35,11 @@ const MapShow = ({ markerCoordinates }) => {
                     onZoom={e => console.log(e.viewState.zoom)}
                     minZoom={10}
                     maxZoom={18}
+                    locale={{
+                        'ScrollZoomBlocker.CtrlMessage':
+                            'Use CTRL + Scroll to zoom the map',
+                        'ScrollZoomBlocker.CmdMessage': 'Use ⌘ + Scroll to zoom the map',
+                    }}
                 >
                     <Marker
                         longitude={markerCoordinates.Longitude}

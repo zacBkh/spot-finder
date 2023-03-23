@@ -3,4 +3,4 @@ export const DISABLED_STYLE =
 
 // Without pseudo selectors
 export const DISABLED_STYLE_STATELESS =
-    '!cursor-not-allowed opacity-1 opacity-75 transition-all duration-200  hover:!bg-none'
+    '!cursor-not-allowed opacity-1 opacity-60 transition-all duration-200  hover:!bg-none'

@@ -62,6 +62,8 @@ import UserFeedback from '../../components/new-forms/user-feedback-edit-spot'
 
 import SpotCategory from '../../components/new-forms/spots/category-checkbox'
 
+import SPOT_CATEGORIES from '../../constants/spot-categories'
+
 export const getServerSideProps = async context => {
     const session = await unstable_getServerSession(context.req, context.res, authOptions)
     console.log('sessio589n', session)
@@ -97,21 +99,17 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         coordinates: false,
     })
 
-    const lookUp = {
-        0: 'title',
-        1: 'description',
-        2: 'categories',
-        3: 'coordinates',
-    }
-
     const initialValuesEditSpot = {
         title: indivSpot.title,
         description: indivSpot.description,
         categories: indivSpot.categories,
         coordinates: indivSpot.geometry.coordinates, // lng lat
+        pictures: ['a', 'b'], // lng lat
     }
 
     const onSubmitEditSpot = async formValues => {
+        const { categories } = formValues
+        formValues = { ...formValues, categories: categories.sort() }
         const spotEdition = await editSpotHandler(formValues, spotID)
 
         return router.push(
@@ -128,7 +126,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     })
 
     const validStyling = field => {
-        console.log('field++', field)
         if (formik.errors[field]) {
             return {
                 border: '!border !border-1 !border-primary',
@@ -139,8 +136,8 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         }
     }
 
-    console.log('formik.values.categories ---> ', formik.values.categories)
-    console.log('formik.initialValues ---> ', formik.initialValues)
+    console.log('formik ', formik)
+    console.log('formik.values ', formik.values)
 
     // State that manages toggler + give info to API route whether to decrement or increment
     const didVisit = didUserVisited(indivSpot.visited.visitors, currentUserID)
@@ -349,6 +346,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         setIsInputEditable({ ...isInputEditable, categories: false })
     }
 
+    const categoriesToIterateOn = isInputEditable.categories
+        ? SPOT_CATEGORIES
+        : formik.values.categories
+
     return (
         <>
             <div className="px-4 md:px-9 xl:px-16 2xl:px-36">
@@ -441,11 +442,15 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 </div>
                                 <div className="flex items-center justify-between gap-x-3 text-form-color">
                                     <div className="flex flex-wrap gap-1 pr-6 max-w-[60%]">
-                                        {indivSpot.categories.map(category => (
+                                        {categoriesToIterateOn.map(category => (
                                             <SpotCategory
-                                                key={category}
+                                                key={category.name ?? category}
                                                 icon={<MdOutlineRateReview />}
-                                                value={category}
+                                                value={
+                                                    isInputEditable.categories
+                                                        ? category.name
+                                                        : category
+                                                }
                                                 isInputEditable={isInputEditable}
                                                 isSpotShowMode
                                                 errorStying={validStyling('categories')}
@@ -531,8 +536,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                         <p> This Spot has been visited {nbOfVisit} times </p>
 
                         <p>CATEGORIES: {indivSpot.categories.join(', ')} </p>
-                        <p>LATITUDE: {indivSpot.geometry.coordinates[1]}</p>
-                        <p>LONGITUDE: {indivSpot.geometry.coordinates[0]}</p>
                         <a className="cursor-pointer" onClick={openReviewHandler}>
                             REVIEW THE SPOT
                         </a>
