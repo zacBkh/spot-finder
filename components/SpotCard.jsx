@@ -1,11 +1,10 @@
-import { useState } from 'react'
 import { useRouter } from 'next/router'
 
 import Image from 'next/image'
 
 import TemporaryImgUrls from '../constants/temporary-imgs-urls'
 
-const SpotCard = ({ rate, title, description, id, categories, author }) => {
+const SpotCard = ({ rate, title, id, categories, author }) => {
     const router = useRouter()
 
     const clickDetailsHandler = () => {
@@ -21,12 +20,12 @@ const SpotCard = ({ rate, title, description, id, categories, author }) => {
                         alt="Picture"
                         layout="fill"
                         className="rounded-lg object-cover"
+                        quality={10}
                     />
                 </div>
 
                 <div>
                     <p className="font-semibold">{title}</p>
-                    {/* <p className="font-light">{description}</p> */}
                     <p className="font-light">Shared by {author}</p>
                     <p className="font-light">Grade: {rate}</p>
                     <p className="font-light">{categories.join(', ')}</p>

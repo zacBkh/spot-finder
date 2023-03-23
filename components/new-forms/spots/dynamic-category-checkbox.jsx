@@ -7,7 +7,7 @@ const DynamicSpotCategory = dynamic(
             './category-checkbox'
         ),
     {
-        loading: () => <p>The checkbox is loading...</p>,
+        loading: () => <p>...</p>,
         ssr: false,
     },
 )

@@ -16,7 +16,9 @@ import { DISABLED_STYLE, DISABLED_STYLE_STATELESS } from '../constants/disabled-
 import { validTitleDesc } from '../constants/validation-schemas'
 
 import getCountryName from '../services/get-country-name'
+
 import worldCountryDetails from '../utils/world-country-continents'
+
 import { addSpotHandler } from '../services/mongo-fetchers'
 
 import ImageUploader from '../components/image-uploader'
@@ -24,9 +26,17 @@ import ImageUploader from '../components/image-uploader'
 import { PATHS } from '../constants/URLs'
 import { TOAST_PARAMS } from '../constants/toast-query-params'
 
-import spotCategories from '../constants/spot-categories'
+import SPOT_CATEGORIES from '../constants/spot-categories'
 
-const { KEY, VALUE_CREATED_SPOT_SUCCESS, VALUE_CREATED_SPOT_FAILURE } = TOAST_PARAMS
+import { MdAddAPhoto } from 'react-icons/md'
+
+const {
+    KEY,
+    VALUE_CREATED_SPOT_SUCCESS,
+    VALUE_CREATED_SPOT_FAILURE,
+    VALUE_ADDED_PIC_SUCCESS,
+    KEY_UPLOADED_IMG_COUNT,
+} = TOAST_PARAMS
 
 const AddYourFormTrial = ({}) => {
     const logicDisableNextStep = () => {
@@ -51,8 +61,6 @@ const AddYourFormTrial = ({}) => {
     const [currentStep, setCurrentStep] = useState(1)
 
     const incrementStepHandler = operator => {
-        console.log('operator', operator)
-
         if (operator === '-') {
             setCurrentStep(prevState => prevState - 1)
         } else if (operator === '+' && logicDisableNextStep() === false) {
@@ -88,11 +96,12 @@ const AddYourFormTrial = ({}) => {
     }, [markerCoordinates])
 
     const onSubmitHandler = async formValues => {
+        console.log('formValues', formValues)
         const { title, description, categories, coordinates } = formValues
         const descTitleCat = {
             title: title.trim(),
             description: description.trim(),
-            categories,
+            categories: categories.sort(),
         }
 
         const geometry = {
@@ -160,7 +169,7 @@ const AddYourFormTrial = ({}) => {
         2: 'description',
         3: 'categories',
         4: 'coordinates',
-        5: 'pictures',
+        5: 'images',
     }
 
     const rightBtnState = () => {
@@ -184,16 +193,42 @@ const AddYourFormTrial = ({}) => {
     const btnClassName = `${BUTTON_FS} ${DISABLED_STYLE}
     text-white font-bold py-3 bg-primary rounded-lg w-full !mt-6`
 
+    const [uploadedImages, setUploadedImages] = useState([])
+
+    // Trigerred on every new image upload
+    useEffect(() => {
+        formik.setFieldValue('images', uploadedImages)
+
+        if (currentStep === 5) {
+            router.push(
+                {
+                    query: {
+                        ...router.query,
+                        [KEY]: VALUE_ADDED_PIC_SUCCESS,
+                        [KEY_UPLOADED_IMG_COUNT]: uploadedImages.length,
+                    },
+                },
+                undefined,
+                { shallow: true },
+            )
+        }
+    }, [uploadedImages])
+
     // To be put in separate file to be reused on other image uploads
-    const uploadHandler = (error, result, widget) => {
+    const uploadHandler = (error, result) => {
+        setIsWidgetLoading(false)
         if (error) {
             console.log('error', error)
             return
         }
         if (result) {
-            console.log('result', result)
+            setUploadedImages(prevState => [...prevState, result.info.secure_url])
         }
     }
+
+    console.log('formik', formik)
+
+    const [isWidgetLoading, setIsWidgetLoading] = useState(false)
 
     return (
         <>
@@ -230,7 +265,7 @@ const AddYourFormTrial = ({}) => {
                                 previousInputToBlur(3) && DISABLED_STYLE_STATELESS
                             } flex justify-center flex-wrap gap-2`}
                         >
-                            {spotCategories.map(category => (
+                            {SPOT_CATEGORIES.map(category => (
                                 <DynamicSpotCategory
                                     key={category.name}
                                     icon={category.icon}
@@ -252,7 +287,9 @@ const AddYourFormTrial = ({}) => {
                 {/* MAP */}
                 {currentStep > 3 && (
                     <>
-                        <div>
+                        <div
+                            className={previousInputToBlur(4) && DISABLED_STYLE_STATELESS}
+                        >
                             <DynamicMapForm
                                 initialView={initialCoordinates}
                                 markerCoordinates={markerCoordinates}
@@ -266,18 +303,41 @@ const AddYourFormTrial = ({}) => {
                 {/* PICTURE UPLOAD */}
                 {currentStep > 4 && (
                     <>
+                        <h1 className={`${FORM_LABEL_FS} !mt-6`}>
+                            Upload pictures of your Spot *
+                        </h1>
                         <ImageUploader
                             // What to do once upload is done
                             onUpload={uploadHandler}
                         >
                             {({ open }) => {
                                 function handleOnClick(e) {
+                                    setIsWidgetLoading(true)
+                                    setTimeout(() => {
+                                        setIsWidgetLoading(false)
+                                    }, 3500)
                                     e.preventDefault()
                                     open()
                                 }
                                 return (
-                                    <button onClick={handleOnClick}>
-                                        Upload an Image
+                                    <button
+                                        onClick={handleOnClick}
+                                        className={`${btnClassName} flex justify-center items-center gap-x-6`}
+                                    >
+                                        {isWidgetLoading ? (
+                                            <>
+                                                The uploader will open soon...
+                                                <Spinner
+                                                    color={'border-t-secondary'}
+                                                    className="ml-2"
+                                                />
+                                            </>
+                                        ) : (
+                                            <>
+                                                Upload images of your Spot
+                                                <MdAddAPhoto className="w-5 h-5" />
+                                            </>
+                                        )}
                                     </button>
                                 )
                             }}

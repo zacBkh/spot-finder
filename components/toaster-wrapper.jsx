@@ -22,6 +22,9 @@ const {
     VALUE_MUST_NOT_BE_OWNER,
     VALUE_ADD_SPOT_AS_VISITED_SUCCESS,
     VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS,
+
+    VALUE_ADDED_PIC_SUCCESS,
+    KEY_UPLOADED_IMG_COUNT,
 } = TOAST_PARAMS
 
 import REDIRECT_QUERY_PARAMS from '../constants/redirect-query-params'
@@ -133,6 +136,21 @@ const Toaster = () => {
                     toastId: 'markSpotAsVisited',
                 })
             }
+
+            if (queryString[KEY] === VALUE_ADDED_PIC_SUCCESS) {
+                const imageQty = queryString[KEY_UPLOADED_IMG_COUNT]
+                const isGreaterThanOne = imageQty > 1
+                toast.success(
+                    `You successfully uploaded ${imageQty} ${
+                        isGreaterThanOne ? 'images' : 'image'
+                    }.`,
+                    {
+                        position: 'bottom-left',
+                        toastId: 'addedPic',
+                    },
+                )
+            }
+
             if (queryString[KEY] === VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS) {
                 toast.info(`You removed this Spot from your visited Spots!`, {
                     position: 'bottom-left',
@@ -191,7 +209,7 @@ const Toaster = () => {
         <>
             <ToastContainer
                 autoClose={4000}
-                className={`${TOASTER_FS} text-form-color !w-screen sm:!w-fit sm:!min-w-[350px] !sm:max-w-[50vw] !bottom-0 !left-0 !mb-0 ml-6`}
+                className={`${TOASTER_FS} text-form-color !w-screen sm:!w-fit sm:!min-w-[350px] !sm:max-w-[50vw] !bottom-0 !left-0 !mb-0 ml-6 relative !z-[9999999]`}
             />
         </>
     )

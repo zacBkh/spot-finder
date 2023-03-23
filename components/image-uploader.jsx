@@ -14,6 +14,8 @@ const ImageUploader = ({ children, onUpload }) => {
             clientAllowedFormats: ['webp', 'jpg', 'png'],
             maxFiles: 3,
             sources: ['local', 'url', 'google_drive', 'facebook', 'instagram'],
+            maxImageWidth: 1312,
+            maxImageHeight: 894,
             text: {
                 'en': {
                     'local': {
@@ -21,6 +23,7 @@ const ImageUploader = ({ children, onUpload }) => {
                     },
                 },
             },
+
             styles: {
                 palette: {
                     window: '#FFF',
@@ -73,7 +76,7 @@ const ImageUploader = ({ children, onUpload }) => {
                 strategy="lazyOnload"
                 id="cloudinary"
                 src="https://widget.cloudinary.com/v2.0/global/all.js"
-                onLoad={handleOnLoad}
+                onReady={handleOnLoad}
             />
         </>
     )
