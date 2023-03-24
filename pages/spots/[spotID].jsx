@@ -62,6 +62,7 @@ import UserFeedback from '../../components/new-forms/user-feedback-edit-spot'
 import SpotCategory from '../../components/new-forms/spots/category-checkbox'
 
 import SPOT_CATEGORIES from '../../constants/spot-categories'
+import MissingImage from '../../components/image-off-placeholder'
 
 export const getServerSideProps = async context => {
     const session = await unstable_getServerSession(context.req, context.res, authOptions)
@@ -401,14 +402,18 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     </div>
 
                     <div className="relative row-span-1 col-span-1">
-                        <Image
-                            src={TemporaryImgUrls[1]}
-                            alt="Picture"
-                            layout="fill"
-                            className="object-cover rounded-sm"
-                            sizes="(max-width: 768px) 100vw, 33vw"
-                            quality={10}
-                        />
+                        {images[1] ? (
+                            <Image
+                                src={TemporaryImgUrls[1]}
+                                alt="Picture"
+                                layout="fill"
+                                className="object-cover rounded-sm"
+                                sizes="(max-width: 768px) 100vw, 33vw"
+                                quality={10}
+                            />
+                        ) : (
+                            <MissingImage />
+                        )}
                     </div>
                     <div className="relative row-span-1 col-span-1">
                         <Image

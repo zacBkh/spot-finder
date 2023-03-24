@@ -20,6 +20,7 @@ module.exports = {
 
                 'neutral': '#b0b0b0',
                 'form-color': '#403b45',
+                'dark-color': '#2d383f',
             },
         },
     },
