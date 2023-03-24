@@ -1,4 +1,4 @@
-import SpotCard from '../components/SpotCard'
+import SpotCard from '../components/spot-index-card'
 import { useState, useEffect, useContext } from 'react'
 
 import AppContext from '../context/AppContext'

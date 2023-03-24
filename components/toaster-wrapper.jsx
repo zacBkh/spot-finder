@@ -16,6 +16,7 @@ const {
     VALUE_CREATED_SPOT_SUCCESS,
     VALUE_CREATED_SPOT_FAILURE,
     VALUE_EDITED_SPOT_SUCCESS,
+    VALUE_DELETED_SPOT_SUCCESS,
 
     KEY_REQUIRE,
     VALUE_MUST_LOGIN,
@@ -24,7 +25,6 @@ const {
     VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS,
 
     VALUE_ADDED_PIC_SUCCESS,
-    KEY_UPLOADED_IMG_COUNT,
 } = TOAST_PARAMS
 
 import REDIRECT_QUERY_PARAMS from '../constants/redirect-query-params'
@@ -48,8 +48,6 @@ const Toaster = () => {
     const router = useRouter()
     const { isReady, query } = router
 
-    console.log('router.query', router.query)
-    console.log('router.pathname', router.pathname)
     const { data: session, status } = useSession()
     useEffect(() => {
         if (!isReady) {
@@ -71,8 +69,7 @@ const Toaster = () => {
         const queryString = router.query
 
         if (status === 'authenticated') {
-            const currentUserName = capitalize(session.user.name.split(' ')[0])
-            console.log('session', session)
+            const currentUserName = capitalize(session.user.name.split[0])
 
             // Only work with oAuth
             if (session.isNewUser) {
@@ -97,8 +94,6 @@ const Toaster = () => {
             }
 
             if (queryString[KEY] === VALUE_LOGIN) {
-                console.log('session et QS')
-
                 toast.success(`Hi ${currentUserName}, welcome back!`, {
                     position: 'bottom-left',
                     toastId: 'loggedIn', // prevent duplicates
@@ -109,6 +104,13 @@ const Toaster = () => {
                 toast.success(`You successfully created your Spot!`, {
                     position: 'bottom-left',
                     toastId: 'spotCreationSuccess', // prevent duplicates
+                })
+            }
+
+            if (queryString[KEY] === VALUE_DELETED_SPOT_SUCCESS) {
+                toast.success(`You successfully deleted your Spot.`, {
+                    position: 'bottom-left',
+                    toastId: 'spotDeletionSuccess', // prevent duplicates
                 })
             }
 
@@ -138,17 +140,9 @@ const Toaster = () => {
             }
 
             if (queryString[KEY] === VALUE_ADDED_PIC_SUCCESS) {
-                const imageQty = queryString[KEY_UPLOADED_IMG_COUNT]
-                const isGreaterThanOne = imageQty > 1
-                toast.success(
-                    `You successfully uploaded ${imageQty} ${
-                        isGreaterThanOne ? 'images' : 'image'
-                    }.`,
-                    {
-                        position: 'bottom-left',
-                        toastId: 'addedPic',
-                    },
-                )
+                toast.success(`You successfully uploaded one image.`, {
+                    position: 'bottom-left',
+                })
             }
 
             if (queryString[KEY] === VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS) {

@@ -58,11 +58,9 @@ const cred = CredentialsProvider({
                     checkPassword
                 ) {
                     // if email and hashed password match --> authenticate
-                    console.log('11111111')
                     return userExist
                 } else {
                     // throw new Error('Invalid credentials [password incorrect]');
-                    console.log('22222222222222')
                     return null
                 }
             }

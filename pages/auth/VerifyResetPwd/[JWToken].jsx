@@ -3,7 +3,7 @@ import { BsTypeH1 } from 'react-icons/bs'
 
 // import decodeTokenResetPwd from "../../../utils/JWTMailToken/helpers/ResetPwd/decodeToken"
 
-import ResetPwdForm from '../../../components/Forms/ResetPwdForm'
+import ResetPwdForm from '../../../components/auth/ResetPwdForm'
 
 import JWTVerifyer from '../../../utils/JWTMailToken/helpers/ResetPwd/JWTVerifyer'
 

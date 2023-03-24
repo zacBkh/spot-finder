@@ -35,13 +35,7 @@ const spotSchema = new Schema(
                 array => array.every(el => arrayOfSpotCat.includes(el)),
                 'You need to input one or more correct categorie(s)',
             ],
-            // Custom valid that says, every elements in the array of cat submitted should be included in SPOT_CATEGORIES (same than enum)
         },
-
-        // locationDrag: {
-        //     type: Object,
-        //     required: true,
-        // },
 
         geometry: {
             type: {
@@ -65,6 +59,12 @@ const spotSchema = new Schema(
             region: { type: String },
             subRegion: { type: String },
             intermediateRegion: { type: String },
+        },
+
+        images: {
+            type: [String],
+            required: [true, 'Images are required'],
+            validate: [array => array.length !== 0, 'You must submit at least one image'],
         },
 
         author: {
@@ -95,19 +95,6 @@ const spotSchema = new Schema(
                 default: [],
             },
         ],
-
-        // images: [
-        //     {
-        //         url: { type: String, required: true },
-        //         filename: { type: String, required: true },
-        //     }
-        // ],
-
-        // author:
-        // {
-        //     type: Schema.Types.ObjectId,
-        //     ref: "Users",
-        // },
     },
     {
         timestamps: true,

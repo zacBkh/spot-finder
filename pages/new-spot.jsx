@@ -35,7 +35,6 @@ const {
     VALUE_CREATED_SPOT_SUCCESS,
     VALUE_CREATED_SPOT_FAILURE,
     VALUE_ADDED_PIC_SUCCESS,
-    KEY_UPLOADED_IMG_COUNT,
 } = TOAST_PARAMS
 
 const AddNewSpot = ({}) => {
@@ -97,7 +96,7 @@ const AddNewSpot = ({}) => {
 
     const onSubmitHandler = async formValues => {
         console.log('formValues', formValues)
-        const { title, description, categories, coordinates } = formValues
+        const { title, description, categories, coordinates, images } = formValues
         const descTitleCat = {
             title: title.trim(),
             description: description.trim(),
@@ -116,11 +115,12 @@ const AddNewSpot = ({}) => {
         // Adding region
         const country = worldCountryDetails.find(country => country.code === countryCode)
 
-        // Combining values + GeoJSON + country
+        // Combining values + GeoJSON + country + images
         const newObjectWithGeoJSON = {
             ...descTitleCat,
             geometry,
             country,
+            images,
         }
 
         // Adding spot visit
@@ -174,12 +174,12 @@ const AddNewSpot = ({}) => {
 
     const rightBtnState = () => {
         if (
-            Object.keys(formik.errors).length !== 0 ||
-            currentStep < Object.keys(lookUp).length
+            Object.keys(formik.errors).length === 0 &&
+            currentStep === Object.keys(lookUp).length + 1
         ) {
-            return { text: 'Next', type: 'button' }
-        } else {
             return { text: 'Submit', type: 'submit' }
+        } else {
+            return { text: 'Next', type: 'button' }
         }
     }
 
@@ -205,7 +205,6 @@ const AddNewSpot = ({}) => {
                     query: {
                         ...router.query,
                         [KEY]: VALUE_ADDED_PIC_SUCCESS,
-                        [KEY_UPLOADED_IMG_COUNT]: uploadedImages.length,
                     },
                 },
                 undefined,
@@ -315,7 +314,7 @@ const AddNewSpot = ({}) => {
                                     setIsWidgetLoading(true)
                                     setTimeout(() => {
                                         setIsWidgetLoading(false)
-                                    }, 3500)
+                                    }, 5000)
                                     e.preventDefault()
                                     open()
                                 }

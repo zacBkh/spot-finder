@@ -123,7 +123,6 @@ const EMailLogger = ({
                 const { email } = formValues
 
                 const isUserNew = await checkEmailUniq(email)
-                // console.log('isUserNew', isUserNew)
                 if (isUserNew.result) {
                     onSelectEMail('credentials', email, true)
                     formik.touched.name = false
@@ -227,8 +226,6 @@ const EMailLogger = ({
             return 'Login'
         }
     }
-
-    console.log('formik', formik)
 
     return (
         <>
