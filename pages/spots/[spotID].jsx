@@ -18,8 +18,6 @@ import didUserVisited from '../../utils/Spots/didUserVisitedSpot'
 
 import { GETSpotFetcherOne } from '../../utils/GETfetchers'
 
-import SpotAction from '../../components/SpotAction'
-
 import MapShow from '../../components/Maps/MapShow'
 
 import Review from '../../components/Reviews/Review'
@@ -40,6 +38,7 @@ const {
     VALUE_ADD_SPOT_AS_VISITED_SUCCESS,
     VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS,
     VALUE_EDITED_SPOT_SUCCESS,
+    VALUE_DELETED_SPOT_SUCCESS,
 } = TOAST_PARAMS
 
 import { BiEdit } from 'react-icons/bi'
@@ -99,12 +98,26 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         coordinates: false,
     })
 
+    const {
+        title,
+        description,
+        categories,
+        geometry,
+        country,
+        author,
+        visited,
+        images,
+        _id: spotID,
+    } = indivSpot
+
+    console.log('author', author)
+
     const initialValuesEditSpot = {
-        title: indivSpot.title,
-        description: indivSpot.description,
-        categories: indivSpot.categories,
-        coordinates: indivSpot.geometry.coordinates, // lng lat
-        pictures: ['a', 'b'], // lng lat
+        title,
+        description,
+        categories,
+        coordinates: geometry.coordinates, // lng lat
+        images: ['a', 'b'], // lng lat
     }
 
     const onSubmitEditSpot = async formValues => {
@@ -140,17 +153,14 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     console.log('formik.values ', formik.values)
 
     // State that manages toggler + give info to API route whether to decrement or increment
-    const didVisit = didUserVisited(indivSpot.visited.visitors, currentUserID)
+    const didVisit = didUserVisited(visited.visitors, currentUserID)
     const [didUserVisitSpot, setDidUserVisitSpot] = useState(didVisit)
 
     // Did this to update in real time nb of visits when user toggle
-    const nbVisit = indivSpot.visited.numberOfVisits
+    const nbVisit = visited.numberOfVisits
     const [nbOfVisit, setNbOfVisit] = useState(nbVisit)
 
-    // To tell to API route which spot are we talking about -- can replace by info coming from GSP ?
     const router = useRouter()
-
-    const { _id: spotID } = indivSpot
 
     // Will call the fetcher for Edit located in utils - params come from children
     const handleEdit = async editedEnteredData => {
@@ -173,7 +183,9 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         }
 
         /// if user is author, send toaster
-        if (currentUserID === indivSpot.author) {
+        if (currentUserID === author) {
+            console.log('currentUserID', currentUserID)
+            console.log('author', author)
             return router.push(
                 { query: { ...router.query, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER } },
                 undefined,
@@ -186,15 +198,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
             spotID,
             didUserVisitSpot,
         )
-
-        //   if owner of Spot try to remove from visited send toaster
-        if (!addVisit.success) {
-            return router.push(
-                { query: { ...router.query, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER } },
-                undefined,
-                { shallow: true },
-            )
-        }
 
         // if did not visited this spot before, mark as visited
         if (!didUserVisitSpot) {
@@ -224,11 +227,17 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     // Will call the fetcher for DELETE located in utils
     const handleDelete = async () => {
         await deleteSpotHandler(spotID)
-
-        // For toaster notif
-        localStorage.setItem('toast', 'deleteSpot')
-
-        router.push(HOME) //Navigate back to root
+        router.push(
+            HOME,
+            {
+                query: {
+                    ...router.query,
+                    [KEY]: VALUE_DELETED_SPOT_SUCCESS,
+                },
+            },
+            undefined,
+            { shallow: true },
+        )
     }
 
     // Review
@@ -355,7 +364,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
             <div className="px-4 md:px-9 xl:px-16 2xl:px-36">
                 <div
                     className="grid grid-rows-3 grid-cols-3 gap-2 relative 
-                max-h-[100vh]"
+                        max-h-[100vh]"
                 >
                     <div className="relative row-span-2 col-span-2">
                         {isMapVisible ? (
@@ -366,13 +375,14 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     zoom: 2,
                                 }}
                                 markerCoordinates={{
-                                    Longitude: indivSpot.geometry.coordinates[0],
-                                    Latitude: indivSpot.geometry.coordinates[1],
+                                    Longitude: geometry.coordinates[0],
+                                    Latitude: geometry.coordinates[1],
                                 }}
                             />
                         ) : (
                             <Image
-                                src={TemporaryImgUrls[0]}
+                                // src={TemporaryImgUrls[0]}
+                                src={images[0]}
                                 alt="Picture"
                                 layout="fill"
                                 className="object-cover rounded-sm"
@@ -519,7 +529,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             <ButtonSpotCard icon={<BiEdit />} text={'Suggest edits'} />
                         </div>
                         <SpotterProfilePreview
-                            authorName={indivSpot.author.name}
+                            authorName={author.name}
                             text={'Momin Sultan usually responds within 5 minutes'}
                         />
                         <DividerDesign />
@@ -532,43 +542,25 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
                 {1 === 1 && (
                     <div className="mt-60">
-                        <p>Country: {indivSpot.country.name}</p>
+                        <p>Country: {country.name}</p>
                         <p> This Spot has been visited {nbOfVisit} times </p>
 
-                        <p>CATEGORIES: {indivSpot.categories.join(', ')} </p>
                         <a className="cursor-pointer" onClick={openReviewHandler}>
                             REVIEW THE SPOT
                         </a>
                         {isReviewOpen && (
                             <Review
                                 isLoggedIn={currentUserID}
-                                isAuthor={currentUserID === indivSpot.author}
+                                isAuthor={currentUserID === author}
                                 onReviewSubmit={onReviewSubmit}
                             />
                         )}
-                        {/* Spot Edition */}
-                        {currentUserID && currentUserID === indivSpot.author && (
-                            <SpotAction
-                                action={'edition'}
-                                message1={'Click here to Edit the Spot'}
-                                message2={'Cancel Spot Edition'}
-                                onSpotAction={handleEdit}
-                                previousValues={indivSpot}
-                            />
-                        )}
+
                         {/* Spot Deletion */}
-                        {
-                            // status === "authenticated" &&
-                            currentUserID === indivSpot.author && (
-                                <SpotAction
-                                    action={'deletion'}
-                                    message1={'Click here to Delete the Spot'}
-                                    message2={'Do you really want to delete the Spot?'}
-                                    onSpotAction={handleDelete}
-                                    previousValues={indivSpot}
-                                />
-                            )
-                        }
+
+                        {currentUserID === author._id && (
+                            <h1 onClick={handleDelete}>Delete Spot</h1>
+                        )}
                     </div>
                 )}
             </div>

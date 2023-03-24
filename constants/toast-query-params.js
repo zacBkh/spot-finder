@@ -13,7 +13,8 @@ export const TOAST_PARAMS = {
 
     VALUE_EDITED_SPOT_SUCCESS: 'editedSpotSuccess',
 
-    KEY_UPLOADED_IMG_COUNT: 'count',
+    VALUE_DELETED_SPOT_SUCCESS: 'editedSpotSuccess',
+
     VALUE_ADDED_PIC_SUCCESS: 'addedImgSuccess',
 
     KEY_REQUIRE: 'require',

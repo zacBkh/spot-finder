@@ -9,7 +9,6 @@ import { authOptions } from '../auth/[...nextauth]'
 
 export default async function APIHandler(req, res) {
     const { spotID } = req.query
-    console.log('spotID', spotID)
 
     // Protecting the API endpoint
     const session = await unstable_getServerSession(req, res, authOptions)
@@ -23,28 +22,20 @@ export default async function APIHandler(req, res) {
         return
     } else if (!(await isAuthor(spotID, session.userID))) {
         // if not author
-        console.log('session.userID', session.userID)
         res.status(401).json({
             success: false,
             result: 'You are not the owner of the spot [amend existing Spot]',
         })
         return
     } else {
-        console.log('Session from API route edit spot', JSON.stringify(session, null, 2))
-
         await connectMongo()
 
         if (req.method === 'PATCH') {
             try {
-                console.log('req.body', req.body) // data passed in the form
-                console.log('editSApot', spotID) // id of the form to edit
-
                 const spotToEdit = await Spot.findByIdAndUpdate(spotID, req.body, {
                     runValidators: true,
                     new: true, //to return the document after update
                 })
-
-                console.log('SPOT EDITED -->', spotToEdit)
 
                 res.status(200).json({ success: true, result: spotToEdit })
             } catch (error) {
@@ -53,12 +44,7 @@ export default async function APIHandler(req, res) {
             }
         } else if (req.method === 'DELETE') {
             try {
-                console.log('CONNECTED TO MONGO FOR EDIT !')
-                console.log('Spot to delete --> ', spotID) // id of the form to DELETE
-
                 const spotToDelete = await Spot.findByIdAndDelete(spotID)
-                console.log('SPOT DELETED -->', spotToDelete)
-                console.log('spotToDelete.author-->', spotToDelete.author)
 
                 // Deleting the spot in the spotsOwned of author
                 const user = await User.findByIdAndUpdate(spotToDelete.author, {
