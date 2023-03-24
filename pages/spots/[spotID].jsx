@@ -63,6 +63,7 @@ import SpotCategory from '../../components/new-forms/spots/category-checkbox'
 
 import SPOT_CATEGORIES from '../../constants/spot-categories'
 import MissingImage from '../../components/image-off-placeholder'
+import CountryDisplayer from '../../components/country-displayer'
 
 export const getServerSideProps = async context => {
     const session = await unstable_getServerSession(context.req, context.res, authOptions)
@@ -168,13 +169,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     const router = useRouter()
     console.log('router.query', router.query)
 
-    // Will call the fetcher for Edit located in utils - params come from children
-    const handleEdit = async editedEnteredData => {
-        await editSpotHandler(editedEnteredData, spotID)
-
-        router.push(HOME) //Navigate back to root
-    }
-
     // Will call the fetcher for ADDING visit
     const handleAddVisit = async () => {
         // If user not auth, send a toaster
@@ -228,17 +222,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     // Will call the fetcher for DELETE located in utils
     const handleDelete = async () => {
         await deleteSpotHandler(spotID)
-        router.push(
-            HOME,
-            {
-                query: {
-                    ...router.query,
-                    [KEY]: VALUE_DELETED_SPOT_SUCCESS,
-                },
-            },
-            undefined,
-            { shallow: true },
-        )
+        router.push({
+            pathname: HOME,
+            query: { [KEY]: VALUE_DELETED_SPOT_SUCCESS },
+        })
     }
 
     // Review
@@ -384,7 +371,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             />
                         ) : (
                             <Image
-                                // src={TemporaryImgUrls[0]}
                                 src={images[0]}
                                 alt="Picture"
                                 layout="fill"
@@ -406,7 +392,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     <div className="relative row-span-1 col-span-1">
                         {images[1] ? (
                             <Image
-                                src={TemporaryImgUrls[1]}
+                                src={images[1]}
                                 alt="Picture"
                                 layout="fill"
                                 className="object-cover rounded-sm"
@@ -420,7 +406,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     <div className="relative row-span-1 col-span-1">
                         {images[2] ? (
                             <Image
-                                src={TemporaryImgUrls[2]}
+                                src={images[2]}
                                 alt="Picture"
                                 layout="fill"
                                 className="object-cover rounded-sm"
@@ -432,7 +418,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     </div>
 
                     <div className="row-span-1 col-span-2 h-fit mt-2">
-                        <div className="space-y-4">
+                        <div className="space-y-2">
                             <div
                                 className={`inputElem flex items-center justify-between gap-x-3 text-form-color`}
                             >
@@ -462,12 +448,18 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     />
                                 ) : null}
                             </div>
+                            <CountryDisplayer name={country.name} code={country.code} />
                             <div className="flex items-center justify-between gap-x-3 text-form-color">
-                                <div className="flex flex-wrap gap-1 pr-6 max-w-[60%]">
+                                <div className="flex flex-wrap gap-1 max-w-[65%]">
                                     {categoriesToIterateOn.map(category => (
                                         <SpotCategory
                                             key={category.name ?? category}
-                                            icon={<MdOutlineRateReview />}
+                                            icon={
+                                                category.icon ??
+                                                SPOT_CATEGORIES.find(
+                                                    cat => cat.name === category,
+                                                ).icon
+                                            }
                                             value={
                                                 isInputEditable.categories
                                                     ? category.name
@@ -548,29 +540,26 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     </div>
                 </div>
 
-                {1 === 1 && (
-                    <div className="mt-60">
-                        <p>Country: {country.name}</p>
-                        <p> This Spot has been visited {nbOfVisit} times </p>
+                <div className="mt-96">
+                    <p> This Spot has been visited {nbOfVisit} times </p>
 
-                        <a className="cursor-pointer" onClick={openReviewHandler}>
-                            REVIEW THE SPOT
-                        </a>
-                        {isReviewOpen && (
-                            <Review
-                                isLoggedIn={currentUserID}
-                                isAuthor={currentUserID === author}
-                                onReviewSubmit={onReviewSubmit}
-                            />
-                        )}
+                    <a className="cursor-pointer" onClick={openReviewHandler}>
+                        REVIEW THE SPOT
+                    </a>
+                    {isReviewOpen && (
+                        <Review
+                            isLoggedIn={currentUserID}
+                            isAuthor={currentUserID === author}
+                            onReviewSubmit={onReviewSubmit}
+                        />
+                    )}
 
-                        {/* Spot Deletion */}
+                    {/* Spot Deletion */}
 
-                        {currentUserID === author._id && (
-                            <h1 onClick={handleDelete}>Delete Spot</h1>
-                        )}
-                    </div>
-                )}
+                    {currentUserID === author._id && (
+                        <h1 onClick={handleDelete}>Delete Spot</h1>
+                    )}
+                </div>
             </div>
         </>
     )

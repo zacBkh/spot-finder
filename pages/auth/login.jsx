@@ -101,6 +101,7 @@ const Login = ({}) => {
                         alt="Photographer half hero image"
                         width={350}
                         height={500}
+                        quality={40}
                     />
                 </div>
             </div>

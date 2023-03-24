@@ -45,7 +45,7 @@ const SpotCategory = ({
             <button
                 disabled={shouldBeDisabled}
                 type="button"
-                onClick={() => onChangeCat()}
+                onClick={isInputEditable ? () => onChangeCat() : null}
             >
                 <label
                     htmlFor={value}
