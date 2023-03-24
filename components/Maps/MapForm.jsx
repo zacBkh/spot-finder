@@ -62,31 +62,40 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
                 attributionControl={false}
                 onClick={clickMapHandler}
-                interactive={!shouldBeDisabled}
                 minZoom={3}
                 maxZoom={20}
+                boxZoom={!shouldBeDisabled}
+                doubleClickZoom={!shouldBeDisabled}
+                dragPan={!shouldBeDisabled}
+                dragRotate={!shouldBeDisabled}
+                scrollZoom={!shouldBeDisabled}
+                keyboard={!shouldBeDisabled}
+                touchPitch={!shouldBeDisabled}
+                touchZoomRotate={!shouldBeDisabled}
             >
                 {markerCoordinates && (
                     <Marker
                         longitude={markerCoordinates[0]}
                         latitude={markerCoordinates[1]}
                         color="red"
-                        draggable
                         // onClick={clickMarkerHandler}
                         // onDragStart={dragStartHandler}
                         // onDrag={dragWhileHandler}
                         onDragEnd={dragStopHandler}
+                        draggable={!shouldBeDisabled}
                     >
                         <Pin size={20} />
                     </Marker>
                 )}
 
-                <GeocoderControl
-                    mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
-                    position="top-left"
-                    essai={'1'}
-                    getCoordinatesFromGeoCoder={getCoordinatesFromGeoCoder} // will extract from geocoder to here
-                />
+                {!shouldBeDisabled ? (
+                    <GeocoderControl
+                        mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+                        position="top-left"
+                        essai={'1'}
+                        getCoordinatesFromGeoCoder={getCoordinatesFromGeoCoder} // will extract from geocoder to here
+                    />
+                ) : null}
 
                 <FullscreenControl />
                 <GeolocateControl />

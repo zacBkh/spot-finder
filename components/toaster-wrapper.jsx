@@ -69,8 +69,7 @@ const Toaster = () => {
         const queryString = router.query
 
         if (status === 'authenticated') {
-            const currentUserName = capitalize(session.user.name.split[0])
-
+            const currentUserName = capitalize(session.user.name)
             // Only work with oAuth
             if (session.isNewUser) {
                 toast.success(
