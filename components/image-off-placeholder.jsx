@@ -7,20 +7,11 @@ import { TOAST_PARAMS } from '../constants/toast-query-params'
 const { KEY, VALUE_FEATURE_NOT_YET_AVAILABLE } = TOAST_PARAMS
 
 const MissingImage = () => {
-    console.log('KEY', KEY)
-    console.log('VALUE_FEATURE_NOT_YET_AVAILABLE', VALUE_FEATURE_NOT_YET_AVAILABLE)
     const router = useRouter()
 
-    const pushToaster = (KEY, VALUE) => {
-        console.log('KEY', KEY)
-        console.log('VALUE', VALUE)
+    const clickHandler = () => {
         router.push(
-            {
-                query: {
-                    ...router.query,
-                    [KEY]: VALUE,
-                },
-            },
+            { query: { ...router.query, [KEY]: VALUE_FEATURE_NOT_YET_AVAILABLE } },
             undefined,
             { shallow: true },
         )
@@ -31,10 +22,7 @@ const MissingImage = () => {
                 <CiImageOff className="w-1/2 h-1/2 text-dark-color " />
                 <span className={`${BODY_FS} text-center`}>
                     No image available.{' '}
-                    <button
-                        className="underline"
-                        onClick={() => pushToaster(KEY, VALUE_FEATURE_NOT_YET_AVAILABLE)}
-                    >
+                    <button className="underline" onClick={clickHandler}>
                         Add yours!
                     </button>
                 </span>

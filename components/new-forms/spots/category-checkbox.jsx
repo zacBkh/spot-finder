@@ -1,8 +1,4 @@
 import { FORM_CAT_ICON_FS } from '../../../constants/responsive-fonts'
-import {
-    DISABLED_STYLE,
-    DISABLED_STYLE_STATELESS,
-} from '../../../constants/disabled-style'
 
 const SpotCategory = ({
     value,
@@ -13,8 +9,9 @@ const SpotCategory = ({
     formikName,
     shouldBeDisabled,
 
-    isSpotShowMode,
     isInputEditable,
+
+    onChangeCat,
 }) => {
     const shouldCheckboxBeDefaultChecked = catArray.includes(value)
 
@@ -43,14 +40,13 @@ const SpotCategory = ({
         }
     }
 
-    // const shouldCatBeDisabled = () => {
-    //     if (isInputEditable && !isInputEditable[formikName]) {
-    //         return true
-    //     }
-    // }
     return (
         <>
-            <button disabled={shouldBeDisabled} type="button">
+            <button
+                disabled={shouldBeDisabled}
+                type="button"
+                onClick={() => onChangeCat()}
+            >
                 <label
                     htmlFor={value}
                     className={`${FORM_CAT_ICON_FS} ${errorStying.border} 

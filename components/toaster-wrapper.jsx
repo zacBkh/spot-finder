@@ -70,6 +70,16 @@ const Toaster = () => {
 
         const queryString = router.query
 
+        if (queryString[KEY] === VALUE_FEATURE_NOT_YET_AVAILABLE) {
+            toast.info(
+                `This feature is not available yet, but we are working on it! 💪🏼`,
+                {
+                    position: 'bottom-left',
+                    toastId: 'featureNotYetAvailable',
+                },
+            )
+        }
+
         if (status === 'authenticated') {
             const currentUserName = capitalize(session.user.name)
             // Only work with oAuth
@@ -196,16 +206,6 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'mustLogInToMarkAsVisited',
                 })
-            }
-
-            if (queryString[KEY] === VALUE_FEATURE_NOT_YET_AVAILABLE) {
-                toast.info(
-                    `This feature is not available yet, but we are working on it! 💪🏼`,
-                    {
-                        position: 'bottom-left',
-                        toastId: 'loggedOut',
-                    },
-                )
             }
         }
     }, [router, isReady, status])
