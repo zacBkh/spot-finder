@@ -62,10 +62,11 @@ import UserFeedback from '../../components/new-forms/user-feedback-edit-spot'
 import SpotCategory from '../../components/new-forms/spots/category-checkbox'
 
 import SPOT_CATEGORIES from '../../constants/spot-categories'
+import MissingImage from '../../components/image-off-placeholder'
+import CountryDisplayer from '../../components/country-displayer'
 
 export const getServerSideProps = async context => {
     const session = await unstable_getServerSession(context.req, context.res, authOptions)
-    console.log('sessio589n', session)
 
     try {
         // Getting the ID of the current spot
@@ -110,17 +111,22 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         _id: spotID,
     } = indivSpot
 
-    console.log('author', author)
-
     const initialValuesEditSpot = {
         title,
         description,
         categories,
         coordinates: geometry.coordinates, // lng lat
-        images: ['a', 'b'], // lng lat
+        images,
     }
 
     const onSubmitEditSpot = async formValues => {
+        console.log('changedcat')
+        console.log('formik.dirty', formik.dirty)
+        console.log('formik.dirty', formValues)
+
+        if (!formik.dirty) {
+            return
+        }
         const { categories } = formValues
         formValues = { ...formValues, categories: categories.sort() }
         const spotEdition = await editSpotHandler(formValues, spotID)
@@ -161,43 +167,32 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     const [nbOfVisit, setNbOfVisit] = useState(nbVisit)
 
     const router = useRouter()
-
-    // Will call the fetcher for Edit located in utils - params come from children
-    const handleEdit = async editedEnteredData => {
-        await editSpotHandler(editedEnteredData, spotID)
-
-        router.push(HOME) //Navigate back to root
-    }
+    console.log('router.query', router.query)
 
     // Will call the fetcher for ADDING visit
     const handleAddVisit = async () => {
-        console.log('YOU WANT TO MARK AS VISITED')
-
         // If user not auth, send a toaster
         if (!currentUserID) {
-            return router.push(
+            console.log('allo', 111)
+            router.push(
                 { query: { ...router.query, [KEY_REQUIRE]: VALUE_MUST_LOGIN } },
                 undefined,
                 { shallow: true },
             )
+            return
         }
 
         /// if user is author, send toaster
-        if (currentUserID === author) {
-            console.log('currentUserID', currentUserID)
-            console.log('author', author)
-            return router.push(
+        if (currentUserID === author._id) {
+            router.push(
                 { query: { ...router.query, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER } },
                 undefined,
                 { shallow: true },
             )
+            return
         }
 
-        const addVisit = await addOneVisitSpotHandler(
-            currentUserID,
-            spotID,
-            didUserVisitSpot,
-        )
+        await addOneVisitSpotHandler(currentUserID, spotID, didUserVisitSpot)
 
         // if did not visited this spot before, mark as visited
         if (!didUserVisitSpot) {
@@ -227,17 +222,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     // Will call the fetcher for DELETE located in utils
     const handleDelete = async () => {
         await deleteSpotHandler(spotID)
-        router.push(
-            HOME,
-            {
-                query: {
-                    ...router.query,
-                    [KEY]: VALUE_DELETED_SPOT_SUCCESS,
-                },
-            },
-            undefined,
-            { shallow: true },
-        )
+        router.push({
+            pathname: HOME,
+            query: { [KEY]: VALUE_DELETED_SPOT_SUCCESS },
+        })
     }
 
     // Review
@@ -312,10 +300,12 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     }
 
     // If user leaves input
-    const inputBlurHandler = input => {
-        console.log('You want to leave', input)
+    const inputBlurHandler = inputBlurred => {
+        formik.handleSubmit()
+
+        console.log('You want to leave', inputBlurred)
         formik.handleBlur
-        setIsInputEditable({ ...isInputEditable, [input]: false })
+        setIsInputEditable({ ...isInputEditable, [inputBlurred]: false })
     }
 
     const inputsSharedClass =
@@ -381,7 +371,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             />
                         ) : (
                             <Image
-                                // src={TemporaryImgUrls[0]}
                                 src={images[0]}
                                 alt="Picture"
                                 layout="fill"
@@ -401,46 +390,54 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     </div>
 
                     <div className="relative row-span-1 col-span-1">
-                        <Image
-                            src={TemporaryImgUrls[1]}
-                            alt="Picture"
-                            layout="fill"
-                            className="object-cover rounded-sm"
-                            sizes="(max-width: 768px) 100vw, 33vw"
-                            quality={10}
-                        />
+                        {images[1] ? (
+                            <Image
+                                src={images[1]}
+                                alt="Picture"
+                                layout="fill"
+                                className="object-cover rounded-sm"
+                                sizes="(max-width: 768px) 100vw, 33vw"
+                                quality={10}
+                            />
+                        ) : (
+                            <MissingImage />
+                        )}
                     </div>
                     <div className="relative row-span-1 col-span-1">
-                        <Image
-                            src={TemporaryImgUrls[2]}
-                            alt="Picture"
-                            layout="fill"
-                            className="object-cover rounded-sm"
-                            quality={10}
-                        />
+                        {images[2] ? (
+                            <Image
+                                src={images[2]}
+                                alt="Picture"
+                                layout="fill"
+                                className="object-cover rounded-sm"
+                                quality={10}
+                            />
+                        ) : (
+                            <MissingImage />
+                        )}
                     </div>
 
                     <div className="row-span-1 col-span-2 h-fit mt-2">
-                        <form onSubmit={formik.handleSubmit}>
-                            <div className="space-y-4">
-                                <div
-                                    className={`inputElem flex items-center justify-between gap-x-3 text-form-color`}
-                                >
-                                    <input
-                                        onFocus={() => inputFocusHandler('title')}
-                                        onBlur={() => inputBlurHandler('title')}
-                                        onChange={formik.handleChange}
-                                        value={formik.values.title}
-                                        ref={titleRef}
-                                        readOnly={!isInputEditable.title}
-                                        id={'title'}
-                                        name={'title'}
-                                        spellCheck="false"
-                                        className={`${HEADER_TITLE_FS} ${
-                                            validStyling('title').border
-                                        }
+                        <div className="space-y-2">
+                            <div
+                                className={`inputElem flex items-center justify-between gap-x-3 text-form-color`}
+                            >
+                                <input
+                                    onFocus={() => inputFocusHandler('title')}
+                                    onBlur={() => inputBlurHandler('title')}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.title}
+                                    ref={titleRef}
+                                    readOnly={!isInputEditable.title}
+                                    id={'title'}
+                                    name={'title'}
+                                    spellCheck="false"
+                                    className={`${HEADER_TITLE_FS} ${
+                                        validStyling('title').border
+                                    }
                                         ${inputsSharedClass} font-bold w-1/2 pr-2`}
-                                    />
+                                />
+                                {currentUserID === author._id ? (
                                     <UserFeedback
                                         input="title"
                                         isInputEditable={isInputEditable}
@@ -449,32 +446,41 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         text="Edit your Spot's title"
                                         errorMsg={validStyling('title').message}
                                     />
+                                ) : null}
+                            </div>
+                            <CountryDisplayer name={country.name} code={country.code} />
+                            <div className="flex items-center justify-between gap-x-3 text-form-color">
+                                <div className="flex flex-wrap gap-1 max-w-[65%]">
+                                    {categoriesToIterateOn.map(category => (
+                                        <SpotCategory
+                                            key={category.name ?? category}
+                                            icon={
+                                                category.icon ??
+                                                SPOT_CATEGORIES.find(
+                                                    cat => cat.name === category,
+                                                ).icon
+                                            }
+                                            value={
+                                                isInputEditable.categories
+                                                    ? category.name
+                                                    : category
+                                            }
+                                            isInputEditable={isInputEditable}
+                                            isSpotShowMode
+                                            errorStying={validStyling('categories')}
+                                            formikWizard={formik.getFieldProps(
+                                                'categories',
+                                            )}
+                                            formikName="categories"
+                                            catArray={formik.values.categories}
+                                            shouldBeDisabled={
+                                                !isInputEditable['categories']
+                                            }
+                                            onChangeCat={formik.handleSubmit}
+                                        />
+                                    ))}
                                 </div>
-                                <div className="flex items-center justify-between gap-x-3 text-form-color">
-                                    <div className="flex flex-wrap gap-1 pr-6 max-w-[60%]">
-                                        {categoriesToIterateOn.map(category => (
-                                            <SpotCategory
-                                                key={category.name ?? category}
-                                                icon={<MdOutlineRateReview />}
-                                                value={
-                                                    isInputEditable.categories
-                                                        ? category.name
-                                                        : category
-                                                }
-                                                isInputEditable={isInputEditable}
-                                                isSpotShowMode
-                                                errorStying={validStyling('categories')}
-                                                formikWizard={formik.getFieldProps(
-                                                    'categories',
-                                                )}
-                                                formikName="categories"
-                                                catArray={formik.values.categories}
-                                                shouldBeDisabled={
-                                                    !isInputEditable['categories']
-                                                }
-                                            />
-                                        ))}
-                                    </div>
+                                {currentUserID === author._id ? (
                                     <UserFeedback
                                         input="categories"
                                         isInputEditable={isInputEditable}
@@ -483,22 +489,24 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         text="Edit your Spot's categories"
                                         errorMsg={validStyling('categories').message}
                                     />
-                                </div>
-                                <div className="inputElem flex items-center justify-between gap-x-3 text-form-color">
-                                    <textarea
-                                        onFocus={() => inputFocusHandler('description')}
-                                        onBlur={() => inputBlurHandler('description')}
-                                        onChange={formik.handleChange}
-                                        value={formik.values.description}
-                                        ref={descRef}
-                                        readOnly={!isInputEditable.description}
-                                        id={'description'}
-                                        name={'description'}
-                                        spellCheck="false"
-                                        className={`${validStyling('description').border}
+                                ) : null}
+                            </div>
+                            <div className="inputElem flex items-center justify-between gap-x-3 text-form-color">
+                                <textarea
+                                    onFocus={() => inputFocusHandler('description')}
+                                    onBlur={() => inputBlurHandler('description')}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.description}
+                                    ref={descRef}
+                                    readOnly={!isInputEditable.description}
+                                    id={'description'}
+                                    name={'description'}
+                                    spellCheck="false"
+                                    className={`${validStyling('description').border}
                                         ${inputsSharedClass} ${TEXTAREA_INPUTS_FS} w-[64%] h-60`}
-                                    ></textarea>
+                                ></textarea>
 
+                                {currentUserID === author._id ? (
                                     <UserFeedback
                                         input="description"
                                         isInputEditable={isInputEditable}
@@ -507,17 +515,9 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         text="Edit your Spot's description"
                                         errorMsg={validStyling('description').message}
                                     />
-                                </div>
+                                ) : null}
                             </div>
-                            <button
-                                onClick={setsCatInputToFalse}
-                                className={btnClassName}
-                                disabled={shouldSubmitBtnBeDisabled()}
-                                type="submit"
-                            >
-                                Submit your changes
-                            </button>
-                        </form>
+                        </div>
                     </div>
                     <div className="shadow-md border border-1 mt-2 flex flex-col gap-y-4 px-4 py-5 !h-fit">
                         <SpotGradeDisplayer />
@@ -540,29 +540,26 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     </div>
                 </div>
 
-                {1 === 1 && (
-                    <div className="mt-60">
-                        <p>Country: {country.name}</p>
-                        <p> This Spot has been visited {nbOfVisit} times </p>
+                <div className="mt-96">
+                    <p> This Spot has been visited {nbOfVisit} times </p>
 
-                        <a className="cursor-pointer" onClick={openReviewHandler}>
-                            REVIEW THE SPOT
-                        </a>
-                        {isReviewOpen && (
-                            <Review
-                                isLoggedIn={currentUserID}
-                                isAuthor={currentUserID === author}
-                                onReviewSubmit={onReviewSubmit}
-                            />
-                        )}
+                    <a className="cursor-pointer" onClick={openReviewHandler}>
+                        REVIEW THE SPOT
+                    </a>
+                    {isReviewOpen && (
+                        <Review
+                            isLoggedIn={currentUserID}
+                            isAuthor={currentUserID === author}
+                            onReviewSubmit={onReviewSubmit}
+                        />
+                    )}
 
-                        {/* Spot Deletion */}
+                    {/* Spot Deletion */}
 
-                        {currentUserID === author._id && (
-                            <h1 onClick={handleDelete}>Delete Spot</h1>
-                        )}
-                    </div>
-                )}
+                    {currentUserID === author._id && (
+                        <h1 onClick={handleDelete}>Delete Spot</h1>
+                    )}
+                </div>
             </div>
         </>
     )

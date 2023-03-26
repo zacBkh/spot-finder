@@ -13,9 +13,10 @@ export const TOAST_PARAMS = {
 
     VALUE_EDITED_SPOT_SUCCESS: 'editedSpotSuccess',
 
-    VALUE_DELETED_SPOT_SUCCESS: 'editedSpotSuccess',
+    VALUE_DELETED_SPOT_SUCCESS: 'deletedSpotSuccess',
 
     VALUE_ADDED_PIC_SUCCESS: 'addedImgSuccess',
+    VALUE_FEATURE_NOT_YET_AVAILABLE: 'featureNotYetAvailable',
 
     KEY_REQUIRE: 'require',
     VALUE_MUST_LOGIN: 'auth', // when try to mark as visited but not logged in

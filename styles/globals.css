@@ -124,11 +124,6 @@ textarea:focus-visible {
     display: none !important;
 }
 
-/* #app-root
-    > div
-    > div
-    > div.panel.content-wrap.bg-source-bg.bg-source-bg-c.local.h-100.h-auto-ns.active.flex.items-center
-    > div
-    > footer {
-    display: none !important;
-} */
+.cursorNotAllowedAsterix * {
+    cursor: not-allowed !important;
+}

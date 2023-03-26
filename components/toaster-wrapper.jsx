@@ -24,6 +24,8 @@ const {
     VALUE_ADD_SPOT_AS_VISITED_SUCCESS,
     VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS,
 
+    VALUE_FEATURE_NOT_YET_AVAILABLE,
+
     VALUE_ADDED_PIC_SUCCESS,
 } = TOAST_PARAMS
 
@@ -68,9 +70,18 @@ const Toaster = () => {
 
         const queryString = router.query
 
-        if (status === 'authenticated') {
-            const currentUserName = capitalize(session.user.name.split[0])
+        if (queryString[KEY] === VALUE_FEATURE_NOT_YET_AVAILABLE) {
+            toast.info(
+                `This feature is not available yet, but we are working on it! 💪🏼`,
+                {
+                    position: 'bottom-left',
+                    toastId: 'featureNotYetAvailable',
+                },
+            )
+        }
 
+        if (status === 'authenticated') {
+            const currentUserName = capitalize(session.user.name)
             // Only work with oAuth
             if (session.isNewUser) {
                 toast.success(

@@ -287,7 +287,11 @@ const AddNewSpot = ({}) => {
                 {currentStep > 3 && (
                     <>
                         <div
-                            className={previousInputToBlur(4) && DISABLED_STYLE_STATELESS}
+                            className={
+                                previousInputToBlur(4)
+                                    ? `${DISABLED_STYLE_STATELESS} cursorNotAllowedAsterix`
+                                    : ''
+                            }
                         >
                             <DynamicMapForm
                                 initialView={initialCoordinates}
