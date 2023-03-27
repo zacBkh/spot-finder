@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 import { authOptions } from '../api/auth/[...nextauth]'
 
@@ -27,8 +27,6 @@ const { HOME } = PATHS
 
 import { TEXTAREA_INPUTS_FS } from '../../constants/responsive-fonts'
 
-import TemporaryImgUrls from '../../constants/temporary-imgs-urls'
-
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
 const {
     KEY,
@@ -41,21 +39,14 @@ const {
     VALUE_DELETED_SPOT_SUCCESS,
 } = TOAST_PARAMS
 
-import { BiEdit } from 'react-icons/bi'
-import { MdOutlineRateReview } from 'react-icons/md'
-
 import { BUTTON_FS, HEADER_TITLE_FS } from '../../constants/responsive-fonts'
 import { DISABLED_STYLE } from '../../constants/disabled-style'
-import DividerDesign from '../../components/design/divider'
 
 import { useFormik } from 'formik'
 import { validTitleDesc } from '../../constants/validation-schemas'
 
 import ButtonPhoto from '../../components/design/button-photo'
-import ButtonSpotCard from '../../components/design/button-spot-card'
-import Toggler from '../../components/toggler-visited-spot'
-import SpotGradeDisplayer from '../../components/grade-spot-displayer'
-import SpotterProfilePreview from '../../components/spotter-profile-preview'
+import SpotCardCTA from '../../components/cta-spot-card'
 
 import UserFeedback from '../../components/new-forms/user-feedback-edit-spot'
 
@@ -74,7 +65,10 @@ export const getServerSideProps = async context => {
 
         // Executing the fx that will fetch the precise Spot
         const resultFetchGETOne = await GETSpotFetcherOne(ID)
-        console.log('resultFetchGETOne', resultFetchGETOne)
+
+        if (!resultFetchGETOne) {
+            return { notFound: true }
+        }
 
         return {
             props: {
@@ -120,10 +114,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     }
 
     const onSubmitEditSpot = async formValues => {
-        console.log('changedcat')
-        console.log('formik.dirty', formik.dirty)
-        console.log('formik.dirty', formValues)
-
         if (!formik.dirty) {
             return
         }
@@ -132,9 +122,11 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         const spotEdition = await editSpotHandler(formValues, spotID)
 
         return router.push(
-            { query: { ...router.query, [KEY]: VALUE_EDITED_SPOT_SUCCESS } },
+            { query: { spotID, [KEY]: VALUE_EDITED_SPOT_SUCCESS } },
             undefined,
-            { shallow: true },
+            {
+                shallow: true,
+            },
         )
     }
 
@@ -167,25 +159,23 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     const [nbOfVisit, setNbOfVisit] = useState(nbVisit)
 
     const router = useRouter()
-    console.log('router.query', router.query)
 
     // Will call the fetcher for ADDING visit
     const handleAddVisit = async () => {
         // If user not auth, send a toaster
         if (!currentUserID) {
-            console.log('allo', 111)
             router.push(
-                { query: { ...router.query, [KEY_REQUIRE]: VALUE_MUST_LOGIN } },
+                { query: { spotID, [KEY_REQUIRE]: VALUE_MUST_LOGIN } },
                 undefined,
                 { shallow: true },
             )
             return
         }
 
-        /// if user is author, send toaster
+        /// if user is author, send toaster he can't add visit
         if (currentUserID === author._id) {
             router.push(
-                { query: { ...router.query, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER } },
+                { query: { spotID, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER } },
                 undefined,
                 { shallow: true },
             )
@@ -197,7 +187,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         // if did not visited this spot before, mark as visited
         if (!didUserVisitSpot) {
             router.push(
-                { query: { ...router.query, [KEY]: VALUE_ADD_SPOT_AS_VISITED_SUCCESS } },
+                { query: { spotID, [KEY]: VALUE_ADD_SPOT_AS_VISITED_SUCCESS } },
                 undefined,
                 { shallow: true },
             )
@@ -205,7 +195,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
             router.push(
                 {
                     query: {
-                        ...router.query,
+                        spotID,
                         [KEY]: VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS,
                     },
                 },
@@ -216,7 +206,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
         setDidUserVisitSpot(prevState => !prevState)
         setNbOfVisit(prevState => (didUserVisitSpot ? prevState - 1 : prevState + 1))
-        //     }
     }
 
     // Will call the fetcher for DELETE located in utils
@@ -233,9 +222,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
     // Adding review + pushing its ID in Spot document
     const onReviewSubmit = async reviewValues => {
-        console.log('reviewValuesfrom parent !!', reviewValues)
         const addRev = await addOneReview(spotID, currentUserID, reviewValues)
-        console.log('addRev', addRev)
 
         if (!addRev.success) {
             console.log('ERROR ADDING A REVIEW', addRev.result)
@@ -295,45 +282,21 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
     // Will add true to the state
     const inputFocusHandler = input => {
-        console.log('You want to focus on', input)
         setIsInputEditable({ ...isInputEditable, [input]: true, categories: false }) // have to reset manually categories to false since no blur on checkbox
     }
 
     // If user leaves input
-    const inputBlurHandler = inputBlurred => {
+    const inputBlurHandler = (e, inputBlurred) => {
         formik.handleSubmit()
-
-        console.log('You want to leave', inputBlurred)
         formik.handleBlur
         setIsInputEditable({ ...isInputEditable, [inputBlurred]: false })
     }
 
-    const inputsSharedClass =
-        '!no-underline focus:!outline outline-offset-2 focus:bg-tertiary hover:bg-tertiary p-1 pr-2'
+    const shouldBeEditable = currentUserID === author._id
 
-    const shouldSubmitBtnBeDisabled = () => {
-        if (!formik.dirty) {
-            // if no value change
-            return true
-        }
-
-        if (Object.keys(formik.errors).length) {
-            return true
-        }
-
-        if (formik.isSubmitting) {
-            return true
-        }
-    }
-
-    const btnClassName = `${BUTTON_FS} ${DISABLED_STYLE}  
-        ${
-            Object.values(isInputEditable).includes(true)
-                ? 'opacity-100'
-                : '!opacity-0 invisible'
-        }
-        transition-all
-        text-white font-bold py-3 bg-primary rounded-lg w-full !mt-6`
+    const inputsSharedClass = `!no-underline focus:!outline outline-offset-2 ${
+        shouldBeEditable ? 'hover:bg-tertiary focus:bg-tertiary' : 'bg-transparent'
+    } p-1 pr-2`
 
     const [isMapVisible, setIsMapVisible] = useState(false)
 
@@ -341,86 +304,106 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         setIsMapVisible(prev => !prev)
     }
 
-    const setsCatInputToFalse = () => {
-        setIsInputEditable({ ...isInputEditable, categories: false })
-    }
-
     const categoriesToIterateOn = isInputEditable.categories
         ? SPOT_CATEGORIES
         : formik.values.categories
 
+    const [txtareaHeight, setTxtareaHeight] = useState('')
+
+    // Set text area state height onMount
+    useEffect(() => {
+        const height = descRef.current.scrollHeight
+        setTxtareaHeight(height)
+    }, [])
+
+    // Change text area state on each keyUp
+    const textareaTypeHandler = () => {
+        setTxtareaHeight('auto')
+    }
+
+    // Listen for text area state change, and apply new scrollHeight on it
+    useEffect(() => {
+        setTxtareaHeight(descRef.current.scrollHeight)
+    }, [txtareaHeight])
     return (
         <>
-            <div className="px-4 md:px-9 xl:px-16 2xl:px-36">
+            <div className="px-4 md:px-9 xl:px-16 2xl:px-36 space-y-6">
                 <div
-                    className="grid grid-rows-3 grid-cols-3 gap-2 relative 
-                        max-h-[100vh]"
+                    className="grid-container grid grid-rows-[350px] lg:grid-rows-[400px] 2xl:grid-rows-[600px] grid-cols-3 gap-2 relative 
+                       "
                 >
-                    <div className="relative row-span-2 col-span-2">
-                        {isMapVisible ? (
-                            <MapShow
-                                initialView={{
-                                    longitude: 55.18,
-                                    latitude: 25.07,
-                                    zoom: 2,
-                                }}
-                                markerCoordinates={{
-                                    Longitude: geometry.coordinates[0],
-                                    Latitude: geometry.coordinates[1],
-                                }}
-                            />
-                        ) : (
-                            <Image
-                                src={images[0]}
-                                alt="Picture"
-                                layout="fill"
-                                className="object-cover rounded-sm"
-                                priority={true}
-                                quality={10}
-                            />
-                        )}
-                        <div className="absolute float-left top-[85%]  2xl:top-[90%] left-[1.5%] flex gap-x-2">
-                            <ButtonPhoto type={'showPhotos'} />
-                            <ButtonPhoto
-                                isMapFullScreen={isMapVisible}
-                                onMapToggle={mapToggleHandler}
-                                type={'showMap'}
-                            />
+                    <div className="gap-2 grid grid-rows-2 grid-cols-3 col-span-full relative">
+                        <div className="relative row-span-2 col-span-2">
+                            {isMapVisible ? (
+                                <MapShow
+                                    initialView={{
+                                        longitude: 55.18,
+                                        latitude: 25.07,
+                                        zoom: 2,
+                                    }}
+                                    markerCoordinates={{
+                                        Longitude: geometry.coordinates[0],
+                                        Latitude: geometry.coordinates[1],
+                                    }}
+                                />
+                            ) : (
+                                <Image
+                                    src={images[0]}
+                                    alt="Picture"
+                                    layout="fill"
+                                    className="object-cover rounded-sm"
+                                    priority={true}
+                                    quality={10}
+                                />
+                            )}
+                            <div className="absolute float-left top-[78%] sm:top-[76%] md:top-[87%] lg:top-[88%] left-[1.5%] flex flex-col md:flex-row gap-1  ">
+                                <ButtonPhoto type={'showPhotos'} />
+                                <ButtonPhoto
+                                    isMapFullScreen={isMapVisible}
+                                    onMapToggle={mapToggleHandler}
+                                    type={'showMap'}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="relative row-span-1 col-span-1">
+                            {images[1] ? (
+                                <Image
+                                    src={images[1]}
+                                    alt="Picture"
+                                    layout="fill"
+                                    className="object-cover rounded-sm"
+                                    sizes="(max-width: 768px) 100vw, 33vw"
+                                    quality={10}
+                                />
+                            ) : (
+                                <MissingImage />
+                            )}
+                        </div>
+                        <div className="relative row-span-1 col-span-1">
+                            {images[2] ? (
+                                <Image
+                                    src={images[2]}
+                                    alt="Picture"
+                                    layout="fill"
+                                    className="object-cover rounded-sm"
+                                    quality={10}
+                                />
+                            ) : (
+                                <MissingImage />
+                            )}
                         </div>
                     </div>
 
-                    <div className="relative row-span-1 col-span-1">
-                        {images[1] ? (
-                            <Image
-                                src={images[1]}
-                                alt="Picture"
-                                layout="fill"
-                                className="object-cover rounded-sm"
-                                sizes="(max-width: 768px) 100vw, 33vw"
-                                quality={10}
-                            />
-                        ) : (
-                            <MissingImage />
-                        )}
-                    </div>
-                    <div className="relative row-span-1 col-span-1">
-                        {images[2] ? (
-                            <Image
-                                src={images[2]}
-                                alt="Picture"
-                                layout="fill"
-                                className="object-cover rounded-sm"
-                                quality={10}
-                            />
-                        ) : (
-                            <MissingImage />
-                        )}
-                    </div>
-
-                    <div className="row-span-1 col-span-2 h-fit mt-2">
-                        <div className="space-y-2">
+                    <div className="row-span-1 col-span-full lg:col-span-2 h-fit text-form-color">
+                        <div className="space-y-4">
+                            <CountryDisplayer name={country.name} code={country.code} />
                             <div
-                                className={`inputElem flex items-center justify-between gap-x-3 text-form-color`}
+                                className={`inputElem ${
+                                    shouldBeEditable
+                                        ? 'flex flex-col md:flex-row md:items-center justify-between gap-x-3 w-100'
+                                        : 'w-100'
+                                }`}
                             >
                                 <input
                                     onFocus={() => inputFocusHandler('title')}
@@ -432,12 +415,19 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     id={'title'}
                                     name={'title'}
                                     spellCheck="false"
+                                    disabled={!shouldBeEditable}
                                     className={`${HEADER_TITLE_FS} ${
                                         validStyling('title').border
                                     }
-                                        ${inputsSharedClass} font-bold w-1/2 pr-2`}
+                                        ${inputsSharedClass} font-bold pr-2
+                                        ${
+                                            shouldBeEditable
+                                                ? 'w-full md:w-[65%]'
+                                                : 'w-full'
+                                        }    
+                                        `}
                                 />
-                                {currentUserID === author._id ? (
+                                {shouldBeEditable ? (
                                     <UserFeedback
                                         input="title"
                                         isInputEditable={isInputEditable}
@@ -448,8 +438,13 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     />
                                 ) : null}
                             </div>
-                            <CountryDisplayer name={country.name} code={country.code} />
-                            <div className="flex items-center justify-between gap-x-3 text-form-color">
+                            <div
+                                className={`${
+                                    shouldBeEditable
+                                        ? 'flex flex-col md:flex-row md:items-center justify-between gap-x-3'
+                                        : 'w-100'
+                                }`}
+                            >
                                 <div className="flex flex-wrap gap-1 max-w-[65%]">
                                     {categoriesToIterateOn.map(category => (
                                         <SpotCategory
@@ -480,7 +475,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         />
                                     ))}
                                 </div>
-                                {currentUserID === author._id ? (
+                                {shouldBeEditable ? (
                                     <UserFeedback
                                         input="categories"
                                         isInputEditable={isInputEditable}
@@ -491,22 +486,36 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     />
                                 ) : null}
                             </div>
-                            <div className="inputElem flex items-center justify-between gap-x-3 text-form-color">
+
+                            <div
+                                className={`inputElem ${
+                                    shouldBeEditable
+                                        ? 'flex flex-col md:flex-row md:items-center justify-between gap-x-3 gap-y-1'
+                                        : 'w-100'
+                                }`}
+                            >
                                 <textarea
+                                    style={{ height: txtareaHeight }}
+                                    onKeyUp={textareaTypeHandler}
                                     onFocus={() => inputFocusHandler('description')}
-                                    onBlur={() => inputBlurHandler('description')}
+                                    onBlur={e => inputBlurHandler(e, 'description')}
                                     onChange={formik.handleChange}
                                     value={formik.values.description}
                                     ref={descRef}
                                     readOnly={!isInputEditable.description}
                                     id={'description'}
                                     name={'description'}
+                                    disabled={!shouldBeEditable}
                                     spellCheck="false"
-                                    className={`${validStyling('description').border}
-                                        ${inputsSharedClass} ${TEXTAREA_INPUTS_FS} w-[64%] h-60`}
+                                    className={`  box-border  overflow-hidden resize-y ${
+                                        validStyling('description').border
+                                    }
+                                        ${inputsSharedClass} ${TEXTAREA_INPUTS_FS} ${
+                                        shouldBeEditable ? 'w-full md:w-[60%]' : 'w-full'
+                                    }`}
                                 ></textarea>
 
-                                {currentUserID === author._id ? (
+                                {shouldBeEditable ? (
                                     <UserFeedback
                                         input="description"
                                         isInputEditable={isInputEditable}
@@ -519,25 +528,22 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="shadow-md border border-1 mt-2 flex flex-col gap-y-4 px-4 py-5 !h-fit">
-                        <SpotGradeDisplayer />
-                        <div className="flex justify-center gap-x-4">
-                            <ButtonSpotCard
-                                icon={<MdOutlineRateReview />}
-                                text={'Review'}
-                            />
-                            <ButtonSpotCard icon={<BiEdit />} text={'Suggest edits'} />
-                        </div>
-                        <SpotterProfilePreview
-                            authorName={author.name}
-                            text={'Momin Sultan usually responds within 5 minutes'}
-                        />
-                        <DividerDesign />
-                        <Toggler
-                            onToggle={handleAddVisit}
+                    <div className="hidden lg:flex flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
+                        <SpotCardCTA
+                            shouldBeEditable={shouldBeEditable}
+                            author={author.name}
                             didUserVisitSpot={didUserVisitSpot}
+                            onAddVisit={handleAddVisit}
                         />
                     </div>
+                </div>
+                <div className="flex lg:hidden flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
+                    <SpotCardCTA
+                        shouldBeEditable={shouldBeEditable}
+                        author={author.name}
+                        didUserVisitSpot={didUserVisitSpot}
+                        onAddVisit={handleAddVisit}
+                    />
                 </div>
 
                 <div className="mt-96">

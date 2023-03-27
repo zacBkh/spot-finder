@@ -15,6 +15,7 @@ export const PATHS = {
     PROFILE: '/auth/profile',
     AUTH: '/auth/login',
     PROFILE: '/auth/profile',
+    PROFILE2: '/auth/profile-new',
     SPOT: '/spots',
 }
 
@@ -41,6 +42,10 @@ export const NAVBAR_USER_ITEMS = [
     {
         name: 'My Profile',
         link: PATHS.PROFILE,
+    },
+    {
+        name: 'My Profile2',
+        link: PATHS.PROFILE2,
     },
 
     {

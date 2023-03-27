@@ -17,7 +17,7 @@ const UserFeedback = ({
         return (
             <label
                 onClick={() => onClickEdit(input)}
-                className={`${baseDivClas} spotEditorElems  cursor-pointer`}
+                className={`${baseDivClas} spotEditorElems cursor-pointer w-fit`}
             >
                 <BiEdit className={ICON_EDITABLE_INPUTS_FS} />
                 <span className={`${FORM_LABEL_FS} hover:underline`}>{text}</span>
