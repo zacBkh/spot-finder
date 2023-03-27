@@ -9,10 +9,12 @@ import { useSession } from 'next-auth/react'
 
 // import { deleteUserHandler as deleteAPIFetcher } from '../../services/mongo-fetchers'
 import { getUserData } from '../../services/mongo-fetchers'
-const MyProfileNew = async () => {
+const MyProfileNew = () => {
     const { data: session, status } = useSession()
 
-    const deleteUser = await getUserData(userID)
+    // const user = await getUserData(session.userID)
+    // console.log('user DATA --->', user)
+    console.log('user DATA --->')
 
     // console.log('currentUserSession', currentUserSession)
 
@@ -35,7 +37,7 @@ const MyProfileNew = async () => {
 
     return (
         <>
-            <h1>Hi, I’m Nicola</h1>
+            <h1>Hi, my name is Nicola</h1>
             <h3>Joined in 2014</h3>
             {/* <h1>{name}</h1>
             <h1>{emailVerified ? 'true' : 'false'}</h1>
