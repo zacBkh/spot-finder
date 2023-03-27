@@ -1,4 +1,4 @@
-import { FORM_CAT_ICON_FS } from '../../../constants/responsive-fonts'
+import { BODY_FS } from '../../../constants/responsive-fonts'
 
 const SpotCategory = ({
     value,
@@ -49,7 +49,7 @@ const SpotCategory = ({
             >
                 <label
                     htmlFor={value}
-                    className={`${FORM_CAT_ICON_FS} ${errorStying.border} 
+                    className={`${BODY_FS} ${errorStying.border} 
                         flex justify-between items-center px-4 py-3 gap-x-1 w-fit  
                         rounded-[0.5rem] border-[0.1rem] border-transparent
                        ${
@@ -73,9 +73,7 @@ const SpotCategory = ({
 
                     <div className="block mr-1">{icon}</div>
 
-                    <div
-                        className={`${FORM_CAT_ICON_FS} text-md font-semibold w-fit h-fit`}
-                    >
+                    <div className={`${BODY_FS} text-md font-semibold w-fit h-fit`}>
                         {value}
                     </div>
                 </label>

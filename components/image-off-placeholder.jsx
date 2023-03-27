@@ -10,8 +10,9 @@ const MissingImage = () => {
     const router = useRouter()
 
     const clickHandler = () => {
+        const spotID = router.query.spotID
         router.push(
-            { query: { ...router.query, [KEY]: VALUE_FEATURE_NOT_YET_AVAILABLE } },
+            { query: { spotID, [KEY]: VALUE_FEATURE_NOT_YET_AVAILABLE } },
             undefined,
             { shallow: true },
         )

@@ -21,14 +21,12 @@ import worldCountryDetails from '../utils/world-country-continents'
 
 import { addSpotHandler } from '../services/mongo-fetchers'
 
-import ImageUploader from '../components/image-uploader'
-
 import { PATHS } from '../constants/URLs'
 import { TOAST_PARAMS } from '../constants/toast-query-params'
 
 import SPOT_CATEGORIES from '../constants/spot-categories'
 
-import { MdAddAPhoto } from 'react-icons/md'
+import dynamic from 'next/dynamic'
 
 const {
     KEY,
@@ -193,6 +191,10 @@ const AddNewSpot = ({}) => {
     const btnClassName = `${BUTTON_FS} ${DISABLED_STYLE}
     text-white font-bold py-3 bg-primary rounded-lg w-full !mt-6`
 
+    // Takes new imgs URL from children and update parent state
+    const imgUploadHandler = imageURL => {
+        setUploadedImages(prevState => [...prevState, imageURL])
+    }
     const [uploadedImages, setUploadedImages] = useState([])
 
     // Trigerred on every new image upload
@@ -213,21 +215,18 @@ const AddNewSpot = ({}) => {
         }
     }, [uploadedImages])
 
-    // To be put in separate file to be reused on other image uploads
-    const uploadHandler = (error, result) => {
-        setIsWidgetLoading(false)
-        if (error) {
-            console.log('error', error)
-            return
-        }
-        if (result) {
-            setUploadedImages(prevState => [...prevState, result.info.secure_url])
-        }
-    }
-
     console.log('formik', formik)
 
-    const [isWidgetLoading, setIsWidgetLoading] = useState(false)
+    const DynamicImageUploader = dynamic(
+        () =>
+            import(
+                /* webpackChunkName: 'lazy-loaded-image-uploader' */
+                '../components/image-uploader-wrapper'
+            ),
+        {
+            loading: () => <p>Loading Image Uploader...</p>,
+        },
+    )
 
     return (
         <>
@@ -309,42 +308,10 @@ const AddNewSpot = ({}) => {
                         <h1 className={`${FORM_LABEL_FS} !mt-6`}>
                             Upload pictures of your Spot *
                         </h1>
-                        <ImageUploader
-                            // What to do once upload is done
-                            onUpload={uploadHandler}
-                        >
-                            {({ open }) => {
-                                function handleOnClick(e) {
-                                    setIsWidgetLoading(true)
-                                    setTimeout(() => {
-                                        setIsWidgetLoading(false)
-                                    }, 5000)
-                                    e.preventDefault()
-                                    open()
-                                }
-                                return (
-                                    <button
-                                        onClick={handleOnClick}
-                                        className={`${btnClassName} flex justify-center items-center gap-x-6`}
-                                    >
-                                        {isWidgetLoading ? (
-                                            <>
-                                                The uploader will open soon...
-                                                <Spinner
-                                                    color={'border-t-secondary'}
-                                                    className="ml-2"
-                                                />
-                                            </>
-                                        ) : (
-                                            <>
-                                                Upload images of your Spot
-                                                <MdAddAPhoto className="w-5 h-5" />
-                                            </>
-                                        )}
-                                    </button>
-                                )
-                            }}
-                        </ImageUploader>
+                        <DynamicImageUploader
+                            onSuccessfulUpload={imgUploadHandler}
+                            btnStyle={btnClassName}
+                        />
                     </>
                 )}
 

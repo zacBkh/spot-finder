@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react'
-
 import { signOut } from 'next-auth/react'
 
 import { authOptions } from '../api/auth/[...nextauth]'

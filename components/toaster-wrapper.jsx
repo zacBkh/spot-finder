@@ -214,7 +214,7 @@ const Toaster = () => {
         <>
             <ToastContainer
                 autoClose={4000}
-                className={`${TOASTER_FS} text-form-color !w-screen sm:!w-fit sm:!min-w-[350px] !sm:max-w-[50vw] !bottom-0 !left-0 !mb-0 ml-6 relative !z-[9999999]`}
+                className={`${TOASTER_FS} text-form-color !w-screen sm:!w-fit sm:!min-w-[350px] !sm:max-w-[50vw] !bottom-0 !left-0 !mb-0 sm:ml-6 relative !z-[9999999]`}
             />
         </>
     )
