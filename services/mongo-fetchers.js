@@ -60,7 +60,20 @@ export const addUserHandler = async enteredData => {
 
     const data = await response.json()
     console.log('Add user from API  fetcher', data)
-    return data // returning data for handling if mistake
+    return data
+}
+
+// Fetch user info for profile page
+export const getUserData = async userID => {
+    console.log('GET USER DATA', userID)
+
+    const response = await fetch(`/api/users/${userID}`, {
+        method: 'GET',
+    })
+
+    const data = await response.json()
+    console.log('Accessed user from API route', data)
+    return data
 }
 
 // Delete a user
@@ -75,7 +88,7 @@ export const deleteUserHandler = async userID => {
 
     const data = await response.json()
     console.log('Delete user from API fetcher', data)
-    return data // returning data for handling if mistake
+    return data
 }
 
 // Can run client side

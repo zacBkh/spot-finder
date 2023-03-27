@@ -1,4 +1,6 @@
-// import { signOut } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
+
+//  import { signOut } from 'next-auth/react'
 
 // import { authOptions } from '../api/auth/[...nextauth]'
 // import { unstable_getServerSession } from 'next-auth/next'
@@ -6,8 +8,12 @@
 // import getUserSpot from '../../utils/Users/getUserSpots'
 
 // import { deleteUserHandler as deleteAPIFetcher } from '../../services/mongo-fetchers'
+import { getUserData } from '../../services/mongo-fetchers'
+const MyProfileNew = async () => {
+    const { data: session, status } = useSession()
 
-const MyProfileNew = () => {
+    const deleteUser = await getUserData(userID)
+
     // console.log('currentUserSession', currentUserSession)
 
     // const { email, emailVerified, name, provider, userID, ownedSpots } =
