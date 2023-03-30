@@ -12,7 +12,7 @@ const {
     VALUE_ALREADY_LOGGED_IN,
 } = REDIRECT_QUERY_PARAMS
 
-const arrayOfProtectedPaths = [NEW_SPOT, PROFILE, PROFILE2]
+const arrayOfProtectedPaths = [NEW_SPOT, PROFILE]
 const shouldNotBeUser = [AUTH, '/auth/register', '/auth/SignIn']
 
 import { NextResponse } from 'next/server'

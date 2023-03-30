@@ -1,51 +1,38 @@
+import useSWR from 'swr'
 import { useSession } from 'next-auth/react'
 
-//  import { signOut } from 'next-auth/react'
-
-// import { authOptions } from '../api/auth/[...nextauth]'
-// import { unstable_getServerSession } from 'next-auth/next'
-
-// import getUserSpot from '../../utils/Users/getUserSpots'
-
-// import { deleteUserHandler as deleteAPIFetcher } from '../../services/mongo-fetchers'
 import { getUserData } from '../../services/mongo-fetchers'
+
+import UserCard from '../../components/user-profile/user-card'
+
 const MyProfileNew = () => {
     const { data: session, status } = useSession()
+    console.log('status', status)
 
-    // const user = await getUserData(session.userID)
-    // console.log('user DATA --->', user)
-    console.log('user DATA --->')
+    const fetcherUser = async () => {
+        const user = await getUserData(session.userID)
+        return user
+    }
 
-    // console.log('currentUserSession', currentUserSession)
+    const {
+        data: user,
+        error: userError,
+        isLoading: isLoadingUser,
+    } = useSWR(session ? 'get_user_profile' : null, fetcherUser)
 
-    // const { email, emailVerified, name, provider, userID, ownedSpots } =
-    //     currentUserSession
+    console.log('user', user)
+    if (status !== 'authenticated') return <div>Access denied</div>
 
-    // // Will delete the user + his spots (mongoose middleware)
-    // const deleteUserHandler = async () => {
-    //     console.log('WANT TO DELETE USER...')
+    if (isLoadingUser) return <div>Loading...</div>
 
-    //     // Signing out user and redirect
-    //     signOut({ callbackUrl: HOME })
+    if (userError) return <div>failed to load</div>
 
-    //     const deleteUser = await deleteAPIFetcher(userID)
-    //     console.log('deleteUser', deleteUser)
-
-    //     // For toaster notif
-    //     localStorage.setItem('toast', 'deleteUser')
-    // }
+    const { createdAt, spotsOwned } = user.result
+    const joiningDate = new Date(createdAt).getFullYear()
 
     return (
         <>
-            <h1>Hi, my name is Nicola</h1>
-            <h3>Joined in 2014</h3>
-            {/* <h1>{name}</h1>
-            <h1>{emailVerified ? 'true' : 'false'}</h1>
-            <h1>{email}</h1>
-            <h1>{provider}</h1>
-            <h1>Number of spots: {ownedSpots.length}</h1>
-            <h1 onClick={() => signOut()}> Signout </h1>
-            <button onClick={deleteUserHandler}> Delete my account</button> */}
+            <UserCard joiningDate={joiningDate} userSpots={spotsOwned} />
         </>
     )
 }

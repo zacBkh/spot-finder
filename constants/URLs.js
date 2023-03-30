@@ -36,6 +36,10 @@ export const NAVBAR_VISITOR_ITEMS = [
         name: 'Sign up or login',
         link: PATHS.AUTH,
     },
+    {
+        name: 'My Profile2',
+        link: PATHS.PROFILE2,
+    },
 ]
 
 export const NAVBAR_USER_ITEMS = [

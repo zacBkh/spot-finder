@@ -161,6 +161,7 @@ const AllSpots = ({ spots, queryString }) => {
     }, [searchContext.value.length, searchContext.value, spots])
 
     // Capitalize and take only first string of current user for toaster
+    console.log('filteredSpots[0]', filteredSpots[0])
 
     return (
         <>
@@ -170,83 +171,73 @@ const AllSpots = ({ spots, queryString }) => {
             </Head>
 
             {/* Global container */}
-            <div className="flex mt-16 h-full justify-start">
+            <div className="mt-16 px-12">
                 {/* Filter category container */}
-                <div className="flex-column border border-gray py-2 ">
-                    <h3 className="font-semibold text-base px-2">Filter by...</h3>
+                {1 === 2 && (
+                    <div className="flex-column border border-gray py-2 ">
+                        <h3 className="font-semibold text-base px-2">Filter by...</h3>
 
-                    <hr className="mt-2 mb-4 mx-auto h-0.5 bg-gray-200 border-0" />
+                        <hr className="mt-2 mb-4 mx-auto h-0.5 bg-gray-200 border-0" />
 
-                    <div className="px-2">
-                        <h4 className="font-semibold text-sm mb-2">Category</h4>
+                        <div className="px-2">
+                            <h4 className="font-semibold text-sm mb-2">Category</h4>
 
-                        {/* Category filter container */}
-                        <div className="flex flex-wrap gap-1">
-                            <FilterSpots
-                                icon={<BsSunset />}
-                                value={'Sunset'}
-                                onClick={handleClickFilter}
-                                activeCategories={activeCategories}
-                            />
+                            {/* Category filter container */}
+                            <div className="flex flex-wrap gap-1">
+                                <FilterSpots
+                                    icon={<BsSunset />}
+                                    value={'Sunset'}
+                                    onClick={handleClickFilter}
+                                    activeCategories={activeCategories}
+                                />
 
-                            <FilterSpots
-                                icon={<BsBuilding />}
-                                value={'Urban'}
-                                onClick={handleClickFilter}
-                                activeCategories={activeCategories}
-                            />
+                                <FilterSpots
+                                    icon={<BsBuilding />}
+                                    value={'Urban'}
+                                    onClick={handleClickFilter}
+                                    activeCategories={activeCategories}
+                                />
 
-                            <FilterSpots
-                                icon={<BsFillTreeFill />}
-                                value={'Nature'}
-                                onClick={handleClickFilter}
-                                activeCategories={activeCategories}
+                                <FilterSpots
+                                    icon={<BsFillTreeFill />}
+                                    value={'Nature'}
+                                    onClick={handleClickFilter}
+                                    activeCategories={activeCategories}
+                                />
+                            </div>
+                        </div>
+
+                        <hr className="my-4 mx-auto h-px bg-gray-200 border-0" />
+
+                        {/* Region filter container */}
+                        <div className="px-2">
+                            <h4 className="font-semibold text-sm mb-2">Region</h4>
+                            <SelectRegion
+                                regionState={activeRegion}
+                                onRegionFilterChange={e => setActiveRegion(e)}
                             />
                         </div>
-                    </div>
 
-                    <hr className="my-4 mx-auto h-px bg-gray-200 border-0" />
+                        <h3 className="font-semibold text-base px-2 mt-8">Sort by...</h3>
+                        <hr className="mt-2 mb-4 mx-auto h-0.5 bg-gray-200 border-0" />
 
-                    {/* Region filter container */}
-                    <div className="px-2">
-                        <h4 className="font-semibold text-sm mb-2">Region</h4>
-                        <SelectRegion
-                            regionState={activeRegion}
-                            onRegionFilterChange={e => setActiveRegion(e)}
+                        <SelectSort
+                            sortingState={activeSort}
+                            onSortChange={e => setActiveSort(e)}
                         />
                     </div>
-
-                    <h3 className="font-semibold text-base px-2 mt-8">Sort by...</h3>
-                    <hr className="mt-2 mb-4 mx-auto h-0.5 bg-gray-200 border-0" />
-
-                    <SelectSort
-                        sortingState={activeSort}
-                        onSortChange={e => setActiveSort(e)}
-                    />
-                </div>
-
+                )}
                 {/* Main section with spots */}
                 <div
                     className=" 
-                        grid 
-                        grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4
-                        
-                        justify-center
-                        w-full
+                        flex flex-wrap
+                        justify-center sm:justify-between
                         gap-y-5
-                        gap-x-0
+                        gap-x-7
                         "
                 >
                     {filteredSpots.map(spot => (
-                        <SpotCard
-                            key={spot._id}
-                            id={spot._id}
-                            title={spot.title}
-                            description={spot.description}
-                            categories={spot.categories}
-                            author={spot.author.name}
-                            rate={spot.virtuals.averageGrade}
-                        />
+                        <SpotCard key={spot.id} spotData={spot} />
                     ))}
                 </div>
             </div>
