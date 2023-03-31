@@ -1,22 +1,37 @@
 import { HEADER_TITLE_FS } from '../../constants/responsive-fonts'
-import DividerDesign from '../design/divider'
 
 import UserImage from '../user-image'
 
+import { AiOutlineTrophy } from 'react-icons/ai'
+import { ImEye } from 'react-icons/im'
+import { MdOutlineRateReview } from 'react-icons/md'
+
 import SpotCard from '../spot-index-card'
+import DividerDesign from '../design/divider'
 
 const UserCard = ({ isLoading, userSpots, joiningDate }) => {
+    const specStyle = 'flex items-center gap-x-2'
     return (
-        <div className="flex flex-col-reverse md:flex-row  gap-x-10 w-[90%] mx-auto mt-10 text-form-color ">
-            <div className="w-1/4 flex flex-col border rounded-xl border-[#DDDDDD] p-10 h-fit">
-                <UserImage width={'w-20'} height={'h-20'} />
-                <span>SuperSpotter</span>
-                <span>28 Spots created</span>
-                <span>59 Spots visited</span>
-                <span>39 reviews posted</span>
+        <div className="flex flex-col-reverse lg:flex-row gap-x-14 w-[90%] xl:w-[80%] 2xl:w-[60%] mx-auto mt-10 text-form-color ">
+            <div className="w-1/3 flex flex-col gap-y-6 items-center border rounded-xl border-[#DDDDDD] p-2 xl:p-4 h-fit">
+                <UserImage noBorder width={'w-32'} height={'h-32'} />
+                <div className="flex flex-col gap-y-4 font-semibold">
+                    <div className={`${specStyle}`}>
+                        <AiOutlineTrophy className={`text-2xl `} />{' '}
+                        <span> 28 Spots created</span>
+                    </div>
+                    <div className={`${specStyle}`}>
+                        <ImEye className={`text-xl`} /> <span> 59 Spots visited</span>
+                    </div>
+                    <div className={`${specStyle}`}>
+                        <MdOutlineRateReview className={` text-xl`} />{' '}
+                        <span> 39 Spots reviewed</span>
+                    </div>
+                </div>
+                <DividerDesign margin={'mt-4'} />
             </div>
 
-            <div className="w-3/4 flex flex-col gap-y-10">
+            <div className="w-full md:w-2/3 flex flex-col gap-y-10">
                 <div>
                     <h1 className={`text-3xl font-bold`}>Hi, I am Nicola</h1>
                     <span className={`text-sm`}>Joined in {joiningDate}</span>
@@ -40,7 +55,7 @@ const UserCard = ({ isLoading, userSpots, joiningDate }) => {
 
                 <div className="space-y-2">
                     <h2 className={`text-2xl font-semibold`}>Spots Nicola shared</h2>
-                    <div className="flex justify-between flex-wrap gap-5">
+                    <div className="flex justify-between flex-wrap gap-4">
                         {userSpots.map(spot => (
                             <SpotCard
                                 shouldNotDisplayUserPic
