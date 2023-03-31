@@ -15,7 +15,7 @@ import { DISABLED_STYLE } from '../../constants/disabled-style'
 
 import {
     BUTTON_FS,
-    FORM_VALID_FS,
+    SMALL_TEXT_FS,
     ARROW_ICON_FS,
     ARROW_TEXT_FS,
 } from '../../constants/responsive-fonts'
@@ -78,7 +78,7 @@ const EMailLogger = ({
             return {
                 border: 'border-2 border-primary',
                 message: (
-                    <span className={`${FORM_VALID_FS} !text-primary `}>
+                    <span className={`${SMALL_TEXT_FS} !text-primary `}>
                         {formik.errors[field]}
                     </span>
                 ),

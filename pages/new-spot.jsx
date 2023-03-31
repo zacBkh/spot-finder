@@ -11,7 +11,7 @@ import DynamicMapForm from '../components/Maps/dynamic-map-form'
 
 import Spinner from '../components/spinner'
 
-import { FORM_VALID_FS, BUTTON_FS, FORM_LABEL_FS } from '../constants/responsive-fonts'
+import { SMALL_TEXT_FS, BUTTON_FS, FORM_LABEL_FS } from '../constants/responsive-fonts'
 import { DISABLED_STYLE, DISABLED_STYLE_STATELESS } from '../constants/disabled-style'
 import { validTitleDesc } from '../constants/validation-schemas'
 
@@ -70,7 +70,7 @@ const AddNewSpot = ({}) => {
             return {
                 border: '!border-1 !border-primary',
                 message: (
-                    <span className={`${FORM_VALID_FS} !text-primary `}>
+                    <span className={`${SMALL_TEXT_FS} !text-primary `}>
                         {formik.errors[field]}
                     </span>
                 ),

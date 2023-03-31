@@ -160,9 +160,6 @@ const AllSpots = ({ spots, queryString }) => {
         setFilteredSpots(spots)
     }, [searchContext.value.length, searchContext.value, spots])
 
-    // Capitalize and take only first string of current user for toaster
-    console.log('filteredSpots[0]', filteredSpots[0])
-
     return (
         <>
             <Head>
