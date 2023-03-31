@@ -7,7 +7,6 @@ import UserCard from '../../components/user-profile/user-card'
 
 const MyProfileNew = () => {
     const { data: session, status } = useSession()
-    console.log('status', status)
 
     const fetcherUser = async () => {
         const user = await getUserData(session.userID)
@@ -20,7 +19,6 @@ const MyProfileNew = () => {
         isLoading: isLoadingUser,
     } = useSWR(session ? 'get_user_profile' : null, fetcherUser)
 
-    console.log('user', user)
     if (status !== 'authenticated') return <div>Access denied</div>
 
     if (isLoadingUser) return <div>Loading...</div>
