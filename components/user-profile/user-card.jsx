@@ -31,7 +31,7 @@ const UserCard = ({ isLoading, userSpots, joiningDate }) => {
                 <DividerDesign margin={'mt-4'} />
             </div>
 
-            <div className="w-full md:w-2/3 flex flex-col gap-y-10">
+            <div className="w-full lg:w-2/3 flex flex-col gap-y-10">
                 <div>
                     <h1 className={`text-3xl font-bold`}>Hi, I am Nicola</h1>
                     <span className={`text-sm`}>Joined in {joiningDate}</span>
@@ -55,7 +55,7 @@ const UserCard = ({ isLoading, userSpots, joiningDate }) => {
 
                 <div className="space-y-2">
                     <h2 className={`text-2xl font-semibold`}>Spots Nicola shared</h2>
-                    <div className="flex justify-between flex-wrap gap-4">
+                    <div className="flex justify-center flex-wrap gap-4">
                         {userSpots.map(spot => (
                             <SpotCard
                                 shouldNotDisplayUserPic
