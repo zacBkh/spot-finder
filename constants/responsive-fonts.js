@@ -35,5 +35,6 @@ export const TEXTAREA_INPUTS_FS =
 
 export const BODY_FS =
     'text-sm sm:text-sm md:text-base lg:text-base xl:text-base 2xl:text-base'
+
 export const ARROW_TEXT_FS =
     'text-sm sm:text-sm md:text-base lg:text-base xl:text-base 2xl:text-base'

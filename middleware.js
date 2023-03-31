@@ -2,7 +2,7 @@
 // To protect API routes --> unstable_getServerSession
 
 import { PATHS } from './constants/URLs'
-const { DOMAIN, DOMAIN_WITHOUT_SLASH, AUTH, PROFILE, NEW_SPOT } = PATHS
+const { DOMAIN, DOMAIN_WITHOUT_SLASH, AUTH, PROFILE, PROFILE2, NEW_SPOT } = PATHS
 import REDIRECT_QUERY_PARAMS from './constants/redirect-query-params'
 const {
     KEY_AUTH,

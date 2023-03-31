@@ -136,6 +136,16 @@ export const editUserHandler = async (newPwd, userID) => {
     console.log('Result of USER edition', data)
     return data
 }
+
+// Get spots of a user
+export const getThisUserSpots = async enteredData => {
+    // POSTING to MONGO
+    const response = await fetch('/api/users/register', {
+        method: 'GET',
+    })
+    const data = await response.json()
+    return data
+}
 ;/ *!SC */
 
 /*SC REVIEWS */

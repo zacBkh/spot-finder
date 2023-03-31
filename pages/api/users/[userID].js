@@ -7,17 +7,17 @@ import { hash } from 'bcryptjs'
 import { unstable_getServerSession } from 'next-auth/next'
 import { authOptions } from '../auth/[...nextauth]'
 
-// RIGHT NOW ONLY WORKING FOR PASSWORD CHANGE
-
 // Edit some user data including pwd
 // Receive payload (req.body = new userDATA) and userID in URL (req.query)
 export default async function userHandling(req, res) {
+    console.log('aaa')
     await connectMongo()
 
     const { userID } = req.query
 
     // If does not find user
-    const user = await User.findById(userID)
+    const user = await User.findById(userID).populate('spotsOwned')
+
     if (!user) {
         res.status(400).json({ success: false, result: 'User does not exist' })
         return
@@ -25,7 +25,8 @@ export default async function userHandling(req, res) {
 
     if (req.method === 'GET') {
         console.log('GET REQUEST')
-        return user
+        res.status(200).json({ success: true, result: user })
+        return
     }
     if (req.method === 'PATCH') {
         console.log('req.body -->', req.body)

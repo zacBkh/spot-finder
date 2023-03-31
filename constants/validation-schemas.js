@@ -82,7 +82,7 @@ const title = {
     title: Yup.string()
         .trim()
         .min(6, `The title should be more than 6 characters.`)
-        .max(60, `The title should be less than 60 characters.`)
+        .max(40, `The title should be less than 60 characters.`)
         .required('The title of your Spot is required.'),
 }
 
