@@ -18,14 +18,14 @@ const UserCard = ({ isLoading, userSpots, joiningDate }) => {
 
             <div className="w-3/4 flex flex-col gap-y-10">
                 <div>
-                    <h1 className={`text-3xl font-bold`}>Hi, I'm Nicola</h1>
+                    <h1 className={`text-3xl font-bold`}>Hi, I am Nicola</h1>
                     <span className={`text-sm`}>Joined in {joiningDate}</span>
                 </div>
 
                 <div className="space-y-2">
                     <h2 className={`text-2xl font-semibold`}>About</h2>
                     <p>
-                        Hi, I'm Nicola and I am lucky enough to live in one of the most
+                        Hi, I am Nicola and I am lucky enough to live in one of the most
                         beautiful areas of the Tuscan countryside near the historical town
                         of Siena .This territory is my home,my work and my passion. With
                         my wife and children I live on and work a farm producing
@@ -39,7 +39,7 @@ const UserCard = ({ isLoading, userSpots, joiningDate }) => {
                 <DividerDesign />
 
                 <div className="space-y-2">
-                    <h2 className={`text-2xl font-semibold`}>Nicolas' Spots</h2>
+                    <h2 className={`text-2xl font-semibold`}>Spots Nicola shared</h2>
                     <div className="flex justify-between flex-wrap gap-5">
                         {userSpots.map(spot => (
                             <SpotCard
