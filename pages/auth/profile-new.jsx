@@ -5,6 +5,10 @@ import { getUserData } from '../../services/mongo-fetchers'
 
 import UserCard from '../../components/user-profile/user-card'
 
+import SkeletonText from '../../components/skeletons/text-skeleton'
+import SkeletonImage from '../../components/skeletons/image-skeleton'
+import SkeletonUserCard from '../../components/skeletons/parents/user-card-skeleton'
+
 const MyProfileNew = () => {
     const { data: session, status } = useSession()
 
@@ -19,18 +23,19 @@ const MyProfileNew = () => {
         isLoading: isLoadingUser,
     } = useSWR(session ? 'get_user_profile' : null, fetcherUser)
 
-    if (status !== 'authenticated') return <div>Access denied</div>
-
-    if (isLoadingUser) return <div>Loading...</div>
+    const sessionOrUserNotReady = status === 'loading' || isLoadingUser
+    if (status === 'unauthenticated') return <div>Access denied</div>
 
     if (userError) return <div>failed to load</div>
 
-    const { createdAt, spotsOwned } = user.result
-    const joiningDate = new Date(createdAt).getFullYear()
-
+    const joiningDate = new Date(user ? user.result.createdAt : '').getFullYear()
     return (
         <>
-            <UserCard joiningDate={joiningDate} userSpots={spotsOwned} />
+            <UserCard
+                isLoading={sessionOrUserNotReady}
+                joiningDate={sessionOrUserNotReady ? '' : joiningDate}
+                userSpots={sessionOrUserNotReady ? '' : user.result.spotsOwned}
+            />
         </>
     )
 }

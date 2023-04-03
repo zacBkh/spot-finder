@@ -78,7 +78,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
                                     className=" items-center text-[#707070] w-fit inline"
                                 >
                                     {index === spotIcons.length - 1 ? (
-                                        <span className="flex items-center gap-x-2 ">
+                                        <span className="flex items-center gap-x-2">
                                             {icon.icon}
                                         </span>
                                     ) : (
