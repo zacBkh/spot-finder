@@ -19,8 +19,8 @@ const SkeletonText = ({ type, nbOfLines, gap, fullWidth, style }) => {
         lineWidth = 'w-full'
     }
 
-    const nbOfSkeletons = [1]
-    for (let step = 0; step < nbOfLines; step++) {
+    const nbOfSkeletons = [0]
+    for (let step = 1; step < nbOfLines; step++) {
         nbOfSkeletons.push(1)
     }
 

@@ -1,5 +1,3 @@
-import Link from 'next/link'
-
 import { NAVBAR_ITEMS } from '../../../constants/URLs'
 
 import NavItems from './nav-items'
@@ -15,12 +13,7 @@ const HamburgerMenu = ({ isOpen }) => {
         >
             <ul className="flex gap-x-6">
                 {NAVBAR_ITEMS.map(item => (
-                    <NavItems
-                        key={item.link}
-                        context="hamburgerMenu"
-                        name={item.name}
-                        link={item.link}
-                    />
+                    <NavItems key={item.link} name={item.name} link={item.link} />
                 ))}
             </ul>
         </nav>

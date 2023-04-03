@@ -39,8 +39,7 @@ const {
     VALUE_DELETED_SPOT_SUCCESS,
 } = TOAST_PARAMS
 
-import { BUTTON_FS, HEADER_TITLE_FS } from '../../constants/responsive-fonts'
-import { DISABLED_STYLE } from '../../constants/disabled-style'
+import { HEADER_TITLE_FS } from '../../constants/responsive-fonts'
 
 import { useFormik } from 'formik'
 import { validTitleDesc } from '../../constants/validation-schemas'

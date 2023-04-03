@@ -1,3 +1,7 @@
+import { useState, useRef } from 'react'
+
+import { SlOptions } from 'react-icons/sl'
+
 import {
     TITLE_FS,
     SMALL_TEXT_FS,
@@ -11,15 +15,39 @@ import DividerDesign from '../design/divider'
 
 import SkeletonUserCard from '../skeletons/parents/user-card-skeleton'
 import SkeletonText from '../skeletons/text-skeleton'
+import SkeletonImage from '../skeletons/image-skeleton'
 import SpotCardSkeleton from '../skeletons/parents/spot-card-skeleton'
+
+import ActionMenuUserProfile from '../action-menu-user-profile'
 
 import SpotCard from '../spot-index-card'
 
 import UserStats from './user-stats'
+
+import useOnClickOutside from '../../hooks/useOnClickOutside'
+
 const hideOnLarge = 'lg:hidden'
 const showOnLarge = 'hidden lg:flex flex-col'
-const UserCard = ({ isLoading, joiningDate, user }) => {
-    const { name, spotsOwned } = user
+
+const UserCard = ({ isLoading, visitedUser, currentUser }) => {
+    const { name, spotsOwned, createdAt, _id: visitedUserID } = visitedUser
+
+    let isCurrentUserVisitedUser = false
+    if (currentUser && visitedUserID === currentUser.userID) {
+        isCurrentUserVisitedUser = true
+    }
+
+    const joiningDate = new Date(createdAt).getFullYear()
+
+    const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
+    const onActionClick = () => {
+        setIsActionMenuOpen(prev => !prev)
+    }
+
+    const refOutside = useRef(null)
+
+    useOnClickOutside(refOutside, () => setIsActionMenuOpen(false))
+
     return (
         <div className="flex flex-col-reverse lg:flex-row gap-x-14 w-[90%] xl:w-[80%] 2xl:w-[60%] mx-auto mt-3 text-form-color ">
             <div
@@ -30,7 +58,11 @@ const UserCard = ({ isLoading, joiningDate, user }) => {
                 ) : (
                     <>
                         <UserImage noBorder width={'w-32'} height={'h-32'} />
-                        <UserStats nbOwned={19} nbVisited={38} nbReviewed={28} />
+                        <UserStats
+                            nbOwned={spotsOwned.length}
+                            nbVisited={38}
+                            nbReviewed={28}
+                        />
                         <DividerDesign margin={'mt-4'} />
                     </>
                 )}
@@ -46,26 +78,56 @@ const UserCard = ({ isLoading, joiningDate, user }) => {
                             </div>
                         ) : (
                             <>
-                                <h1 className={`${TITLE_FS} font-bold white`}>
-                                    Hi, I am {name}
-                                </h1>
+                                <div className="flex items-center gap-x-3">
+                                    <h1 className={`${TITLE_FS} font-bold white`}>
+                                        Hi, I am {name}
+                                    </h1>
+                                    <button ref={refOutside} onClick={onActionClick}>
+                                        <div className="active:scale-90">
+                                            <SlOptions className="text-xl" />
+                                        </div>
+                                        {isActionMenuOpen && (
+                                            <ActionMenuUserProfile
+                                                isOpen={isActionMenuOpen}
+                                                isCurrentUserVisitedUser={
+                                                    isCurrentUserVisitedUser
+                                                }
+                                            />
+                                        )}
+                                    </button>
+                                </div>
                                 <span className={`${SMALL_TEXT_FS}`}>
                                     Joined in {joiningDate}
                                 </span>
                             </>
                         )}
                     </div>
+
                     <div className={`${hideOnLarge}`}>
-                        <UserImage
-                            noBorder
-                            width={'w-20 sm:w-32'}
-                            height={'h-20 sm:h-32'}
-                        />
+                        {isLoading ? (
+                            <SkeletonImage
+                                style={'w-20 sm:w-32 h-20 sm:h-32 rounded-full'}
+                            />
+                        ) : (
+                            <UserImage
+                                noBorder
+                                width={'w-20 sm:w-32'}
+                                height={'h-20 sm:h-32'}
+                            />
+                        )}
                     </div>
                 </div>
 
                 <div className={`${hideOnLarge} flex flex-col gap-y-4 font-semibold`}>
-                    <UserStats nbOwned={19} nbVisited={38} nbReviewed={28} />
+                    {isLoading ? (
+                        <SkeletonText type={'smTitle'} nbOfLines={3} gap={'gap-y-5'} />
+                    ) : (
+                        <UserStats
+                            nbOwned={spotsOwned.length}
+                            nbVisited={38}
+                            nbReviewed={28}
+                        />
+                    )}
                 </div>
 
                 <div className="space-y-2">
@@ -100,9 +162,13 @@ const UserCard = ({ isLoading, joiningDate, user }) => {
                 <DividerDesign />
 
                 <div className="space-y-2">
-                    <h2 className={`${SMALL_TITLE_FS} font-semibold`}>
-                        Spots {name} shared
-                    </h2>
+                    {isLoading ? (
+                        <SkeletonText type={'smTitle'} nbOfLines={1} />
+                    ) : (
+                        <h2 className={`${SMALL_TITLE_FS} font-semibold`}>
+                            Spots {name} shared
+                        </h2>
+                    )}
                     <div className="flex justify-center md:justify-between flex-wrap gap-5">
                         {isLoading
                             ? ['skeleton', 'of', 'user', 'spots'].map(placeholder => (

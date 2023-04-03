@@ -12,10 +12,8 @@ export const PATHS = {
             : 'https://www.spot-finder.com',
     HOME: '/',
     NEW_SPOT: '/new-spot',
-    PROFILE: '/auth/profile',
     AUTH: '/auth/login',
-    PROFILE: '/auth/profile',
-    PROFILE2: '/auth/profile-new',
+    PROFILE: '/users',
     SPOT: '/spots',
 }
 
@@ -31,25 +29,10 @@ export const NAVBAR_ITEMS = [
     },
 ]
 
-export const NAVBAR_VISITOR_ITEMS = [
-    {
-        name: 'Sign up or login',
-        link: PATHS.AUTH,
-    },
-    {
-        name: 'My Profile2',
-        link: PATHS.PROFILE2,
-    },
-]
-
 export const NAVBAR_USER_ITEMS = [
     {
         name: 'My Profile',
         link: PATHS.PROFILE,
-    },
-    {
-        name: 'My Profile2',
-        link: PATHS.PROFILE2,
     },
 
     {

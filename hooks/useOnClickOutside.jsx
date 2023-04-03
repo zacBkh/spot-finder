@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 const useOnClickOutside = (refOutside, handler) => {
     useEffect(() => {
         const listener = event => {
-            if (!refOutside.current.contains(event.target)) {
+            if (refOutside.current && !refOutside.current.contains(event.target)) {
                 handler(event)
             }
         }

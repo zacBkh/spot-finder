@@ -168,7 +168,7 @@ const AllSpots = ({ spots, queryString }) => {
             </Head>
 
             {/* Global container */}
-            <div className="mt-16 px-12">
+            <div className="mt-16 px-12 2xl:px-36">
                 {/* Filter category container */}
                 {1 === 2 && (
                     <div className="flex-column border border-gray py-2 ">

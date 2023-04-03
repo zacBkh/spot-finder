@@ -1,32 +1,54 @@
-import { useEffect } from 'react'
+import Link from 'next/link'
 
-import { NAVBAR_VISITOR_ITEMS, NAVBAR_USER_ITEMS } from '../../../constants/URLs'
+import { useSession } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
 
-import NavItems from './nav-items'
+import { PATHS } from '../../../constants/URLs'
+import { TOAST_PARAMS } from '../../../constants/toast-query-params'
+const { KEY, VALUE_LOGOUT } = TOAST_PARAMS
+
+import DividerDesign from '../../design/divider'
 
 const UserMenu = ({ currentAuthStatus, isOpen, onUserMenuClick }) => {
-    const whichUserMenu =
-        currentAuthStatus === 'authenticated' ? NAVBAR_USER_ITEMS : NAVBAR_VISITOR_ITEMS
+    const { data: session } = useSession()
+    const userID = session?.userID
+
+    const callbackURLWithToast = `${PATHS.HOME}?${KEY}=${VALUE_LOGOUT}`
 
     return (
         <div className="relative">
             <div className={`${isOpen ? 'block' : 'hidden'} z-50 absolute right-0`}>
                 <nav
-                    className={`
-                        min-w-[160px]
-                        mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transform opacity-100 scale-100
-                        dropdown-shadow`}
+                    className={`min-w-[140px]
+                        text-form-color
+                        mt-2 w-max rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transform opacity-100 scale-100
+                        menuStyle
+                        shadowPF
+                        `}
                 >
                     <ul className="flex flex-col gap-x-6">
-                        {whichUserMenu.map(item => (
-                            <NavItems
-                                onUserMenuClick={onUserMenuClick}
-                                key={item.link}
-                                context="userMenu"
-                                name={item.name}
-                                link={item.link}
-                            />
-                        ))}
+                        {currentAuthStatus === 'authenticated' ? (
+                            <>
+                                <li onClick={onUserMenuClick}>
+                                    <Link href={`${PATHS.PROFILE}/${userID}`}>
+                                        My Profile
+                                    </Link>
+                                </li>
+                                <DividerDesign />
+
+                                <li
+                                    onClick={() =>
+                                        signOut({ callbackUrl: callbackURLWithToast })
+                                    }
+                                >
+                                    <a>Sign Out</a>
+                                </li>
+                            </>
+                        ) : (
+                            <li>
+                                <Link href={PATHS.AUTH}>Sign up or Login</Link>
+                            </li>
+                        )}
                     </ul>
                 </nav>
             </div>
