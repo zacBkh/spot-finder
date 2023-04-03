@@ -33,8 +33,8 @@ const MyProfileNew = () => {
         <>
             <UserCard
                 isLoading={sessionOrUserNotReady}
+                user={sessionOrUserNotReady ? '' : user.result}
                 joiningDate={sessionOrUserNotReady ? '' : joiningDate}
-                userSpots={sessionOrUserNotReady ? '' : user.result.spotsOwned}
             />
         </>
     )

@@ -18,7 +18,8 @@ import SpotCard from '../spot-index-card'
 import UserStats from './user-stats'
 const hideOnLarge = 'lg:hidden'
 const showOnLarge = 'hidden lg:flex flex-col'
-const UserCard = ({ isLoading, userSpots, joiningDate }) => {
+const UserCard = ({ isLoading, joiningDate, user }) => {
+    const { name, spotsOwned } = user
     return (
         <div className="flex flex-col-reverse lg:flex-row gap-x-14 w-[90%] xl:w-[80%] 2xl:w-[60%] mx-auto mt-3 text-form-color ">
             <div
@@ -46,7 +47,7 @@ const UserCard = ({ isLoading, userSpots, joiningDate }) => {
                         ) : (
                             <>
                                 <h1 className={`${TITLE_FS} font-bold white`}>
-                                    Hi, I am Nicola
+                                    Hi, I am {name}
                                 </h1>
                                 <span className={`${SMALL_TEXT_FS}`}>
                                     Joined in {joiningDate}
@@ -100,14 +101,14 @@ const UserCard = ({ isLoading, userSpots, joiningDate }) => {
 
                 <div className="space-y-2">
                     <h2 className={`${SMALL_TITLE_FS} font-semibold`}>
-                        Spots Nicola shared
+                        Spots {name} shared
                     </h2>
                     <div className="flex justify-center md:justify-between flex-wrap gap-5">
                         {isLoading
                             ? ['skeleton', 'of', 'user', 'spots'].map(placeholder => (
                                   <SpotCardSkeleton key={placeholder} />
                               ))
-                            : userSpots.map(spot => (
+                            : spotsOwned.map(spot => (
                                   <SpotCard
                                       shouldNotDisplayUserPic
                                       key={spot.id}
