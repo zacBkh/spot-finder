@@ -18,6 +18,8 @@ const {
     VALUE_EDITED_SPOT_SUCCESS,
     VALUE_DELETED_SPOT_SUCCESS,
 
+    VALUE_DELETED_USER_SUCCESS,
+
     KEY_REQUIRE,
     VALUE_MUST_LOGIN,
     VALUE_MUST_NOT_BE_OWNER,
@@ -205,6 +207,13 @@ const Toaster = () => {
                 toast.error(customToastWithLink(' to mark this Spot as visited.'), {
                     position: 'bottom-left',
                     toastId: 'mustLogInToMarkAsVisited',
+                })
+            }
+
+            if (queryString[KEY] === VALUE_DELETED_USER_SUCCESS) {
+                toast.info(`You deleted your account. 💔`, {
+                    position: 'bottom-left',
+                    toastId: 'deletedAccount',
                 })
             }
         }

@@ -127,34 +127,34 @@ export const authOptions = {
             console.log('token from SESSION', token)
             console.log('user from SESSION', user)
             console.log('session.isNewUser', session.isNewUser)
+            console.log(4879)
 
-            // When user log in with oAuth, always mark email as verified  + adding provider + adding date
-            // + send welcome Email
-            if (session.user.provider !== 'credentials') {
-                await User.findByIdAndUpdate(session.userID, {
-                    emailVerified: true,
-                    provider: session.user.provider,
-                    createdAt: new Date().toISOString(),
-                })
-            }
             return session
         },
     },
 
     // Events allow to perform side effect upon events
+    // Only works when created with oAuth, not creds
     events: {
         signIn: ({ user, account, profile, isNewUser }) => {
-            console.log('This function get triggers everytime someone signs in')
+            console.log(
+                'This function get triggers everytime someone signs in with oAuth',
+            )
             console.log('user', user)
             console.log('account', account)
             console.log('profile', profile)
             console.log('isNewUser', isNewUser)
         },
 
-        // Only works when created with oAuth, not creds
         createUser: async ({ user }) => {
             // Sends welcome email to user using oAuth
+            console.log('user 6666>', user)
             const sender = await sendWelcomeEmail('zachariedupain@hotmail.fr', user.name)
+            const updateUserOnDB = User.findByIdAndUpdate(user.id, {
+                emailVerified: true,
+                provider: session.user.provider,
+                createdAt: new Date().toISOString(),
+            })
             console.log('sender', sender)
         },
     },

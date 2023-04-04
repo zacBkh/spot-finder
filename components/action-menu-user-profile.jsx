@@ -1,3 +1,5 @@
+import { useContext } from 'react'
+
 import { BsFlag } from 'react-icons/bs'
 import { CiShare1 } from 'react-icons/ci'
 import { AiOutlineDelete } from 'react-icons/ai'
@@ -7,11 +9,14 @@ import DividerDesign from './design/divider'
 import { useRouter } from 'next/router'
 
 import { TOAST_PARAMS } from '../constants/toast-query-params'
+
+import { ModalsContext } from '../context/AppContext'
+
 const { KEY, VALUE_FEATURE_NOT_YET_AVAILABLE } = TOAST_PARAMS
 
-import { deleteUserHandler } from '../services/mongo-fetchers'
+const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser, currentUserID }) => {
+    const modalContext = useContext(ModalsContext)
 
-const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser }) => {
     const router = useRouter()
 
     const btnClass = 'p-2 flex items-center gap-x-2 hover:bg-[#f7f7f7]'
@@ -23,6 +28,12 @@ const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser }) => {
             undefined,
             { shallow: true },
         )
+    }
+
+    const deleteAccountRequestHandler = () => {
+        console.log('currentUserID', currentUserID)
+        modalContext.confirmAccountDeletion.newUserToDeleteHandler(currentUserID)
+        modalContext.confirmAccountDeletion.toggleModalState()
     }
     return (
         <div className="relative">
@@ -42,8 +53,8 @@ const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser }) => {
                 >
                     {isCurrentUserVisitedUser && (
                         <>
-                            <button
-                                onClick={deleteUserHandler}
+                            <div
+                                onClick={deleteAccountRequestHandler}
                                 className={`${btnClass} hover:text-primary`}
                             >
                                 <AiOutlineDelete />
@@ -51,12 +62,12 @@ const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser }) => {
                                     <span className="font-semibold">Delete </span>my
                                     account
                                 </span>
-                            </button>
+                            </div>
                             <DividerDesign />
                         </>
                     )}
                     {!isCurrentUserVisitedUser && (
-                        <button
+                        <div
                             onClick={clickHandler}
                             className={`${btnClass} hover:text-primary`}
                         >
@@ -64,10 +75,10 @@ const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser }) => {
                             <span>
                                 <span className="font-semibold">Report </span>this user
                             </span>
-                        </button>
+                        </div>
                     )}
 
-                    <button
+                    <div
                         onClick={clickHandler}
                         className={`${btnClass} hover:text-success`}
                     >
@@ -76,7 +87,7 @@ const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser }) => {
                             <span className="font-semibold">Share </span>
                             {`${isCurrentUserVisitedUser ? 'my' : 'this'} profile`}
                         </span>
-                    </button>
+                    </div>
                 </div>
             </div>
         </div>

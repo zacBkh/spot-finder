@@ -9,13 +9,15 @@ import { useState, useEffect } from 'react'
 import NProgress from 'nprogress'
 import '../styles/nprogress.css'
 
-import AppContext from '../context/AppContext'
+import { SearchBarContext, ModalsContext } from '../context/AppContext'
 import Toaster from '../components/toaster-wrapper.jsx'
+
+import DeleteAccountConfirmationModal from '../components/modals/delete-account-confirmation'
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps }, router }) => {
     // nProgress Bar
     useEffect(() => {
-        // Tells NProgress to start/stop depending on the router state
+        // Tells NProgress to start/stop depending on the router stateG
         router.events.on('routeChangeStart', () => NProgress.start())
         router.events.on('routeChangeComplete', () => NProgress.done())
         router.events.on('routeChangeError', () => NProgress.done())
@@ -39,14 +41,44 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps }, router }) => {
         },
     }
 
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [hasUserConfirmed, setHasUserConfirmed] = useState(false)
+    const [userToDelete, setUserToDelete] = useState(null)
+
+    // Holds modals state context
+    const modalsContext = {
+        confirmAccountDeletion: {
+            isActive: isModalOpen,
+            toggleModalState: () => {
+                setIsModalOpen(prev => !prev)
+            },
+
+            confirmedDeletionHandler: () => {
+                setHasUserConfirmed(true)
+            },
+            hasUserConfirmed: hasUserConfirmed,
+
+            newUserToDeleteHandler: user => {
+                setUserToDelete(user)
+            },
+            userToDelete: userToDelete,
+        },
+    }
+
     return (
         <SessionProvider session={session}>
-            <AppContext.Provider value={searchBarContext}>
-                <Layout>
-                    <Toaster />
-                    <Component {...pageProps} />
-                </Layout>
-            </AppContext.Provider>
+            <ModalsContext.Provider value={modalsContext}>
+                <DeleteAccountConfirmationModal
+                    modalContextAccountDeletion={modalsContext.confirmAccountDeletion}
+                >
+                    <SearchBarContext.Provider value={searchBarContext}>
+                        <Layout>
+                            <Toaster />
+                            <Component {...pageProps} />
+                        </Layout>
+                    </SearchBarContext.Provider>
+                </DeleteAccountConfirmationModal>
+            </ModalsContext.Provider>
         </SessionProvider>
     )
 }

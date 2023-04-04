@@ -1,12 +1,12 @@
 import { useContext } from 'react'
-import AppContext from '../../../context/AppContext'
+import { SearchBarContext } from '../../../context/AppContext'
 
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai'
 
 import { DISABLED_STYLE } from '../../../constants/disabled-style'
 
 const SearchSpotBar = ({ disabled }) => {
-    const searchContext = useContext(AppContext)
+    const searchContext = useContext(SearchBarContext)
 
     return (
         <div className=" 0/10 relative hidden md:block">

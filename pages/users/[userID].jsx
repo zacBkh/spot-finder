@@ -1,3 +1,5 @@
+import Error from 'next/error'
+
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
@@ -17,6 +19,8 @@ const UserProfile = () => {
 
     const fetcherUser = async () => {
         const userData = await getUserData(query.userID)
+        console.log('userData', userData)
+
         return userData
     }
 
@@ -24,10 +28,14 @@ const UserProfile = () => {
         isReady ? 'get_user_profile' : null,
         fetcherUser,
     )
+    console.log('userVisited', userVisited)
 
     const sessionNotReady = status === 'loading'
     if (userError) return <div>failed to load</div>
 
+    if (!userVisited?.success) {
+        return <Error title={'Error bro'} />
+    }
     return (
         <>
             <UserCard

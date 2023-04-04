@@ -1,7 +1,7 @@
 import SpotCard from '../components/spot-index-card'
 import { useState, useEffect, useContext } from 'react'
 
-import AppContext from '../context/AppContext'
+import { SearchBarContext } from '../context/AppContext'
 
 import Head from 'next/head'
 
@@ -44,7 +44,7 @@ const AllSpots = ({ spots, queryString }) => {
     console.log('queryString', queryString)
 
     // Context API holding value from navbar search input + method to add
-    const searchContext = useContext(AppContext)
+    const searchContext = useContext(SearchBarContext)
 
     const [activeCategories, setActiveCategories] = useState([])
     const [activeRegion, setActiveRegion] = useState('')

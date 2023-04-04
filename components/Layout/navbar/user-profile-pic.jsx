@@ -14,7 +14,7 @@ const UserAvatar = ({ currentSession, onUserMenuClick }) => {
                     alt="Profile picture"
                 />
             ) : (
-                <div className="active:scale-90">
+                <div className="btnPressLike">
                     <BiUserCircle className="text-3xl text-white" />
                 </div>
             )}

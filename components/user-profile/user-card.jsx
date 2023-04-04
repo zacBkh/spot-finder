@@ -49,142 +49,161 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
     useOnClickOutside(refOutside, () => setIsActionMenuOpen(false))
 
     return (
-        <div className="flex flex-col-reverse lg:flex-row gap-x-14 w-[90%] xl:w-[80%] 2xl:w-[60%] mx-auto mt-3 text-form-color ">
-            <div
-                className={`${showOnLarge} w-1/3 flex gap-y-6 items-center border rounded-xl border-[#DDDDDD] p-2 xl:p-4 h-fit`}
-            >
-                {isLoading ? (
-                    <SkeletonUserCard />
-                ) : (
-                    <>
-                        <UserImage noBorder width={'w-32'} height={'h-32'} />
-                        <UserStats
-                            nbOwned={spotsOwned.length}
-                            nbVisited={38}
-                            nbReviewed={28}
-                        />
-                        <DividerDesign margin={'mt-4'} />
-                    </>
-                )}
-            </div>
-
-            <div className="w-full lg:w-2/3 flex flex-col gap-y-9">
-                <div className="flex justify-between items-center">
-                    <div>
-                        {isLoading ? (
-                            <div className="flex flex-col gap-y-2">
-                                <SkeletonText type={'title'} nbOfLines={1} />
-                                <SkeletonText type={'smText'} nbOfLines={1} />
-                            </div>
-                        ) : (
-                            <>
-                                <div className="flex items-center gap-x-3">
-                                    <h1 className={`${TITLE_FS} font-bold white`}>
-                                        Hi, I am {name}
-                                    </h1>
-                                    <button ref={refOutside} onClick={onActionClick}>
-                                        <div className="active:scale-90">
-                                            <SlOptions className="text-xl" />
-                                        </div>
-                                        {isActionMenuOpen && (
-                                            <ActionMenuUserProfile
-                                                isOpen={isActionMenuOpen}
-                                                isCurrentUserVisitedUser={
-                                                    isCurrentUserVisitedUser
-                                                }
-                                            />
-                                        )}
-                                    </button>
-                                </div>
-                                <span className={`${SMALL_TEXT_FS}`}>
-                                    Joined in {joiningDate}
-                                </span>
-                            </>
-                        )}
-                    </div>
-
-                    <div className={`${hideOnLarge}`}>
-                        {isLoading ? (
-                            <SkeletonImage
-                                style={'w-20 sm:w-32 h-20 sm:h-32 rounded-full'}
-                            />
-                        ) : (
-                            <UserImage
-                                noBorder
-                                width={'w-20 sm:w-32'}
-                                height={'h-20 sm:h-32'}
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div className={`${hideOnLarge} flex flex-col gap-y-4 font-semibold`}>
+        <>
+            <div className="flex flex-col-reverse lg:flex-row gap-x-14 w-[90%] xl:w-[80%] 2xl:w-[60%] mx-auto mt-3 text-form-color ">
+                <div
+                    className={`${showOnLarge} w-1/3 flex gap-y-6 items-center border rounded-xl border-[#DDDDDD] p-2 xl:p-4 h-fit`}
+                >
                     {isLoading ? (
-                        <SkeletonText type={'smTitle'} nbOfLines={3} gap={'gap-y-5'} />
-                    ) : (
-                        <UserStats
-                            nbOwned={spotsOwned.length}
-                            nbVisited={38}
-                            nbReviewed={28}
-                        />
-                    )}
-                </div>
-
-                <div className="space-y-2">
-                    {isLoading ? (
-                        <div className="flex flex-col gap-y-5">
-                            <SkeletonText type={'smTitle'} nbOfLines={1} style={'mt-3'} />
-                            <SkeletonText
-                                type={'text'}
-                                nbOfLines={7}
-                                fullWidth
-                                gap={'gap-y-1'}
-                            />
-                        </div>
+                        <SkeletonUserCard />
                     ) : (
                         <>
-                            <h2 className={`${SMALL_TITLE_FS} font-semibold`}>About</h2>
-                            <p className={`${BODY_FS}`}>
-                                Hi, I am Nicola and I am lucky enough to live in one of
-                                the most beautiful areas of the Tuscan countryside near
-                                the historical town of Siena .This territory is my home,my
-                                work and my passion. With my wife and children I live on
-                                and work a farm producing traditional organic crops and
-                                also help my family preserve the beautiful castle which is
-                                our family heritage, where my Mum and Aunt still make
-                                their home and where we produce great Chianti wine and
-                                Tuscan olive oil. My family and I are hospitable people
-                                who enjoy sharing this territory we love with our guests.
-                            </p>
+                            <UserImage noBorder width={'w-32'} height={'h-32'} />
+                            <UserStats
+                                nbOwned={spotsOwned.length}
+                                nbVisited={38}
+                                nbReviewed={28}
+                            />
+                            <DividerDesign margin={'mt-4'} />
                         </>
                     )}
                 </div>
-                <DividerDesign />
 
-                <div className="space-y-2">
-                    {isLoading ? (
-                        <SkeletonText type={'smTitle'} nbOfLines={1} />
-                    ) : (
-                        <h2 className={`${SMALL_TITLE_FS} font-semibold`}>
-                            Spots {name} shared
-                        </h2>
-                    )}
-                    <div className="flex justify-center md:justify-between flex-wrap gap-5">
-                        {isLoading
-                            ? ['skeleton', 'of', 'user', 'spots'].map(placeholder => (
-                                  <SpotCardSkeleton key={placeholder} />
-                              ))
-                            : spotsOwned.map(spot => (
-                                  <SpotCard
-                                      shouldNotDisplayUserPic
-                                      key={spot.id}
-                                      spotData={spot}
-                                  />
-                              ))}
+                <div className="w-full lg:w-2/3 flex flex-col gap-y-9">
+                    <div className="flex justify-between items-center">
+                        <div>
+                            {isLoading ? (
+                                <div className="flex flex-col gap-y-2">
+                                    <SkeletonText type={'title'} nbOfLines={1} />
+                                    <SkeletonText type={'smText'} nbOfLines={1} />
+                                </div>
+                            ) : (
+                                <>
+                                    <div className="flex items-center gap-x-3">
+                                        <h1 className={`${TITLE_FS} font-bold white`}>
+                                            Hi, I am {name}
+                                        </h1>
+                                        <button ref={refOutside} onClick={onActionClick}>
+                                            <div
+                                                className="btnPressLike 
+                                           "
+                                            >
+                                                <SlOptions className="text-xl" />
+                                            </div>
+                                            {isActionMenuOpen && (
+                                                <ActionMenuUserProfile
+                                                    currentUserID={
+                                                        currentUser && currentUser.userID
+                                                    }
+                                                    isOpen={isActionMenuOpen}
+                                                    isCurrentUserVisitedUser={
+                                                        isCurrentUserVisitedUser
+                                                    }
+                                                />
+                                            )}
+                                        </button>
+                                    </div>
+                                    <span className={`${SMALL_TEXT_FS}`}>
+                                        Joined in {joiningDate}
+                                    </span>
+                                </>
+                            )}
+                        </div>
+
+                        <div className={`${hideOnLarge}`}>
+                            {isLoading ? (
+                                <SkeletonImage
+                                    style={'w-20 sm:w-32 h-20 sm:h-32 rounded-full'}
+                                />
+                            ) : (
+                                <UserImage
+                                    noBorder
+                                    width={'w-20 sm:w-32'}
+                                    height={'h-20 sm:h-32'}
+                                />
+                            )}
+                        </div>
+                    </div>
+
+                    <div className={`${hideOnLarge} flex flex-col gap-y-4 font-semibold`}>
+                        {isLoading ? (
+                            <SkeletonText
+                                type={'smTitle'}
+                                nbOfLines={3}
+                                gap={'gap-y-5'}
+                            />
+                        ) : (
+                            <UserStats
+                                nbOwned={spotsOwned.length}
+                                nbVisited={38}
+                                nbReviewed={28}
+                            />
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        {isLoading ? (
+                            <div className="flex flex-col gap-y-5">
+                                <SkeletonText
+                                    type={'smTitle'}
+                                    nbOfLines={1}
+                                    style={'mt-3'}
+                                />
+                                <SkeletonText
+                                    type={'text'}
+                                    nbOfLines={7}
+                                    fullWidth
+                                    gap={'gap-y-1'}
+                                />
+                            </div>
+                        ) : (
+                            <>
+                                <h2 className={`${SMALL_TITLE_FS} font-semibold`}>
+                                    About
+                                </h2>
+                                <p className={`${BODY_FS}`}>
+                                    Hi, I am Nicola and I am lucky enough to live in one
+                                    of the most beautiful areas of the Tuscan countryside
+                                    near the historical town of Siena .This territory is
+                                    my home,my work and my passion. With my wife and
+                                    children I live on and work a farm producing
+                                    traditional organic crops and also help my family
+                                    preserve the beautiful castle which is our family
+                                    heritage, where my Mum and Aunt still make their home
+                                    and where we produce great Chianti wine and Tuscan
+                                    olive oil. My family and I are hospitable people who
+                                    enjoy sharing this territory we love with our guests.
+                                </p>
+                            </>
+                        )}
+                    </div>
+                    <DividerDesign />
+
+                    <div className="space-y-2">
+                        {isLoading ? (
+                            <SkeletonText type={'smTitle'} nbOfLines={1} />
+                        ) : (
+                            <h2 className={`${SMALL_TITLE_FS} font-semibold`}>
+                                Spots {name} shared
+                            </h2>
+                        )}
+                        <div className="flex justify-center md:justify-between flex-wrap gap-5">
+                            {isLoading
+                                ? ['skeleton', 'of', 'user', 'spots'].map(placeholder => (
+                                      <SpotCardSkeleton key={placeholder} />
+                                  ))
+                                : spotsOwned.map(spot => (
+                                      <SpotCard
+                                          shouldNotDisplayUserPic
+                                          key={spot.id}
+                                          spotData={spot}
+                                      />
+                                  ))}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

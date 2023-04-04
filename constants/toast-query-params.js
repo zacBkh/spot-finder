@@ -15,6 +15,8 @@ export const TOAST_PARAMS = {
 
     VALUE_DELETED_SPOT_SUCCESS: 'deletedSpotSuccess',
 
+    VALUE_DELETED_USER_SUCCESS: 'deletedUserSuccess',
+
     VALUE_ADDED_PIC_SUCCESS: 'addedImgSuccess',
     VALUE_FEATURE_NOT_YET_AVAILABLE: 'featureNotYetAvailable',
 

@@ -9,7 +9,10 @@ module.exports = {
         extend: {
             colors: {
                 'blue-facebook': '#4C69BA',
+
                 'primary': '#EF5E4E',
+                'primary-hov': '#d2412b',
+
                 'secondary': '#3b97ba',
                 'secondary-light': '#e8f4f6',
                 'secondary-hov': '#d2e7ed',
