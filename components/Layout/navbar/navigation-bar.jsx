@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import SearchSpotBar from './search-spot-bar'
-import { useSession, signOut } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 
 import { PATHS, NAVBAR_ITEMS } from '../../../constants/URLs'
 
@@ -50,7 +50,6 @@ const Navigation = () => {
                         <ul className="flex gap-x-6">
                             {NAVBAR_ITEMS.map(item => (
                                 <NavItems
-                                    context="navbar"
                                     key={item.link}
                                     name={item.name}
                                     link={item.link}
@@ -91,6 +90,7 @@ const Navigation = () => {
                         />
                     </div>
                 </div>
+
                 <HamburgerMenu isOpen={isHamburgerOpen} />
             </header>
         </>

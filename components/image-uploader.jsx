@@ -13,7 +13,7 @@ const ImageUploader = ({ children, onUpload }) => {
             maxFileSize: 800000, // max 800kb
             clientAllowedFormats: ['webp', 'jpg', 'png'],
             maxFiles: 3,
-            sources: ['local', 'url', 'google_drive', 'facebook', 'instagram'],
+            sources: ['local', 'url', 'instagram'],
             maxImageWidth: 1312,
             maxImageHeight: 894,
             text: {

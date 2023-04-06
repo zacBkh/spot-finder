@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import Spinner from '../spinner'
 
-import { FORM_VALID_FS } from '../../constants/responsive-fonts'
+import { SMALL_TEXT_FS } from '../../constants/responsive-fonts'
 import { DISABLED_STYLE } from '../../constants/disabled-style'
 import { BUTTON_FS } from '../../constants/responsive-fonts'
 import { doublePwdFieldSchema } from '../../constants/validation-schemas'
@@ -46,7 +46,7 @@ const ResetPassword = ({}) => {
             return {
                 border: 'border-2 border-primary',
                 message: (
-                    <span className={`${FORM_VALID_FS} !text-primary `}>
+                    <span className={`${SMALL_TEXT_FS} !text-primary `}>
                         {formik.errors[field]}
                     </span>
                 ),

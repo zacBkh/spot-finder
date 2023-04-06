@@ -7,7 +7,7 @@ const Toggler = ({ didUserVisitSpot, onToggle }) => {
             <button
                 onClick={onToggle}
                 className="text-form-color border border-[#e8e1e0] rounded-md flex items-center gap-x-2 w-fit mx-auto p-3
-                bg-transparent hover:bg-tertiary transition-all"
+                bg-transparent hover:bg-tertiary transition-colors"
             >
                 <label
                     htmlFor="default-toggle"

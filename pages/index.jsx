@@ -1,7 +1,7 @@
 import SpotCard from '../components/spot-index-card'
 import { useState, useEffect, useContext } from 'react'
 
-import AppContext from '../context/AppContext'
+import { SearchBarContext } from '../context/AppContext'
 
 import Head from 'next/head'
 
@@ -44,7 +44,7 @@ const AllSpots = ({ spots, queryString }) => {
     console.log('queryString', queryString)
 
     // Context API holding value from navbar search input + method to add
-    const searchContext = useContext(AppContext)
+    const searchContext = useContext(SearchBarContext)
 
     const [activeCategories, setActiveCategories] = useState([])
     const [activeRegion, setActiveRegion] = useState('')
@@ -160,9 +160,8 @@ const AllSpots = ({ spots, queryString }) => {
         setFilteredSpots(spots)
     }, [searchContext.value.length, searchContext.value, spots])
 
-    // Capitalize and take only first string of current user for toaster
-    console.log('filteredSpots[0]', filteredSpots[0])
-
+    const a = `${activeRegion}/${activeCategories}//${filteredSpots}`
+    console.log('a', a)
     return (
         <>
             <Head>
@@ -171,7 +170,7 @@ const AllSpots = ({ spots, queryString }) => {
             </Head>
 
             {/* Global container */}
-            <div className="mt-16 px-12">
+            <div className="mt-16 px-12 2xl:px-36">
                 {/* Filter category container */}
                 {1 === 2 && (
                     <div className="flex-column border border-gray py-2 ">
@@ -229,9 +228,9 @@ const AllSpots = ({ spots, queryString }) => {
                 )}
                 {/* Main section with spots */}
                 <div
-                    className=" 
+                    className="
                         flex flex-wrap
-                        justify-center sm:justify-between
+                        justify-center
                         gap-y-5
                         gap-x-7
                         "

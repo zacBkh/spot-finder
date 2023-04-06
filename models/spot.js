@@ -12,7 +12,7 @@ const spotSchema = new Schema(
             required: [true, 'Title is required'],
             trim: true,
             minLength: 6,
-            maxLength: 40,
+            maxLength: 50,
         },
 
         description: {

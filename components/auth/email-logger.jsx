@@ -15,7 +15,7 @@ import { DISABLED_STYLE } from '../../constants/disabled-style'
 
 import {
     BUTTON_FS,
-    FORM_VALID_FS,
+    SMALL_TEXT_FS,
     ARROW_ICON_FS,
     ARROW_TEXT_FS,
 } from '../../constants/responsive-fonts'
@@ -46,6 +46,7 @@ const EMailLogger = ({
     const router = useRouter()
 
     const [isPwdVisible, setIsPwdVisible] = useState(false)
+    const [disableSubmitBtn, setDisableSubmitBtn] = useState(false)
 
     const [resetPwdStatus, setResetPwdStatus] = useState(
         'If an account is linked to this addres, we will send you an e-mail to reset your password.',
@@ -55,6 +56,10 @@ const EMailLogger = ({
     const [authResult, setAuthResult] = useState(null)
 
     const shouldBtnBeDisabled = () => {
+        if (disableSubmitBtn) {
+            return true
+        }
+
         if (formik.isSubmitting) {
             return true
         }
@@ -78,7 +83,7 @@ const EMailLogger = ({
             return {
                 border: 'border-2 border-primary',
                 message: (
-                    <span className={`${FORM_VALID_FS} !text-primary `}>
+                    <span className={`${SMALL_TEXT_FS} !text-primary `}>
                         {formik.errors[field]}
                     </span>
                 ),
@@ -140,9 +145,12 @@ const EMailLogger = ({
                         redirect: false,
                     })
 
+                    setDisableSubmitBtn(true)
+
                     // if auth issue linked to creds...
                     if (!loginResult.ok && loginResult.error === 'CredentialsSignin') {
                         setAuthResult('Invalid credentials.')
+                        setDisableSubmitBtn(false)
                     } else {
                         router.push(
                             returnToURL
@@ -161,6 +169,8 @@ const EMailLogger = ({
                         email: email.trim(),
                         name: capitalize(name).trim(),
                     }
+                    setDisableSubmitBtn(true)
+
                     const userCreation = await addUserHandler(formValuesFormatted)
                     if (!userCreation.success) {
                         return setAuthResult(userCreation.result)
@@ -213,17 +223,24 @@ const EMailLogger = ({
         isnewUser,
     )
 
-    const whichNameBtn = () => {
+    const whichNameBtnAndUserInfo = () => {
         if (isResetPwd) {
-            return 'Send me an e-mail'
+            return { button: 'Send me an e-mail', stepGuide: '' }
         }
         if (authMode === null) {
-            return 'Continue'
+            return { button: 'Continue', stepGuide: '' }
         }
         if (authMode === 'credentials' && isnewUser === true) {
-            return 'Register'
+            return {
+                button: 'Register',
+                stepGuide: 'Register to explore special features for members only.',
+            }
         } else {
-            return 'Login'
+            return {
+                button: 'Login',
+                stepGuide:
+                    'Welcome back! Please log to continue exploring the best Spots around you.',
+            }
         }
     }
 
@@ -231,21 +248,28 @@ const EMailLogger = ({
         <>
             {authMode === 'credentials' && (
                 <button
-                    className={`${ARROW_TEXT_FS} mb-5 flex items-center gap-x-2 font-medium w-fit`}
+                    className={`${ARROW_TEXT_FS} btnPressLike mb-5 flex items-center gap-x-2 font-medium w-fit`}
                     onClick={goBackReqHandler}
                 >
                     <BiArrowBack className={`${ARROW_ICON_FS}`} />
                     <span>Back</span>
                 </button>
             )}
+            <span className="text-form-color text-center">
+                {whichNameBtnAndUserInfo().stepGuide}
+            </span>
             <form noValidate onSubmit={formik.handleSubmit} className="space-y-4">
                 {/* EMAIL FIELD */}
                 <div>
                     {isResetPwd && <p className="mb-4 text-center">{resetPwdStatus}</p>}
                     <input
+                        title={
+                            authMode === 'credentials' &&
+                            'Press back to edit your email address.'
+                        }
                         {...formik.getFieldProps('email')}
                         ref={mailRef}
-                        disabled={formik.isSubmitting}
+                        disabled={formik.isSubmitting || authMode === 'credentials'}
                         className={`
                             ${validStyling('email').border}
                             ${DISABLED_STYLE}
@@ -343,9 +367,11 @@ const EMailLogger = ({
                         `}
                     type="submit"
                 >
-                    {whichNameBtn()}
-                    {formik.isSubmitting && (
+                    {whichNameBtnAndUserInfo().button}
+                    {formik.isSubmitting || disableSubmitBtn ? (
                         <Spinner color={'border-t-secondary'} className="ml-2" />
+                    ) : (
+                        ''
                     )}
                 </button>
             </form>

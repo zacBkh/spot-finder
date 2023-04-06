@@ -1,5 +1,4 @@
-import { createContext } from "react";
+import { createContext } from 'react'
 
-const AppContext = createContext({});
-
-export default AppContext;
+export const SearchBarContext = createContext({})
+export const ModalsContext = createContext({})

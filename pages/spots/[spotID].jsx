@@ -39,8 +39,7 @@ const {
     VALUE_DELETED_SPOT_SUCCESS,
 } = TOAST_PARAMS
 
-import { BUTTON_FS, HEADER_TITLE_FS } from '../../constants/responsive-fonts'
-import { DISABLED_STYLE } from '../../constants/disabled-style'
+import { HEADER_TITLE_FS } from '../../constants/responsive-fonts'
 
 import { useFormik } from 'formik'
 import { validTitleDesc } from '../../constants/validation-schemas'
@@ -104,6 +103,9 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         images,
         _id: spotID,
     } = indivSpot
+
+    console.log('author', author._id)
+    console.log('currentUserID === author._id', currentUserID === author._id)
 
     const initialValuesEditSpot = {
         title,
@@ -531,18 +533,20 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     <div className="hidden lg:flex flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
                         <SpotCardCTA
                             shouldBeEditable={shouldBeEditable}
-                            author={author.name}
+                            author={author}
                             didUserVisitSpot={didUserVisitSpot}
                             onAddVisit={handleAddVisit}
+                            spotID={spotID}
                         />
                     </div>
                 </div>
                 <div className="flex lg:hidden flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
                     <SpotCardCTA
                         shouldBeEditable={shouldBeEditable}
-                        author={author.name}
+                        author={author}
                         didUserVisitSpot={didUserVisitSpot}
                         onAddVisit={handleAddVisit}
+                        spotID={spotID}
                     />
                 </div>
 

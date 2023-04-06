@@ -18,6 +18,8 @@ const {
     VALUE_EDITED_SPOT_SUCCESS,
     VALUE_DELETED_SPOT_SUCCESS,
 
+    VALUE_DELETED_USER_SUCCESS,
+
     KEY_REQUIRE,
     VALUE_MUST_LOGIN,
     VALUE_MUST_NOT_BE_OWNER,
@@ -127,7 +129,11 @@ const Toaster = () => {
 
             if (queryString[KEY] === VALUE_CREATED_SPOT_FAILURE) {
                 toast.error(
-                    `There has been an issue creating your Spot. Please try again later.`,
+                    <>
+                        There has been an issue creating your Spot. <br /> Please try
+                        again later.
+                    </>,
+
                     {
                         position: 'bottom-left',
                         toastId: 'spotCreationFailure', // prevent duplicates
@@ -205,6 +211,13 @@ const Toaster = () => {
                 toast.error(customToastWithLink(' to mark this Spot as visited.'), {
                     position: 'bottom-left',
                     toastId: 'mustLogInToMarkAsVisited',
+                })
+            }
+
+            if (queryString[KEY] === VALUE_DELETED_USER_SUCCESS) {
+                toast.info(`You deleted your account. 💔`, {
+                    position: 'bottom-left',
+                    toastId: 'deletedAccount',
                 })
             }
         }
