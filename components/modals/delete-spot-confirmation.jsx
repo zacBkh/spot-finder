@@ -51,7 +51,7 @@ const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion }) => 
                                     onClick={spotConfirmedDeletion}
                                     className="text-white bg-primary hover:bg-primary-hov rounded-lg inline-flex items-center px-5 py-2.5 text-center mr-2"
                                 >
-                                    Yes, I'm sure
+                                    Yes, I&apos; m sure
                                 </button>
 
                                 <button

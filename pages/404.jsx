@@ -2,8 +2,6 @@ import Link from 'next/link'
 
 import Image from 'next/image'
 
-import { useState } from 'react'
-
 import ErrorImage from '../public/images/error-page-image.jpg'
 
 import { TITLE_FS, BODY_FS } from '../constants/responsive-fonts'
@@ -15,7 +13,7 @@ import ButtonSpotCard from '../components/design/button-spot-card'
 
 import { PATHS } from '../constants/URLs'
 
-const CustomErrorPage = ({ genericText, contextErrHelper }) => {
+const CustomErrorPage = ({ contextErrHelper }) => {
     const contextualHelp = (
         <span>
             This might be the reason you got lost:{' '}
@@ -31,7 +29,7 @@ const CustomErrorPage = ({ genericText, contextErrHelper }) => {
                     <div className="space-y-10">
                         <div className="space-y-4">
                             <h1 className={`font-bold ${TITLE_FS}`}>
-                                Looks like you're lost!
+                                Looks like you&apos; re lost!
                             </h1>
                             <h2 className={`text-gray-500 ${BODY_FS}`}>
                                 This page does not exist... <br />
