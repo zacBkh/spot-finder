@@ -1,8 +1,10 @@
 import { ICON_IN_BUTTON_FS, BUTTON_FS } from '../../constants/responsive-fonts'
-const ButtonSpotCard = ({ icon, text }) => {
+
+const ButtonSpotCard = ({ icon, text, onClickHandler }) => {
     return (
         <>
             <button
+                onClick={onClickHandler ? () => onClickHandler() : null}
                 className={`${BUTTON_FS}  buttonWrapper
                     transition
                     py-2 px-4 2xl:py-3 2xl:px-9

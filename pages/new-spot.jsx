@@ -36,7 +36,13 @@ const {
 } = TOAST_PARAMS
 
 const AddNewSpot = ({}) => {
+    const [disableActionBtns, setDisableActionBtns] = useState(false)
+
     const logicDisableNextStep = () => {
+        if (disableActionBtns) {
+            return true
+        }
+
         if (!formik.dirty) {
             return true
         }
@@ -66,6 +72,20 @@ const AddNewSpot = ({}) => {
     }
 
     const validStyling = field => {
+        if (field === 'images') {
+            if (formik.errors[field]) {
+                return {
+                    border: '!border-1 !border-primary',
+                    message: (
+                        <span className={`${SMALL_TEXT_FS} !text-primary `}>
+                            {formik.errors[field]}
+                        </span>
+                    ),
+                }
+            } else {
+                return { border: '', message: '' }
+            }
+        }
         if (formik.errors[field] && formik.touched[field]) {
             return {
                 border: '!border-1 !border-primary',
@@ -93,7 +113,7 @@ const AddNewSpot = ({}) => {
     }, [markerCoordinates])
 
     const onSubmitHandler = async formValues => {
-        console.log('formValues', formValues)
+        setDisableActionBtns(true)
         const { title, description, categories, coordinates, images } = formValues
         const descTitleCat = {
             title: title.trim(),
@@ -312,6 +332,9 @@ const AddNewSpot = ({}) => {
                             onSuccessfulUpload={imgUploadHandler}
                             btnStyle={btnClassName}
                         />
+                        <div className="mx-auto w-fit">
+                            {validStyling('images').message}
+                        </div>
                     </>
                 )}
 
@@ -323,7 +346,7 @@ const AddNewSpot = ({}) => {
                             onClick={() => incrementStepHandler('-')}
                             className={`${btnClassName}`}
                             type="button"
-                            disabled={formik.isSubmitting}
+                            disabled={formik.isSubmitting || disableActionBtns}
                         >
                             Back
                         </button>
@@ -335,9 +358,10 @@ const AddNewSpot = ({}) => {
                         type={rightBtnState().type}
                     >
                         {rightBtnState().text}
-                        {formik.isSubmitting && (
-                            <Spinner color={'border-t-secondary'} className="ml-2" />
-                        )}
+                        {formik.isSubmitting ||
+                            (disableActionBtns && (
+                                <Spinner color={'border-t-secondary'} className="ml-2" />
+                            ))}
                     </button>
                 </div>
             </form>

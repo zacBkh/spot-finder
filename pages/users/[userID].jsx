@@ -1,4 +1,4 @@
-import Error from 'next/error'
+import CustomErrorPage from '../404'
 
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
@@ -14,12 +14,8 @@ const UserProfile = () => {
 
     const { data: session, status } = useSession()
 
-    console.log('session', session)
-    console.log('router.query', router.query)
-
     const fetcherUser = async () => {
         const userData = await getUserData(query.userID)
-        console.log('userData', userData)
 
         return userData
     }
@@ -28,14 +24,13 @@ const UserProfile = () => {
         isReady ? 'get_user_profile' : null,
         fetcherUser,
     )
-    console.log('userVisited', userVisited)
 
     const sessionNotReady = status === 'loading'
-    if (userError) return <div>failed to load</div>
 
-    if (!userVisited?.success) {
-        return <Error title={'Error bro'} />
+    if (userVisited?.success === false) {
+        return <CustomErrorPage contextErrHelper={userVisited.result} />
     }
+
     return (
         <>
             <UserCard
@@ -43,9 +38,6 @@ const UserProfile = () => {
                 visitedUser={!userVisited ? '' : userVisited.result}
                 currentUser={sessionNotReady ? '' : session}
             />
-
-            {/* <h1>{emailVerified ? 'true' : 'false'}</h1>
-            <h1>Number of spots: {ownedSpots.length}</h1> */}
         </>
     )
 }

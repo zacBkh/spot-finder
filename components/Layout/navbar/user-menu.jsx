@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+import { useRouter } from 'next/router'
+
 import { useSession } from 'next-auth/react'
 import { signOut } from 'next-auth/react'
 
@@ -10,11 +12,20 @@ const { KEY, VALUE_LOGOUT } = TOAST_PARAMS
 import DividerDesign from '../../design/divider'
 
 const UserMenu = ({ currentAuthStatus, isOpen, onUserMenuClick }) => {
+    const router = useRouter()
+
     const { data: session } = useSession()
     const userID = session?.userID
 
-    const callbackURLWithToast = `${PATHS.HOME}?${KEY}=${VALUE_LOGOUT}`
+    const signOutHandler = async () => {
+        onUserMenuClick()
+        await signOut({ redirect: false })
 
+        await router.push({
+            pathname: PATHS.HOME,
+            query: { [KEY]: VALUE_LOGOUT },
+        })
+    }
     return (
         <div className="relative">
             <div className={`${isOpen ? 'block' : 'hidden'} z-50 absolute right-0`}>
@@ -36,16 +47,12 @@ const UserMenu = ({ currentAuthStatus, isOpen, onUserMenuClick }) => {
                                 </li>
                                 <DividerDesign />
 
-                                <li
-                                    onClick={() =>
-                                        signOut({ callbackUrl: callbackURLWithToast })
-                                    }
-                                >
+                                <li onClick={signOutHandler}>
                                     <a>Sign Out</a>
                                 </li>
                             </>
                         ) : (
-                            <li>
+                            <li onClick={onUserMenuClick}>
                                 <Link href={PATHS.AUTH}>Sign up or Login</Link>
                             </li>
                         )}

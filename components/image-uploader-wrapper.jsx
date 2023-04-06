@@ -31,7 +31,7 @@ const ImageUploaderWrapper = ({ btnStyle, onSuccessfulUpload }) => {
                         setIsWidgetLoading(true)
                         setTimeout(() => {
                             setIsWidgetLoading(false)
-                        }, 5000)
+                        }, 6000)
                         e.preventDefault()
                         open()
                     }

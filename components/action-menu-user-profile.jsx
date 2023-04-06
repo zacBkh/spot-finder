@@ -21,7 +21,7 @@ const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser, currentUserID
 
     const btnClass = 'p-2 flex items-center gap-x-2 hover:bg-[#f7f7f7]'
 
-    const clickHandler = () => {
+    const reportUserHandler = () => {
         const userID = router.query.userID
         router.push(
             { query: { userID, [KEY]: VALUE_FEATURE_NOT_YET_AVAILABLE } },
@@ -30,8 +30,8 @@ const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser, currentUserID
         )
     }
 
+    // Will open modal
     const deleteAccountRequestHandler = () => {
-        console.log('currentUserID', currentUserID)
         modalContext.confirmAccountDeletion.newUserToDeleteHandler(currentUserID)
         modalContext.confirmAccountDeletion.toggleModalState()
     }
@@ -68,7 +68,7 @@ const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser, currentUserID
                     )}
                     {!isCurrentUserVisitedUser && (
                         <div
-                            onClick={clickHandler}
+                            onClick={reportUserHandler}
                             className={`${btnClass} hover:text-primary`}
                         >
                             <BsFlag />
@@ -79,7 +79,7 @@ const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser, currentUserID
                     )}
 
                     <div
-                        onClick={clickHandler}
+                        onClick={reportUserHandler}
                         className={`${btnClass} hover:text-success`}
                     >
                         <CiShare1 />

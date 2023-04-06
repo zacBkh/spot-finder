@@ -15,10 +15,6 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
     const { id, title, description, categories, author, country, images } = spotData
     const router = useRouter()
 
-    const clickDetailsHandler = () => {
-        router.push(`/spots/${id}`)
-    }
-
     const spotIcons = SPOT_CATEGORIES.filter(cat => categories.includes(cat.name))
 
     const displaySuspensionPoints = 'text-ellipsis whitespace-nowrap overflow-hidden'

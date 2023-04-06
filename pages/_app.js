@@ -12,7 +12,7 @@ import '../styles/nprogress.css'
 import { SearchBarContext, ModalsContext } from '../context/AppContext'
 import Toaster from '../components/toaster-wrapper.jsx'
 
-import DeleteAccountConfirmationModal from '../components/modals/delete-account-confirmation'
+import ModalsWrapper from '../components/modals/modals-wrapper'
 
 const MyApp = ({ Component, pageProps: { session, ...pageProps }, router }) => {
     // nProgress Bar
@@ -42,9 +42,10 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps }, router }) => {
     }
 
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [hasUserConfirmed, setHasUserConfirmed] = useState(false)
     const [userToDelete, setUserToDelete] = useState(null)
 
+    const [spotToDelete, setSpotToDelete] = useState(null)
+    const [isModalOpenSpotDeletion, setIsModalOpenSpotDeletion] = useState(false)
     // Holds modals state context
     const modalsContext = {
         confirmAccountDeletion: {
@@ -53,31 +54,45 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps }, router }) => {
                 setIsModalOpen(prev => !prev)
             },
 
-            confirmedDeletionHandler: () => {
-                setHasUserConfirmed(true)
-            },
-            hasUserConfirmed: hasUserConfirmed,
-
             newUserToDeleteHandler: user => {
                 setUserToDelete(user)
             },
             userToDelete: userToDelete,
         },
+
+        confirmSpotDeletion: {
+            isActive: isModalOpenSpotDeletion,
+            toggleModalState: () => {
+                setIsModalOpenSpotDeletion(prev => !prev)
+            },
+
+            newSpotToDeleteHandler: spot => {
+                setSpotToDelete(spot)
+            },
+            spotToDelete: spotToDelete,
+        },
     }
 
+    const isOneModalOpened = Object.values(modalsContext)
+        .map(x => x.isActive === true)
+        .includes(true)
+    console.log('isOneModalOpened', isOneModalOpened)
+    // Disable scroll when one modal opened
+    useEffect(() => {
+        const body = document.querySelector('body')
+        body.style.overflow = isOneModalOpened ? 'clip' : 'auto'
+    }, [isOneModalOpened])
     return (
         <SessionProvider session={session}>
             <ModalsContext.Provider value={modalsContext}>
-                <DeleteAccountConfirmationModal
-                    modalContextAccountDeletion={modalsContext.confirmAccountDeletion}
-                >
-                    <SearchBarContext.Provider value={searchBarContext}>
-                        <Layout>
-                            <Toaster />
-                            <Component {...pageProps} />
-                        </Layout>
-                    </SearchBarContext.Provider>
-                </DeleteAccountConfirmationModal>
+                <ModalsWrapper currentModalContext={modalsContext} />
+
+                <SearchBarContext.Provider value={searchBarContext}>
+                    <Layout>
+                        <Toaster />
+                        <Component {...pageProps} />
+                    </Layout>
+                </SearchBarContext.Provider>
             </ModalsContext.Provider>
         </SessionProvider>
     )

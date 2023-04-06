@@ -4,7 +4,7 @@ import { BODY_FS } from '../constants/responsive-fonts'
 
 const CountryDisplayer = ({ name, code }) => {
     return (
-        <div className="flex items-center gap-x-3 text-form-color mr-3">
+        <div className="flex items-center gap-x-3 text-form-color mr-3 w-fit bg-gray-100 px-4 py-1 rounded-md">
             <p className={`w-max ${BODY_FS}`}>
                 This spot is located in <span className="font-semibold">{name}</span>
             </p>

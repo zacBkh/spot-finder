@@ -160,6 +160,8 @@ const AllSpots = ({ spots, queryString }) => {
         setFilteredSpots(spots)
     }, [searchContext.value.length, searchContext.value, spots])
 
+    const a = `${activeRegion}/${activeCategories}//${filteredSpots}`
+    console.log('a', a)
     return (
         <>
             <Head>
@@ -226,9 +228,9 @@ const AllSpots = ({ spots, queryString }) => {
                 )}
                 {/* Main section with spots */}
                 <div
-                    className=" 
+                    className="
                         flex flex-wrap
-                        justify-center sm:justify-between
+                        justify-center
                         gap-y-5
                         gap-x-7
                         "

@@ -10,6 +10,10 @@
 
 /* CUSTOM CSS COME HERE */
 
+button:active {
+    transform: scale(0.9);
+}
+
 html,
 body {
     padding: 0;
@@ -135,4 +139,43 @@ textarea:focus-visible {
 
 .shadowPF {
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.transition-modal {
+    animation-name: modalTransition;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+}
+
+@keyframes modalTransition {
+    from {
+        opacity: 20%;
+        transform: translateY(30%);
+    }
+    to {
+        opacity: 100%;
+        transform: translateY(0%);
+    }
+}
+
+.overlay {
+    position: fixed;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+
+    animation-name: overlayTransition;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+}
+
+@keyframes overlayTransition {
+    from {
+        background-color: rgba(49, 49, 49, 0);
+    }
+    to {
+        background-color: rgba(49, 49, 49, 0.8);
+    }
 }

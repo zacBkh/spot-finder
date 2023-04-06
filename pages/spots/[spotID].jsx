@@ -104,6 +104,9 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         _id: spotID,
     } = indivSpot
 
+    console.log('author', author._id)
+    console.log('currentUserID === author._id', currentUserID === author._id)
+
     const initialValuesEditSpot = {
         title,
         description,
@@ -530,18 +533,20 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     <div className="hidden lg:flex flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
                         <SpotCardCTA
                             shouldBeEditable={shouldBeEditable}
-                            author={author.name}
+                            author={author}
                             didUserVisitSpot={didUserVisitSpot}
                             onAddVisit={handleAddVisit}
+                            spotID={spotID}
                         />
                     </div>
                 </div>
                 <div className="flex lg:hidden flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
                     <SpotCardCTA
                         shouldBeEditable={shouldBeEditable}
-                        author={author.name}
+                        author={author}
                         didUserVisitSpot={didUserVisitSpot}
                         onAddVisit={handleAddVisit}
+                        spotID={spotID}
                     />
                 </div>
 

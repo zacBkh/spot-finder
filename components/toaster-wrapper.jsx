@@ -129,7 +129,11 @@ const Toaster = () => {
 
             if (queryString[KEY] === VALUE_CREATED_SPOT_FAILURE) {
                 toast.error(
-                    `There has been an issue creating your Spot. Please try again later.`,
+                    <>
+                        There has been an issue creating your Spot. <br /> Please try
+                        again later.
+                    </>,
+
                     {
                         position: 'bottom-left',
                         toastId: 'spotCreationFailure', // prevent duplicates
