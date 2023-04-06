@@ -9,7 +9,6 @@ import Image from 'next/image'
 
 import {
     editSpotHandler,
-    deleteSpotHandler,
     addOneVisitSpotHandler,
     addOneReview,
 } from '../../services/mongo-fetchers'
@@ -23,7 +22,6 @@ import MapShow from '../../components/Maps/MapShow'
 import Review from '../../components/Reviews/Review'
 
 import { PATHS } from '../../constants/URLs'
-const { HOME } = PATHS
 
 import { TEXTAREA_INPUTS_FS } from '../../constants/responsive-fonts'
 
@@ -36,7 +34,6 @@ const {
     VALUE_ADD_SPOT_AS_VISITED_SUCCESS,
     VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS,
     VALUE_EDITED_SPOT_SUCCESS,
-    VALUE_DELETED_SPOT_SUCCESS,
 } = TOAST_PARAMS
 
 import { HEADER_TITLE_FS } from '../../constants/responsive-fonts'
@@ -208,15 +205,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
         setDidUserVisitSpot(prevState => !prevState)
         setNbOfVisit(prevState => (didUserVisitSpot ? prevState - 1 : prevState + 1))
-    }
-
-    // Will call the fetcher for DELETE located in utils
-    const handleDelete = async () => {
-        await deleteSpotHandler(spotID)
-        router.push({
-            pathname: HOME,
-            query: { [KEY]: VALUE_DELETED_SPOT_SUCCESS },
-        })
     }
 
     // Review
@@ -562,12 +550,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             isAuthor={currentUserID === author}
                             onReviewSubmit={onReviewSubmit}
                         />
-                    )}
-
-                    {/* Spot Deletion */}
-
-                    {currentUserID === author._id && (
-                        <h1 onClick={handleDelete}>Delete Spot</h1>
                     )}
                 </div>
             </div>

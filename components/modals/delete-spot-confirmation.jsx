@@ -6,23 +6,23 @@ import { useRouter } from 'next/router'
 import { deleteSpotHandler } from '../../services/mongo-fetchers'
 
 import { PATHS } from '../../constants/URLs'
-import { KEY, VALUE_DELETED_SPOT_SUCCESS } from '../../constants/toast-query-params'
+import { TOAST_PARAMS } from '../../constants/toast-query-params'
+const { KEY, VALUE_DELETED_SPOT_SUCCESS } = TOAST_PARAMS
 
 const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion }) => {
     const router = useRouter()
 
     const closeModal = () => {
-        console.log('I ran')
         modalContextSpotDeletion.toggleModalState()
     }
     const spotConfirmedDeletion = async () => {
-        console.log('WANT TO DELETE SPOT...')
-
-        const deleteSpot = await deleteSpotHandler(modalContextSpotDeletion.spotToDelete)
-        console.log('deleteSpot', deleteSpot)
+        await deleteSpotHandler(modalContextSpotDeletion.spotToDelete)
 
         router.push(
-            { pathname: PATHS.HOME, query: { [KEY]: VALUE_DELETED_SPOT_SUCCESS } },
+            {
+                pathname: PATHS.HOME,
+                query: { [KEY]: VALUE_DELETED_SPOT_SUCCESS },
+            },
             undefined,
         )
     }
