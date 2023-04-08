@@ -14,7 +14,8 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
 
     const spotIcons = SPOT_CATEGORIES.filter(cat => categories.includes(cat.name))
 
-    const displaySuspensionPoints = 'text-ellipsis whitespace-nowrap overflow-hidden'
+    const displaySuspensionPoints =
+        'text-ellipsis whitespace-nowrap overflow-hidden text-start'
     return (
         <Link href={`/spots/${_id}`}>
             <a>
@@ -32,10 +33,12 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
                             <MissingImage />
                         )}
                     </div>
-                    <div className="flex flex-col gap-y-2 px-1">
-                        <div className="mt-2 flex justify-between items-start text-form-color text-[15px]">
-                            <div className="max-w-[75%] flex flex-col">
-                                <p className={`font-semibold ${displaySuspensionPoints}`}>
+                    <div className="flex flex-col gap-y-2 px-1 w-full">
+                        <div className="mt-2 flex justify-between items-start text-form-color text-[15px] w-full">
+                            <div className="w-[75%] flex flex-col">
+                                <p
+                                    className={`font-semibold ${displaySuspensionPoints} `}
+                                >
                                     {title}
                                 </p>
                                 <div className="flex items-center text-[#707070]">
