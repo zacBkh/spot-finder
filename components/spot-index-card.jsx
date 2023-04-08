@@ -19,14 +19,14 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
     return (
         <Link href={`/spots/${_id}`}>
             <a>
-                <button className="cursor-pointer flex flex-col w-64">
-                    <div className="relative w-full h-64 mx-auto">
+                <button className="cursor-pointer flex flex-col w-64 group">
+                    <div className="relative w-full h-64 mx-auto  rounded-lg overflow-hidden">
                         {images[0] ? (
                             <Image
                                 src={images[0]}
                                 alt="Picture of a Spot on SpotFinder"
                                 layout="fill"
-                                className="rounded-lg object-cover"
+                                className=" object-cover group-hover:scale-110 transition-transform duration-[175ms] "
                                 quality={10}
                             />
                         ) : (

@@ -1,8 +1,8 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 
 import { useRouter } from 'next/router'
 
-import SpotGradeDisplayer from './grade-spot-displayer'
+import SpotSpecsDisplayer from './specs-spot-displayer'
 import ButtonSpotCard from './design/button-spot-card'
 import SpotterProfilePreview from './spotter-profile-preview'
 import DividerDesign from './design/divider'
@@ -45,9 +45,19 @@ const SpotCardCTA = ({
         )
     }
 
+    const [updatedNbOfVisits, setUpdatedNbfVisits] = useState(nbOfVisits)
+
+    const toggleSwitchHandler = () => {
+        onAddVisit()
+        didUserVisitSpot
+            ? setUpdatedNbfVisits(prevState => prevState - 1)
+            : setUpdatedNbfVisits(prevState => prevState + 1)
+    }
+
+    // onClick={() => { func1(); func2();}}
     return (
         <>
-            <SpotGradeDisplayer nbOfVisits={nbOfVisits} />
+            <SpotSpecsDisplayer nbOfVisits={updatedNbOfVisits} />
             <div className="flex justify-center gap-x-4 sticky top-11">
                 <ButtonSpotCard
                     icon={<MdOutlineRateReview />}
@@ -69,7 +79,7 @@ const SpotCardCTA = ({
             </div>
             <SpotterProfilePreview author={author} />
             <DividerDesign />
-            <Toggler onToggle={onAddVisit} didUserVisitSpot={didUserVisitSpot} />
+            <Toggler onToggle={toggleSwitchHandler} didUserVisitSpot={didUserVisitSpot} />
         </>
     )
 }
