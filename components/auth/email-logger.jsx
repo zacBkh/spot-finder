@@ -248,7 +248,7 @@ const EMailLogger = ({
         <>
             {authMode === 'credentials' && (
                 <button
-                    className={`${ARROW_TEXT_FS} btnPressLike mb-5 flex items-center gap-x-2 font-medium w-fit`}
+                    className={`${ARROW_TEXT_FS}  mb-5 flex items-center gap-x-2 font-medium w-fit`}
                     onClick={goBackReqHandler}
                 >
                     <BiArrowBack className={`${ARROW_ICON_FS}`} />
@@ -264,8 +264,9 @@ const EMailLogger = ({
                     {isResetPwd && <p className="mb-4 text-center">{resetPwdStatus}</p>}
                     <input
                         title={
-                            authMode === 'credentials' &&
-                            'Press back to edit your email address.'
+                            authMode === 'credentials'
+                                ? 'Press back to edit your email address.'
+                                : undefined
                         }
                         {...formik.getFieldProps('email')}
                         ref={mailRef}

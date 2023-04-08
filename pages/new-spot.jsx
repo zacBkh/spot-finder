@@ -141,17 +141,11 @@ const AddNewSpot = ({}) => {
             images,
         }
 
-        // Adding spot visit
-        let visitedField
-        if (session) {
-            visitedField = { numberOfVisits: 1, visitors: session.userID }
-        }
-
         // Adding the author + visitor
         const finalNewSpotObject = {
             ...newObjectWithGeoJSON,
             author: session.userID,
-            visited: visitedField,
+            visitors: [session.userID],
         }
 
         const submissionStatus = await addSpotHandler(finalNewSpotObject)

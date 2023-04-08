@@ -1,4 +1,4 @@
-import { CiImageOff } from 'react-icons/ci'
+import { ImImages } from 'react-icons/im'
 import { BODY_FS } from '../constants/responsive-fonts'
 
 import { useRouter } from 'next/router'
@@ -20,8 +20,8 @@ const MissingImage = () => {
     return (
         <>
             <div className="bg-[#E7E7E7] w-full h-full flex flex-col justify-center items-center gap-y-2">
-                <CiImageOff className="w-1/2 h-1/2 text-dark-color " />
-                <span className={`${BODY_FS} text-center`}>
+                <ImImages className="w-1/2 h-1/2 text-dark-color " />
+                <span className={`${BODY_FS} mt-2 text-center`}>
                     No image available.{' '}
                     <button className="underline" onClick={clickHandler}>
                         Add yours!

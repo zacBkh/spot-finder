@@ -1,5 +1,5 @@
 import { BsCamera } from 'react-icons/bs'
-import { CiLocationOn } from 'react-icons/ci'
+import { GoLocation } from 'react-icons/go'
 
 import { BUTTON_FS } from '../../constants/responsive-fonts'
 const ButtonPhoto = ({ type, isMapFullScreen, onMapToggle }) => {
@@ -16,7 +16,7 @@ const ButtonPhoto = ({ type, isMapFullScreen, onMapToggle }) => {
                     </>
                 ) : (
                     <>
-                        <CiLocationOn className="w-4 h-4 md:w-5 md:h-5" />
+                        <GoLocation className="w-4 h-4 md:w-5 md:h-5" />
                         {isMapFullScreen ? 'Hide Map' : 'Show on Map'}
                     </>
                 )}

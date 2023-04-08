@@ -40,16 +40,14 @@ export default async function APIHandler(req, res) {
 
                 let queryOptions
                 if (hadVisited === true) {
-                    // if user want to remove visited mark
+                    // if user want to remove a visit
                     queryOptions = {
-                        $inc: { 'visited.numberOfVisits': -1 },
-                        $pull: { 'visited.visitors': visitorID },
+                        $pull: { visitors: visitorID },
                     }
                 } else {
                     queryOptions = {
-                        // if user want to add visited mark
-                        $inc: { 'visited.numberOfVisits': 1 },
-                        $addToSet: { 'visited.visitors': visitorID },
+                        // if user want to add a visit
+                        $addToSet: { visitors: visitorID },
                     }
                 }
 

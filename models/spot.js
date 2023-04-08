@@ -72,21 +72,13 @@ const spotSchema = new Schema(
             ref: 'User',
         },
 
-        visited: {
-            numberOfVisits: {
-                type: Number,
-                // required: true,
-                default: 1,
+        visitors: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+                default: [],
             },
-
-            // Array of userIDs
-            visitors: [
-                {
-                    type: Schema.Types.ObjectId,
-                    ref: 'User',
-                },
-            ],
-        },
+        ],
 
         reviews: [
             {

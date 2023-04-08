@@ -30,7 +30,7 @@ const hideOnLarge = 'lg:hidden'
 const showOnLarge = 'hidden lg:flex flex-col'
 
 const UserCard = ({ isLoading, visitedUser, currentUser }) => {
-    const { name, spotsOwned, createdAt, _id: visitedUserID } = visitedUser
+    const { name, spotsOwned, createdAt, _id: visitedUserID, visitedSpots } = visitedUser
 
     let isCurrentUserVisitedUser = false
     if (currentUser && visitedUserID === currentUser.userID) {
@@ -61,7 +61,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                             <UserImage noBorder width={'w-32'} height={'h-32'} />
                             <UserStats
                                 nbOwned={spotsOwned.length}
-                                nbVisited={38}
+                                nbVisited={visitedSpots}
                                 nbReviewed={28}
                             />
                             <DividerDesign margin={'mt-4'} />
@@ -84,12 +84,9 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                             Hi, I am {name}
                                         </h1>
                                         <button ref={refOutside} onClick={onActionClick}>
-                                            <div
-                                                className="btnPressLike 
-                                           "
-                                            >
+                                            <button>
                                                 <SlOptions className="text-xl" />
-                                            </div>
+                                            </button>
                                             {isActionMenuOpen && (
                                                 <ActionMenuUserProfile
                                                     currentUserID={
@@ -195,7 +192,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 : spotsOwned.map(spot => (
                                       <SpotCard
                                           shouldNotDisplayUserPic
-                                          key={spot.id}
+                                          key={spot._id}
                                           spotData={spot}
                                       />
                                   ))}

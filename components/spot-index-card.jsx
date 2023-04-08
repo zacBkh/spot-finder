@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -12,33 +10,35 @@ import UserImage from './user-image'
 import SPOT_CATEGORIES from '../constants/spot-categories'
 
 const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
-    const { id, title, description, categories, author, country, images } = spotData
-    const router = useRouter()
+    const { _id, title, description, categories, author, country, images } = spotData
 
     const spotIcons = SPOT_CATEGORIES.filter(cat => categories.includes(cat.name))
 
-    const displaySuspensionPoints = 'text-ellipsis whitespace-nowrap overflow-hidden'
+    const displaySuspensionPoints =
+        'text-ellipsis whitespace-nowrap overflow-hidden text-start'
     return (
-        <Link href={`/spots/${id}`}>
+        <Link href={`/spots/${_id}`}>
             <a>
-                <div className="cursor-pointer flex flex-col w-64  ">
-                    <div className="relative w-full h-64 mx-auto">
+                <button className="cursor-pointer flex flex-col w-64 group">
+                    <div className="relative w-full h-64 mx-auto  rounded-lg overflow-hidden">
                         {images[0] ? (
                             <Image
                                 src={images[0]}
                                 alt="Picture of a Spot on SpotFinder"
                                 layout="fill"
-                                className="rounded-lg object-cover"
+                                className=" object-cover group-hover:scale-110 transition-transform duration-[175ms] "
                                 quality={10}
                             />
                         ) : (
                             <MissingImage />
                         )}
                     </div>
-                    <div className="flex flex-col gap-y-2 px-1">
-                        <div className="mt-2 flex justify-between items-start text-form-color text-[15px]">
-                            <div className="max-w-[75%] flex flex-col">
-                                <p className={`font-semibold ${displaySuspensionPoints}`}>
+                    <div className="flex flex-col gap-y-2 px-1 w-full">
+                        <div className="mt-2 flex justify-between items-start text-form-color text-[15px] w-full">
+                            <div className="w-[75%] flex flex-col">
+                                <p
+                                    className={`font-semibold ${displaySuspensionPoints} `}
+                                >
                                     {title}
                                 </p>
                                 <div className="flex items-center text-[#707070]">
@@ -89,7 +89,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
                             ))}
                         </div>
                     </div>
-                </div>
+                </button>
             </a>
         </Link>
     )

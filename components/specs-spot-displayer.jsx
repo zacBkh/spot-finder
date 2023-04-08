@@ -2,7 +2,7 @@ import { MdGrade } from 'react-icons/md'
 
 import { GRADE_CARD_FS } from '../constants/responsive-fonts'
 
-const SpotGradeDisplayer = ({}) => {
+const SpotSpecsDisplayer = ({ nbOfVisits }) => {
     return (
         <div
             className={`${GRADE_CARD_FS} flex justify-center items-center gap-x-1 font-semibold`}
@@ -13,8 +13,12 @@ const SpotGradeDisplayer = ({}) => {
             <button className="underline decoration-primary underline-offset-4 text-primary">
                 <span>8 reviews</span>
             </button>
+            <span className="text-form-color">·</span>
+            <span className="text-form-color">
+                {nbOfVisits} {nbOfVisits > 1 ? 'visits' : 'visit'}
+            </span>
         </div>
     )
 }
 
-export default SpotGradeDisplayer
+export default SpotSpecsDisplayer

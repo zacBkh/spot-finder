@@ -1,6 +1,7 @@
 import connectMongo from '../../../utils/connectMongo'
 
 import User from '../../../models/user'
+import Spot from '../../../models/spot'
 
 import { hash } from 'bcryptjs'
 
@@ -15,17 +16,25 @@ export default async function userHandling(req, res) {
 
     const { userID } = req.query
 
-    // If does not find user
-    const user = await User.findById(userID).populate('spotsOwned')
+    // Used lean to convert mongo doc to JS object
+    const user = await User.findById(userID).populate('spotsOwned').lean()
 
+    // If does not find user
     if (!user) {
         res.status(400).json({ success: false, result: 'User does not exist' })
         return
     }
 
+    const visitedSpotsOfUser = await Spot.find({ visitors: userID }).lean()
+    // Adding spots visited to user object
+    const userWithSpotsVisited = { ...user, visitedSpots: visitedSpotsOfUser.length }
+
     if (req.method === 'GET') {
         console.log('GET REQUEST')
-        res.status(200).json({ success: true, result: user })
+        res.status(200).json({
+            success: true,
+            result: userWithSpotsVisited,
+        })
         return
     }
     if (req.method === 'PATCH') {

@@ -31,6 +31,7 @@ const UserProfile = () => {
         return <CustomErrorPage contextErrHelper={userVisited.result} />
     }
 
+    console.log('userVisited', userVisited)
     return (
         <>
             <UserCard

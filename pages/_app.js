@@ -76,7 +76,6 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps }, router }) => {
     const isOneModalOpened = Object.values(modalsContext)
         .map(x => x.isActive === true)
         .includes(true)
-    console.log('isOneModalOpened', isOneModalOpened)
     // Disable scroll when one modal opened
     useEffect(() => {
         const body = document.querySelector('body')

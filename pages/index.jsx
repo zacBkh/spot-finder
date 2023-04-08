@@ -101,7 +101,7 @@ const AllSpots = ({ spots, queryString }) => {
                     setFilteredSpots(
                         [...spots].sort(
                             // .sort returns same array so we need to mutate it
-                            (a, b) => b.visited.numberOfVisits - a.visited.numberOfVisits,
+                            (a, b) => b.visitors.length - a.visitors.length,
                         ),
                     )
                     break
@@ -160,8 +160,6 @@ const AllSpots = ({ spots, queryString }) => {
         setFilteredSpots(spots)
     }, [searchContext.value.length, searchContext.value, spots])
 
-    const a = `${activeRegion}/${activeCategories}//${filteredSpots}`
-    console.log('a', a)
     return (
         <>
             <Head>
