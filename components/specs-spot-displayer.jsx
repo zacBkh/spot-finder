@@ -5,16 +5,16 @@ import { GRADE_CARD_FS } from '../constants/responsive-fonts'
 const SpotSpecsDisplayer = ({ nbOfVisits }) => {
     return (
         <div
-            className={`${GRADE_CARD_FS} flex justify-center items-center gap-x-1 font-semibold`}
+            className={`${GRADE_CARD_FS} flex justify-center items-center gap-x-1 font-semibold text-form-color`}
         >
             <MdGrade />
-            <span className="text-form-color">4.83 </span>
-            <span className="text-form-color">·</span>
+            <span>4.83 </span>
+            <span>·</span>
             <button className="underline decoration-primary underline-offset-4 text-primary">
                 <span>8 reviews</span>
             </button>
-            <span className="text-form-color">·</span>
-            <span className="text-form-color">
+            <span>·</span>
+            <span>
                 {nbOfVisits} {nbOfVisits > 1 ? 'visits' : 'visit'}
             </span>
         </div>

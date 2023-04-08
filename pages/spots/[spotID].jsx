@@ -516,6 +516,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             didUserVisitSpot={didUserVisitSpot}
                             onAddVisit={handleAddVisit}
                             spotID={spotID}
+                            spotDetails={{ title, country: country.name }}
                         />
                     </div>
                 </div>
@@ -527,6 +528,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                         didUserVisitSpot={didUserVisitSpot}
                         onAddVisit={handleAddVisit}
                         spotID={spotID}
+                        spotDetails={{ title, country: country.name }}
                     />
                 </div>
 

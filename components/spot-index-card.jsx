@@ -41,7 +41,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
                                 >
                                     {title}
                                 </p>
-                                <div className="flex items-center text-[#707070]">
+                                <div className="flex items-center text-greyText">
                                     <MdLocationOn className="text-lg" />
                                     <p className={`text-sm ${displaySuspensionPoints}`}>
                                         {country.name}
@@ -58,7 +58,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
                         {shouldNotDisplayUserPic ? (
                             ''
                         ) : (
-                            <div className="flex gap-x-2 items-center group w-fit text-[#707070]">
+                            <div className="flex gap-x-2 items-center group w-fit text-greyText">
                                 <UserImage width={'w-7'} height={'h-7'} />
                                 <span className="text-sm group-hover:underline ">
                                     Spot by {author.name}
@@ -71,7 +71,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
                                 <div
                                     key={icon.name}
                                     title={`This spot is related to the ${icon.name} category`}
-                                    className=" items-center text-[#707070] w-fit inline"
+                                    className=" items-center text-greyText w-fit inline"
                                 >
                                     {index === spotIcons.length - 1 ? (
                                         <span className="flex items-center gap-x-2">

@@ -24,6 +24,7 @@ const SpotCardCTA = ({
     didUserVisitSpot,
     spotID,
     nbOfVisits,
+    spotDetails,
 }) => {
     const router = useRouter()
 
@@ -45,6 +46,12 @@ const SpotCardCTA = ({
         )
     }
 
+    // Will open modal and add the spot name to global state
+    const reviewSpotRequestHandler = () => {
+        modalContext.seeSpotReviews.toggleModalState()
+        modalContext.seeSpotReviews.spotReviewedHandler(spotDetails)
+    }
+
     const [updatedNbOfVisits, setUpdatedNbfVisits] = useState(nbOfVisits)
 
     const toggleSwitchHandler = () => {
@@ -54,7 +61,6 @@ const SpotCardCTA = ({
             : setUpdatedNbfVisits(prevState => prevState + 1)
     }
 
-    // onClick={() => { func1(); func2();}}
     return (
         <>
             <SpotSpecsDisplayer nbOfVisits={updatedNbOfVisits} />
@@ -62,7 +68,7 @@ const SpotCardCTA = ({
                 <ButtonSpotCard
                     icon={<MdOutlineRateReview />}
                     text={'Review'}
-                    onClickHandler={featureNotReadyHandler}
+                    onClickHandler={reviewSpotRequestHandler}
                 />
 
                 {shouldBeEditable ? (

@@ -41,15 +41,19 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps }, router }) => {
         },
     }
 
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isModalOpenAccountDeletion, setIsModalOpenAccountDeletion] = useState(false)
     const [userToDelete, setUserToDelete] = useState(null)
 
     const [spotToDelete, setSpotToDelete] = useState(null)
     const [isModalOpenSpotDeletion, setIsModalOpenSpotDeletion] = useState(false)
+
+    const [isModalOpenReviewsDisplay, setIsModalOpenReviewsDisplay] = useState(false)
+    const [spotReviewed, setSpotReviewed] = useState(null)
+
     // Holds modals state context
     const modalsContext = {
         confirmAccountDeletion: {
-            isActive: isModalOpen,
+            isActive: isModalOpenAccountDeletion,
             toggleModalState: () => {
                 setIsModalOpen(prev => !prev)
             },
@@ -70,6 +74,18 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps }, router }) => {
                 setSpotToDelete(spot)
             },
             spotToDelete: spotToDelete,
+        },
+
+        seeSpotReviews: {
+            isActive: isModalOpenReviewsDisplay,
+            toggleModalState: () => {
+                setIsModalOpenReviewsDisplay(prev => !prev)
+            },
+
+            spotReviewedHandler: spot => {
+                setSpotReviewed(spot)
+            },
+            spotDetails: spotReviewed,
         },
     }
 

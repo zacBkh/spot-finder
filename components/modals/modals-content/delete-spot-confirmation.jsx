@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router'
 
-import { deleteSpotHandler } from '../../services/mongo-fetchers'
+import { deleteSpotHandler } from '../../../services/mongo-fetchers'
 
-import LayoutModal from './modals-layout'
+import LayoutModalDeletion from '../modals-deletion-layout'
 
-import { PATHS } from '../../constants/URLs'
-import { TOAST_PARAMS } from '../../constants/toast-query-params'
+import { PATHS } from '../../../constants/URLs'
+import { TOAST_PARAMS } from '../../../constants/toast-query-params'
+
 const { KEY, VALUE_DELETED_SPOT_SUCCESS } = TOAST_PARAMS
 
 const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion, action }) => {
@@ -32,7 +33,7 @@ const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion, actio
         <>
             {modalContextSpotDeletion.isActive && (
                 <>
-                    <LayoutModal
+                    <LayoutModalDeletion
                         onCloseModal={closeModalHandler}
                         onConfirmedAction={spotConfirmedDeletionHandler}
                         text={'Are you sure you want to delete this Spot?'}
