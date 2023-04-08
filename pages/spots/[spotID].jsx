@@ -21,8 +21,6 @@ import MapShow from '../../components/Maps/MapShow'
 
 import Review from '../../components/Reviews/Review'
 
-import { PATHS } from '../../constants/URLs'
-
 import { TEXTAREA_INPUTS_FS } from '../../constants/responsive-fonts'
 
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
@@ -96,13 +94,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         geometry,
         country,
         author,
-        visited,
+        visitors,
         images,
         _id: spotID,
     } = indivSpot
-
-    console.log('author', author._id)
-    console.log('currentUserID === author._id', currentUserID === author._id)
 
     const initialValuesEditSpot = {
         title,
@@ -146,21 +141,16 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         }
     }
 
-    console.log('formik ', formik)
-    console.log('formik.values ', formik.values)
-
     // State that manages toggler + give info to API route whether to decrement or increment
-    const didVisit = didUserVisited(visited.visitors, currentUserID)
+    const didVisit = didUserVisited(visitors, currentUserID)
     const [didUserVisitSpot, setDidUserVisitSpot] = useState(didVisit)
-
-    // Did this to update in real time nb of visits when user toggle
-    const nbVisit = visited.numberOfVisits
-    const [nbOfVisit, setNbOfVisit] = useState(nbVisit)
 
     const router = useRouter()
 
     // Will call the fetcher for ADDING visit
     const handleAddVisit = async () => {
+        console.log('handler ran')
+
         // If user not auth, send a toaster
         if (!currentUserID) {
             router.push(
@@ -183,7 +173,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
         await addOneVisitSpotHandler(currentUserID, spotID, didUserVisitSpot)
 
-        // if did not visited this spot before, mark as visited
         if (!didUserVisitSpot) {
             router.push(
                 { query: { spotID, [KEY]: VALUE_ADD_SPOT_AS_VISITED_SUCCESS } },
@@ -203,8 +192,9 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
             )
         }
 
+        console.log('handler ran aft')
+        // did not visited this spot before, mark as visited
         setDidUserVisitSpot(prevState => !prevState)
-        setNbOfVisit(prevState => (didUserVisitSpot ? prevState - 1 : prevState + 1))
     }
 
     // Review
@@ -520,6 +510,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     </div>
                     <div className="hidden lg:flex flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
                         <SpotCardCTA
+                            nbOfVisits={visitors.length}
                             shouldBeEditable={shouldBeEditable}
                             author={author}
                             didUserVisitSpot={didUserVisitSpot}
@@ -530,6 +521,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                 </div>
                 <div className="flex lg:hidden flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
                     <SpotCardCTA
+                        nbOfVisits={visitors.length}
                         shouldBeEditable={shouldBeEditable}
                         author={author}
                         didUserVisitSpot={didUserVisitSpot}
@@ -539,8 +531,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                 </div>
 
                 <div className="mt-96">
-                    <p> This Spot has been visited {nbOfVisit} times </p>
-
                     <a className="cursor-pointer" onClick={openReviewHandler}>
                         REVIEW THE SPOT
                     </a>

@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -12,16 +10,15 @@ import UserImage from './user-image'
 import SPOT_CATEGORIES from '../constants/spot-categories'
 
 const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
-    const { id, title, description, categories, author, country, images } = spotData
-    const router = useRouter()
+    const { _id, title, description, categories, author, country, images } = spotData
 
     const spotIcons = SPOT_CATEGORIES.filter(cat => categories.includes(cat.name))
 
     const displaySuspensionPoints = 'text-ellipsis whitespace-nowrap overflow-hidden'
     return (
-        <Link href={`/spots/${id}`}>
+        <Link href={`/spots/${_id}`}>
             <a>
-                <div className="cursor-pointer flex flex-col w-64  ">
+                <button className="cursor-pointer flex flex-col w-64">
                     <div className="relative w-full h-64 mx-auto">
                         {images[0] ? (
                             <Image
@@ -89,7 +86,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
                             ))}
                         </div>
                     </div>
-                </div>
+                </button>
             </a>
         </Link>
     )

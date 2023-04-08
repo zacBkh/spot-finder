@@ -23,13 +23,8 @@ export default async function newSpot(req, res) {
         if (req.method === 'POST') {
             try {
                 await connectMongo()
-                console.log('CONNECTED TO MONGO !')
-                console.log('bodypayloadfrom API ROUTE', req.body)
 
                 const newSpot = await Spot.create(req.body)
-
-                console.log('CREATED DOCUMENT -->', newSpot)
-                console.log('IDD -->', newSpot._id)
 
                 // Adding in the user model the spot he owns
                 const user = await User.findByIdAndUpdate(session.userID, {

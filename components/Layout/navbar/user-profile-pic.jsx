@@ -14,9 +14,9 @@ const UserAvatar = ({ currentSession, onUserMenuClick }) => {
                     alt="Profile picture"
                 />
             ) : (
-                <div className="btnPressLike">
+                <button className="">
                     <BiUserCircle className="text-3xl text-white" />
-                </div>
+                </button>
             )}
         </div>
     )

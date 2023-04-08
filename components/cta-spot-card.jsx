@@ -23,6 +23,7 @@ const SpotCardCTA = ({
     onAddVisit,
     didUserVisitSpot,
     spotID,
+    nbOfVisits,
 }) => {
     const router = useRouter()
 
@@ -46,7 +47,7 @@ const SpotCardCTA = ({
 
     return (
         <>
-            <SpotGradeDisplayer />
+            <SpotGradeDisplayer nbOfVisits={nbOfVisits} />
             <div className="flex justify-center gap-x-4 sticky top-11">
                 <ButtonSpotCard
                     icon={<MdOutlineRateReview />}

@@ -137,16 +137,7 @@ export const editUserHandler = async (newPwd, userID) => {
     return data
 }
 
-// Get spots of a user
-export const getThisUserSpots = async enteredData => {
-    // POSTING to MONGO
-    const response = await fetch('/api/users/register', {
-        method: 'GET',
-    })
-    const data = await response.json()
-    return data
-}
-;/ *!SC */
+/* !SC */
 
 /*SC REVIEWS */
 export const addOneReview = async (spotID, reviewAuthorID, review) => {
@@ -158,5 +149,3 @@ export const addOneReview = async (spotID, reviewAuthorID, review) => {
     const result = await response.json()
     return result
 }
-
-/* !SC */

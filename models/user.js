@@ -61,11 +61,10 @@ userSchema.post('findOneAndDelete', async function (userDeleted) {
 
     // Decrement visit and remove from visitors array
     const decrementVisited = await Spot.updateMany(
-        { 'visited.visitors': userID }, // filter only docs where visited.visitors field contains the id
+        { visitors: userID }, // filter only docs where visitors field includes the id
 
         {
-            $inc: { 'visited.numberOfVisits': -1 }, // decrement the counter of visits
-            $pull: { 'visited.visitors': userID }, // pull the deleted user from visited.visitor array
+            $pull: { visitors: userID }, // pull the deleted user from visitor array
         },
     )
 
