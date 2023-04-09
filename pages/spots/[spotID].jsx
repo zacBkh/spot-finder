@@ -487,7 +487,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     name={'description'}
                                     disabled={!shouldBeEditable}
                                     spellCheck="false"
-                                    className={`  box-border  overflow-hidden resize-y ${
+                                    className={`box-border overflow-hidden resize-y ${
                                         validStyling('description').border
                                     }
                                         ${inputsSharedClass} ${TEXTAREA_INPUTS_FS} ${

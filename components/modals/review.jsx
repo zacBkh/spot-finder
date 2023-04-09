@@ -11,7 +11,7 @@ const Review = ({ authorName, date, grade, comment }) => {
                     </div>
                 </div>
 
-                <div className="text-sm leading-6	">
+                <div className="text-xs sm:text-sm leading-6	">
                     Lorem ipsum dolor sit amet consectetur, adipisicing elit. Libero, eius
                     aliquam totam accusantium explicabo accusamus enim consequuntur
                     repellat porro mollitia debitis, minima id deleniti provident eaque

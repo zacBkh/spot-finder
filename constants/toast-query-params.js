@@ -13,6 +13,8 @@ export const TOAST_PARAMS = {
 
     VALUE_EDITED_SPOT_SUCCESS: 'editedSpotSuccess',
 
+    VALUE_REVIEWED_SPOT_SUCCESS: 'reviewedSpotSuccess',
+
     VALUE_DELETED_SPOT_SUCCESS: 'deletedSpotSuccess',
 
     VALUE_DELETED_USER_SUCCESS: 'deletedUserSuccess',

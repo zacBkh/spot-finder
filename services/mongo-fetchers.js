@@ -140,12 +140,13 @@ export const editUserHandler = async (newPwd, userID) => {
 /* !SC */
 
 /*SC REVIEWS */
-export const addOneReview = async (spotID, reviewAuthorID, review) => {
-    const response = await fetch(`/api/reviews/new-review`, {
+export const addOneReview = async (spotID, review) => {
+    const response = await fetch(`/api/reviews`, {
         method: 'POST',
-        body: JSON.stringify({ spotID, reviewAuthorID, review }), //conv to JSON
+        body: JSON.stringify({ spotID, review }), //conv to JSON
         headers: { 'Content-Type': 'application/json' },
     })
     const result = await response.json()
+    console.log('result review fetcher', result)
     return result
 }

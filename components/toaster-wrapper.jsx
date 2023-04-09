@@ -19,6 +19,7 @@ const {
     VALUE_DELETED_SPOT_SUCCESS,
 
     VALUE_DELETED_USER_SUCCESS,
+    VALUE_REVIEWED_SPOT_SUCCESS,
 
     KEY_REQUIRE,
     VALUE_MUST_LOGIN,
@@ -211,6 +212,13 @@ const Toaster = () => {
                 toast.error(customToastWithLink(' to mark this Spot as visited.'), {
                     position: 'bottom-left',
                     toastId: 'mustLogInToMarkAsVisited',
+                })
+            }
+
+            if (queryString[KEY] === VALUE_REVIEWED_SPOT_SUCCESS) {
+                toast.success(`You successfully reviewed the Spot, thank you! 🙏`, {
+                    position: 'bottom-left',
+                    toastId: 'reviewedSpot',
                 })
             }
 

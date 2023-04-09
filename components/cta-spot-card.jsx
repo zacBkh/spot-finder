@@ -49,7 +49,7 @@ const SpotCardCTA = ({
     // Will open modal and add the spot name to global state
     const reviewSpotRequestHandler = () => {
         modalContext.seeSpotReviews.toggleModalState()
-        modalContext.seeSpotReviews.spotReviewedHandler(spotDetails)
+        modalContext.seeSpotReviews.spotReviewedHandler({ ...spotDetails, spotID })
     }
 
     const [updatedNbOfVisits, setUpdatedNbfVisits] = useState(nbOfVisits)

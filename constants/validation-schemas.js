@@ -121,3 +121,26 @@ export const validTitleDesc = Yup.object().shape({
     ...coordinates,
     ...images,
 })
+
+// ----------------
+
+// Add Review
+const rate = {
+    rate: Yup.number()
+        .required('Please rate the Spot.')
+        .min(1, 'Min grade is 1')
+        .max(5, 'Max grade is 5'),
+}
+
+const comment = {
+    comment: Yup.string()
+        .required('Please add a comment')
+        .trim()
+        .min(70, ({ min }) => `Please add at least ${min} characters`)
+        .max(800, ({ max }) => `Please add no more than ${max} characters`),
+}
+
+export const validRateComment = Yup.object().shape({
+    ...rate,
+    ...comment,
+})
