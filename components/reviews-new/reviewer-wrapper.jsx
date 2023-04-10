@@ -18,7 +18,7 @@ import { addOneReview } from '../../services/mongo-fetchers'
 
 const { KEY, VALUE_REVIEWED_SPOT_SUCCESS } = TOAST_PARAMS
 
-const Reviewer = ({ onCloseModal, spotID }) => {
+const ReviewerWrapper = ({ onCloseModal, spotID }) => {
     const router = useRouter()
 
     const initialValuesReview = {
@@ -29,7 +29,6 @@ const Reviewer = ({ onCloseModal, spotID }) => {
     const onSubmitReview = async formValues => {
         console.log('formValues', formValues)
         const addRev = await addOneReview(spotID, formValues)
-        console.log('addRev', addRev)
 
         onCloseModal()
 
@@ -82,7 +81,12 @@ const Reviewer = ({ onCloseModal, spotID }) => {
 
     return (
         <>
-            <form noValidate onSubmit={formik.handleSubmit} className="space-y-6 mt-4">
+            <form
+                noValidate
+                onSubmit={formik.handleSubmit}
+                className="space-y-6 mt-4 px-1 pb-2
+                max-h-[63vh] md:max-h-[58vh] overflow-y-auto h-fit"
+            >
                 <StarRater
                     onUserRate={userRateHandler}
                     errorFeedback={validStyling('rate')}
@@ -102,4 +106,4 @@ const Reviewer = ({ onCloseModal, spotID }) => {
     )
 }
 
-export default Reviewer
+export default ReviewerWrapper

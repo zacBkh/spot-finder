@@ -27,6 +27,7 @@ const SpotCardCTA = ({
     spotDetails,
 }) => {
     const router = useRouter()
+    console.log('author', author)
 
     const modalContext = useContext(ModalsContext)
 
@@ -46,10 +47,14 @@ const SpotCardCTA = ({
         )
     }
 
-    // Will open modal and add the spot name to global state
+    // Will open modal and add the spot details to global state
     const reviewSpotRequestHandler = () => {
         modalContext.seeSpotReviews.toggleModalState()
-        modalContext.seeSpotReviews.spotReviewedHandler({ ...spotDetails, spotID })
+        modalContext.seeSpotReviews.spotReviewedHandler({
+            ...spotDetails,
+            authorID: author._id,
+            spotID,
+        })
     }
 
     const [updatedNbOfVisits, setUpdatedNbfVisits] = useState(nbOfVisits)
@@ -67,7 +72,7 @@ const SpotCardCTA = ({
             <div className="flex justify-center gap-x-4 sticky top-11">
                 <ButtonSpotCard
                     icon={<MdOutlineRateReview />}
-                    text={'Review'}
+                    text={'Reviews'}
                     onClickHandler={reviewSpotRequestHandler}
                 />
 

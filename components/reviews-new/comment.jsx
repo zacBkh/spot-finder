@@ -7,12 +7,11 @@ const Comment = ({ formikWizardComment, errorFeedback }) => {
                 <textarea
                     {...formikWizardComment}
                     id="message"
-                    rows="8"
                     className={`${
                         isCommentFieldError
                             ? errorFeedback.border
                             : 'border-gray-300 focus:ring-2 focus:ring-secondary '
-                    } block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border `}
+                    } h-24 sm:h-36 w-full block p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border `}
                     placeholder="Write your review here..."
                 ></textarea>
                 {errorFeedback.message}

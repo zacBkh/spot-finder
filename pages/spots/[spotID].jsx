@@ -28,7 +28,7 @@ const {
     KEY,
     KEY_REQUIRE,
     VALUE_MUST_LOGIN,
-    VALUE_MUST_NOT_BE_OWNER,
+    VALUE_MUST_NOT_BE_OWNER_ADD_VISIT,
     VALUE_ADD_SPOT_AS_VISITED_SUCCESS,
     VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS,
     VALUE_EDITED_SPOT_SUCCESS,
@@ -164,7 +164,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         /// if user is author, send toaster he can't add visit
         if (currentUserID === author._id) {
             router.push(
-                { query: { spotID, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER } },
+                { query: { spotID, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER_ADD_VISIT } },
                 undefined,
                 { shallow: true },
             )

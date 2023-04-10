@@ -1,9 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { BiEdit } from 'react-icons/bi'
 import { MdGrade, MdOutlineRateReview } from 'react-icons/md'
 
 import Review from './review'
+
+import { useSession } from 'next-auth/react'
+
+import { useRouter } from 'next/router'
 
 import {
     REVIEW_MODAL_FS,
@@ -11,14 +15,56 @@ import {
     BUTTON_FS,
 } from '../../constants/responsive-fonts'
 
-import Reviewer from '../reviews-new/reviewer-wrapper'
+import ReviewerWrapper from '../reviews-new/reviewer-wrapper'
 import DividerDesign from '../design/divider'
 
+import { TOAST_PARAMS } from '../../constants/toast-query-params'
+const { KEY_REQUIRE, VALUE_MUST_LOGIN_TO_REVIEW, VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW } =
+    TOAST_PARAMS
+
 const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
+    const { spotID, authorID, title, country } = spotDetails
+
+    const router = useRouter()
+    console.log('router.events', router.events)
+
+    const { data: session, status } = useSession()
+
     const [isOnAddReviewMode, setIsOnAddReviewMode] = useState(false)
     const addReviewModeHandler = async () => {
+        if (status !== 'authenticated') {
+            router.push(
+                { query: { spotID, [KEY_REQUIRE]: VALUE_MUST_LOGIN_TO_REVIEW } },
+                undefined,
+                {
+                    shallow: true,
+                },
+            )
+            return
+        }
+
+        if (session.userID === authorID) {
+            router.push(
+                { query: { spotID, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW } },
+                undefined,
+                {
+                    shallow: true,
+                },
+            )
+            return
+        }
+
         setIsOnAddReviewMode(prev => !prev)
     }
+
+    // Close modal if user change path
+    useEffect(() => {
+        router.events.on('routeChangeStart', () => onCloseModal())
+
+        return () => {
+            router.events.off('routeChangeStart', () => onCloseModal()) //
+        }
+    }, [router.events, () => onCloseModal()])
 
     return (
         <>
@@ -41,10 +87,10 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                                         <div
                                             className={`${REVIEW_MODAL_FS} font-semibold`}
                                         >
-                                            {spotDetails.title}
+                                            {title}
                                         </div>
                                         <div className={`${REVIEW_MODAL_SECONDARY_FS}`}>
-                                            {spotDetails.country}
+                                            {country}
                                         </div>
                                     </h1>
 
@@ -78,7 +124,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                         {!isOnAddReviewMode && (
                             <div
                                 className="
-                                max-h-[63vh]  md:max-h-[60vh] 
+                                max-h-[63vh] md:max-h-[60vh] 
                                 overflow-y-auto h-fit px-4 text-start flex flex-col gap-y-10"
                             >
                                 <Review />
@@ -90,8 +136,8 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                         )}
 
                         {isOnAddReviewMode && (
-                            <Reviewer
-                                spotID={spotDetails.spotID}
+                            <ReviewerWrapper
+                                spotID={spotID}
                                 onCloseModal={onCloseModal}
                             />
                         )}

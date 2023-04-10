@@ -18,7 +18,7 @@ const SpotterProfilePreview = ({ author }) => {
                     <UserImage width={'w-14'} height={'h-14'} />
 
                     <span className="group-hover:underline underline-offset-2">
-                        Visit {name}&apos; s profile.
+                        Visit {name}&apos;s profile.
                     </span>
                 </button>
             </a>

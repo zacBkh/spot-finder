@@ -23,13 +23,17 @@ const {
 
     KEY_REQUIRE,
     VALUE_MUST_LOGIN,
-    VALUE_MUST_NOT_BE_OWNER,
+    VALUE_MUST_NOT_BE_OWNER_ADD_VISIT,
     VALUE_ADD_SPOT_AS_VISITED_SUCCESS,
     VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS,
 
     VALUE_FEATURE_NOT_YET_AVAILABLE,
 
     VALUE_ADDED_PIC_SUCCESS,
+
+    VALUE_MUST_LOGIN_TO_REVIEW,
+
+    VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW,
 } = TOAST_PARAMS
 
 import REDIRECT_QUERY_PARAMS from '../constants/redirect-query-params'
@@ -60,7 +64,7 @@ const Toaster = () => {
         }
 
         // User needs to be auth to mark spot as visited fx
-        const customToastWithLink = actionAttempted => (
+        const toastLinkToLoginReturnTo = actionAttempted => (
             <>
                 <Link
                     href={`${PATHS.AUTH}?${KEY_RETURN_TO}=${PATHS.SPOT}/${query.spotID}`}
@@ -170,12 +174,22 @@ const Toaster = () => {
                 })
             }
 
-            if (queryString[KEY_REQUIRE] === VALUE_MUST_NOT_BE_OWNER) {
+            if (queryString[KEY_REQUIRE] === VALUE_MUST_NOT_BE_OWNER_ADD_VISIT) {
                 toast.error(
                     `You cannot remove this Spot from your visited Spots since you created it.`,
                     {
                         position: 'bottom-left',
                         toastId: 'cannotRemoveFromVisited',
+                    },
+                )
+            }
+
+            if (queryString[KEY_REQUIRE] === VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW) {
+                toast.error(
+                    `You cannot review a Spot you created. Think about editing it. `,
+                    {
+                        position: 'bottom-left',
+                        toastId: 'cannotReviewOwnedSpot',
                     },
                 )
             }
@@ -209,7 +223,7 @@ const Toaster = () => {
             }
 
             if (queryString[KEY_REQUIRE] === VALUE_MUST_LOGIN) {
-                toast.error(customToastWithLink(' to mark this Spot as visited.'), {
+                toast.error(toastLinkToLoginReturnTo(' to mark this Spot as visited.'), {
                     position: 'bottom-left',
                     toastId: 'mustLogInToMarkAsVisited',
                 })
@@ -226,6 +240,13 @@ const Toaster = () => {
                 toast.info(`You deleted your account. 💔`, {
                     position: 'bottom-left',
                     toastId: 'deletedAccount',
+                })
+            }
+
+            if (router.query[KEY_REQUIRE] === VALUE_MUST_LOGIN_TO_REVIEW) {
+                toast.error(toastLinkToLoginReturnTo(' to review this Spot.'), {
+                    position: 'bottom-left',
+                    toastId: 'loginToReviewSpot',
                 })
             }
         }

@@ -26,7 +26,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
                                 src={images[0]}
                                 alt="Picture of a Spot on SpotFinder"
                                 layout="fill"
-                                className=" object-cover group-hover:scale-110 transition-transform duration-[175ms] "
+                                className=" object-cover group-hover:scale-105 transition-transform duration-[175ms] "
                                 quality={10}
                             />
                         ) : (
