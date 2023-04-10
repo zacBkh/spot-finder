@@ -101,7 +101,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
 
                                 <button
                                     onClick={addReviewModeHandler}
-                                    className={`buttonWrapper text-white bg-primary hover:bg-primary-hov hover:underline rounded-md inline-flex items-center justify-center gap-x-3 px-2 py-2 text-center mr-2 w-40 ${BUTTON_FS}`}
+                                    className={`buttonWrapper text-white bg-primary hover:bg-primary-hov hover:underline rounded-md inline-flex items-center justify-center gap-x-3 px-2 py-2 text-center mr-2 w-max ${BUTTON_FS}`}
                                 >
                                     <span className="iconToAnimate">
                                         {isOnAddReviewMode ? (
