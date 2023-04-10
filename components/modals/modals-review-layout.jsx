@@ -23,7 +23,7 @@ const { KEY_REQUIRE, VALUE_MUST_LOGIN_TO_REVIEW, VALUE_MUST_NOT_BE_OWNER_ADD_REV
     TOAST_PARAMS
 
 const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
-    const { spotID, authorID, title, country } = spotDetails
+    const { spotID, authorID, title, country, reviews } = spotDetails
 
     const router = useRouter()
     console.log('router.events', router.events)
@@ -59,12 +59,8 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
 
     // Close modal if user change path
     useEffect(() => {
-        router.events.on('routeChangeStart', () => onCloseModal())
-
-        return () => {
-            router.events.off('routeChangeStart', () => onCloseModal()) //
-        }
-    }, [router.events, () => onCloseModal()])
+        onCloseModal()
+    }, [router.pathname])
 
     return (
         <>
@@ -127,11 +123,20 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                                 max-h-[63vh] md:max-h-[60vh] 
                                 overflow-y-auto h-fit px-4 text-start flex flex-col gap-y-10"
                             >
+                                {reviews.map(rev => (
+                                    <Review
+                                        key={rev._id}
+                                        reviewAuthorDetails={rev.reviewAuthor}
+                                        date={new Date(rev.createdAt)}
+                                        rate={rev.rate}
+                                        comment={rev.comment}
+                                    />
+                                ))}
+                                {/* <Review />
                                 <Review />
                                 <Review />
                                 <Review />
-                                <Review />
-                                <Review />
+                                <Review /> */}
                             </div>
                         )}
 

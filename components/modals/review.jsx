@@ -1,29 +1,48 @@
+import Link from 'next/link'
+
+import { Rating } from 'react-simple-star-rating'
+
 import UserImage from '../user-image'
-const Review = ({ authorName, date, grade, comment }) => {
+
+import { PATHS } from '../../constants/URLs'
+import { BODY_FS } from '../../constants/responsive-fonts'
+
+import ClickableUserImage from '../wrapper-clickable-user-image'
+
+const Review = ({ reviewAuthorDetails, date, rate, comment }) => {
+    const { name: revAuthorName, _id: revAuthorID } = reviewAuthorDetails
+
+    const linkToUserProfile = `${PATHS.PROFILE}/${revAuthorID}`
+
+    const formattedDate = date.toLocaleString('en-US', { month: 'long', year: 'numeric' })
+
     return (
         <>
             <div className="flex flex-col items-start gap-y-2">
                 <div className="flex gap-x-2 justify-center items-center">
-                    <UserImage width={'w-10'} height={'h-10'} />
-                    <div className="flex flex-col just">
-                        <p className="font-semibold">John · 4.8</p>
-                        <p className="text-sm font-light text-greyText ">February 2022</p>
+                    <ClickableUserImage
+                        url={linkToUserProfile}
+                        width={'w-10'}
+                        height={'h-10'}
+                    />
+                    <div className="flex flex-col">
+                        <div className="font-semibold flex items-center gap-x-1">
+                            <span> {revAuthorName}</span>
+                            <Rating
+                                readonly
+                                initialValue={rate}
+                                emptyStyle={{ display: 'flex ' }}
+                                fillStyle={{ display: '-webkit-inline-box' }}
+                                size={20}
+                            />
+                        </div>
+                        <p className="text-sm font-light text-greyText ">
+                            {formattedDate}
+                        </p>
                     </div>
                 </div>
 
-                <div className="text-xs sm:text-sm leading-6	">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Libero, eius
-                    aliquam totam accusantium explicabo accusamus enim consequuntur
-                    repellat porro mollitia debitis, minima id deleniti provident eaque
-                    velit illum iste! Architecto. Dignissimos expedita ea autem cum
-                    nesciunt earum rem sed saepe laboriosam, qui corporis labore enim,
-                    recusandae id adipisci quam voluptatum temporibus dolorem eveniet
-                    architecto? Magni vero ullam quasi illo voluptatem. Officiis dolorem
-                    molestiae architecto laboriosam incidunt neque, cumque dignissimos
-                    voluptatum quisquam nam qui aliquid expedita assumenda cupiditate
-                    error asperiores in. Odit exercitationem aperiam ab omnis tempora
-                    voluptate, quisquam dolorum voluptas.
-                </div>
+                <div className="text-xs sm:text-sm leading-6">{comment}</div>
             </div>
         </>
     )

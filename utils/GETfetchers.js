@@ -20,8 +20,13 @@ export const GETSpotFetcherOne = async ID => {
     await connectMongo()
 
     const response = await Spot.findById(ID)
-        .populate('reviews')
         .populate('author', 'name') // Populating ONLY author name
+        .populate({
+            path: 'reviews',
+            // Get reviewAuthor of every reviews - populate the 'reviewAuthor' field for every reviews but with only reviewer name
+            populate: { path: 'reviewAuthor', select: 'name' },
+        })
+    // .populate('reviews')
     const indivSpot = JSON.parse(JSON.stringify(response))
     return indivSpot
 }

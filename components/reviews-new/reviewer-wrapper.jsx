@@ -48,8 +48,6 @@ const ReviewerWrapper = ({ onCloseModal, spotID }) => {
     })
 
     const validStyling = field => {
-        console.log('field', field)
-        console.log('formik.errors.comment', formik.errors.comment)
         if (formik.errors[field] && formik.touched[field]) {
             return {
                 border: 'border-2 border-primary ',
@@ -71,9 +69,6 @@ const ReviewerWrapper = ({ onCloseModal, spotID }) => {
         }
     }
 
-    console.log('formik.touched', formik.touched)
-    console.log('formik.values', formik.values)
-    console.log('formik.errors', formik.errors)
     const userRateHandler = grade => {
         formik.setFieldTouched('rate', true)
         formik.setFieldValue('rate', grade)
