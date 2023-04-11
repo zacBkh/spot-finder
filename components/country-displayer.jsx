@@ -11,6 +11,7 @@ const CountryDisplayer = ({ name, code }) => {
 
             <div className="relative min-w-[24px] overflow-hidden w-6 h-6 rounded-sm">
                 <Image
+                    alt={`The flag of ${name}`}
                     layout="fill"
                     objectFit="cover"
                     className=""
