@@ -88,7 +88,12 @@ const SpotCardCTA = ({
                     />
                 )}
             </div>
-            <SpotterProfilePreview author={author} />
+            <SpotterProfilePreview
+                w={'w-14'}
+                h={'h-14'}
+                author={author}
+                spanTxt={`Visit ${author.name}'s profile`}
+            />
             <DividerDesign />
             <Toggler onToggle={toggleSwitchHandler} didUserVisitSpot={didUserVisitSpot} />
         </>

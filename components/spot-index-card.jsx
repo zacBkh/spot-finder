@@ -33,7 +33,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
                             <MissingImage />
                         )}
                     </div>
-                    <div className="flex flex-col gap-y-2 px-1 w-full">
+                    <div className="flex flex-col gap-y-1 px-1 w-full">
                         <div className="mt-2 flex justify-between items-start text-form-color text-[15px] w-full">
                             <div className="w-[75%] flex flex-col">
                                 <p
@@ -59,7 +59,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
                             ''
                         ) : (
                             <div className="flex gap-x-2 items-center group w-fit text-greyText">
-                                <UserImage width={'w-7'} height={'h-7'} />
+                                <UserImage width={'w-8'} height={'h-8'} />
                                 <span className="text-sm group-hover:underline ">
                                     Spot by {author.name}
                                 </span>
