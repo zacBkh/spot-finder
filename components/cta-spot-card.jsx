@@ -68,7 +68,10 @@ const SpotCardCTA = ({
 
     return (
         <>
-            <SpotSpecsDisplayer nbOfVisits={updatedNbOfVisits} />
+            <SpotSpecsDisplayer
+                reviewsQty={spotDetails.reviews.length}
+                nbOfVisits={updatedNbOfVisits}
+            />
             <div className="flex justify-center gap-x-4 sticky top-11">
                 <ButtonSpotCard
                     icon={<MdOutlineRateReview />}

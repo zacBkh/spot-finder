@@ -34,6 +34,7 @@ const {
     VALUE_MUST_LOGIN_TO_REVIEW,
 
     VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW,
+    VALUE_MUST_NOT_HAVE_ALREADY_REVIEWED,
 } = TOAST_PARAMS
 
 import REDIRECT_QUERY_PARAMS from '../constants/redirect-query-params'
@@ -184,12 +185,35 @@ const Toaster = () => {
                 )
             }
 
+            if (queryString[KEY] === VALUE_REVIEWED_SPOT_SUCCESS) {
+                toast.success(`You successfully reviewed the Spot, thank you! 🙏`, {
+                    position: 'bottom-left',
+                    toastId: 'reviewedSpot',
+                })
+            }
+
             if (queryString[KEY_REQUIRE] === VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW) {
                 toast.error(
-                    `You cannot review a Spot you created. Think about editing it. `,
+                    <>
+                        You cannot review a Spot you created. <br />
+                        Think about editing it.
+                    </>,
                     {
                         position: 'bottom-left',
                         toastId: 'cannotReviewOwnedSpot',
+                    },
+                )
+            }
+
+            if (queryString[KEY_REQUIRE] === VALUE_MUST_NOT_HAVE_ALREADY_REVIEWED) {
+                toast.error(
+                    <>
+                        You have already reviewed this Spot. <br />
+                        Think about editing your review.
+                    </>,
+                    {
+                        position: 'bottom-left',
+                        toastId: 'cannotReviewAlreadyEditedSpot',
                     },
                 )
             }
@@ -226,13 +250,6 @@ const Toaster = () => {
                 toast.error(toastLinkToLoginReturnTo(' to mark this Spot as visited.'), {
                     position: 'bottom-left',
                     toastId: 'mustLogInToMarkAsVisited',
-                })
-            }
-
-            if (queryString[KEY] === VALUE_REVIEWED_SPOT_SUCCESS) {
-                toast.success(`You successfully reviewed the Spot, thank you! 🙏`, {
-                    position: 'bottom-left',
-                    toastId: 'reviewedSpot',
                 })
             }
 

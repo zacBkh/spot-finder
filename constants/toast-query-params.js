@@ -29,4 +29,5 @@ export const TOAST_PARAMS = {
     VALUE_MUST_LOGIN: 'auth', // when try to mark as visited but not logged in
     VALUE_MUST_NOT_BE_OWNER_ADD_VISIT: 'isOwnerAddVisit', // when try remove from visited but is owner
     VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW: 'isOwnerAddReview', // when try review spot user owns
+    VALUE_MUST_NOT_HAVE_ALREADY_REVIEWED: 'haveReviewedAddReview', // when try review a spot user already reviewed
 }

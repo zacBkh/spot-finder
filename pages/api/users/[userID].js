@@ -2,6 +2,7 @@ import connectMongo from '../../../utils/connectMongo'
 
 import User from '../../../models/user'
 import Spot from '../../../models/spot'
+import Reviews from '../../../models/reviews'
 
 import { hash } from 'bcryptjs'
 
@@ -25,9 +26,19 @@ export default async function userHandling(req, res) {
         return
     }
 
+    // Look for Spots which contains the userID in their visitors field
     const visitedSpotsOfUser = await Spot.find({ visitors: userID }).lean()
+
+    // Look for Reviews which contains the userID in their reviewAuthor field
+    const reviewedSpotsOfUser = await Reviews.find({ reviewAuthor: userID }).lean()
+
+    console.log('aaaaaa', reviewedSpotsOfUser.length)
     // Adding spots visited to user object
-    const userWithSpotsVisited = { ...user, visitedSpots: visitedSpotsOfUser.length }
+    const userWithSpotsVisited = {
+        ...user,
+        visitedSpots: visitedSpotsOfUser.length,
+        reviewedSpots: reviewedSpotsOfUser,
+    }
 
     if (req.method === 'GET') {
         console.log('GET REQUEST')

@@ -19,16 +19,24 @@ import ReviewerWrapper from '../reviews-new/reviewer-wrapper'
 import DividerDesign from '../design/divider'
 
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
-const { KEY_REQUIRE, VALUE_MUST_LOGIN_TO_REVIEW, VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW } =
-    TOAST_PARAMS
+
+import ErrorIllustration from '../error-illustration'
+import ErrorImage from '../../public/images/no-data-found.svg'
+
+const {
+    KEY_REQUIRE,
+    VALUE_MUST_LOGIN_TO_REVIEW,
+    VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW,
+    VALUE_MUST_NOT_HAVE_ALREADY_REVIEWED,
+} = TOAST_PARAMS
 
 const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
     const { spotID, authorID, title, country, reviews } = spotDetails
 
     const router = useRouter()
-    console.log('router.events', router.events)
 
     const { data: session, status } = useSession()
+    const currUserId = session?.userID
 
     const [isOnAddReviewMode, setIsOnAddReviewMode] = useState(false)
     const addReviewModeHandler = async () => {
@@ -43,9 +51,31 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
             return
         }
 
-        if (session.userID === authorID) {
+        if (currUserId === authorID) {
             router.push(
                 { query: { spotID, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW } },
+                undefined,
+                {
+                    shallow: true,
+                },
+            )
+            return
+        }
+
+        // If user already reviewed this spot
+
+        const hasCurrUserAlreadyReviewed = reviews
+            .map(rev => rev.reviewAuthor._id === currUserId)
+            .includes(true)
+
+        if (hasCurrUserAlreadyReviewed) {
+            router.push(
+                {
+                    query: {
+                        spotID,
+                        [KEY_REQUIRE]: VALUE_MUST_NOT_HAVE_ALREADY_REVIEWED,
+                    },
+                },
                 undefined,
                 {
                     shallow: true,
@@ -62,10 +92,32 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
         onCloseModal()
     }, [router.pathname])
 
+    const reviewsOrFallback = !reviews.length ? (
+        <>
+            <ErrorIllustration
+                img={ErrorImage}
+                altTxt={'No reviews found illustration'}
+                title={'This spot does not have any reviews yet.'}
+            />
+        </>
+    ) : (
+        reviews.map(rev => (
+            <Review
+                key={rev._id}
+                reviewAuthorDetails={rev.reviewAuthor}
+                date={new Date(rev.createdAt)}
+                rate={rev.rate}
+                comment={rev.comment}
+            />
+        ))
+    )
+
+    const shouldReviewBePluralized = reviews.length === 0 || reviews > 1
+
     return (
         <>
             <div onClick={onCloseModal} className="overlay"></div>
-            <div className="transition-modal flex items-center justify-center top-0 left-0 fixed z-[99999] overflow-hidden inset-0 text-form-color mx-auto my-auto w-[80vw] max-w-[90vw] sm:max-w-[80vw] h-[85vh]  ">
+            <div className="transition-modal flex items-center justify-center top-0 left-0 fixed z-[99999] overflow-hidden inset-0 text-form-color mx-auto my-auto w-[90vw] sm:w-[80vw] max-w-[90vw] sm:max-w-[80vw] h-[85vh]  ">
                 <div className="relative w-full h-full bg-white rounded-lg shadow">
                     <button
                         onClick={onCloseModal}
@@ -95,7 +147,12 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                                     >
                                         <MdGrade className="w-5 h-5" />
                                         <span className="">4.95</span>
-                                        <span>· 8 reviews</span>
+                                        <span>
+                                            · {reviews.length}{' '}
+                                            {shouldReviewBePluralized
+                                                ? 'reviews'
+                                                : 'review'}
+                                        </span>
                                     </h2>
                                 </div>
 
@@ -123,20 +180,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                                 max-h-[63vh] md:max-h-[60vh] 
                                 overflow-y-auto h-fit px-4 text-start flex flex-col gap-y-10"
                             >
-                                {reviews.map(rev => (
-                                    <Review
-                                        key={rev._id}
-                                        reviewAuthorDetails={rev.reviewAuthor}
-                                        date={new Date(rev.createdAt)}
-                                        rate={rev.rate}
-                                        comment={rev.comment}
-                                    />
-                                ))}
-                                {/* <Review />
-                                <Review />
-                                <Review />
-                                <Review />
-                                <Review /> */}
+                                {reviewsOrFallback}
                             </div>
                         )}
 

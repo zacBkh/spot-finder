@@ -30,7 +30,14 @@ const hideOnLarge = 'lg:hidden'
 const showOnLarge = 'hidden lg:flex flex-col'
 
 const UserCard = ({ isLoading, visitedUser, currentUser }) => {
-    const { name, spotsOwned, createdAt, _id: visitedUserID, visitedSpots } = visitedUser
+    const {
+        name,
+        spotsOwned,
+        createdAt,
+        _id: visitedUserID,
+        visitedSpots,
+        reviewedSpots,
+    } = visitedUser
 
     let isCurrentUserVisitedUser = false
     if (currentUser && visitedUserID === currentUser.userID) {
@@ -62,7 +69,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                             <UserStats
                                 nbOwned={spotsOwned.length}
                                 nbVisited={visitedSpots}
-                                nbReviewed={28}
+                                nbReviewed={reviewedSpots.length}
                             />
                             <DividerDesign margin={'mt-4'} />
                         </>
@@ -132,8 +139,8 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         ) : (
                             <UserStats
                                 nbOwned={spotsOwned.length}
-                                nbVisited={38}
-                                nbReviewed={28}
+                                nbVisited={visitedSpots}
+                                nbReviewed={reviewedSpots.length}
                             />
                         )}
                     </div>
