@@ -16,11 +16,8 @@ import DividerDesign from '../design/divider'
 import SkeletonUserCard from '../skeletons/parents/user-card-skeleton'
 import SkeletonText from '../skeletons/text-skeleton'
 import SkeletonImage from '../skeletons/image-skeleton'
-import SpotCardSkeleton from '../skeletons/parents/spot-card-skeleton'
 
 import ActionMenuUserProfile from '../action-menu-user-profile'
-
-import SpotCard from '../spot-index-card'
 
 import UserStats from './user-stats'
 
@@ -29,6 +26,8 @@ import useOnClickOutside from '../../hooks/useOnClickOutside'
 const hideOnLarge = 'lg:hidden'
 const showOnLarge = 'hidden lg:flex flex-col sticky top-4'
 
+import RelatedSpots from './related-spots-user'
+
 const UserCard = ({ isLoading, visitedUser, currentUser }) => {
     const {
         name,
@@ -36,7 +35,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         createdAt,
         _id: visitedUserID,
         visitedSpots,
-        reviewedSpots,
+        spotsUserReviewed,
     } = visitedUser
 
     let isCurrentUserVisitedUser = false
@@ -88,7 +87,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 onScrollClick={scrollClickHandler}
                                 nbOwned={spotsOwned.length}
                                 nbVisited={visitedSpots.length}
-                                nbReviewed={reviewedSpots.length}
+                                nbReviewed={spotsUserReviewed.length}
                             />
                         </>
                     )}
@@ -105,16 +104,14 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                             ) : (
                                 <>
                                     <div className="flex items-center gap-x-3">
-                                        <h1 className={`${TITLE_FS} font-bold white`}>
+                                        <h1 className={`${TITLE_FS} font-bold`}>
                                             Hi, I am {name}
                                         </h1>
                                         <button
                                             ref={refOutsideUseActionMenu}
                                             onClick={onActionClick}
                                         >
-                                            <button>
-                                                <SlOptions className="text-xl" />
-                                            </button>
+                                            <SlOptions className="text-xl" />
                                             {isActionMenuOpen && (
                                                 <ActionMenuUserProfile
                                                     currentUserID={
@@ -149,7 +146,6 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                             )}
                         </div>
                     </div>
-
                     <div className={`${hideOnLarge} flex flex-col gap-y-4 font-semibold`}>
                         {isLoading ? (
                             <SkeletonText
@@ -162,11 +158,10 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 onScrollClick={scrollClickHandler}
                                 nbOwned={spotsOwned.length}
                                 nbVisited={visitedSpots.length}
-                                nbReviewed={reviewedSpots.length}
+                                nbReviewed={spotsUserReviewed.length}
                             />
                         )}
                     </div>
-
                     <div className="space-y-2">
                         {isLoading ? (
                             <div className="flex flex-col gap-y-5">
@@ -204,58 +199,24 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         )}
                     </div>
                     <DividerDesign />
-
-                    {/* Spots created */}
-                    <div className="space-y-3" ref={spotsCreated}>
-                        {isLoading ? (
-                            <SkeletonText type={'smTitle'} nbOfLines={1} />
-                        ) : (
-                            <h2 className={`${SMALL_TITLE_FS} font-semibold`}>
-                                {`${name}'s Spots`}
-                            </h2>
-                        )}
-                        <div className="flex justify-center md:justify-between flex-wrap gap-5">
-                            {isLoading
-                                ? ['a', 'b', 'c', 'd'].map(placeholder => (
-                                      <SpotCardSkeleton key={placeholder} />
-                                  ))
-                                : spotsOwned.map(spot => (
-                                      <SpotCard
-                                          w={'w-56'}
-                                          h={'h-56'}
-                                          shouldNotDisplayUserPic
-                                          key={spot._id}
-                                          spotData={spot}
-                                      />
-                                  ))}
-                        </div>
-                    </div>
-
-                    {/* Spots visited */}
-                    <div className="space-y-3" ref={spotsVisited}>
-                        {isLoading ? (
-                            <SkeletonText type={'smTitle'} nbOfLines={1} />
-                        ) : (
-                            <h2 className={`${SMALL_TITLE_FS} font-semibold`}>
-                                {`Spots ${name} visited`}
-                            </h2>
-                        )}
-                        <div className="flex justify-center md:justify-between flex-wrap gap-5">
-                            {isLoading
-                                ? ['a', 'b', 'c', 'd'].map(placeholder => (
-                                      <SpotCardSkeleton key={placeholder} />
-                                  ))
-                                : visitedSpots.map(spot => (
-                                      <SpotCard
-                                          w={'w-56'}
-                                          h={'h-56'}
-                                          shouldNotDisplayUserPic
-                                          key={spot._id}
-                                          spotData={spot}
-                                      />
-                                  ))}
-                        </div>
-                    </div>
+                    <RelatedSpots
+                        isLoading={isLoading}
+                        title={`${name}'s Spots`}
+                        refClick={spotsCreated}
+                        spots={spotsOwned}
+                    />
+                    <RelatedSpots
+                        isLoading={isLoading}
+                        title={`Spots ${name} visited`}
+                        refClick={spotsVisited}
+                        spots={visitedSpots}
+                    />
+                    <RelatedSpots
+                        isLoading={isLoading}
+                        title={`Spots ${name} reviewed`}
+                        refClick={spotsReviewed}
+                        spots={spotsUserReviewed}
+                    />
                 </div>
             </div>
         </>

@@ -27,6 +27,8 @@ const UserProfile = () => {
 
     const sessionNotReady = status === 'loading'
 
+    console.log('userVisited', userVisited)
+
     if (userVisited?.success === false) {
         return <CustomErrorPage contextErrHelper={userVisited.result} />
     }

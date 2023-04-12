@@ -29,6 +29,7 @@ export default async function APIHandler(req, res) {
                 rate: review.rate,
                 comment: review.comment,
                 reviewAuthor: session.userID,
+                reviewedSpot: spotID,
             }
 
             const newReview = await Review.create(reviewObject)

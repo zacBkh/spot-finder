@@ -30,13 +30,24 @@ export default async function userHandling(req, res) {
     const visitedSpotsOfUser = await Spot.find({ visitors: userID }).lean()
 
     // Look for Reviews which contains the userID in their reviewAuthor field
-    const reviewedSpotsOfUser = await Reviews.find({ reviewAuthor: userID }).lean()
+    const reviewsOfUser = await Reviews.find({ reviewAuthor: userID })
+        .select('reviewedSpot')
+        .lean()
+
+    const reviewedSpotsOfUserList = reviewsOfUser.map(review => review.reviewedSpot) // array of spot ids reviewed by this user
+
+    // Search all the spots whoose id is included in reviewedSpotsOfUserList
+    const spotsUserReviewed = await Spot.find({
+        _id: { $in: reviewedSpotsOfUserList },
+    }).lean()
 
     // Adding spots visited & reviewed to user object
     const userWithSpotsVisited = {
         ...user,
         visitedSpots: visitedSpotsOfUser,
-        reviewedSpots: reviewedSpotsOfUser,
+
+        // reviewsUserLet: reviewsOfUser,
+        spotsUserReviewed: spotsUserReviewed,
     }
 
     if (req.method === 'GET') {
