@@ -216,7 +216,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         )}
                         <div className="flex justify-center md:justify-between flex-wrap gap-5">
                             {isLoading
-                                ? ['skeleton', 'of', 'user', 'spots'].map(placeholder => (
+                                ? ['a', 'b', 'c', 'd'].map(placeholder => (
                                       <SpotCardSkeleton key={placeholder} />
                                   ))
                                 : spotsOwned.map(spot => (
@@ -242,7 +242,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         )}
                         <div className="flex justify-center md:justify-between flex-wrap gap-5">
                             {isLoading
-                                ? ['skeleton', 'of', 'user', 'spots'].map(placeholder => (
+                                ? ['a', 'b', 'c', 'd'].map(placeholder => (
                                       <SpotCardSkeleton key={placeholder} />
                                   ))
                                 : visitedSpots.map(spot => (
