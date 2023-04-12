@@ -32,16 +32,14 @@ export default async function userHandling(req, res) {
     // Look for Reviews which contains the userID in their reviewAuthor field
     const reviewedSpotsOfUser = await Reviews.find({ reviewAuthor: userID }).lean()
 
-    console.log('aaaaaa', reviewedSpotsOfUser.length)
-    // Adding spots visited to user object
+    // Adding spots visited & reviewed to user object
     const userWithSpotsVisited = {
         ...user,
-        visitedSpots: visitedSpotsOfUser.length,
+        visitedSpots: visitedSpotsOfUser,
         reviewedSpots: reviewedSpotsOfUser,
     }
 
     if (req.method === 'GET') {
-        console.log('GET REQUEST')
         res.status(200).json({
             success: true,
             result: userWithSpotsVisited,
@@ -49,8 +47,6 @@ export default async function userHandling(req, res) {
         return
     }
     if (req.method === 'PATCH') {
-        console.log('req.body -->', req.body)
-
         try {
             //Hash password
             const hashedPassword = await hash(req.body, 12)

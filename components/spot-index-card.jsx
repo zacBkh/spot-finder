@@ -9,7 +9,7 @@ import UserImage from './user-image'
 
 import SPOT_CATEGORIES from '../constants/spot-categories'
 
-const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
+const SpotCard = ({ spotData, shouldNotDisplayUserPic, w, h }) => {
     const { _id, title, description, categories, author, country, images } = spotData
 
     const spotIcons = SPOT_CATEGORIES.filter(cat => categories.includes(cat.name))
@@ -19,8 +19,10 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
     return (
         <Link href={`/spots/${_id}`}>
             <a>
-                <button className="cursor-pointer flex flex-col w-64 group">
-                    <div className="relative w-full h-64 mx-auto  rounded-lg overflow-hidden">
+                <button className={`cursor-pointer flex flex-col ${w} group`}>
+                    <div
+                        className={`relative w-full ${h} mx-auto rounded-lg overflow-hidden`}
+                    >
                         {images[0] ? (
                             <Image
                                 src={images[0]}

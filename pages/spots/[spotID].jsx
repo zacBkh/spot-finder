@@ -7,19 +7,13 @@ import { unstable_getServerSession } from 'next-auth/next'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 
-import {
-    editSpotHandler,
-    addOneVisitSpotHandler,
-    addOneReview,
-} from '../../services/mongo-fetchers'
+import { editSpotHandler, addOneVisitSpotHandler } from '../../services/mongo-fetchers'
 
 import didUserVisited from '../../utils/Spots/didUserVisitedSpot'
 
 import { GETSpotFetcherOne } from '../../utils/GETfetchers'
 
 import MapShow from '../../components/Maps/MapShow'
-
-import Review from '../../components/Reviews/Review'
 
 import { TEXTAREA_INPUTS_FS } from '../../constants/responsive-fonts'
 
@@ -196,52 +190,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         console.log('handler ran aft')
         // did not visited this spot before, mark as visited
         setDidUserVisitSpot(prevState => !prevState)
-    }
-
-    // Review
-    const [isReviewOpen, setIsReviewOpen] = useState(false)
-
-    // Adding review + pushing its ID in Spot document
-    const onReviewSubmit = async reviewValues => {
-        const addRev = await addOneReview(spotID, currentUserID, reviewValues)
-
-        if (!addRev.success) {
-            console.log('ERROR ADDING A REVIEW', addRev.result)
-        }
-
-        setIsReviewOpen(false)
-
-        toast.success('Thanks for the comment!', {
-            position: 'bottom-left',
-            toastId: 'commentSuccess',
-        })
-    }
-
-    const openReviewHandler = () => {
-        console.log('YOU WANT TO REVIEW')
-        // // If not logged in
-        // if (!currentUserID) {
-        //     // HELPERR
-        //     toast.error(CustomToastWithLink(' to add a review to the spot'), {
-        //         position: 'bottom-left',
-        //         toastId: 'connectToAddReview',
-        //     })
-        //     return
-        // }
-
-        // // If author tries to comment
-        // if (currentUserID === indivSpot.author) {
-        //     toast.error(
-        //         'You cannot review a Spot you created, think about editing its content!',
-        //         {
-        //             position: 'bottom-left',
-        //             toastId: 'cannotCommentIfAuthor',
-        //         },
-        //     )
-        //     return
-        // }
-
-        setIsReviewOpen(prev => !prev)
     }
 
     const titleRef = useRef(null)
@@ -531,19 +479,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                         spotID={spotID}
                         spotDetails={{ title, country: country.name, reviews }}
                     />
-                </div>
-
-                <div className="mt-96">
-                    <a className="cursor-pointer" onClick={openReviewHandler}>
-                        REVIEW THE SPOT
-                    </a>
-                    {isReviewOpen && (
-                        <Review
-                            isLoggedIn={currentUserID}
-                            isAuthor={currentUserID === author}
-                            onReviewSubmit={onReviewSubmit}
-                        />
-                    )}
                 </div>
             </div>
         </>

@@ -3,36 +3,43 @@ import { ImEye } from 'react-icons/im'
 import { MdOutlineRateReview } from 'react-icons/md'
 
 import { BODY_FS } from '../../constants/responsive-fonts'
-const UserStats = ({ nbOwned, nbVisited, nbReviewed }) => {
+const UserStats = ({ nbOwned, nbVisited, nbReviewed, onScrollClick }) => {
     const specStyle = 'flex items-center gap-x-2'
 
     const shouldSpecBePluralized = spec => {
         return spec === 0 || spec > 1 ? 'Spots' : 'Spot'
     }
 
-    console.log('nbOwned=== 0 || spec > 1', nbOwned === 1 || nbOwned > 1)
-
     return (
         <>
             <div className="flex flex-col gap-y-4 font-semibold">
-                <div className={`${specStyle}`}>
+                <button
+                    className={`${specStyle}`}
+                    onClick={() => onScrollClick('created')}
+                >
                     <AiOutlineTrophy className={`text-2xl`} />
                     <span className={BODY_FS}>
                         {nbOwned} {shouldSpecBePluralized(nbOwned)} created
                     </span>
-                </div>
-                <div className={`${specStyle}`}>
+                </button>
+                <button
+                    className={`${specStyle}`}
+                    onClick={() => onScrollClick('visited')}
+                >
                     <ImEye className={`text-xl`} />{' '}
                     <span className={BODY_FS}>
                         {nbVisited} {shouldSpecBePluralized(nbVisited)} visited
                     </span>
-                </div>
-                <div className={`${specStyle}`}>
+                </button>
+                <button
+                    className={`${specStyle}`}
+                    onClick={() => onScrollClick('reviewed')}
+                >
                     <MdOutlineRateReview className={`text-xl`} />
                     <span className={BODY_FS}>
                         {nbReviewed} {shouldSpecBePluralized(nbReviewed)} reviewed
                     </span>
-                </div>
+                </button>
             </div>
         </>
     )

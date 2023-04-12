@@ -27,7 +27,7 @@ import UserStats from './user-stats'
 import useOnClickOutside from '../../hooks/useOnClickOutside'
 
 const hideOnLarge = 'lg:hidden'
-const showOnLarge = 'hidden lg:flex flex-col'
+const showOnLarge = 'hidden lg:flex flex-col sticky top-4'
 
 const UserCard = ({ isLoading, visitedUser, currentUser }) => {
     const {
@@ -51,10 +51,28 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         setIsActionMenuOpen(prev => !prev)
     }
 
-    const refOutside = useRef(null)
+    const refOutsideUseActionMenu = useRef(null)
 
-    useOnClickOutside(refOutside, () => setIsActionMenuOpen(false))
+    useOnClickOutside(refOutsideUseActionMenu, () => setIsActionMenuOpen(false))
 
+    const spotsCreated = useRef(null)
+    const spotsVisited = useRef(null)
+    const spotsReviewed = useRef(null)
+    const scrollClickHandler = spec => {
+        if (spec === 'created') {
+            spotsCreated.current?.scrollIntoView({ behavior: 'smooth' })
+            return
+        }
+
+        if (spec === 'visited') {
+            spotsVisited.current?.scrollIntoView({ behavior: 'smooth' })
+            return
+        }
+        if (spec === 'reviewed') {
+            spotsReviewed.current?.scrollIntoView({ behavior: 'smooth' })
+            return
+        }
+    }
     return (
         <>
             <div className="flex flex-col-reverse lg:flex-row gap-x-14 w-[90%] xl:w-[80%] 2xl:w-[60%] mx-auto mt-3 text-form-color ">
@@ -67,11 +85,11 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         <>
                             <UserImage noBorder width={'w-32'} height={'h-32'} />
                             <UserStats
+                                onScrollClick={scrollClickHandler}
                                 nbOwned={spotsOwned.length}
-                                nbVisited={visitedSpots}
+                                nbVisited={visitedSpots.length}
                                 nbReviewed={reviewedSpots.length}
                             />
-                            <DividerDesign margin={'mt-4'} />
                         </>
                     )}
                 </div>
@@ -90,7 +108,10 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                         <h1 className={`${TITLE_FS} font-bold white`}>
                                             Hi, I am {name}
                                         </h1>
-                                        <button ref={refOutside} onClick={onActionClick}>
+                                        <button
+                                            ref={refOutsideUseActionMenu}
+                                            onClick={onActionClick}
+                                        >
                                             <button>
                                                 <SlOptions className="text-xl" />
                                             </button>
@@ -138,8 +159,9 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                             />
                         ) : (
                             <UserStats
+                                onScrollClick={scrollClickHandler}
                                 nbOwned={spotsOwned.length}
-                                nbVisited={visitedSpots}
+                                nbVisited={visitedSpots.length}
                                 nbReviewed={reviewedSpots.length}
                             />
                         )}
@@ -183,12 +205,13 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                     </div>
                     <DividerDesign />
 
-                    <div className="space-y-2">
+                    {/* Spots created */}
+                    <div className="space-y-3" ref={spotsCreated}>
                         {isLoading ? (
                             <SkeletonText type={'smTitle'} nbOfLines={1} />
                         ) : (
                             <h2 className={`${SMALL_TITLE_FS} font-semibold`}>
-                                Spots {name} shared
+                                {`${name}'s Spots`}
                             </h2>
                         )}
                         <div className="flex justify-center md:justify-between flex-wrap gap-5">
@@ -198,6 +221,34 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                   ))
                                 : spotsOwned.map(spot => (
                                       <SpotCard
+                                          w={'w-56'}
+                                          h={'h-56'}
+                                          shouldNotDisplayUserPic
+                                          key={spot._id}
+                                          spotData={spot}
+                                      />
+                                  ))}
+                        </div>
+                    </div>
+
+                    {/* Spots visited */}
+                    <div className="space-y-3" ref={spotsVisited}>
+                        {isLoading ? (
+                            <SkeletonText type={'smTitle'} nbOfLines={1} />
+                        ) : (
+                            <h2 className={`${SMALL_TITLE_FS} font-semibold`}>
+                                {`Spots ${name} visited`}
+                            </h2>
+                        )}
+                        <div className="flex justify-center md:justify-between flex-wrap gap-5">
+                            {isLoading
+                                ? ['skeleton', 'of', 'user', 'spots'].map(placeholder => (
+                                      <SpotCardSkeleton key={placeholder} />
+                                  ))
+                                : visitedSpots.map(spot => (
+                                      <SpotCard
+                                          w={'w-56'}
+                                          h={'h-56'}
                                           shouldNotDisplayUserPic
                                           key={spot._id}
                                           spotData={spot}

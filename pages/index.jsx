@@ -234,7 +234,7 @@ const AllSpots = ({ spots, queryString }) => {
                         "
                 >
                     {filteredSpots.map(spot => (
-                        <SpotCard key={spot._id} spotData={spot} />
+                        <SpotCard key={spot._id} w={'w-64'} h={'h-64'} spotData={spot} />
                     ))}
                 </div>
             </div>
