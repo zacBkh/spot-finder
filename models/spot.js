@@ -119,7 +119,7 @@ spotSchema.virtual('virtuals.averageGrade').get(function () {
     let gradeSum = 0
     let length = 0
     for (const i of this.reviews) {
-        gradeSum = gradeSum + i.rate
+        gradeSum += +i.rate
         length++
     }
     return gradeSum / length

@@ -10,7 +10,8 @@ import UserImage from './user-image'
 import SPOT_CATEGORIES from '../constants/spot-categories'
 
 const SpotCard = ({ spotData, shouldNotDisplayUserPic, w, h }) => {
-    const { _id, title, description, categories, author, country, images } = spotData
+    const { _id, title, description, categories, author, country, images, virtuals } =
+        spotData
 
     const spotIcons = SPOT_CATEGORIES.filter(cat => categories.includes(cat.name))
 
@@ -53,7 +54,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic, w, h }) => {
 
                             <div className="flex items-center align-top">
                                 <AiFillStar className="w-4 h-4" />
-                                <span>4.77</span>
+                                <span>{virtuals.averageGrade}</span>
                             </div>
                         </div>
 
