@@ -106,12 +106,12 @@ const AllSpots = ({ spots, queryString }) => {
                     )
                     break
                 case 'Grade':
-                    setFilteredSpots(
-                        [...spots].sort(
-                            // .sort returns same array so we need to mutate it
-                            (a, b) => b.virtuals.averageGrade - a.virtuals.averageGrade,
-                        ),
-                    )
+                    // setFilteredSpots(
+                    //     [...spots].sort(
+                    //         // .sort returns same array so we need to mutate it
+                    //         (a, b) => b.virtuals.averageGrade - a.virtuals.averageGrade,
+                    //     ),
+                    // )
                     break
 
                 case 'Oldest to newest':
