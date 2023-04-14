@@ -9,9 +9,14 @@ import UserImage from './user-image'
 
 import SPOT_CATEGORIES from '../constants/spot-categories'
 
+import getAvrgGrade from '../utils/Spots/getAverageRate'
+
 const SpotCard = ({ spotData, shouldNotDisplayUserPic, w, h }) => {
-    const { _id, title, description, categories, author, country, images, virtuals } =
+    const { _id, title, categories, author, country, images, virtuals, reviews } =
         spotData
+
+    // Takes all reviews rate and do average (virtuals not working from client)
+    const spotAverageRate = getAvrgGrade(reviews)
 
     const spotIcons = SPOT_CATEGORIES.filter(cat => categories.includes(cat.name))
 
@@ -54,7 +59,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic, w, h }) => {
 
                             <div className="flex items-center align-top">
                                 <AiFillStar className="w-4 h-4" />
-                                <span>{virtuals.averageGrade}</span>
+                                <span>{spotAverageRate}</span>
                             </div>
                         </div>
 

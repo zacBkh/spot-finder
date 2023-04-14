@@ -32,10 +32,10 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
     const {
         name,
         spotsOwned,
-        createdAt,
-        _id: visitedUserID,
         visitedSpots,
         spotsUserReviewed,
+        createdAt,
+        _id: visitedUserID,
     } = visitedUser
 
     let isCurrentUserVisitedUser = false
@@ -203,19 +203,19 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         isLoading={isLoading}
                         title={`${name}'s Spots`}
                         refClick={spotsCreated}
-                        spots={spotsOwned}
+                        spots={spotsOwned ?? []}
                     />
                     <RelatedSpots
                         isLoading={isLoading}
                         title={`Spots ${name} visited`}
                         refClick={spotsVisited}
-                        spots={visitedSpots}
+                        spots={visitedSpots ?? []}
                     />
                     <RelatedSpots
                         isLoading={isLoading}
                         title={`Spots ${name} reviewed`}
                         refClick={spotsReviewed}
-                        spots={spotsUserReviewed}
+                        spots={spotsUserReviewed ?? []}
                     />
                 </div>
             </div>

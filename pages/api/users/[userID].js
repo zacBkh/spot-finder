@@ -18,7 +18,13 @@ export default async function userHandling(req, res) {
     const { userID } = req.query
 
     // Used lean to convert mongo doc to JS object
-    const user = await User.findById(userID).populate('spotsOwned').lean()
+    const user = await User.findById(userID)
+        .populate({
+            path: 'spotsOwned',
+            // Get reviews of every spotsOwned - populate the 'reviews' field for every spotsOwned but with only rate - deep population
+            populate: { path: 'reviews', select: 'rate' },
+        })
+        .lean()
 
     // If does not find user
     if (!user) {
@@ -27,7 +33,9 @@ export default async function userHandling(req, res) {
     }
 
     // Look for Spots which contains the userID in their visitors field
-    const visitedSpotsOfUser = await Spot.find({ visitors: userID }).lean()
+    const visitedSpotsOfUser = await Spot.find({ visitors: userID })
+        .populate('reviews', 'rate') // populate only rate from reviews
+        .lean()
 
     // Look for Reviews which contains the userID in their reviewAuthor field
     const reviewsOfUser = await Reviews.find({ reviewAuthor: userID })
@@ -39,7 +47,9 @@ export default async function userHandling(req, res) {
     // Search all the spots whoose id is included in reviewedSpotsOfUserList
     const spotsUserReviewed = await Spot.find({
         _id: { $in: reviewedSpotsOfUserList },
-    }).lean()
+    })
+        .populate('reviews', 'rate') // populate only rate from reviews
+        .lean()
 
     // Adding spots visited & reviewed to user object
     const userWithSpotsVisited = {

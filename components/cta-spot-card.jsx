@@ -15,6 +15,9 @@ import { AiFillDelete } from 'react-icons/ai'
 import { ModalsContext } from '../context/AppContext'
 
 import { TOAST_PARAMS } from '../constants/toast-query-params'
+
+import getAvrgGrade from '../utils/Spots/getAverageRate'
+
 const { KEY, VALUE_FEATURE_NOT_YET_AVAILABLE } = TOAST_PARAMS
 
 const SpotCardCTA = ({
@@ -71,6 +74,7 @@ const SpotCardCTA = ({
             <SpotSpecsDisplayer
                 reviewsQty={spotDetails.reviews.length}
                 nbOfVisits={updatedNbOfVisits}
+                averageGrade={getAvrgGrade(spotDetails.reviews)}
             />
             <div className="flex justify-center gap-x-4 sticky top-11">
                 <ButtonSpotCard

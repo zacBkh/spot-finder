@@ -91,6 +91,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         visitors,
         images,
         reviews,
+        virtuals,
         _id: spotID,
     } = indivSpot
 
@@ -465,7 +466,11 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             didUserVisitSpot={didUserVisitSpot}
                             onAddVisit={handleAddVisit}
                             spotID={spotID}
-                            spotDetails={{ title, country: country.name, reviews }}
+                            spotDetails={{
+                                title,
+                                reviews,
+                                country: country.name,
+                            }}
                         />
                     </div>
                 </div>
@@ -477,7 +482,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                         didUserVisitSpot={didUserVisitSpot}
                         onAddVisit={handleAddVisit}
                         spotID={spotID}
-                        spotDetails={{ title, country: country.name, reviews }}
+                        spotDetails={{ title, country: country.name, reviews, virtuals }}
                     />
                 </div>
             </div>
