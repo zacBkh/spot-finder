@@ -105,6 +105,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
             <Review
                 key={rev._id}
                 reviewAuthorDetails={rev.reviewAuthor}
+                currUserID={currUserId}
                 date={new Date(rev.createdAt)}
                 rate={rev.rate}
                 comment={rev.comment}
