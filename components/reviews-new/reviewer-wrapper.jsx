@@ -35,7 +35,6 @@ const ReviewerWrapper = ({ onCloseModal, spotID, reviewToEditDetails }) => {
             // if we are not in a review edit mode
             const addRev = await addOneReview(spotID, formValues)
         } else {
-            console.log('i am en existing review!!')
             const editRev = await editOneReview(reviewID, formValues)
         }
 

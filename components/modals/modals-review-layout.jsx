@@ -38,7 +38,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
     const router = useRouter()
 
     const { data: session, status } = useSession()
-    const currUserId = session?.userID
+    const currUserID = session?.userID
 
     const [isOnAddReviewMode, setIsOnAddReviewMode] = useState(false)
     const [initialValuesEditReview, setInitialValuesEditReview] = useState(null)
@@ -57,7 +57,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
         // Run validation logic only if is not already in addReviewMode
         if (!isOnAddReviewMode) {
             // If spot author tries to review
-            if (currUserId === authorID) {
+            if (currUserID === authorID) {
                 router.push(
                     {
                         query: {
@@ -75,7 +75,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
 
             // If user already reviewed this spot
             const hasCurrUserAlreadyReviewed = reviews
-                .map(rev => rev.reviewAuthor._id === currUserId)
+                .map(rev => rev.reviewAuthor._id === currUserID)
                 .includes(true)
 
             if (hasCurrUserAlreadyReviewed) {
@@ -110,6 +110,11 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
         setInitialValuesEditReview(reviewToEditDetails)
         setIsOnAddReviewMode(true)
     }
+    const sortingFx = rev0 => {
+        if (rev0.props.reviewAuthorDetails._id === currUserID) {
+            return -1
+        }
+    }
 
     const reviewsOrFallback = !reviews.length ? (
         <>
@@ -120,22 +125,24 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
             />
         </>
     ) : (
-        reviews.map(rev => (
-            <Review
-                key={rev._id}
-                reviewAuthorDetails={rev.reviewAuthor}
-                currUserID={currUserId}
-                date={new Date(rev.createdAt)}
-                rate={rev.rate}
-                comment={rev.comment}
-                onReviewEditRequest={() =>
-                    reviewEditHandler({
-                        reviewID: rev._id,
-                        reviewDetails: { comment: rev.comment, rate: rev.rate },
-                    })
-                }
-            />
-        ))
+        reviews
+            .map(rev => (
+                <Review
+                    key={rev._id}
+                    reviewAuthorDetails={rev.reviewAuthor}
+                    currUserID={currUserID}
+                    date={new Date(rev.createdAt)}
+                    rate={rev.rate}
+                    comment={rev.comment}
+                    onReviewEditRequest={() =>
+                        reviewEditHandler({
+                            reviewID: rev._id,
+                            reviewDetails: { comment: rev.comment, rate: rev.rate },
+                        })
+                    }
+                />
+            ))
+            .sort(sortingFx)
     )
 
     const shouldReviewBePluralized = reviews.length === 0 || reviews.length > 1
