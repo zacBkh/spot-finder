@@ -14,21 +14,30 @@ import { useRouter } from 'next/router'
 
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
 
-import { addOneReview } from '../../services/mongo-fetchers'
+import { addOneReview, editOneReview } from '../../services/mongo-fetchers'
 
 const { KEY, VALUE_REVIEWED_SPOT_SUCCESS } = TOAST_PARAMS
 
-const ReviewerWrapper = ({ onCloseModal, spotID }) => {
+const ReviewerWrapper = ({ onCloseModal, spotID, reviewToEditDetails }) => {
     const router = useRouter()
 
-    const initialValuesReview = {
-        rate: '',
-        comment: '',
-    }
+    const { reviewDetails, reviewID } = reviewToEditDetails ?? {}
+
+    const initialValuesReview = reviewToEditDetails
+        ? reviewDetails
+        : {
+              rate: '',
+              comment: '',
+          }
 
     const onSubmitReview = async formValues => {
-        console.log('formValues', formValues)
-        const addRev = await addOneReview(spotID, formValues)
+        if (reviewToEditDetails === null) {
+            // if we are not in a review edit mode
+            const addRev = await addOneReview(spotID, formValues)
+        } else {
+            console.log('i am en existing review!!')
+            const editRev = await editOneReview(reviewID, formValues)
+        }
 
         onCloseModal()
 
@@ -83,6 +92,7 @@ const ReviewerWrapper = ({ onCloseModal, spotID }) => {
                 max-h-[63vh] md:max-h-[58vh] overflow-y-auto h-fit"
             >
                 <StarRater
+                    initialRate={reviewToEditDetails?.reviewDetails.rate}
                     onUserRate={userRateHandler}
                     errorFeedback={validStyling('rate')}
                 />

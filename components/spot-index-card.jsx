@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { MdLocationOn } from 'react-icons/md'
-import { AiFillStar } from 'react-icons/ai'
+import { MdGrade } from 'react-icons/md'
 
 import MissingImage from './image-off-placeholder'
 import UserImage from './user-image'
@@ -17,6 +17,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic, w, h }) => {
 
     // Takes all reviews rate and do average (virtuals not working from client)
     const spotAverageRate = getAvrgGrade(reviews)
+    console.log('spotAverageRate', spotAverageRate === null)
 
     const spotIcons = SPOT_CATEGORIES.filter(cat => categories.includes(cat.name))
 
@@ -57,10 +58,14 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic, w, h }) => {
                                 </div>
                             </div>
 
-                            <div className="flex items-center align-top">
-                                <AiFillStar className="w-4 h-4" />
-                                <span>{spotAverageRate}</span>
-                            </div>
+                            {spotAverageRate ? (
+                                <div className="flex items-center align-top">
+                                    <MdGrade className="w-4 h-4" />
+                                    <span>{spotAverageRate}</span>
+                                </div>
+                            ) : (
+                                ''
+                            )}
                         </div>
 
                         {shouldNotDisplayUserPic ? (

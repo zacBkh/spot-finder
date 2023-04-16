@@ -720,13 +720,13 @@ const worldCountryDetails = [
         'subRegion': 'Northern Europe',
         'intermediateRegion': '',
     },
-    // {
-    //     'name': 'India',
-    //     'code': 'IN',
-    //     'region': 'Asia',
-    //     'subRegion': 'Southern Asia',
-    //     'intermediateRegion': '',
-    // },
+    {
+        'name': 'India',
+        'code': 'IN',
+        'region': 'Asia',
+        'subRegion': 'Southern Asia',
+        'intermediateRegion': '',
+    },
     {
         'name': 'Indonesia',
         'code': 'ID',

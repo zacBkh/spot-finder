@@ -1,6 +1,5 @@
 const Comment = ({ formikWizardComment, errorFeedback }) => {
     const isCommentFieldError = errorFeedback.message !== ''
-    console.log('isCommentFieldError', isCommentFieldError)
     return (
         <>
             <div className="space-y-2">

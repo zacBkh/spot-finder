@@ -1,12 +1,19 @@
+import { BiEdit } from 'react-icons/bi'
+
 import { Rating } from 'react-simple-star-rating'
 
 import { PATHS } from '../../constants/URLs'
 
 import ClickableUserImage from '../wrapper-clickable-user-image'
 
-import ReviewEditor from '../reviews-new/review-editor'
-
-const Review = ({ reviewAuthorDetails, currUserID, date, rate, comment }) => {
+const Review = ({
+    reviewAuthorDetails,
+    currUserID,
+    date,
+    rate,
+    comment,
+    onReviewEditRequest,
+}) => {
     const { name: revAuthorName, _id: revAuthorID } = reviewAuthorDetails
 
     const linkToUserProfile = `${PATHS.PROFILE}/${revAuthorID}`
@@ -16,8 +23,7 @@ const Review = ({ reviewAuthorDetails, currUserID, date, rate, comment }) => {
     const isCurrUserReviewAuthor = revAuthorID === currUserID ? true : false
 
     const reviewEditRequestHandler = param => {
-        console.log('9', 9)
-
+        onReviewEditRequest()
         // display review mode but with initial value as review and star
     }
     return (
@@ -48,16 +54,20 @@ const Review = ({ reviewAuthorDetails, currUserID, date, rate, comment }) => {
                     </div>
                     <div>
                         {isCurrUserReviewAuthor ? (
-                            <ReviewEditor
-                                onReviewEditRequest={reviewEditRequestHandler}
-                            />
+                            <button
+                                onClick={reviewEditRequestHandler}
+                                className="flex items-center gap-x-2 hover:underline text-sm"
+                            >
+                                <BiEdit />
+                                <span>Edit your review</span>
+                            </button>
                         ) : (
                             ''
                         )}
                     </div>
                 </div>
 
-                <div className="text-xs sm:text-sm leading-6">{comment}</div>
+                <div className="text-xs sm:text-sm leading-6 break-all">{comment}</div>
             </div>
         </>
     )

@@ -48,6 +48,30 @@ export default async function APIHandler(req, res) {
                 result: `There has been an error adding your review: ${error.message}`,
             })
         }
+    } else if (req.method === 'PATCH') {
+        console.log('req.body', req.body)
+        const { reviewIDToEdit, review } = req.body
+        try {
+            const editedReviewObject = {
+                rate: review.rate,
+                comment: review.comment,
+            }
+
+            const editReview = await Review.findByIdAndUpdate(
+                reviewIDToEdit,
+                editedReviewObject,
+                { runValidators: true, new: true },
+            )
+            console.log('editReview', editReview)
+
+            res.status(200).json({ success: true, result: editReview })
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                success: false,
+                result: `There has been an error editing your review: ${error.message}`,
+            })
+        }
     } else {
         res.status(401).json({
             success: false,

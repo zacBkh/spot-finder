@@ -1,6 +1,6 @@
 import { Rating } from 'react-simple-star-rating'
 
-const StarRater = ({ onUserRate, errorFeedback }) => {
+const StarRater = ({ onUserRate, errorFeedback, initialRate }) => {
     const handleRating = rate => {
         onUserRate(rate)
     }
@@ -11,6 +11,7 @@ const StarRater = ({ onUserRate, errorFeedback }) => {
         <>
             <div className="text-left space-y-2">
                 <Rating
+                    initialValue={initialRate}
                     tooltipDefaultText={'Please rate the Spot 💖'}
                     showTooltip
                     tooltipArray={tooltipArray}

@@ -23,6 +23,8 @@ import { TOAST_PARAMS } from '../../constants/toast-query-params'
 import ErrorIllustration from '../error-illustration'
 import ErrorImage from '../../public/images/no-data-found.svg'
 
+import getAvrgGrade from '../../utils/Spots/getAverageRate'
+
 const {
     KEY_REQUIRE,
     VALUE_MUST_LOGIN_TO_REVIEW,
@@ -39,6 +41,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
     const currUserId = session?.userID
 
     const [isOnAddReviewMode, setIsOnAddReviewMode] = useState(false)
+    const [initialValuesEditReview, setInitialValuesEditReview] = useState(null)
     const addReviewModeHandler = async () => {
         if (status !== 'authenticated') {
             router.push(
@@ -51,46 +54,62 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
             return
         }
 
-        if (currUserId === authorID) {
-            router.push(
-                { query: { spotID, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW } },
-                undefined,
-                {
-                    shallow: true,
-                },
-            )
-            return
-        }
-
-        // If user already reviewed this spot
-
-        const hasCurrUserAlreadyReviewed = reviews
-            .map(rev => rev.reviewAuthor._id === currUserId)
-            .includes(true)
-
-        if (hasCurrUserAlreadyReviewed) {
-            router.push(
-                {
-                    query: {
-                        spotID,
-                        [KEY_REQUIRE]: VALUE_MUST_NOT_HAVE_ALREADY_REVIEWED,
+        // Run validation logic only if is not already in addReviewMode
+        if (!isOnAddReviewMode) {
+            // If spot author tries to review
+            if (currUserId === authorID) {
+                router.push(
+                    {
+                        query: {
+                            spotID,
+                            [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW,
+                        },
                     },
-                },
-                undefined,
-                {
-                    shallow: true,
-                },
-            )
-            return
-        }
+                    undefined,
+                    {
+                        shallow: true,
+                    },
+                )
+                return
+            }
 
-        setIsOnAddReviewMode(prev => !prev)
+            // If user already reviewed this spot
+            const hasCurrUserAlreadyReviewed = reviews
+                .map(rev => rev.reviewAuthor._id === currUserId)
+                .includes(true)
+
+            if (hasCurrUserAlreadyReviewed) {
+                router.push(
+                    {
+                        query: {
+                            spotID,
+                            [KEY_REQUIRE]: VALUE_MUST_NOT_HAVE_ALREADY_REVIEWED,
+                        },
+                    },
+                    undefined,
+                    {
+                        shallow: true,
+                    },
+                )
+                return
+            }
+            setIsOnAddReviewMode(prev => !prev)
+        } else {
+            setIsOnAddReviewMode(prev => !prev)
+        }
     }
 
     // Close modal if user change path
     useEffect(() => {
         onCloseModal()
     }, [router.pathname])
+
+    // Switch to review edit mode
+    const reviewEditHandler = reviewToEditDetails => {
+        console.log('999', 123456)
+        setInitialValuesEditReview(reviewToEditDetails)
+        setIsOnAddReviewMode(true)
+    }
 
     const reviewsOrFallback = !reviews.length ? (
         <>
@@ -109,12 +128,17 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                 date={new Date(rev.createdAt)}
                 rate={rev.rate}
                 comment={rev.comment}
+                onReviewEditRequest={() =>
+                    reviewEditHandler({
+                        reviewID: rev._id,
+                        reviewDetails: { comment: rev.comment, rate: rev.rate },
+                    })
+                }
             />
         ))
     )
 
-    const shouldReviewBePluralized = reviews.length === 0 || reviews > 1
-
+    const shouldReviewBePluralized = reviews.length === 0 || reviews.length > 1
     return (
         <>
             <div onClick={onCloseModal} className="overlay"></div>
@@ -147,7 +171,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                                         className={`${REVIEW_MODAL_FS} flex items-center gap-x-1 font-semibold w-max sm:w-auto`}
                                     >
                                         <MdGrade className="w-5 h-5" />
-                                        <span className="">4.95</span>
+                                        <span>{getAvrgGrade(reviews)}</span>
                                         <span>
                                             · {reviews.length}{' '}
                                             {shouldReviewBePluralized
@@ -187,6 +211,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
 
                         {isOnAddReviewMode && (
                             <ReviewerWrapper
+                                reviewToEditDetails={initialValuesEditReview}
                                 spotID={spotID}
                                 onCloseModal={onCloseModal}
                             />

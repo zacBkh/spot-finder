@@ -150,3 +150,14 @@ export const addOneReview = async (spotID, review) => {
     console.log('result review fetcher', result)
     return result
 }
+
+export const editOneReview = async (reviewIDToEdit, review) => {
+    const response = await fetch(`/api/reviews`, {
+        method: 'PATCH',
+        body: JSON.stringify({ reviewIDToEdit, review }), //conv to JSON
+        headers: { 'Content-Type': 'application/json' },
+    })
+    const result = await response.json()
+    console.log('result review edit fetcher', result)
+    return result
+}
