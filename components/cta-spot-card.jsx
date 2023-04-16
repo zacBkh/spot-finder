@@ -30,7 +30,6 @@ const SpotCardCTA = ({
     spotDetails,
 }) => {
     const router = useRouter()
-    console.log('author', author)
 
     const modalContext = useContext(ModalsContext)
 
@@ -60,20 +59,20 @@ const SpotCardCTA = ({
         })
     }
 
-    const [updatedNbOfVisits, setUpdatedNbfVisits] = useState(nbOfVisits)
+    // const [updatedNbOfVisits, setUpdatedNbfVisits] = useState(nbOfVisits)
 
     const toggleSwitchHandler = () => {
         onAddVisit()
-        didUserVisitSpot
-            ? setUpdatedNbfVisits(prevState => prevState - 1)
-            : setUpdatedNbfVisits(prevState => prevState + 1)
+        // didUserVisitSpot
+        //     ? setUpdatedNbfVisits(prevState => prevState - 1)
+        //     : setUpdatedNbfVisits(prevState => prevState + 1)
     }
 
     return (
         <>
             <SpotSpecsDisplayer
                 reviewsQty={spotDetails.reviews.length}
-                nbOfVisits={updatedNbOfVisits}
+                nbOfVisits={nbOfVisits}
                 averageGrade={getAvrgGrade(spotDetails.reviews)}
             />
             <div className="flex justify-center gap-x-4 sticky top-11">

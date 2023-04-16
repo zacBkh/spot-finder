@@ -1,6 +1,17 @@
 // These utils fx send request to my API routes for Spot & Auth
 
 /* SC SPOTS */
+
+// for useSwr from client side
+export const findOneSpot = async spotID => {
+    // POSTING to MONGO
+    const response = await fetch(`/api/spots/${spotID}`, {
+        method: 'GET',
+    })
+
+    return await response.json()
+}
+
 export const addSpotHandler = async enteredData => {
     console.log('NEW SPOT DATA from FETCHER', enteredData)
     console.log('TYPE OF', typeof enteredData.locationDrag)
@@ -63,10 +74,8 @@ export const addUserHandler = async enteredData => {
     return data
 }
 
-// Fetch user info for profile page
+// Fetch user info for profile page (useSwr client side)
 export const getUserData = async userID => {
-    console.log('GET USER DATA', userID)
-
     const response = await fetch(`/api/users/${userID}`, {
         method: 'GET',
     })

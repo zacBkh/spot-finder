@@ -1,11 +1,8 @@
-// To toggle between mark as visited and not
 import { BODY_FS } from '../constants/responsive-fonts'
-
 const Toggler = ({ didUserVisitSpot, onToggle }) => {
     return (
-        <>
+        <div onClick={onToggle}>
             <button
-                onClick={onToggle}
                 className="text-form-color border border-[#e8e1e0] rounded-md flex items-center gap-x-2 w-fit mx-auto p-3
                 bg-transparent hover:bg-tertiary transition-colors cursor-pointer"
             >
@@ -28,7 +25,7 @@ const Toggler = ({ didUserVisitSpot, onToggle }) => {
                         : 'Have you visited this Spot?'}
                 </span>
             </button>
-        </>
+        </div>
     )
 }
 

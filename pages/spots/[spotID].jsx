@@ -1,5 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 
+import useSWR, { useSWRConfig } from 'swr'
+import SWR_KEYS from '../../constants/SWR-keys'
+
 import { authOptions } from '../api/auth/[...nextauth]'
 
 import { unstable_getServerSession } from 'next-auth/next'
@@ -7,9 +10,11 @@ import { unstable_getServerSession } from 'next-auth/next'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 
-import { editSpotHandler, addOneVisitSpotHandler } from '../../services/mongo-fetchers'
-
-import didUserVisited from '../../utils/Spots/didUserVisitedSpot'
+import {
+    editSpotHandler,
+    addOneVisitSpotHandler,
+    findOneSpot,
+} from '../../services/mongo-fetchers'
 
 import { GETSpotFetcherOne } from '../../utils/GETfetchers'
 
@@ -49,10 +54,10 @@ export const getServerSideProps = async context => {
 
     try {
         // Getting the ID of the current spot
-        const ID = context.params.spotID
+        const currSpotID = context.params.spotID
 
         // Executing the fx that will fetch the precise Spot
-        const resultFetchGETOne = await GETSpotFetcherOne(ID)
+        const resultFetchGETOne = await GETSpotFetcherOne(currSpotID)
 
         if (!resultFetchGETOne) {
             return { notFound: true }
@@ -73,14 +78,6 @@ export const getServerSideProps = async context => {
 }
 
 const ShowSpot = ({ indivSpot, currentUserID }) => {
-    // --------
-    const [isInputEditable, setIsInputEditable] = useState({
-        title: false,
-        description: false,
-        categories: false,
-        coordinates: false,
-    })
-
     const {
         title,
         description,
@@ -88,12 +85,35 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         geometry,
         country,
         author,
-        visitors,
         images,
-        reviews,
         virtuals,
         _id: spotID,
     } = indivSpot
+
+    // `data` will always be available as it's in `fallback`.
+    const fetcher = async () => {
+        console.log('newFetcherran')
+
+        const getOneSpotClient = await findOneSpot(spotID)
+        return getOneSpotClient.result
+    }
+    const { data: updatedIndivSpot } = useSWR(SWR_KEYS.SPOT_IN_SPOT_PAGE, fetcher, {
+        fallbackData: indivSpot,
+    })
+
+    console.log('updatedIndivSpot', updatedIndivSpot)
+
+    const { reviews: updatedReviews, visitors: updatedVisitors } = updatedIndivSpot
+
+    let hasUserVisited = updatedVisitors.includes(currentUserID)
+    console.log('hasUserVisited', hasUserVisited)
+
+    const [isInputEditable, setIsInputEditable] = useState({
+        title: false,
+        description: false,
+        categories: false,
+        coordinates: false,
+    })
 
     const initialValuesEditSpot = {
         title,
@@ -137,16 +157,12 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         }
     }
 
-    // State that manages toggler + give info to API route whether to decrement or increment
-    const didVisit = didUserVisited(visitors, currentUserID)
-    const [didUserVisitSpot, setDidUserVisitSpot] = useState(didVisit)
-
     const router = useRouter()
+
+    const { mutate } = useSWRConfig()
 
     // Will call the fetcher for ADDING visit
     const handleAddVisit = async () => {
-        console.log('handler ran')
-
         // If user not auth, send a toaster
         if (!currentUserID) {
             router.push(
@@ -167,15 +183,19 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
             return
         }
 
-        await addOneVisitSpotHandler(currentUserID, spotID, didUserVisitSpot)
+        await addOneVisitSpotHandler(currentUserID, spotID, hasUserVisited)
+        mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE)
 
-        if (!didUserVisitSpot) {
+        if (!hasUserVisited) {
             router.push(
                 { query: { spotID, [KEY]: VALUE_ADD_SPOT_AS_VISITED_SUCCESS } },
                 undefined,
                 { shallow: true },
             )
+            console.log('++99')
         } else {
+            console.log('++22')
+
             router.push(
                 {
                     query: {
@@ -187,10 +207,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                 { shallow: true },
             )
         }
-
-        console.log('handler ran aft')
-        // did not visited this spot before, mark as visited
-        setDidUserVisitSpot(prevState => !prevState)
     }
 
     const titleRef = useRef(null)
@@ -460,15 +476,15 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     </div>
                     <div className="hidden lg:flex flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
                         <SpotCardCTA
-                            nbOfVisits={visitors.length}
+                            nbOfVisits={updatedVisitors.length}
                             shouldBeEditable={shouldBeEditable}
                             author={author}
-                            didUserVisitSpot={didUserVisitSpot}
+                            didUserVisitSpot={hasUserVisited}
                             onAddVisit={handleAddVisit}
                             spotID={spotID}
                             spotDetails={{
                                 title,
-                                reviews,
+                                reviews: updatedReviews,
                                 country: country.name,
                             }}
                         />
@@ -476,13 +492,18 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                 </div>
                 <div className="flex lg:hidden flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
                     <SpotCardCTA
-                        nbOfVisits={visitors.length}
+                        nbOfVisits={updatedVisitors.length}
                         shouldBeEditable={shouldBeEditable}
                         author={author}
-                        didUserVisitSpot={didUserVisitSpot}
+                        didUserVisitSpot={hasUserVisited}
                         onAddVisit={handleAddVisit}
                         spotID={spotID}
-                        spotDetails={{ title, country: country.name, reviews, virtuals }}
+                        spotDetails={{
+                            title,
+                            reviews: updatedReviews,
+                            country: country.name,
+                            virtuals,
+                        }}
                     />
                 </div>
             </div>

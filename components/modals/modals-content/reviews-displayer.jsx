@@ -1,7 +1,17 @@
 import LayoutModalReview from '../modals-review-layout'
 
-const ReviewDisplayerModal = ({ children, modalContextReviewDisplayer }) => {
+import { useSWRConfig } from 'swr'
+import SWR_KEYS from '../../../constants/SWR-keys'
+
+const ReviewDisplayerModal = ({
+    children,
+    modalContextReviewDisplayer,
+    onConfirmedEdit,
+}) => {
+    const { mutate } = useSWRConfig()
+
     const closeModalHandler = () => {
+        mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE) // triggers re-fetch
         modalContextReviewDisplayer.toggleModalState()
     }
 

@@ -3,6 +3,10 @@ import DeleteSpotConfirmationModal from './modals-content/delete-spot-confirmati
 import ReviewDisplayerModal from './modals-content/reviews-displayer'
 
 const ModalsWrapper = ({ currentModalContext }) => {
+    const confirmEditHanlder = () => {
+        console.log('99898', 99898)
+    }
+
     const { confirmAccountDeletion, confirmSpotDeletion, seeSpotReviews } =
         currentModalContext
     if (confirmAccountDeletion.isActive) {
@@ -20,7 +24,12 @@ const ModalsWrapper = ({ currentModalContext }) => {
     }
 
     if (seeSpotReviews.isActive) {
-        return <ReviewDisplayerModal modalContextReviewDisplayer={seeSpotReviews} />
+        return (
+            <ReviewDisplayerModal
+                onConfirmedEdit={confirmEditHanlder}
+                modalContextReviewDisplayer={seeSpotReviews}
+            />
+        )
     }
 }
 

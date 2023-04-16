@@ -26,7 +26,10 @@ export const GETSpotFetcherOne = async ID => {
             // Get reviewAuthor of every reviews - populate the 'reviewAuthor' field for every reviews but with only reviewer name - deep population
             populate: { path: 'reviewAuthor', select: 'name' },
         })
+
     // .populate('reviews')
     const indivSpot = JSON.parse(JSON.stringify(response))
+    console.log('res from get static props fetcher', indivSpot.reviews)
+
     return indivSpot
 }
