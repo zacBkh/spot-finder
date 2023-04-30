@@ -3,11 +3,7 @@ import LayoutModalReview from '../modals-review-layout'
 import { useSWRConfig } from 'swr'
 import SWR_KEYS from '../../../constants/SWR-keys'
 
-const ReviewDisplayerModal = ({
-    children,
-    modalContextReviewDisplayer,
-    onConfirmedEdit,
-}) => {
+const ReviewDisplayerModal = ({ children, modalContextReviewDisplayer }) => {
     const { mutate } = useSWRConfig()
 
     const closeModalHandler = () => {

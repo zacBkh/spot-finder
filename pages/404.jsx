@@ -27,7 +27,7 @@ const CustomErrorPage = ({ contextErrHelper }) => {
                 <div className="w-[30%] text-start space-y-10">
                     <div className="space-y-4">
                         <h1 className={`font-bold ${TITLE_FS}`}>
-                            Looks like you&apos; re lost!
+                            Looks like you&apos;re lost!
                         </h1>
                         <h2 className={`text-gray-500 ${BODY_FS}`}>
                             This page does not exist... <br />

@@ -55,7 +55,7 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps }, router }) => {
         confirmAccountDeletion: {
             isActive: isModalOpenAccountDeletion,
             toggleModalState: () => {
-                setIsModalOpen(prev => !prev)
+                setIsModalOpenAccountDeletion(prev => !prev)
             },
 
             newUserToDeleteHandler: user => {

@@ -92,8 +92,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
     // `data` will always be available as it's in `fallback`.
     const fetcher = async () => {
-        console.log('newFetcherran')
-
         const getOneSpotClient = await findOneSpot(spotID)
         return getOneSpotClient.result
     }
@@ -184,7 +182,8 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         }
 
         await addOneVisitSpotHandler(currentUserID, spotID, hasUserVisited)
-        mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE)
+
+        mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE) // run again
 
         if (!hasUserVisited) {
             router.push(
@@ -303,7 +302,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 />
                             )}
                             <div className="absolute float-left top-[78%] sm:top-[76%] md:top-[87%] lg:top-[88%] left-[1.5%] flex flex-col md:flex-row gap-1  ">
-                                <ButtonPhoto type={'showPhotos'} />
+                                <ButtonPhoto
+                                    type={'showPhotos'}
+                                    qtyPhotos={images.length}
+                                />
                                 <ButtonPhoto
                                     isMapFullScreen={isMapVisible}
                                     onMapToggle={mapToggleHandler}

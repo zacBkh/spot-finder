@@ -30,4 +30,7 @@ export const TOAST_PARAMS = {
     VALUE_MUST_NOT_BE_OWNER_ADD_VISIT: 'isOwnerAddVisit', // when try remove from visited but is owner
     VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW: 'isOwnerAddReview', // when try review spot user owns
     VALUE_MUST_NOT_HAVE_ALREADY_REVIEWED: 'haveReviewedAddReview', // when try review a spot user already reviewed
+
+    VALUE_RESET_PWD_EMAIL_SENT_SUCCESS: 'resetPwdEmailSentSuccess',
+    VALUE_RESET_PWD_EMAIL_SENT_FAILURE: 'resetPwdEmailSentFailure',
 }

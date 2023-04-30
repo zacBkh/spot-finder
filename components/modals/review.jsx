@@ -59,7 +59,7 @@ const Review = ({
                                 className="flex items-center gap-x-2 hover:underline text-sm"
                             >
                                 <BiEdit />
-                                <span>Edit your review</span>
+                                <span>Edit</span>
                             </button>
                         ) : (
                             ''

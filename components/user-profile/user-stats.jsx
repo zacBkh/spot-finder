@@ -1,9 +1,20 @@
 import { AiOutlineTrophy } from 'react-icons/ai'
 import { ImEye } from 'react-icons/im'
 import { MdOutlineRateReview } from 'react-icons/md'
+import { RiLockPasswordLine } from 'react-icons/ri'
+
+import DividerDesign from '../design/divider'
 
 import { BODY_FS } from '../../constants/responsive-fonts'
-const UserStats = ({ nbOwned, nbVisited, nbReviewed, onScrollClick }) => {
+
+const UserStats = ({
+    nbOwned,
+    nbVisited,
+    nbReviewed,
+    onScrollClick,
+    onChangePasswordRequest,
+    isCurrentUserVisitedUser,
+}) => {
     const specStyle = 'flex items-center gap-x-2'
 
     const shouldSpecBePluralized = spec => {
@@ -41,6 +52,23 @@ const UserStats = ({ nbOwned, nbVisited, nbReviewed, onScrollClick }) => {
                     </span>
                 </button>
             </div>
+
+            {isCurrentUserVisitedUser ? (
+                <div>
+                    <DividerDesign margin={'mb-4'} />
+                    <button
+                        className={`${specStyle} group`}
+                        onClick={onChangePasswordRequest}
+                    >
+                        <RiLockPasswordLine className={`text-2xl`} />
+                        <span className={`${BODY_FS} group-hover:underline`}>
+                            Change your password
+                        </span>
+                    </button>
+                </div>
+            ) : (
+                ''
+            )}
         </>
     )
 }

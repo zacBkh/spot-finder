@@ -2,12 +2,18 @@ import { useState, useRef } from 'react'
 
 import { SlOptions } from 'react-icons/sl'
 
+import { useRouter } from 'next/router'
+
 import {
     TITLE_FS,
     SMALL_TEXT_FS,
     BODY_FS,
     SMALL_TITLE_FS,
 } from '../../constants/responsive-fonts'
+
+import { TOAST_PARAMS } from '../../constants/toast-query-params'
+const { KEY, VALUE_RESET_PWD_EMAIL_SENT_SUCCESS, VALUE_RESET_PWD_EMAIL_SENT_FAILURE } =
+    TOAST_PARAMS
 
 import UserImage from '../user-image'
 
@@ -28,7 +34,11 @@ const showOnLarge = 'hidden lg:flex flex-col sticky top-4'
 
 import RelatedSpots from './related-spots-user'
 
+import { sendPwdResetMail } from '../../services/mongo-fetchers'
+
 const UserCard = ({ isLoading, visitedUser, currentUser }) => {
+    const router = useRouter()
+
     const {
         name,
         spotsOwned,
@@ -72,6 +82,42 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
             return
         }
     }
+
+    // Send email to reset pws
+    const pwdChangeHandler = async () => {
+        const sendPwdReset = await sendPwdResetMail(currentUser.user.email)
+        if (!sendPwdReset.success) {
+            router.push(
+                {
+                    query: {
+                        userID,
+                        [KEY]: VALUE_RESET_PWD_EMAIL_SENT_FAILURE,
+                    },
+                },
+                undefined,
+                {
+                    shallow: true,
+                },
+            )
+            return
+        }
+
+        const userID = router.query.userID
+
+        router.push(
+            {
+                query: {
+                    userID,
+                    [KEY]: VALUE_RESET_PWD_EMAIL_SENT_SUCCESS,
+                },
+            },
+            undefined,
+            {
+                shallow: true,
+            },
+        )
+    }
+
     return (
         <>
             <div className="flex flex-col-reverse lg:flex-row gap-x-14 w-[90%] xl:w-[80%] 2xl:w-[60%] mx-auto mt-3 text-form-color ">
@@ -88,6 +134,8 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 nbOwned={spotsOwned.length}
                                 nbVisited={visitedSpots.length}
                                 nbReviewed={spotsUserReviewed.length}
+                                isCurrentUserVisitedUser={isCurrentUserVisitedUser}
+                                onChangePasswordRequest={pwdChangeHandler}
                             />
                         </>
                     )}
@@ -159,6 +207,8 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 nbOwned={spotsOwned.length}
                                 nbVisited={visitedSpots.length}
                                 nbReviewed={spotsUserReviewed.length}
+                                isCurrentUserVisitedUser={isCurrentUserVisitedUser}
+                                onChangePasswordRequest={pwdChangeHandler}
                             />
                         )}
                     </div>

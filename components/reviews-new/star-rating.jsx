@@ -9,14 +9,14 @@ const StarRater = ({ onUserRate, errorFeedback, initialRate }) => {
 
     return (
         <>
-            <div className="text-left space-y-2">
+            <div className="text-center sm:text-left space-y-2">
                 <Rating
                     initialValue={initialRate}
                     tooltipDefaultText={'Please rate the Spot 💖'}
                     showTooltip
                     tooltipArray={tooltipArray}
-                    tooltipClassName={'!bg-secondary'}
-                    emptyStyle={{ display: 'flex ' }}
+                    tooltipClassName={'!bg-secondary '}
+                    emptyStyle={{ display: 'flex' }}
                     fillStyle={{ display: '-webkit-inline-box' }}
                     onClick={handleRating}
                 />

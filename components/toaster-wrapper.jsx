@@ -35,6 +35,8 @@ const {
 
     VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW,
     VALUE_MUST_NOT_HAVE_ALREADY_REVIEWED,
+    VALUE_RESET_PWD_EMAIL_SENT_SUCCESS,
+    VALUE_RESET_PWD_EMAIL_SENT_FAILURE,
 } = TOAST_PARAMS
 
 import REDIRECT_QUERY_PARAMS from '../constants/redirect-query-params'
@@ -214,6 +216,25 @@ const Toaster = () => {
                     {
                         position: 'bottom-left',
                         toastId: 'cannotReviewAlreadyEditedSpot',
+                    },
+                )
+            }
+
+            if (queryString[KEY] === VALUE_RESET_PWD_EMAIL_SENT_SUCCESS) {
+                toast.info(`An email to reset your password has been sent to you.`, {
+                    position: 'bottom-left',
+                    toastId: 'resetPwdEmailSentSuccess',
+                })
+            }
+            if (queryString[KEY] === VALUE_RESET_PWD_EMAIL_SENT_FAILURE) {
+                toast.error(
+                    <>
+                        There has been an issue trying to change your password <br />
+                        Please try again later.
+                    </>,
+                    {
+                        position: 'bottom-left',
+                        toastId: 'resetPwdEmailSentFailure',
                     },
                 )
             }

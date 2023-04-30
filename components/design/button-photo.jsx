@@ -2,7 +2,7 @@ import { BsCamera } from 'react-icons/bs'
 import { GoLocation } from 'react-icons/go'
 
 import { BUTTON_FS } from '../../constants/responsive-fonts'
-const ButtonPhoto = ({ type, isMapFullScreen, onMapToggle }) => {
+const ButtonPhoto = ({ type, isMapFullScreen, onMapToggle, qtyPhotos }) => {
     return (
         <>
             <button
@@ -12,7 +12,7 @@ const ButtonPhoto = ({ type, isMapFullScreen, onMapToggle }) => {
                 {type === 'showPhotos' ? (
                     <>
                         <BsCamera className="w-4 h-4 md:w-5 md:h-5" />
-                        Show 21 photos
+                        {`Show ${qtyPhotos} photos`}
                     </>
                 ) : (
                     <>
