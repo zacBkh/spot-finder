@@ -31,7 +31,7 @@ const UserMenu = ({ currentAuthStatus, isOpen, onUserMenuClick }) => {
             <div className={`${isOpen ? 'block' : 'hidden'} z-50 absolute right-0`}>
                 <nav
                     className={`min-w-[140px]
-                        text-form-color
+                        text-dark-color
                         mt-2 w-max rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transform opacity-100 scale-100
                         menuStyle
                         shadowPF

@@ -15,7 +15,7 @@ const UserAvatar = ({ currentSession, onUserMenuClick }) => {
                 />
             ) : (
                 <button className="">
-                    <BiUserCircle className="text-3xl text-white" />
+                    <BiUserCircle stroke-width="0" className="text-3xl text-secondary" />
                 </button>
             )}
         </div>

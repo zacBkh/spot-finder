@@ -15,7 +15,7 @@ import HamburgerMenu from './hamburger-menu'
 import UserAvatar from './user-profile-pic'
 import UserMenu from './user-menu'
 
-import DummyLogo from '../../../public/images/logo.svg'
+import Logo from '../../../public/logos/logo-no-background.png'
 
 import useOnClickOutside from '../../../hooks/useOnClickOutside'
 
@@ -43,10 +43,18 @@ const Navigation = () => {
 
     return (
         <>
-            <header className="mx-auto p-5 bg-slate-800 text-white">
-                <div className="flex items-center justify-between ">
-                    <Image fill="true" src={DummyLogo} alt="logo" quality={20} />
-                    <nav className="hidden md:block">
+            <header className="mx-auto p-2 bg-white text-dark-color sticky top-0 z-[999] border-b-[1.6px] border-[#dadada]">
+                <div className="flex items-center justify-between">
+                    <div className="relative w-44 h-14">
+                        <Image
+                            layout="fill"
+                            src={Logo}
+                            alt="logo"
+                            quality={100}
+                            objectFit="cover"
+                        />
+                    </div>
+                    <nav className="hidden md:block text-sm">
                         <ul className="flex gap-x-6">
                             {NAVBAR_ITEMS.map(item => (
                                 <NavItems
