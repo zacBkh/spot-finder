@@ -9,8 +9,9 @@ const CountryDisplayer = ({ name, code }) => {
                 This spot is located in <span className="font-semibold">{name}</span>
             </p>
 
-            <div className="relative overflow-hidden w-6 h-6 rounded-sm">
+            <div className="relative min-w-[24px] overflow-hidden w-6 h-6 rounded-sm">
                 <Image
+                    alt={`The flag of ${name}`}
                     layout="fill"
                     objectFit="cover"
                     className=""

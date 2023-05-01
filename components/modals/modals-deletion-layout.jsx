@@ -1,7 +1,7 @@
 import { RiErrorWarningLine } from 'react-icons/ri'
 import { AiOutlineClose } from 'react-icons/ai'
 
-const LayoutModal = ({
+const LayoutModalDeletion = ({
     onCloseModal,
     onConfirmedAction,
     text,
@@ -11,7 +11,7 @@ const LayoutModal = ({
     return (
         <>
             <div onClick={onCloseModal} className="overlay"></div>
-            <div className="transition-modal flex items-center justify-center top-0 left-0 fixed z-[99999] p-4 overflow-x-hidden overflow-y-auto md:inset-0 text-form-color w-fit h-fit mx-auto my-auto">
+            <div className="transition-modal overflow-hidden flex items-center justify-center top-0 left-0 fixed z-[99999] p-4 md:inset-0 text-form-color w-fit h-fit mx-auto my-auto">
                 <div className="relative w-full h-full max-w-md md:h-auto  bg-white rounded-lg shadow">
                     <button
                         onClick={onCloseModal}
@@ -44,4 +44,4 @@ const LayoutModal = ({
     )
 }
 
-export default LayoutModal
+export default LayoutModalDeletion

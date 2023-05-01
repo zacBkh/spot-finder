@@ -1,8 +1,10 @@
-import DeleteSpotConfirmationModal from './delete-spot-confirmation'
-import DeleteAccountConfirmationModal from './delete-account-confirmation'
+import DeleteAccountConfirmationModal from './modals-content/delete-account-confirmation'
+import DeleteSpotConfirmationModal from './modals-content/delete-spot-confirmation'
+import ReviewDisplayerModal from './modals-content/reviews-displayer'
 
 const ModalsWrapper = ({ currentModalContext }) => {
-    const { confirmAccountDeletion, confirmSpotDeletion } = currentModalContext
+    const { confirmAccountDeletion, confirmSpotDeletion, seeSpotReviews } =
+        currentModalContext
     if (confirmAccountDeletion.isActive) {
         return (
             <DeleteAccountConfirmationModal
@@ -15,6 +17,10 @@ const ModalsWrapper = ({ currentModalContext }) => {
         return (
             <DeleteSpotConfirmationModal modalContextSpotDeletion={confirmSpotDeletion} />
         )
+    }
+
+    if (seeSpotReviews.isActive) {
+        return <ReviewDisplayerModal modalContextReviewDisplayer={seeSpotReviews} />
     }
 }
 

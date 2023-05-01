@@ -37,11 +37,10 @@ const sendPwdResetEmail = async (userRecipient, userName, token) => {
         const htmlToSend = `
         <h3>Hello ${capitalize(userName)}!</h3>
         <p>You asked to reset your password.</p>
-        <p>Please follow this link : <a href="${
+        <p>Please follow this link <a href="${
             PATHS.DOMAIN_WITHOUT_SLASH
-        }/auth/VerifyResetPwd/${token}"> to reset your password</a></p>
+        }/auth/verify-reset-pwd/${token}"> to reset your password</a></p>
         <p>Thank you.</p>
-
         `
 
         // send mail with defined transport object

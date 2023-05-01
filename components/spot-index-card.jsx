@@ -2,15 +2,22 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { MdLocationOn } from 'react-icons/md'
-import { AiFillStar } from 'react-icons/ai'
+import { MdGrade } from 'react-icons/md'
 
 import MissingImage from './image-off-placeholder'
 import UserImage from './user-image'
 
 import SPOT_CATEGORIES from '../constants/spot-categories'
 
-const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
-    const { _id, title, description, categories, author, country, images } = spotData
+import getAvrgGrade from '../utils/Spots/getAverageRate'
+
+const SpotCard = ({ spotData, shouldNotDisplayUserPic, w, h }) => {
+    const { _id, title, categories, author, country, images, virtuals, reviews } =
+        spotData
+
+    // Takes all reviews rate and do average (virtuals not working from client)
+    const spotAverageRate = getAvrgGrade(reviews)
+    console.log('spotAverageRate', spotAverageRate === null)
 
     const spotIcons = SPOT_CATEGORIES.filter(cat => categories.includes(cat.name))
 
@@ -19,21 +26,23 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
     return (
         <Link href={`/spots/${_id}`}>
             <a>
-                <button className="cursor-pointer flex flex-col w-64 group">
-                    <div className="relative w-full h-64 mx-auto  rounded-lg overflow-hidden">
+                <button className={`cursor-pointer flex flex-col ${w} group`}>
+                    <div
+                        className={`relative w-full ${h} mx-auto rounded-lg overflow-hidden`}
+                    >
                         {images[0] ? (
                             <Image
                                 src={images[0]}
                                 alt="Picture of a Spot on SpotFinder"
                                 layout="fill"
-                                className=" object-cover group-hover:scale-110 transition-transform duration-[175ms] "
+                                className=" object-cover group-hover:scale-105 transition-transform duration-[175ms] "
                                 quality={10}
                             />
                         ) : (
                             <MissingImage />
                         )}
                     </div>
-                    <div className="flex flex-col gap-y-2 px-1 w-full">
+                    <div className="flex flex-col gap-y-1 px-1 w-full">
                         <div className="mt-2 flex justify-between items-start text-form-color text-[15px] w-full">
                             <div className="w-[75%] flex flex-col">
                                 <p
@@ -41,7 +50,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
                                 >
                                     {title}
                                 </p>
-                                <div className="flex items-center text-[#707070]">
+                                <div className="flex items-center text-greyText">
                                     <MdLocationOn className="text-lg" />
                                     <p className={`text-sm ${displaySuspensionPoints}`}>
                                         {country.name}
@@ -49,17 +58,21 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
                                 </div>
                             </div>
 
-                            <div className="flex items-center align-top">
-                                <AiFillStar className="w-4 h-4" />
-                                <span>4.77</span>
-                            </div>
+                            {spotAverageRate ? (
+                                <div className="flex items-center align-top">
+                                    <MdGrade className="w-4 h-4" />
+                                    <span>{spotAverageRate}</span>
+                                </div>
+                            ) : (
+                                ''
+                            )}
                         </div>
 
                         {shouldNotDisplayUserPic ? (
                             ''
                         ) : (
-                            <div className="flex gap-x-2 items-center group w-fit text-[#707070]">
-                                <UserImage width={'w-7'} height={'h-7'} />
+                            <div className="flex gap-x-2 items-center group w-fit text-greyText">
+                                <UserImage width={'w-8'} height={'h-8'} />
                                 <span className="text-sm group-hover:underline ">
                                     Spot by {author.name}
                                 </span>
@@ -71,7 +84,7 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
                                 <div
                                     key={icon.name}
                                     title={`This spot is related to the ${icon.name} category`}
-                                    className=" items-center text-[#707070] w-fit inline"
+                                    className=" items-center text-greyText w-fit inline"
                                 >
                                     {index === spotIcons.length - 1 ? (
                                         <span className="flex items-center gap-x-2">

@@ -2,6 +2,7 @@ import connectMongo from '../../../utils/connectMongo'
 
 import User from '../../../models/user'
 import Spot from '../../../models/spot'
+import Reviews from '../../../models/reviews'
 
 import { hash } from 'bcryptjs'
 
@@ -17,7 +18,13 @@ export default async function userHandling(req, res) {
     const { userID } = req.query
 
     // Used lean to convert mongo doc to JS object
-    const user = await User.findById(userID).populate('spotsOwned').lean()
+    const user = await User.findById(userID)
+        .populate({
+            path: 'spotsOwned',
+            // Get reviews of every spotsOwned - populate the 'reviews' field for every spotsOwned but with only rate - deep population
+            populate: { path: 'reviews', select: 'rate' },
+        })
+        .lean()
 
     // If does not find user
     if (!user) {
@@ -25,12 +32,35 @@ export default async function userHandling(req, res) {
         return
     }
 
-    const visitedSpotsOfUser = await Spot.find({ visitors: userID }).lean()
-    // Adding spots visited to user object
-    const userWithSpotsVisited = { ...user, visitedSpots: visitedSpotsOfUser.length }
+    // Look for Spots which contains the userID in their visitors field
+    const visitedSpotsOfUser = await Spot.find({ visitors: userID })
+        .populate('reviews', 'rate') // populate only rate from reviews
+        .lean()
+
+    // Look for Reviews which contains the userID in their reviewAuthor field
+    const reviewsOfUser = await Reviews.find({ reviewAuthor: userID })
+        .select('reviewedSpot')
+        .lean()
+
+    const reviewedSpotsOfUserList = reviewsOfUser.map(review => review.reviewedSpot) // array of spot ids reviewed by this user
+
+    // Search all the spots whoose id is included in reviewedSpotsOfUserList
+    const spotsUserReviewed = await Spot.find({
+        _id: { $in: reviewedSpotsOfUserList },
+    })
+        .populate('reviews', 'rate') // populate only rate from reviews
+        .lean()
+
+    // Adding spots visited & reviewed to user object
+    const userWithSpotsVisited = {
+        ...user,
+        visitedSpots: visitedSpotsOfUser,
+
+        // reviewsUserLet: reviewsOfUser,
+        spotsUserReviewed: spotsUserReviewed,
+    }
 
     if (req.method === 'GET') {
-        console.log('GET REQUEST')
         res.status(200).json({
             success: true,
             result: userWithSpotsVisited,
@@ -38,8 +68,6 @@ export default async function userHandling(req, res) {
         return
     }
     if (req.method === 'PATCH') {
-        console.log('req.body -->', req.body)
-
         try {
             //Hash password
             const hashedPassword = await hash(req.body, 12)

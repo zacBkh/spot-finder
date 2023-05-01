@@ -20,10 +20,7 @@ const UserProfile = () => {
         return userData
     }
 
-    const { data: userVisited, error: userError } = useSWR(
-        isReady ? 'get_user_profile' : null,
-        fetcherUser,
-    )
+    const { data: userVisited } = useSWR(isReady ? 'get_user_profile' : null, fetcherUser)
 
     const sessionNotReady = status === 'loading'
 
@@ -31,7 +28,6 @@ const UserProfile = () => {
         return <CustomErrorPage contextErrHelper={userVisited.result} />
     }
 
-    console.log('userVisited', userVisited)
     return (
         <>
             <UserCard

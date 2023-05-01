@@ -1,12 +1,11 @@
-import { Schema, model, models } from 'mongoose';
-
+import { Schema, model, models } from 'mongoose'
 
 const reviewSchema = new Schema(
     {
         rate: {
             type: Number,
-            min: [0, "Rate cannot be less than 0"],
-            max: [5, "Rate cannot be more than 5"],
+            min: [0, 'Rate cannot be less than 0'],
+            max: [5, 'Rate cannot be more than 5'],
             required: true,
         },
 
@@ -14,26 +13,22 @@ const reviewSchema = new Schema(
             type: String,
         },
 
-
-        reviewAuthor:
-        {
+        reviewAuthor: {
             type: Schema.Types.ObjectId,
-            ref: "User",
+            ref: 'User',
         },
-    }, { timestamps: true }
-);
 
-
-
-
-
+        reviewedSpot: {
+            type: Schema.Types.ObjectId,
+            ref: 'Spot',
+        },
+    },
+    { timestamps: true },
+)
 
 // Model creation
 // Model creation (=> a db collection called "users" will be created => pluralized & lowercased)
-const Review = models.Review || model('Review', reviewSchema);
-
+const Review = models.Review || model('Review', reviewSchema)
 
 // Exportation of model
-export default Review;
-
-
+export default Review

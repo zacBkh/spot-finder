@@ -15,6 +15,9 @@ import { AiFillDelete } from 'react-icons/ai'
 import { ModalsContext } from '../context/AppContext'
 
 import { TOAST_PARAMS } from '../constants/toast-query-params'
+
+import getAvrgGrade from '../utils/Spots/getAverageRate'
+
 const { KEY, VALUE_FEATURE_NOT_YET_AVAILABLE } = TOAST_PARAMS
 
 const SpotCardCTA = ({
@@ -24,6 +27,7 @@ const SpotCardCTA = ({
     didUserVisitSpot,
     spotID,
     nbOfVisits,
+    spotDetails,
 }) => {
     const router = useRouter()
 
@@ -45,24 +49,37 @@ const SpotCardCTA = ({
         )
     }
 
-    const [updatedNbOfVisits, setUpdatedNbfVisits] = useState(nbOfVisits)
+    // Will open modal and add the spot details to global state
+    const reviewSpotRequestHandler = () => {
+        modalContext.seeSpotReviews.toggleModalState()
+        modalContext.seeSpotReviews.spotReviewedHandler({
+            ...spotDetails,
+            authorID: author._id,
+            spotID,
+        })
+    }
+
+    // const [updatedNbOfVisits, setUpdatedNbfVisits] = useState(nbOfVisits)
 
     const toggleSwitchHandler = () => {
         onAddVisit()
-        didUserVisitSpot
-            ? setUpdatedNbfVisits(prevState => prevState - 1)
-            : setUpdatedNbfVisits(prevState => prevState + 1)
+        // didUserVisitSpot
+        //     ? setUpdatedNbfVisits(prevState => prevState - 1)
+        //     : setUpdatedNbfVisits(prevState => prevState + 1)
     }
 
-    // onClick={() => { func1(); func2();}}
     return (
         <>
-            <SpotSpecsDisplayer nbOfVisits={updatedNbOfVisits} />
+            <SpotSpecsDisplayer
+                reviewsQty={spotDetails.reviews.length}
+                nbOfVisits={nbOfVisits}
+                averageGrade={getAvrgGrade(spotDetails.reviews)}
+            />
             <div className="flex justify-center gap-x-4 sticky top-11">
                 <ButtonSpotCard
                     icon={<MdOutlineRateReview />}
-                    text={'Review'}
-                    onClickHandler={featureNotReadyHandler}
+                    text={'Reviews'}
+                    onClickHandler={reviewSpotRequestHandler}
                 />
 
                 {shouldBeEditable ? (
@@ -77,7 +94,12 @@ const SpotCardCTA = ({
                     />
                 )}
             </div>
-            <SpotterProfilePreview author={author} />
+            <SpotterProfilePreview
+                w={'w-14'}
+                h={'h-14'}
+                author={author}
+                spanTxt={`Visit ${author.name}'s profile`}
+            />
             <DividerDesign />
             <Toggler onToggle={toggleSwitchHandler} didUserVisitSpot={didUserVisitSpot} />
         </>

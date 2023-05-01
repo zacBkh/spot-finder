@@ -18,6 +18,9 @@ module.exports = {
                 'secondary-hov': '#d2e7ed',
                 'tertiary': '#F7F5F5',
                 'tertiary-hov': '#efebea',
+
+                'greyText': '#707070',
+
                 'disabled': '#e3e3e3',
                 'success': '#39a76d',
 

@@ -5,6 +5,13 @@ import Review from './reviews'
 
 // To enable passing of virtuals to JSON (for the map popup )
 const arrayOfSpotCat = SPOT_CATEGORIES.map(cat => cat.name)
+const opts = {
+    toJSON: { virtuals: true },
+    timestamps: true,
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true },
+}
+
 const spotSchema = new Schema(
     {
         title: {
@@ -88,11 +95,7 @@ const spotSchema = new Schema(
             },
         ],
     },
-    {
-        timestamps: true,
-        toObject: { virtuals: true },
-        toJSON: { virtuals: true },
-    },
+    opts,
 )
 
 // Query Middleware --> when spot is deleted :
@@ -112,17 +115,6 @@ spotSchema.post('findOneAndDelete', async function (spotDeleted) {
     const removeDeletedSpot = await User.findByIdAndUpdate(spotDeleted.author, {
         $pull: { spotsOwned: spotID }, // pull the deleted spot from spotsOwned array
     })
-})
-
-spotSchema.virtual('virtuals.averageGrade').get(function () {
-    // Doing average of grade
-    let gradeSum = 0
-    let length = 0
-    for (const i of this.reviews) {
-        gradeSum = gradeSum + i.rate
-        length++
-    }
-    return gradeSum / length
 })
 
 // // If we add "query.populate(virtualName)" this will become available

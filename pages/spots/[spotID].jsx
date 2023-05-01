@@ -1,5 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 
+import useSWR, { useSWRConfig } from 'swr'
+import SWR_KEYS from '../../constants/SWR-keys'
+
 import { authOptions } from '../api/auth/[...nextauth]'
 
 import { unstable_getServerSession } from 'next-auth/next'
@@ -10,16 +13,12 @@ import Image from 'next/image'
 import {
     editSpotHandler,
     addOneVisitSpotHandler,
-    addOneReview,
+    findOneSpot,
 } from '../../services/mongo-fetchers'
-
-import didUserVisited from '../../utils/Spots/didUserVisitedSpot'
 
 import { GETSpotFetcherOne } from '../../utils/GETfetchers'
 
 import MapShow from '../../components/Maps/MapShow'
-
-import Review from '../../components/Reviews/Review'
 
 import { TEXTAREA_INPUTS_FS } from '../../constants/responsive-fonts'
 
@@ -28,7 +27,7 @@ const {
     KEY,
     KEY_REQUIRE,
     VALUE_MUST_LOGIN,
-    VALUE_MUST_NOT_BE_OWNER,
+    VALUE_MUST_NOT_BE_OWNER_ADD_VISIT,
     VALUE_ADD_SPOT_AS_VISITED_SUCCESS,
     VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS,
     VALUE_EDITED_SPOT_SUCCESS,
@@ -55,10 +54,10 @@ export const getServerSideProps = async context => {
 
     try {
         // Getting the ID of the current spot
-        const ID = context.params.spotID
+        const currSpotID = context.params.spotID
 
         // Executing the fx that will fetch the precise Spot
-        const resultFetchGETOne = await GETSpotFetcherOne(ID)
+        const resultFetchGETOne = await GETSpotFetcherOne(currSpotID)
 
         if (!resultFetchGETOne) {
             return { notFound: true }
@@ -79,14 +78,6 @@ export const getServerSideProps = async context => {
 }
 
 const ShowSpot = ({ indivSpot, currentUserID }) => {
-    // --------
-    const [isInputEditable, setIsInputEditable] = useState({
-        title: false,
-        description: false,
-        categories: false,
-        coordinates: false,
-    })
-
     const {
         title,
         description,
@@ -94,10 +85,33 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         geometry,
         country,
         author,
-        visitors,
         images,
+        virtuals,
         _id: spotID,
     } = indivSpot
+
+    // `data` will always be available as it's in `fallback`.
+    const fetcher = async () => {
+        const getOneSpotClient = await findOneSpot(spotID)
+        return getOneSpotClient.result
+    }
+    const { data: updatedIndivSpot } = useSWR(SWR_KEYS.SPOT_IN_SPOT_PAGE, fetcher, {
+        fallbackData: indivSpot,
+    })
+
+    console.log('updatedIndivSpot', updatedIndivSpot)
+
+    const { reviews: updatedReviews, visitors: updatedVisitors } = updatedIndivSpot
+
+    let hasUserVisited = updatedVisitors.includes(currentUserID)
+    console.log('hasUserVisited', hasUserVisited)
+
+    const [isInputEditable, setIsInputEditable] = useState({
+        title: false,
+        description: false,
+        categories: false,
+        coordinates: false,
+    })
 
     const initialValuesEditSpot = {
         title,
@@ -141,16 +155,12 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         }
     }
 
-    // State that manages toggler + give info to API route whether to decrement or increment
-    const didVisit = didUserVisited(visitors, currentUserID)
-    const [didUserVisitSpot, setDidUserVisitSpot] = useState(didVisit)
-
     const router = useRouter()
+
+    const { mutate } = useSWRConfig()
 
     // Will call the fetcher for ADDING visit
     const handleAddVisit = async () => {
-        console.log('handler ran')
-
         // If user not auth, send a toaster
         if (!currentUserID) {
             router.push(
@@ -164,22 +174,27 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         /// if user is author, send toaster he can't add visit
         if (currentUserID === author._id) {
             router.push(
-                { query: { spotID, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER } },
+                { query: { spotID, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER_ADD_VISIT } },
                 undefined,
                 { shallow: true },
             )
             return
         }
 
-        await addOneVisitSpotHandler(currentUserID, spotID, didUserVisitSpot)
+        await addOneVisitSpotHandler(currentUserID, spotID, hasUserVisited)
 
-        if (!didUserVisitSpot) {
+        mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE) // run again
+
+        if (!hasUserVisited) {
             router.push(
                 { query: { spotID, [KEY]: VALUE_ADD_SPOT_AS_VISITED_SUCCESS } },
                 undefined,
                 { shallow: true },
             )
+            console.log('++99')
         } else {
+            console.log('++22')
+
             router.push(
                 {
                     query: {
@@ -191,56 +206,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                 { shallow: true },
             )
         }
-
-        console.log('handler ran aft')
-        // did not visited this spot before, mark as visited
-        setDidUserVisitSpot(prevState => !prevState)
-    }
-
-    // Review
-    const [isReviewOpen, setIsReviewOpen] = useState(false)
-
-    // Adding review + pushing its ID in Spot document
-    const onReviewSubmit = async reviewValues => {
-        const addRev = await addOneReview(spotID, currentUserID, reviewValues)
-
-        if (!addRev.success) {
-            console.log('ERROR ADDING A REVIEW', addRev.result)
-        }
-
-        setIsReviewOpen(false)
-
-        toast.success('Thanks for the comment!', {
-            position: 'bottom-left',
-            toastId: 'commentSuccess',
-        })
-    }
-
-    const openReviewHandler = () => {
-        console.log('YOU WANT TO REVIEW')
-        // // If not logged in
-        // if (!currentUserID) {
-        //     // HELPERR
-        //     toast.error(CustomToastWithLink(' to add a review to the spot'), {
-        //         position: 'bottom-left',
-        //         toastId: 'connectToAddReview',
-        //     })
-        //     return
-        // }
-
-        // // If author tries to comment
-        // if (currentUserID === indivSpot.author) {
-        //     toast.error(
-        //         'You cannot review a Spot you created, think about editing its content!',
-        //         {
-        //             position: 'bottom-left',
-        //             toastId: 'cannotCommentIfAuthor',
-        //         },
-        //     )
-        //     return
-        // }
-
-        setIsReviewOpen(prev => !prev)
     }
 
     const titleRef = useRef(null)
@@ -337,7 +302,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 />
                             )}
                             <div className="absolute float-left top-[78%] sm:top-[76%] md:top-[87%] lg:top-[88%] left-[1.5%] flex flex-col md:flex-row gap-1  ">
-                                <ButtonPhoto type={'showPhotos'} />
+                                <ButtonPhoto
+                                    type={'showPhotos'}
+                                    qtyPhotos={images.length}
+                                />
                                 <ButtonPhoto
                                     isMapFullScreen={isMapVisible}
                                     onMapToggle={mapToggleHandler}
@@ -487,7 +455,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     name={'description'}
                                     disabled={!shouldBeEditable}
                                     spellCheck="false"
-                                    className={`  box-border  overflow-hidden resize-y ${
+                                    className={`box-border overflow-hidden resize-y ${
                                         validStyling('description').border
                                     }
                                         ${inputsSharedClass} ${TEXTAREA_INPUTS_FS} ${
@@ -510,37 +478,35 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     </div>
                     <div className="hidden lg:flex flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
                         <SpotCardCTA
-                            nbOfVisits={visitors.length}
+                            nbOfVisits={updatedVisitors.length}
                             shouldBeEditable={shouldBeEditable}
                             author={author}
-                            didUserVisitSpot={didUserVisitSpot}
+                            didUserVisitSpot={hasUserVisited}
                             onAddVisit={handleAddVisit}
                             spotID={spotID}
+                            spotDetails={{
+                                title,
+                                reviews: updatedReviews,
+                                country: country.name,
+                            }}
                         />
                     </div>
                 </div>
                 <div className="flex lg:hidden flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
                     <SpotCardCTA
-                        nbOfVisits={visitors.length}
+                        nbOfVisits={updatedVisitors.length}
                         shouldBeEditable={shouldBeEditable}
                         author={author}
-                        didUserVisitSpot={didUserVisitSpot}
+                        didUserVisitSpot={hasUserVisited}
                         onAddVisit={handleAddVisit}
                         spotID={spotID}
+                        spotDetails={{
+                            title,
+                            reviews: updatedReviews,
+                            country: country.name,
+                            virtuals,
+                        }}
                     />
-                </div>
-
-                <div className="mt-96">
-                    <a className="cursor-pointer" onClick={openReviewHandler}>
-                        REVIEW THE SPOT
-                    </a>
-                    {isReviewOpen && (
-                        <Review
-                            isLoggedIn={currentUserID}
-                            isAuthor={currentUserID === author}
-                            onReviewSubmit={onReviewSubmit}
-                        />
-                    )}
                 </div>
             </div>
         </>

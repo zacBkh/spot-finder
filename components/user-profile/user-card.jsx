@@ -2,12 +2,18 @@ import { useState, useRef } from 'react'
 
 import { SlOptions } from 'react-icons/sl'
 
+import { useRouter } from 'next/router'
+
 import {
     TITLE_FS,
     SMALL_TEXT_FS,
     BODY_FS,
     SMALL_TITLE_FS,
 } from '../../constants/responsive-fonts'
+
+import { TOAST_PARAMS } from '../../constants/toast-query-params'
+const { KEY, VALUE_RESET_PWD_EMAIL_SENT_SUCCESS, VALUE_RESET_PWD_EMAIL_SENT_FAILURE } =
+    TOAST_PARAMS
 
 import UserImage from '../user-image'
 
@@ -16,21 +22,31 @@ import DividerDesign from '../design/divider'
 import SkeletonUserCard from '../skeletons/parents/user-card-skeleton'
 import SkeletonText from '../skeletons/text-skeleton'
 import SkeletonImage from '../skeletons/image-skeleton'
-import SpotCardSkeleton from '../skeletons/parents/spot-card-skeleton'
 
 import ActionMenuUserProfile from '../action-menu-user-profile'
-
-import SpotCard from '../spot-index-card'
 
 import UserStats from './user-stats'
 
 import useOnClickOutside from '../../hooks/useOnClickOutside'
 
 const hideOnLarge = 'lg:hidden'
-const showOnLarge = 'hidden lg:flex flex-col'
+const showOnLarge = 'hidden lg:flex flex-col sticky top-4'
+
+import RelatedSpots from './related-spots-user'
+
+import { sendPwdResetMail } from '../../services/mongo-fetchers'
 
 const UserCard = ({ isLoading, visitedUser, currentUser }) => {
-    const { name, spotsOwned, createdAt, _id: visitedUserID, visitedSpots } = visitedUser
+    const router = useRouter()
+
+    const {
+        name,
+        spotsOwned,
+        visitedSpots,
+        spotsUserReviewed,
+        createdAt,
+        _id: visitedUserID,
+    } = visitedUser
 
     let isCurrentUserVisitedUser = false
     if (currentUser && visitedUserID === currentUser.userID) {
@@ -44,9 +60,63 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         setIsActionMenuOpen(prev => !prev)
     }
 
-    const refOutside = useRef(null)
+    const refOutsideUseActionMenu = useRef(null)
 
-    useOnClickOutside(refOutside, () => setIsActionMenuOpen(false))
+    useOnClickOutside(refOutsideUseActionMenu, () => setIsActionMenuOpen(false))
+
+    const spotsCreated = useRef(null)
+    const spotsVisited = useRef(null)
+    const spotsReviewed = useRef(null)
+    const scrollClickHandler = spec => {
+        if (spec === 'created') {
+            spotsCreated.current?.scrollIntoView({ behavior: 'smooth' })
+            return
+        }
+
+        if (spec === 'visited') {
+            spotsVisited.current?.scrollIntoView({ behavior: 'smooth' })
+            return
+        }
+        if (spec === 'reviewed') {
+            spotsReviewed.current?.scrollIntoView({ behavior: 'smooth' })
+            return
+        }
+    }
+
+    // Send email to reset pws
+    const pwdChangeHandler = async () => {
+        const sendPwdReset = await sendPwdResetMail(currentUser.user.email)
+        if (!sendPwdReset.success) {
+            router.push(
+                {
+                    query: {
+                        userID,
+                        [KEY]: VALUE_RESET_PWD_EMAIL_SENT_FAILURE,
+                    },
+                },
+                undefined,
+                {
+                    shallow: true,
+                },
+            )
+            return
+        }
+
+        const userID = router.query.userID
+
+        router.push(
+            {
+                query: {
+                    userID,
+                    [KEY]: VALUE_RESET_PWD_EMAIL_SENT_SUCCESS,
+                },
+            },
+            undefined,
+            {
+                shallow: true,
+            },
+        )
+    }
 
     return (
         <>
@@ -60,11 +130,13 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         <>
                             <UserImage noBorder width={'w-32'} height={'h-32'} />
                             <UserStats
+                                onScrollClick={scrollClickHandler}
                                 nbOwned={spotsOwned.length}
-                                nbVisited={visitedSpots}
-                                nbReviewed={28}
+                                nbVisited={visitedSpots.length}
+                                nbReviewed={spotsUserReviewed.length}
+                                isCurrentUserVisitedUser={isCurrentUserVisitedUser}
+                                onChangePasswordRequest={pwdChangeHandler}
                             />
-                            <DividerDesign margin={'mt-4'} />
                         </>
                     )}
                 </div>
@@ -80,13 +152,14 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                             ) : (
                                 <>
                                     <div className="flex items-center gap-x-3">
-                                        <h1 className={`${TITLE_FS} font-bold white`}>
+                                        <h1 className={`${TITLE_FS} font-bold`}>
                                             Hi, I am {name}
                                         </h1>
-                                        <button ref={refOutside} onClick={onActionClick}>
-                                            <button>
-                                                <SlOptions className="text-xl" />
-                                            </button>
+                                        <button
+                                            ref={refOutsideUseActionMenu}
+                                            onClick={onActionClick}
+                                        >
+                                            <SlOptions className="text-xl" />
                                             {isActionMenuOpen && (
                                                 <ActionMenuUserProfile
                                                     currentUserID={
@@ -121,7 +194,6 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                             )}
                         </div>
                     </div>
-
                     <div className={`${hideOnLarge} flex flex-col gap-y-4 font-semibold`}>
                         {isLoading ? (
                             <SkeletonText
@@ -131,13 +203,15 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                             />
                         ) : (
                             <UserStats
+                                onScrollClick={scrollClickHandler}
                                 nbOwned={spotsOwned.length}
-                                nbVisited={38}
-                                nbReviewed={28}
+                                nbVisited={visitedSpots.length}
+                                nbReviewed={spotsUserReviewed.length}
+                                isCurrentUserVisitedUser={isCurrentUserVisitedUser}
+                                onChangePasswordRequest={pwdChangeHandler}
                             />
                         )}
                     </div>
-
                     <div className="space-y-2">
                         {isLoading ? (
                             <div className="flex flex-col gap-y-5">
@@ -175,29 +249,24 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         )}
                     </div>
                     <DividerDesign />
-
-                    <div className="space-y-2">
-                        {isLoading ? (
-                            <SkeletonText type={'smTitle'} nbOfLines={1} />
-                        ) : (
-                            <h2 className={`${SMALL_TITLE_FS} font-semibold`}>
-                                Spots {name} shared
-                            </h2>
-                        )}
-                        <div className="flex justify-center md:justify-between flex-wrap gap-5">
-                            {isLoading
-                                ? ['skeleton', 'of', 'user', 'spots'].map(placeholder => (
-                                      <SpotCardSkeleton key={placeholder} />
-                                  ))
-                                : spotsOwned.map(spot => (
-                                      <SpotCard
-                                          shouldNotDisplayUserPic
-                                          key={spot._id}
-                                          spotData={spot}
-                                      />
-                                  ))}
-                        </div>
-                    </div>
+                    <RelatedSpots
+                        isLoading={isLoading}
+                        title={`${name}'s Spots`}
+                        refClick={spotsCreated}
+                        spots={spotsOwned ?? []}
+                    />
+                    <RelatedSpots
+                        isLoading={isLoading}
+                        title={`Spots ${name} visited`}
+                        refClick={spotsVisited}
+                        spots={visitedSpots ?? []}
+                    />
+                    <RelatedSpots
+                        isLoading={isLoading}
+                        title={`Spots ${name} reviewed`}
+                        refClick={spotsReviewed}
+                        spots={spotsUserReviewed ?? []}
+                    />
                 </div>
             </div>
         </>

@@ -13,6 +13,29 @@ export default async function APIHandler(req, res) {
     // Protecting the API endpoint
     const session = await unstable_getServerSession(req, res, authOptions)
 
+    // If a get request
+    if (req.method === 'GET') {
+        await connectMongo()
+
+        console.log('GET METHOD AHAH SPOTS')
+        try {
+            const oneSpot = await Spot.findById(spotID)
+                .populate('author', 'name') // Populating ONLY author name
+                .populate({
+                    path: 'reviews',
+                    // Get reviewAuthor of every reviews - populate the 'reviewAuthor' field for every reviews but with only reviewer name - deep population
+                    populate: { path: 'reviewAuthor', select: 'name' },
+                })
+            console.log('oneSpot', oneSpot)
+            res.status(200).json({ success: true, result: oneSpot })
+        } catch (error) {
+            console.log(error)
+            res.status(200).json({ success: false, result: error })
+        }
+
+        return
+    }
+
     if (!session) {
         // If not authenticated
         res.status(401).json({

@@ -1,18 +1,14 @@
-import { useState } from 'react'
-import { BsTypeH1 } from 'react-icons/bs'
-
-// import decodeTokenResetPwd from "../../../utils/JWTMailToken/helpers/ResetPwd/decodeToken"
-
 import ResetPwdForm from '../../../components/auth/ResetPwdForm'
 
 import JWTVerifyer from '../../../utils/JWTMailToken/helpers/ResetPwd/JWTVerifyer'
+
+import CustomErrorPage from '../../404'
 
 // Get Server Side Props
 export const getServerSideProps = async context => {
     const { JWToken } = context.params
 
     // Fx that does everything
-    // Will return
     const resetPwdResult = await JWTVerifyer(JWToken)
 
     // Need to parse and stringify when return value from async op
@@ -26,7 +22,13 @@ export const getServerSideProps = async context => {
 // Component
 const VerifryResetPwdReq = ({ reqResult }) => {
     if (!reqResult.success) {
-        return <h1> {reqResult.result}</h1>
+        return (
+            <CustomErrorPage
+                contextErrHelper={
+                    'Your token to resrt your password could not be verified. Please try again.'
+                }
+            />
+        )
     } else {
         return <ResetPwdForm userData={reqResult.result} />
     }

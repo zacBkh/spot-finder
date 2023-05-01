@@ -40,3 +40,6 @@ export const BODY_FS =
     'text-sm sm:text-base md:text-base lg:text-base xl:text-base 2xl:text-base'
 
 export const SMALL_TEXT_FS = 'text-xs sm:text-sm'
+
+export const REVIEW_MODAL_FS = 'text-sm sm:text-lg'
+export const REVIEW_MODAL_SECONDARY_FS = 'text-xs sm:text-base'

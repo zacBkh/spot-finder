@@ -1,6 +1,17 @@
 // These utils fx send request to my API routes for Spot & Auth
 
 /* SC SPOTS */
+
+// for useSwr from client side
+export const findOneSpot = async spotID => {
+    // POSTING to MONGO
+    const response = await fetch(`/api/spots/${spotID}`, {
+        method: 'GET',
+    })
+
+    return await response.json()
+}
+
 export const addSpotHandler = async enteredData => {
     console.log('NEW SPOT DATA from FETCHER', enteredData)
     console.log('TYPE OF', typeof enteredData.locationDrag)
@@ -63,10 +74,8 @@ export const addUserHandler = async enteredData => {
     return data
 }
 
-// Fetch user info for profile page
+// Fetch user info for profile page (useSwr client side)
 export const getUserData = async userID => {
-    console.log('GET USER DATA', userID)
-
     const response = await fetch(`/api/users/${userID}`, {
         method: 'GET',
     })
@@ -140,12 +149,24 @@ export const editUserHandler = async (newPwd, userID) => {
 /* !SC */
 
 /*SC REVIEWS */
-export const addOneReview = async (spotID, reviewAuthorID, review) => {
-    const response = await fetch(`/api/reviews/new-review`, {
+export const addOneReview = async (spotID, review) => {
+    const response = await fetch(`/api/reviews`, {
         method: 'POST',
-        body: JSON.stringify({ spotID, reviewAuthorID, review }), //conv to JSON
+        body: JSON.stringify({ spotID, review }), //conv to JSON
         headers: { 'Content-Type': 'application/json' },
     })
     const result = await response.json()
+    console.log('result review fetcher', result)
+    return result
+}
+
+export const editOneReview = async (reviewIDToEdit, review) => {
+    const response = await fetch(`/api/reviews`, {
+        method: 'PATCH',
+        body: JSON.stringify({ reviewIDToEdit, review }), //conv to JSON
+        headers: { 'Content-Type': 'application/json' },
+    })
+    const result = await response.json()
+    console.log('result review edit fetcher', result)
     return result
 }

@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router'
 
 import { signOut } from 'next-auth/react'
-import { deleteUserHandler } from '../../services/mongo-fetchers'
+import { deleteUserHandler } from '../../../services/mongo-fetchers'
 
-import LayoutModal from './modals-layout'
+import LayoutModalDeletion from '../modals-deletion-layout'
 
-import { PATHS } from '../../constants/URLs'
-import { TOAST_PARAMS } from '../../constants/toast-query-params'
+import { PATHS } from '../../../constants/URLs'
+import { TOAST_PARAMS } from '../../../constants/toast-query-params'
+
 const { KEY, VALUE_DELETED_USER_SUCCESS } = TOAST_PARAMS
 
 const DeleteAccountConfirmationModal = ({ children, modalContextAccountDeletion }) => {
@@ -32,7 +33,7 @@ const DeleteAccountConfirmationModal = ({ children, modalContextAccountDeletion 
         <>
             {modalContextAccountDeletion.isActive && (
                 <>
-                    <LayoutModal
+                    <LayoutModalDeletion
                         onCloseModal={closeModalHandler}
                         onConfirmedAction={userConfirmedDeletionHandler}
                         text={'Are you sure you want to delete your account?'}

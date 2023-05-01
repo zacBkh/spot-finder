@@ -239,7 +239,7 @@ const EMailLogger = ({
             return {
                 button: 'Login',
                 stepGuide:
-                    'Welcome back! Please log to continue exploring the best Spots around you.',
+                    'Welcome back! Please log in to continue exploring the best Spots around you. 📍',
             }
         }
     }

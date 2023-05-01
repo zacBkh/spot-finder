@@ -106,12 +106,12 @@ const AllSpots = ({ spots, queryString }) => {
                     )
                     break
                 case 'Grade':
-                    setFilteredSpots(
-                        [...spots].sort(
-                            // .sort returns same array so we need to mutate it
-                            (a, b) => b.virtuals.averageGrade - a.virtuals.averageGrade,
-                        ),
-                    )
+                    // setFilteredSpots(
+                    //     [...spots].sort(
+                    //         // .sort returns same array so we need to mutate it
+                    //         (a, b) => b.virtuals.averageGrade - a.virtuals.averageGrade,
+                    //     ),
+                    // )
                     break
 
                 case 'Oldest to newest':
@@ -234,7 +234,7 @@ const AllSpots = ({ spots, queryString }) => {
                         "
                 >
                     {filteredSpots.map(spot => (
-                        <SpotCard key={spot._id} spotData={spot} />
+                        <SpotCard key={spot._id} w={'w-64'} h={'h-64'} spotData={spot} />
                     ))}
                 </div>
             </div>
