@@ -28,7 +28,11 @@ const UserMenu = ({ currentAuthStatus, isOpen, onUserMenuClick }) => {
     }
     return (
         <div className="relative">
-            <div className={`${isOpen ? 'block' : 'hidden'} z-50 absolute right-0`}>
+            <div
+                className={`${
+                    isOpen ? 'block' : 'hidden'
+                } z-50 absolute right-0 transition-user-menu`}
+            >
                 <nav
                     className={`min-w-[140px]
                         text-dark-color
@@ -48,13 +52,23 @@ const UserMenu = ({ currentAuthStatus, isOpen, onUserMenuClick }) => {
                                 <DividerDesign />
 
                                 <li onClick={signOutHandler}>
-                                    <a>Sign Out</a>
+                                    <a>Log Out</a>
                                 </li>
                             </>
                         ) : (
-                            <li onClick={onUserMenuClick}>
-                                <Link href={PATHS.AUTH}>Sign up or Login</Link>
-                            </li>
+                            <div onClick={onUserMenuClick}>
+                                <li>
+                                    <Link href={PATHS.AUTH}>Sign up</Link>
+                                </li>
+                                <li>
+                                    <Link href={PATHS.AUTH}>Login</Link>
+                                </li>
+                                <DividerDesign />
+                                <li>
+                                    {' '}
+                                    <Link href={PATHS.AUTH}>Help</Link>
+                                </li>
+                            </div>
                         )}
                     </ul>
                 </nav>

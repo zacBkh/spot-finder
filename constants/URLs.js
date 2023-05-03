@@ -27,6 +27,11 @@ export const NAVBAR_ITEMS = [
         name: 'Add your Spot!',
         link: PATHS.NEW_SPOT,
     },
+
+    {
+        name: 'Why Spot Finder ?',
+        link: PATHS.HOME,
+    },
 ]
 
 export const NAVBAR_USER_ITEMS = [

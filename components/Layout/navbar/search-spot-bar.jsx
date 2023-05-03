@@ -9,7 +9,7 @@ const SearchSpotBar = ({ disabled }) => {
     const searchContext = useContext(SearchBarContext)
 
     return (
-        <div className=" 0/10 relative hidden md:block">
+        <div className="relative hidden md:block">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <AiOutlineSearch className=" text-gray-400 text-lg " />
                 <span className="sr-only">Search icon</span>

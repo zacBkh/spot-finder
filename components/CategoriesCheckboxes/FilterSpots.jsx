@@ -1,24 +1,10 @@
-
-
-const FilterSpots = ({
-    icon,
-    value,
-    onClick,
-    activeCategories
-}) => {
-
-
-
+const FilterSpots = ({ icon, value, onClick, activeCategories }) => {
     return (
         <>
-            <div
-                onClick={() => onClick(value)}
-                className="w-20	">
-               
+            <div onClick={() => onClick(value)}>
                 <label
                     htmlFor={value}
-                    className=
-                    {`
+                    className={`
                             flex justify-center items-center p-2  
                             text-gray-500 hover:text-gray-600
                             bg-white  hover:bg-gray-50 
@@ -26,12 +12,14 @@ const FilterSpots = ({
                             border-gray-200 
                             cursor-pointer
 
-                            ${activeCategories.includes(value) ? "bg-gray-50 border-blue-600 text-gray-800 " : "bg-white border-gray-200"}
+                            ${
+                                activeCategories.includes(value)
+                                    ? 'bg-gray-50 border-blue-600 text-gray-800 '
+                                    : 'bg-white border-gray-200'
+                            }
 
                             `}
                 >
-
-
                     {/* <input
                             type="checkbox"
                             id={value}
@@ -41,21 +29,13 @@ const FilterSpots = ({
                             onClick={(e) => onClick(e)}
                         /> */}
 
+                    <div className="block mr-1 text-sm"> {icon}</div>
 
-                    <div
-                        className="block mr-1 text-sm "> {icon}
-                    </div>
-
-                    <div
-                        className=" text-xs font-semibold">{value}
-                    </div>
+                    <div className=" text-xs font-semibold">{value}</div>
                 </label>
-            </div
-            >
+            </div>
         </>
     )
 }
 
 export default FilterSpots
-
-

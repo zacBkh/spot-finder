@@ -14,6 +14,9 @@ import { GETSpotFetcherAll } from '../utils/GETfetchers'
 import SelectRegion from '../components/FilterRegion/SelectRegion'
 import SelectSort from '../components/Sorting/SelectSort'
 
+import ClosedDrawer from '../components/filters-drawer/closed-drawer'
+import OpenedDrawer from '../components/filters-drawer/opened-drawer'
+
 export const getServerSideProps = async context => {
     try {
         // Executing the fx that will fetch all Spots
@@ -53,7 +56,7 @@ const AllSpots = ({ spots, queryString }) => {
     const [filteredSpots, setFilteredSpots] = useState(spots)
 
     // Maintain the current activee categorie(s) array
-    const handleClickFilter = filter => {
+    const clickFilterHandler = filter => {
         console.log('filterRequired', filter)
 
         if (activeCategories.includes(filter)) {
@@ -160,6 +163,11 @@ const AllSpots = ({ spots, queryString }) => {
         setFilteredSpots(spots)
     }, [searchContext.value.length, searchContext.value, spots])
 
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+
+    const drawerToggleHandler = () => {
+        setIsDrawerOpen(prev => !prev)
+    }
     return (
         <>
             <Head>
@@ -168,18 +176,25 @@ const AllSpots = ({ spots, queryString }) => {
             </Head>
 
             {/* Global container */}
-            <div className="mt-16 px-12 2xl:px-36">
+            <div className="flex gap-x-4">
                 {/* Filter category container */}
-                {1 === 2 && (
-                    <div className="flex-column border border-gray py-2 ">
-                        <h3 className="font-semibold text-base px-2">Filter by...</h3>
+                {1 === 1 && (
+                    <aside
+                        className={`flex flex-col items-center border-r-[1px]  border-[#cfd9e0] py-2 sticky top-28 min-h-screen
+                         ${isDrawerOpen ? 'w-[25%]' : 'w-[7%]'} transition-all `}
+                    >
+                        <div className="w-full px-4">
+                            {isDrawerOpen ? (
+                                <OpenedDrawer
+                                    activeCategories={activeCategories}
+                                    onClickFilter={clickFilterHandler}
+                                    onDrawerToggle={drawerToggleHandler}
+                                />
+                            ) : (
+                                <ClosedDrawer onDrawerToggle={drawerToggleHandler} />
+                            )}
+                            {/* <h4 className="font-semibold text-sm mb-2">Category</h4>
 
-                        <hr className="mt-2 mb-4 mx-auto h-0.5 bg-gray-200 border-0" />
-
-                        <div className="px-2">
-                            <h4 className="font-semibold text-sm mb-2">Category</h4>
-
-                            {/* Category filter container */}
                             <div className="flex flex-wrap gap-1">
                                 <FilterSpots
                                     icon={<BsSunset />}
@@ -201,37 +216,36 @@ const AllSpots = ({ spots, queryString }) => {
                                     onClick={handleClickFilter}
                                     activeCategories={activeCategories}
                                 />
-                            </div>
+                            </div> */}
                         </div>
 
                         <hr className="my-4 mx-auto h-px bg-gray-200 border-0" />
 
-                        {/* Region filter container */}
-                        <div className="px-2">
+                        {/* <div className="px-2">
                             <h4 className="font-semibold text-sm mb-2">Region</h4>
                             <SelectRegion
                                 regionState={activeRegion}
                                 onRegionFilterChange={e => setActiveRegion(e)}
                             />
-                        </div>
+                        </div> */}
 
-                        <h3 className="font-semibold text-base px-2 mt-8">Sort by...</h3>
+                        {/* <h3 className="font-semibold text-base px-2 mt-8">Sort by...</h3>
                         <hr className="mt-2 mb-4 mx-auto h-0.5 bg-gray-200 border-0" />
 
                         <SelectSort
                             sortingState={activeSort}
                             onSortChange={e => setActiveSort(e)}
-                        />
-                    </div>
+                        /> */}
+                    </aside>
                 )}
                 {/* Main section with spots */}
                 <div
                     className="
                         flex flex-wrap
-                        justify-center
+                        justify-between
                         gap-y-5
                         gap-x-7
-                        "
+                    "
                 >
                     {filteredSpots.map(spot => (
                         <SpotCard key={spot._id} w={'w-64'} h={'h-64'} spotData={spot} />

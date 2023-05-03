@@ -4,7 +4,7 @@ const HamburgerIcon = ({ isOpen, onHamburgerIconClick }) => {
             onClick={onHamburgerIconClick}
             className={`${
                 isOpen ? 'open' : ''
-            }  hamburger block md:hidden focus:outline-none h-fit`}
+            } hamburger block md:hidden focus:outline-none h-fit`}
         >
             <span className="hamburger-top"></span>
             <span className="hamburger-middle"></span>

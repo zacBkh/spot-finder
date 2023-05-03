@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import Link from 'next/link'
+
 import SearchSpotBar from './search-spot-bar'
 import { useSession } from 'next-auth/react'
 
@@ -43,16 +45,14 @@ const Navigation = () => {
 
     return (
         <>
-            <header className="mx-auto p-2 bg-white text-dark-color sticky top-0 z-[999] border-b-[1.6px] border-[#dadada]">
+            <header className="mx-auto px-7 py-2 text-dark-color sticky top-0 z-[999] border-b-[1.6px] border-[#dadada] transparent-navbar ">
                 <div className="flex items-center justify-between">
-                    <div className="relative w-44 h-14">
-                        <Image
-                            layout="fill"
-                            src={Logo}
-                            alt="logo"
-                            quality={100}
-                            objectFit="cover"
-                        />
+                    <div className="relative w-44 h-14 cursor-pointer">
+                        <Link href={HOME}>
+                            <a>
+                                <Image layout="fill" src={Logo} alt="Spot Finder logo" />
+                            </a>
+                        </Link>
                     </div>
                     <nav className="hidden md:block text-sm">
                         <ul className="flex gap-x-6">
@@ -84,6 +84,7 @@ const Navigation = () => {
                             <UserAvatar
                                 onUserMenuClick={clickUserMenuHandler}
                                 currentSession={session ?? null}
+                                isOpen={isUserMenuOpen}
                             />
                             <UserMenu
                                 onUserMenuClick={clickUserMenuHandler}
