@@ -3,19 +3,26 @@ import Link from 'next/link'
 import capitalize from '../../../utils/capitalize'
 import { PATHS } from '../../../constants/URLs'
 
-const UserHeader = ({ currentPath, currentUser }) => {
+const UserHeader = ({ currentQuery, currentUser }) => {
+    const { user, userID } = currentUser
+
     const { PROFILE } = PATHS
+
+    const userProfile = `${PROFILE}/${userID}`
+
+    const isUserVisitedHisOwnProfile = currentQuery.userID === userID
+
     return (
-        <Link href={PROFILE}>
+        <Link href={userProfile}>
             <a
-                className={`px-3 py-2 rounded-md text-sm font-medium list-none
+                className={`hidden sm:block px-3 py-2 rounded-md text-sm font-medium list-none
         ${
-            currentPath === PROFILE
-                ? 'bg-gray-900 text-white'
-                : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+            isUserVisitedHisOwnProfile
+                ? 'bg-primary text-white'
+                : 'text-dark-color hover:bg-primary hover:text-white'
         }`}
             >
-                {`Hello, ${capitalize(currentUser)}`}
+                {`Hello, ${capitalize(user.name)}`}
             </a>
         </Link>
     )

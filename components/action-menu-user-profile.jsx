@@ -47,7 +47,7 @@ const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser, currentUserID
                         mt-2 w-fit rounded-md bg-white py-1 transform opacity-100 scale-100
                         shadowPF
                         flex flex-col
-                        text-[#2D383F]
+                        text-dark-color
                         min-w-max
                         `}
                 >

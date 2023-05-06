@@ -30,7 +30,7 @@ import UserStats from './user-stats'
 import useOnClickOutside from '../../hooks/useOnClickOutside'
 
 const hideOnLarge = 'lg:hidden'
-const showOnLarge = 'hidden lg:flex flex-col sticky top-4'
+const showOnLarge = 'hidden lg:flex flex-col sticky top-20'
 
 import RelatedSpots from './related-spots-user'
 

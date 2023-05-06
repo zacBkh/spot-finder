@@ -5,14 +5,12 @@ import { SearchBarContext } from '../context/AppContext'
 
 import Head from 'next/head'
 
-import FilterSpots from '../components/CategoriesCheckboxes/FilterSpots'
-
-import { BsFillTreeFill, BsBuilding, BsSunset } from 'react-icons/bs'
-
 import { GETSpotFetcherAll } from '../utils/GETfetchers'
 
-import SelectRegion from '../components/FilterRegion/SelectRegion'
-import SelectSort from '../components/Sorting/SelectSort'
+import ClosedDrawer from '../components/filters-drawer/closed-drawer'
+import OpenedDrawer from '../components/filters-drawer/opened-drawer'
+
+import getAvrgGrade from '../utils/Spots/getAverageRate'
 
 export const getServerSideProps = async context => {
     try {
@@ -33,42 +31,52 @@ export const getServerSideProps = async context => {
             },
         }
     } catch (error) {
-        console.log('ERROR IN GETTING THEM ALL ++', error)
         return {
             notFound: true,
         }
     }
 }
 
-const AllSpots = ({ spots, queryString }) => {
-    console.log('queryString', queryString)
-
+const AllSpots = ({ spots }) => {
     // Context API holding value from navbar search input + method to add
     const searchContext = useContext(SearchBarContext)
 
     const [activeCategories, setActiveCategories] = useState([])
     const [activeRegion, setActiveRegion] = useState('')
-    const [activeSort, setActiveSort] = useState('')
+    const [activeSortCriteria, setactiveSortCriteria] = useState('')
 
     const [filteredSpots, setFilteredSpots] = useState(spots)
 
     // Maintain the current activee categorie(s) array
-    const handleClickFilter = filter => {
-        console.log('filterRequired', filter)
-
-        if (activeCategories.includes(filter)) {
-            setActiveCategories(prevState => prevState.filter(x => x !== filter)) // if already in array -> remove
+    const catFilterHandler = filteredCat => {
+        if (activeCategories.includes(filteredCat)) {
+            setActiveCategories(prevState => prevState.filter(x => x !== filteredCat)) // if already in array -> remove
         } else {
             // if NOT already in array -> add
-            setActiveCategories(prevState => [...prevState, filter])
+            setActiveCategories(prevState => [...prevState, filteredCat])
         }
     }
 
-    // Filter the spots -- can be improved
-    // This use effect takes care of all filters except search bar
+    const regionFilterHandler = filteredRegion => {
+        if (activeRegion === filteredRegion) {
+            setActiveRegion('')
+        } else {
+            setActiveRegion(filteredRegion)
+        }
+    }
+
+    const addSortHandler = sortingCriteria => {
+        if (activeSortCriteria === sortingCriteria) {
+            setactiveSortCriteria('')
+        } else {
+            setactiveSortCriteria(sortingCriteria)
+        }
+    }
+
+    // Handles cat & region filters
     useEffect(() => {
         // If categories + region --> double filter
-        if (activeCategories.length && activeRegion.length) {
+        if (activeCategories.length && activeRegion) {
             setFilteredSpots(
                 spots
                     .filter(spot =>
@@ -90,64 +98,61 @@ const AllSpots = ({ spots, queryString }) => {
         }
 
         // If region only
-        if (activeRegion.length) {
+        if (activeRegion) {
             setFilteredSpots(spots.filter(spot => spot.country.region === activeRegion))
             return
         }
 
-        if (activeSort.length) {
-            switch (activeSort) {
-                case 'Number of Visits':
+        if (
+            !activeCategories.length &&
+            !activeRegion.length &&
+            !searchContext.value.length
+        ) {
+            setFilteredSpots(spots)
+        }
+    }, [activeCategories, activeRegion, searchContext.value.length, spots])
+
+    useEffect(() => {
+        if (activeSortCriteria) {
+            switch (activeSortCriteria) {
+                case 'Number of visits':
                     setFilteredSpots(
-                        [...spots].sort(
+                        [...filteredSpots].sort(
                             // .sort returns same array so we need to mutate it
                             (a, b) => b.visitors.length - a.visitors.length,
                         ),
                     )
                     break
                 case 'Grade':
-                    // setFilteredSpots(
-                    //     [...spots].sort(
-                    //         // .sort returns same array so we need to mutate it
-                    //         (a, b) => b.virtuals.averageGrade - a.virtuals.averageGrade,
-                    //     ),
-                    // )
-                    break
-
-                case 'Oldest to newest':
                     setFilteredSpots(
-                        [...spots].sort(
-                            (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+                        [...filteredSpots].sort(
+                            (a, b) => getAvrgGrade(b.reviews) - getAvrgGrade(a.reviews),
                         ),
                     )
                     break
 
-                case 'Newest to oldest':
+                case 'Recent':
                     setFilteredSpots(
-                        [...spots].sort(
+                        [...filteredSpots].sort(
                             (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
                         ),
                     )
+                    break
             }
             return
         }
 
-        if (!searchContext.value.length) {
+        if (!activeSortCriteria) {
             setFilteredSpots(spots)
         }
-
-        // If no filter mathced, just keep it like it is
-        // setFilteredSpots(spots);
-
-        // setFilteredSpots(spots)
-    }, [activeCategories, activeRegion, activeSort, searchContext.value.length, spots])
+    }, [activeSortCriteria])
 
     // If search bar only, disable all other filters
     useEffect(() => {
         if (searchContext.value.length) {
             setActiveCategories([])
             setActiveRegion('')
-            setActiveSort('')
+            setactiveSortCriteria('')
 
             setFilteredSpots(
                 spots.filter(spot =>
@@ -160,6 +165,11 @@ const AllSpots = ({ spots, queryString }) => {
         setFilteredSpots(spots)
     }, [searchContext.value.length, searchContext.value, spots])
 
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+
+    const drawerToggleHandler = () => {
+        setIsDrawerOpen(prev => !prev)
+    }
     return (
         <>
             <Head>
@@ -167,71 +177,38 @@ const AllSpots = ({ spots, queryString }) => {
                 <meta name="description" content="Browse the best spots, in a minute!" />
             </Head>
 
-            {/* Global container */}
-            <div className="mt-16 px-12 2xl:px-36">
-                {/* Filter category container */}
-                {1 === 2 && (
-                    <div className="flex-column border border-gray py-2 ">
-                        <h3 className="font-semibold text-base px-2">Filter by...</h3>
-
-                        <hr className="mt-2 mb-4 mx-auto h-0.5 bg-gray-200 border-0" />
-
-                        <div className="px-2">
-                            <h4 className="font-semibold text-sm mb-2">Category</h4>
-
-                            {/* Category filter container */}
-                            <div className="flex flex-wrap gap-1">
-                                <FilterSpots
-                                    icon={<BsSunset />}
-                                    value={'Sunset'}
-                                    onClick={handleClickFilter}
-                                    activeCategories={activeCategories}
-                                />
-
-                                <FilterSpots
-                                    icon={<BsBuilding />}
-                                    value={'Urban'}
-                                    onClick={handleClickFilter}
-                                    activeCategories={activeCategories}
-                                />
-
-                                <FilterSpots
-                                    icon={<BsFillTreeFill />}
-                                    value={'Nature'}
-                                    onClick={handleClickFilter}
-                                    activeCategories={activeCategories}
-                                />
-                            </div>
-                        </div>
-
-                        <hr className="my-4 mx-auto h-px bg-gray-200 border-0" />
-
-                        {/* Region filter container */}
-                        <div className="px-2">
-                            <h4 className="font-semibold text-sm mb-2">Region</h4>
-                            <SelectRegion
-                                regionState={activeRegion}
-                                onRegionFilterChange={e => setActiveRegion(e)}
+            <div className="flex flex-col md:flex-row gap-x-4 gap-y-3">
+                <aside
+                    className={`${
+                        isDrawerOpen ? 'md:w-[30%] 2xl:w-[20%]' : 'md:w-[8%] xl:w-[5%]'
+                    } w-full transition-all
+                    flex flex-col items-center border-r-[1px] border-[#cfd9e0] py-2 md:sticky md:top-28 xl:min-h-screen px-1`}
+                >
+                    <div className="w-full cursor-pointer">
+                        {isDrawerOpen ? (
+                            <OpenedDrawer
+                                activeCategories={activeCategories}
+                                activeRegion={activeRegion}
+                                onClickFilterCat={catFilterHandler}
+                                onClickFilterRegion={regionFilterHandler}
+                                onAddSort={addSortHandler}
+                                activeCriteria={activeSortCriteria}
+                                onDrawerToggle={drawerToggleHandler}
                             />
-                        </div>
-
-                        <h3 className="font-semibold text-base px-2 mt-8">Sort by...</h3>
-                        <hr className="mt-2 mb-4 mx-auto h-0.5 bg-gray-200 border-0" />
-
-                        <SelectSort
-                            sortingState={activeSort}
-                            onSortChange={e => setActiveSort(e)}
-                        />
+                        ) : (
+                            <ClosedDrawer onDrawerToggle={drawerToggleHandler} />
+                        )}
                     </div>
-                )}
-                {/* Main section with spots */}
+                </aside>
                 <div
                     className="
-                        flex flex-wrap
-                        justify-center
-                        gap-y-5
-                        gap-x-7
-                        "
+                    flex flex-wrap
+                    justify-center md:justify-start
+                    gap-y-5
+                    gap-x-8
+                    w-full
+                    h-fit
+                    "
                 >
                     {filteredSpots.map(spot => (
                         <SpotCard key={spot._id} w={'w-64'} h={'h-64'} spotData={spot} />

@@ -23,8 +23,8 @@ const CustomErrorPage = ({ contextErrHelper }) => {
     )
     return (
         <>
-            <div className="flex justify-between gap-x-6 items-center relative pl-12 pr-6">
-                <div className="w-[30%] text-start space-y-10">
+            <div className="flex flex-col sm:flex-row justify-between gap-x-6 gap-y-3 sm:gap-y-0 items-center relative px-8 ">
+                <div className="w-fit sm:w-[30%] text-start space-y-10 order-2 sm:order-1">
                     <div className="space-y-4">
                         <h1 className={`font-bold ${TITLE_FS}`}>
                             Looks like you&apos;re lost!
@@ -53,7 +53,7 @@ const CustomErrorPage = ({ contextErrHelper }) => {
                         </Link>
                     </div>
                 </div>
-                <div className="w-[60vw] 2xl:w-[80vw] relative">
+                <div className="w-[90vw] sm:w-[60vw] 2xl:w-[80vw] relative order-1 sm:order-2">
                     <ErrorIllustration
                         img={ErrorImage}
                         altTxt={'Illustration of a 404 error.'}

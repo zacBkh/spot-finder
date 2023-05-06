@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import Link from 'next/link'
+
 import SearchSpotBar from './search-spot-bar'
 import { useSession } from 'next-auth/react'
 
@@ -15,7 +17,7 @@ import HamburgerMenu from './hamburger-menu'
 import UserAvatar from './user-profile-pic'
 import UserMenu from './user-menu'
 
-import DummyLogo from '../../../public/images/logo.svg'
+import Logo from '../../../public/logos/logo-no-background.png'
 
 import useOnClickOutside from '../../../hooks/useOnClickOutside'
 
@@ -43,11 +45,22 @@ const Navigation = () => {
 
     return (
         <>
-            <header className="mx-auto p-5 bg-slate-800 text-white">
-                <div className="flex items-center justify-between ">
-                    <Image fill="true" src={DummyLogo} alt="logo" quality={20} />
-                    <nav className="hidden md:block">
-                        <ul className="flex gap-x-6">
+            <header className="mx-auto px-7 py-2 text-dark-color sticky top-0 z-[999] border-b-[1.6px] border-[#dadada] transparent-navbar ">
+                <div className="flex items-center justify-between">
+                    <div className="cursor-pointer h-[56px]">
+                        <Link href={HOME}>
+                            <a>
+                                <Image
+                                    width={121}
+                                    height={56}
+                                    src={Logo}
+                                    alt="Spot Finder logo"
+                                />
+                            </a>
+                        </Link>
+                    </div>
+                    <nav className="hidden md:block text-sm">
+                        <ul className="flex gap-x-3 md:gap-x-6">
                             {NAVBAR_ITEMS.map(item => (
                                 <NavItems
                                     key={item.link}
@@ -58,15 +71,15 @@ const Navigation = () => {
                         </ul>
                     </nav>
 
-                    <div className="flex justify-between items-center gap-x-6">
+                    <div className="flex justify-between items-center gap-x-3 lg:gap-x-6">
                         <SearchSpotBar
                             disabled={router.pathname === HOME ? false : true}
                         />
 
                         {status === 'authenticated' ? (
                             <UserHeader
-                                currentPath={router.pathname}
-                                currentUser={session.user.name}
+                                currentQuery={router.query}
+                                currentUser={session}
                             />
                         ) : (
                             ''
@@ -76,6 +89,7 @@ const Navigation = () => {
                             <UserAvatar
                                 onUserMenuClick={clickUserMenuHandler}
                                 currentSession={session ?? null}
+                                isOpen={isUserMenuOpen}
                             />
                             <UserMenu
                                 onUserMenuClick={clickUserMenuHandler}
