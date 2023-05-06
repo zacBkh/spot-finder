@@ -12,10 +12,11 @@ const ClosedDrawer = ({ onDrawerToggle }) => {
             onClick={onDrawerToggle}
             className="flex flex-col items-center gap-y-8 w-full"
         >
-            <button>
+            <button className="w-full flex justify-center items-center gap-x-3 font-semibold">
                 <FilterIcon />
+                <span className="md:hidden">Show Filters</span>
             </button>
-            <div className="flex flex-col items-center gap-y-4">
+            <div className="hidden md:flex flex-col items-center gap-y-4">
                 <button className={`${styleIcons}`}>
                     <BiCategoryAlt className="text-xl" />
                 </button>

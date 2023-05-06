@@ -177,44 +177,41 @@ const AllSpots = ({ spots }) => {
                 <meta name="description" content="Browse the best spots, in a minute!" />
             </Head>
 
-            {/* Global container */}
-            <div className="flex gap-x-4">
-                {/* Filter category container */}
-                {1 === 1 && (
-                    <aside
-                        className={`flex flex-col items-center border-r-[1px]  border-[#cfd9e0] py-2 sticky top-28 min-h-screen
-                        w-[20%] sm:w-[7%] 
-                         ${isDrawerOpen && 'w-[25%]'} transition-all`}
-                    >
-                        <div className="w-full cursor-pointer">
-                            {isDrawerOpen ? (
-                                <OpenedDrawer
-                                    activeCategories={activeCategories}
-                                    activeRegion={activeRegion}
-                                    onClickFilterCat={catFilterHandler}
-                                    onClickFilterRegion={regionFilterHandler}
-                                    onAddSort={addSortHandler}
-                                    activeCriteria={activeSortCriteria}
-                                    onDrawerToggle={drawerToggleHandler}
-                                />
-                            ) : (
-                                <ClosedDrawer onDrawerToggle={drawerToggleHandler} />
-                            )}
-                        </div>
-
-                        <hr className="my-4 mx-auto h-px bg-gray-200 border-0" />
-                    </aside>
-                )}
+            <div className="flex flex-col md:flex-row gap-x-4 gap-y-3">
+                <aside
+                    className={`${
+                        isDrawerOpen ? 'md:w-[30%] 2xl:w-[20%]' : 'md:w-[8%] xl:w-[5%]'
+                    } w-full transition-all
+                    flex flex-col items-center border-r-[1px] border-[#cfd9e0] py-2 md:sticky md:top-28 xl:min-h-screen px-1`}
+                >
+                    <div className="w-full cursor-pointer">
+                        {isDrawerOpen ? (
+                            <OpenedDrawer
+                                activeCategories={activeCategories}
+                                activeRegion={activeRegion}
+                                onClickFilterCat={catFilterHandler}
+                                onClickFilterRegion={regionFilterHandler}
+                                onAddSort={addSortHandler}
+                                activeCriteria={activeSortCriteria}
+                                onDrawerToggle={drawerToggleHandler}
+                            />
+                        ) : (
+                            <ClosedDrawer onDrawerToggle={drawerToggleHandler} />
+                        )}
+                    </div>
+                </aside>
                 <div
                     className="
                     flex flex-wrap
-                    justify-center sm:justify-between
+                    justify-center md:justify-start
                     gap-y-5
-                    gap-x-7
+                    gap-x-8
+                    w-full
+                    h-fit
                     "
                 >
                     {filteredSpots.map(spot => (
-                        <SpotCard key={spot._id} spotData={spot} />
+                        <SpotCard key={spot._id} w={'w-64'} h={'h-64'} spotData={spot} />
                     ))}
                 </div>
             </div>

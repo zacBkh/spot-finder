@@ -7,7 +7,7 @@ const FilterSpots = ({ icon, value, onClick, activeItems }) => {
     return (
         <button
             className={`
-                        flex justify-between items-center px-4 py-3 gap-x-1 w-fit  
+                        flex justify-between items-center px-2 py-1 xl:px-4 xl:py-3 gap-x-1 w-fit  
                         rounded-[0.5rem] border-[0.1rem] border-transparent
                         ${
                             activeItems.includes(value)

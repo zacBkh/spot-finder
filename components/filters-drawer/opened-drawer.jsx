@@ -26,13 +26,10 @@ const OpenedDrawer = ({
     onDrawerToggle,
 }) => {
     return (
-        <div className="flex flex-col items-start gap-y-4">
-            <button
-                onClick={onDrawerToggle}
-                className="w-full flex items-center gap-x-2 font-semibold"
-            >
+        <div onClick={onDrawerToggle} className="flex flex-col items-center gap-y-4">
+            <button className="w-full flex items-center justify-center gap-x-3 font-semibold">
                 <FilterIcon />
-                <p>Filters</p>
+                <p>Hide Filters</p>
             </button>
             <DividerDesign />
 
