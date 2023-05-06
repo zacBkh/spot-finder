@@ -161,7 +161,7 @@ textarea:focus-visible {
 
 .overlay {
     position: fixed;
-    z-index: 999;
+    z-index: 1000;
     width: 100vw;
     height: 100vh;
 
@@ -208,5 +208,20 @@ textarea:focus-visible {
     to {
         opacity: 100%;
         transform: scale(100%);
+    }
+}
+
+.transition-filters {
+    animation-name: filtersTransition;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-in;
+}
+
+@keyframes filtersTransition {
+    from {
+        opacity: 0%;
+    }
+    to {
+        opacity: 100%;
     }
 }

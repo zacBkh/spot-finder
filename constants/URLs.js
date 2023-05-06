@@ -30,7 +30,7 @@ export const NAVBAR_ITEMS = [
 
     {
         name: 'Why Spot Finder ?',
-        link: PATHS.HOME,
+        link: '#',
     },
 ]
 

@@ -47,15 +47,20 @@ const Navigation = () => {
         <>
             <header className="mx-auto px-7 py-2 text-dark-color sticky top-0 z-[999] border-b-[1.6px] border-[#dadada] transparent-navbar ">
                 <div className="flex items-center justify-between">
-                    <div className="relative w-44 h-14 cursor-pointer">
+                    <div className="cursor-pointer h-[56px]">
                         <Link href={HOME}>
                             <a>
-                                <Image layout="fill" src={Logo} alt="Spot Finder logo" />
+                                <Image
+                                    width={121}
+                                    height={56}
+                                    src={Logo}
+                                    alt="Spot Finder logo"
+                                />
                             </a>
                         </Link>
                     </div>
                     <nav className="hidden md:block text-sm">
-                        <ul className="flex gap-x-6">
+                        <ul className="flex gap-x-3 md:gap-x-6">
                             {NAVBAR_ITEMS.map(item => (
                                 <NavItems
                                     key={item.link}
@@ -66,15 +71,15 @@ const Navigation = () => {
                         </ul>
                     </nav>
 
-                    <div className="flex justify-between items-center gap-x-6">
+                    <div className="flex justify-between items-center gap-x-3 lg:gap-x-6">
                         <SearchSpotBar
                             disabled={router.pathname === HOME ? false : true}
                         />
 
                         {status === 'authenticated' ? (
                             <UserHeader
-                                currentPath={router.pathname}
-                                currentUser={session.user.name}
+                                currentQuery={router.query}
+                                currentUser={session}
                             />
                         ) : (
                             ''

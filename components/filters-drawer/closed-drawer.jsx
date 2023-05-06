@@ -8,8 +8,11 @@ const ClosedDrawer = ({ onDrawerToggle }) => {
     const styleIcons = 'p-2 border-[1px] border-[#cfd9e0] rounded-lg'
 
     return (
-        <div className="flex flex-col items-center gap-y-8">
-            <button onClick={onDrawerToggle}>
+        <div
+            onClick={onDrawerToggle}
+            className="flex flex-col items-center gap-y-8 w-full"
+        >
+            <button>
                 <FilterIcon />
             </button>
             <div className="flex flex-col items-center gap-y-4">

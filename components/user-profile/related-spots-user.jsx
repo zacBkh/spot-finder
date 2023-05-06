@@ -22,8 +22,6 @@ const RelatedSpots = ({ isLoading, title, refClick, spots }) => {
                       ))
                     : spots.map(spot => (
                           <SpotCard
-                              w={'w-56'}
-                              h={'h-56'}
                               shouldNotDisplayUserPic
                               key={spot._id}
                               spotData={spot}
