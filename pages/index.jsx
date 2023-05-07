@@ -184,7 +184,7 @@ const AllSpots = ({ spots }) => {
                     } w-full transition-all
                     flex flex-col items-center border-r-[1px] border-[#cfd9e0] py-2 md:sticky md:top-28 xl:min-h-screen px-1`}
                 >
-                    <div className="w-full cursor-pointer">
+                    <div className="w-full">
                         {isDrawerOpen ? (
                             <OpenedDrawer
                                 activeCategories={activeCategories}

@@ -26,7 +26,7 @@ const DeleteAccountConfirmationModal = ({ children, modalContextAccountDeletion 
             query: { [KEY]: VALUE_DELETED_USER_SUCCESS },
         })
 
-        closeModal()
+        closeModalHandler()
     }
 
     return (

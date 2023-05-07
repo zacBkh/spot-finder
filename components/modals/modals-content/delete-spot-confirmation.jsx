@@ -9,7 +9,7 @@ import { TOAST_PARAMS } from '../../../constants/toast-query-params'
 
 const { KEY, VALUE_DELETED_SPOT_SUCCESS } = TOAST_PARAMS
 
-const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion, action }) => {
+const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion }) => {
     const router = useRouter()
 
     const closeModalHandler = () => {
@@ -25,8 +25,7 @@ const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion, actio
             },
             undefined,
         )
-
-        closeModal()
+        closeModalHandler()
     }
 
     return (

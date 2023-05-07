@@ -1,5 +1,5 @@
 import { Schema, model, models } from 'mongoose'
-
+import Spot from './spot'
 const reviewSchema = new Schema(
     {
         rate: {
@@ -25,6 +25,23 @@ const reviewSchema = new Schema(
     },
     { timestamps: true },
 )
+
+// Query Middleware --> when review is deleted :
+reviewSchema.post('findOneAndDelete', async function (reviewDeleted) {
+    console.log(
+        'review that has just been deleted from mongoose query middleware',
+        reviewDeleted,
+    )
+    const reviewID = reviewDeleted._id.toString()
+
+    // Remove the deleted review from the spots model
+    const removeDeletedReviewFromSpotModel = await Spot.findByIdAndUpdate(
+        reviewDeleted.reviewedSpot,
+        {
+            $pull: { reviews: reviewID }, // pull the deleted spot from spotsOwned array
+        },
+    )
+})
 
 // Model creation
 // Model creation (=> a db collection called "users" will be created => pluralized & lowercased)

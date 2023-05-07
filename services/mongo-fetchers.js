@@ -138,7 +138,7 @@ export const editUserHandler = async (newPwd, userID) => {
     console.log('newPwd', newPwd)
     const response = await fetch(`/api/users/${userID}`, {
         method: 'PATCH',
-        body: JSON.stringify(newPwd), //conv to JSON
+        body: JSON.stringify(newPwd),
         headers: { 'Content-Type': 'application/json' },
     })
     const data = await response.json()
@@ -150,9 +150,9 @@ export const editUserHandler = async (newPwd, userID) => {
 
 /*SC REVIEWS */
 export const addOneReview = async (spotID, review) => {
-    const response = await fetch(`/api/reviews`, {
+    const response = await fetch(`/api/reviews/''`, {
         method: 'POST',
-        body: JSON.stringify({ spotID, review }), //conv to JSON
+        body: JSON.stringify({ spotID, review }),
         headers: { 'Content-Type': 'application/json' },
     })
     const result = await response.json()
@@ -161,10 +161,21 @@ export const addOneReview = async (spotID, review) => {
 }
 
 export const editOneReview = async (reviewIDToEdit, review) => {
-    const response = await fetch(`/api/reviews`, {
+    console.log('reviewIDToEdit', reviewIDToEdit)
+    console.log('review', review)
+    const response = await fetch(`/api/reviews/${reviewIDToEdit}`, {
         method: 'PATCH',
-        body: JSON.stringify({ reviewIDToEdit, review }), //conv to JSON
+        body: JSON.stringify(review),
         headers: { 'Content-Type': 'application/json' },
+    })
+    const result = await response.json()
+    console.log('result review edit fetcher', result)
+    return result
+}
+
+export const deleteOneReview = async reviewIDToDelete => {
+    const response = await fetch(`/api/reviews/${reviewIDToDelete}`, {
+        method: 'DELETE',
     })
     const result = await response.json()
     console.log('result review edit fetcher', result)

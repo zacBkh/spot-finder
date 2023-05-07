@@ -42,6 +42,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
 
     const [isOnAddReviewMode, setIsOnAddReviewMode] = useState(false)
     const [initialValuesEditReview, setInitialValuesEditReview] = useState(null)
+
     const addReviewModeHandler = async () => {
         if (status !== 'authenticated') {
             router.push(
@@ -106,10 +107,10 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
 
     // Switch to review edit mode
     const reviewEditHandler = reviewToEditDetails => {
-        console.log('999', 123456)
         setInitialValuesEditReview(reviewToEditDetails)
         setIsOnAddReviewMode(true)
     }
+
     const sortingFx = rev0 => {
         if (rev0.props.reviewAuthorDetails._id === currUserID) {
             return -1
@@ -134,12 +135,10 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                     date={new Date(rev.createdAt)}
                     rate={rev.rate}
                     comment={rev.comment}
-                    onReviewEditRequest={() =>
-                        reviewEditHandler({
-                            reviewID: rev._id,
-                            reviewDetails: { comment: rev.comment, rate: rev.rate },
-                        })
-                    }
+                    reviewID={rev._id}
+                    onReviewEditRequest={reviewEditHandler}
+                    onCloseModal={onCloseModal}
+                    spotID={spotID}
                 />
             ))
             .sort(sortingFx)
