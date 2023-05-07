@@ -74,6 +74,7 @@ const SpotCardCTA = ({
                 reviewsQty={spotDetails.reviews.length}
                 nbOfVisits={nbOfVisits}
                 averageGrade={getAvrgGrade(spotDetails.reviews)}
+                onOpenReviewModal={reviewSpotRequestHandler}
             />
             <div className="flex justify-center gap-x-4 sticky top-11">
                 <ButtonSpotCard

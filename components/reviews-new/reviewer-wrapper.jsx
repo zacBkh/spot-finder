@@ -101,7 +101,6 @@ const ReviewerWrapper = ({ onCloseModal, spotID, reviewToEditDetails }) => {
                 />
                 <ButtonSpotCard
                     shouldBeDisabled={formik.isSubmitting}
-                    // shouldBeDisabled={}
                     iconFirst
                     isSubmitBtn
                     icon={<AiOutlineCheck />}

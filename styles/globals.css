@@ -213,7 +213,7 @@ textarea:focus-visible {
 
 .transition-filters {
     animation-name: filtersTransition;
-    animation-duration: 0.4s;
+    animation-duration: 0.5s;
     animation-timing-function: ease-in;
 }
 

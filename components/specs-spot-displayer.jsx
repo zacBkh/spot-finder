@@ -2,7 +2,12 @@ import { MdGrade } from 'react-icons/md'
 
 import { GRADE_CARD_FS } from '../constants/responsive-fonts'
 
-const SpotSpecsDisplayer = ({ reviewsQty, nbOfVisits, averageGrade }) => {
+const SpotSpecsDisplayer = ({
+    reviewsQty,
+    nbOfVisits,
+    averageGrade,
+    onOpenReviewModal,
+}) => {
     const shouldReviewBePluralized = reviewsQty === 0 || reviewsQty > 1
 
     return (
@@ -12,7 +17,10 @@ const SpotSpecsDisplayer = ({ reviewsQty, nbOfVisits, averageGrade }) => {
             <MdGrade />
             <span>{averageGrade} </span>
             <span>·</span>
-            <button className="underline decoration-primary underline-offset-4 text-primary">
+            <button
+                onClick={onOpenReviewModal}
+                className="underline decoration-primary underline-offset-4 text-primary"
+            >
                 <span>
                     {reviewsQty} {shouldReviewBePluralized ? 'reviews' : 'review'}
                 </span>
