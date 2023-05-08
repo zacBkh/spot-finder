@@ -225,3 +225,9 @@ textarea:focus-visible {
         opacity: 100%;
     }
 }
+
+.center {
+    position: fixed;
+    left: 50%;
+    bottom: 5%;
+}

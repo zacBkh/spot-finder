@@ -1,9 +1,6 @@
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import Pin from './Pin'
-
 import Map, {
-    Marker,
     NavigationControl,
     FullscreenControl,
     ScaleControl,
@@ -11,38 +8,26 @@ import Map, {
     useControl,
 } from 'react-map-gl'
 
-const MapShow = ({ markerCoordinates }) => {
+const MapIndex = ({ initialView }) => {
     return (
         <>
             <div className={`w-full h-full`}>
                 <Map
                     cooperativeGestures={true}
-                    id={markerCoordinates}
-                    initialViewState={{
-                        latitude: markerCoordinates.Latitude,
-                        longitude: markerCoordinates.Longitude,
-                        zoom: 7,
-                    }}
+                    // id={markerCoordinates}
+                    initialViewState={initialView}
                     mapStyle="mapbox://styles/mapbox/satellite-streets-v12?optimize=true"
                     mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
                     attributionControl={false}
                     onZoom={e => console.log(e.viewState.zoom)}
-                    minZoom={10}
-                    maxZoom={18}
+                    minZoom={1}
+                    maxZoom={17}
                     locale={{
                         'ScrollZoomBlocker.CtrlMessage':
                             'Use CTRL + Scroll to zoom the map',
                         'ScrollZoomBlocker.CmdMessage': 'Use ⌘ + Scroll to zoom the map',
                     }}
                 >
-                    <Marker
-                        longitude={markerCoordinates.Longitude}
-                        latitude={markerCoordinates.Latitude}
-                        color="red"
-                    >
-                        <Pin size={20} />
-                    </Marker>
-
                     <FullscreenControl />
                     <GeolocateControl />
                     <NavigationControl />
@@ -53,6 +38,6 @@ const MapShow = ({ markerCoordinates }) => {
     )
 }
 
-export default MapShow
+export default MapIndex
 
 // <AttributionControl /> credits etc on the map, can custom it

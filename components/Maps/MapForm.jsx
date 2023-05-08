@@ -43,9 +43,6 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
     const getCoordinatesFromGeoCoder = geoCoderCoordinates => {
         console.log('geoCoderCoordinates', geoCoderCoordinates)
 
-        // console.log('LONGITUDE', geoCoderCoordinates.result.center[0])
-        // console.log('LATITUDE', geoCoderCoordinates.result.center[1])
-
         const [Longitude, Latitude] = geoCoderCoordinates.result.center
         console.log('Longitude & Latitude', Longitude, Latitude)
         const goodCoordinates = [Longitude, Latitude]
