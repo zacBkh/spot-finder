@@ -16,7 +16,7 @@ export const addSpotHandler = async enteredData => {
     console.log('NEW SPOT DATA from FETCHER', enteredData)
 
     // POSTING to MONGO
-    const response = await fetch('/api/spots/new-spot', {
+    const response = await fetch(`/api/spots/''`, {
         method: 'POST',
         body: JSON.stringify(enteredData), //conv to JSON
         headers: { 'Content-Type': 'application/json' },
@@ -37,7 +37,7 @@ export const editSpotHandler = async (editedEnteredData, spotID) => {
 }
 
 export const addOneVisitSpotHandler = async (visitorID, spotID, hadVisited) => {
-    const response = await fetch(`/api/spots/addVisit/${spotID}`, {
+    const response = await fetch(`/api/spots/add-a-visit/${spotID}`, {
         method: 'PATCH',
         body: JSON.stringify({ visitorID, hadVisited }), //conv to JSON
         headers: { 'Content-Type': 'application/json' },
@@ -59,10 +59,8 @@ export const deleteSpotHandler = async spotID => {
 /* SC USERS */
 // Registers a new user
 export const addUserHandler = async enteredData => {
-    console.log('NEW USER TO REGISTER', enteredData)
-
     // POSTING to MONGO
-    const response = await fetch('/api/users/register', {
+    const response = await fetch(`/api/users/''`, {
         method: 'POST',
         body: JSON.stringify(enteredData), //conv to JSON
         headers: { 'Content-Type': 'application/json' },

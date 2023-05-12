@@ -1,9 +1,8 @@
 import connectMongo from '../connectMongo'
 import User from '../../models/user'
 
-// Checking if user exists (email)
+// Checking if user exists (email) server side
 // Return full user, null if does not exist
-// Can only run server side
 
 const checkEmailExist = async email => {
     await connectMongo()

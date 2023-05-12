@@ -1,7 +1,7 @@
 import connectMongo from '../../../utils/connectMongo'
 import User from '../../../models/user'
 
-// USE for Async valid but also for reset PWD
+// USE for Async valid in logger
 
 // Function return values
 // TRUE : EMAIL DOES NOT EXIST YET IN DB

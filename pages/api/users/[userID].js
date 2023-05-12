@@ -6,67 +6,116 @@ import Reviews from '../../../models/reviews'
 
 import { hash } from 'bcryptjs'
 
+import sendVerifEmail from '../../../utils/Mailers/sendVerifEmail'
+import createToken from '../../../utils/JWTMailToken/helpers/createToken'
+import checkEmailExist from '../../../utils/Auth/checkEmailExist'
+
 import { unstable_getServerSession } from 'next-auth/next'
 import { authOptions } from '../auth/[...nextauth]'
 
 // Edit some user data including pwd
 // Receive payload (req.body = new userDATA) and userID in URL (req.query)
 export default async function userHandling(req, res) {
-    console.log('aaa')
     await connectMongo()
 
-    const { userID } = req.query
-
-    // Used lean to convert mongo doc to JS object
-    const user = await User.findById(userID)
-        .populate({
-            path: 'spotsOwned',
-            // Get reviews of every spotsOwned - populate the 'reviews' field for every spotsOwned but with only rate - deep population
-            populate: { path: 'reviews', select: 'rate' },
-        })
-        .lean()
-
-    // If does not find user
-    if (!user) {
-        res.status(400).json({ success: false, result: 'User does not exist' })
-        return
-    }
-
-    // Look for Spots which contains the userID in their visitors field
-    const visitedSpotsOfUser = await Spot.find({ visitors: userID })
-        .populate('reviews', 'rate') // populate only rate from reviews
-        .lean()
-
-    // Look for Reviews which contains the userID in their reviewAuthor field
-    const reviewsOfUser = await Reviews.find({ reviewAuthor: userID })
-        .select('reviewedSpot')
-        .lean()
-
-    const reviewedSpotsOfUserList = reviewsOfUser.map(review => review.reviewedSpot) // array of spot ids reviewed by this user
-
-    // Search all the spots whoose id is included in reviewedSpotsOfUserList
-    const spotsUserReviewed = await Spot.find({
-        _id: { $in: reviewedSpotsOfUserList },
-    })
-        .populate('reviews', 'rate') // populate only rate from reviews
-        .lean()
-
-    // Adding spots visited & reviewed to user object
-    const userWithSpotsVisited = {
-        ...user,
-        visitedSpots: visitedSpotsOfUser,
-
-        // reviewsUserLet: reviewsOfUser,
-        spotsUserReviewed: spotsUserReviewed,
-    }
-
     if (req.method === 'GET') {
+        const { userID } = req.query
+
+        // Used lean to convert mongo doc to JS object
+        const user = await User.findById(userID)
+            .populate({
+                path: 'spotsOwned',
+                // Get reviews of every spotsOwned - populate the 'reviews' field for every spotsOwned but with only rate - deep population
+                populate: { path: 'reviews', select: 'rate' },
+            })
+            .lean()
+
+        // If does not find user
+        if (!user) {
+            res.status(400).json({ success: false, result: 'User does not exist' })
+            return
+        }
+
+        // Look for Spots which contains the userID in their visitors field
+        const visitedSpotsOfUser = await Spot.find({ visitors: userID })
+            .populate('reviews', 'rate') // populate only rate from reviews
+            .lean()
+
+        // Look for Reviews which contains the userID in their reviewAuthor field
+        const reviewsOfUser = await Reviews.find({ reviewAuthor: userID })
+            .select('reviewedSpot')
+            .lean()
+
+        const reviewedSpotsOfUserList = reviewsOfUser.map(review => review.reviewedSpot) // array of spot ids reviewed by this user
+
+        // Search all the spots whoose id is included in reviewedSpotsOfUserList
+        const spotsUserReviewed = await Spot.find({
+            _id: { $in: reviewedSpotsOfUserList },
+        })
+            .populate('reviews', 'rate') // populate only rate from reviews
+            .lean()
+
+        // Adding spots visited & reviewed to user object
+        const userWithSpotsVisited = {
+            ...user,
+            visitedSpots: visitedSpotsOfUser,
+            spotsUserReviewed: spotsUserReviewed,
+        }
+
         res.status(200).json({
             success: true,
             result: userWithSpotsVisited,
         })
         return
     }
+
+    if (req.method === 'POST') {
+        const { email } = req.body
+
+        if (!(await checkEmailExist(email))) {
+            // if user does not exist, create it
+            console.log('THE USER WITH EMAIL', email, 'DOES NOT EXIST YET')
+
+            //Hash password
+            const hashedPassword = await hash(req.body.password, 12)
+            const finalUserData = {
+                ...req.body,
+                password: hashedPassword,
+                provider: 'credentials',
+            }
+            console.log('finalUserData', finalUserData)
+
+            const newUser = await User.create(finalUserData)
+            console.log('CREATED USER -->', newUser)
+
+            // Helper fx that creates tokens
+            const token = await createToken(newUser._id, newUser.email, '1d')
+            if (!token.success) {
+                res.status(400).json({ success: token.success, result: token.result })
+                console.log('error', token.result)
+
+                return // stop fx execution if failure (will not send email)
+            } else {
+                console.log('Token creation success', token.result)
+            }
+
+            // Fx that sends email
+            const sender = await sendVerifEmail(
+                'zachariedupain@hotmail.fr',
+                finalUserData,
+                token.result,
+            )
+            if (!sender.success) {
+                res.status(400).json({ success: sender.success, result: sender.result })
+            } else {
+                res.status(200).json({ success: sender.success, result: sender.result })
+            }
+        } else {
+            res.status(422).json({ success: false, result: 'User already exists.' })
+        }
+        return
+    }
+
     if (req.method === 'PATCH') {
         try {
             //Hash password
@@ -89,7 +138,10 @@ export default async function userHandling(req, res) {
                 result: `There has been an arror changing your password: ${error} `,
             })
         }
-    } else if (req.method === 'DELETE') {
+        return
+    }
+
+    if (req.method === 'DELETE') {
         // Protecting the API endpoint
         const session = await unstable_getServerSession(req, res, authOptions)
 

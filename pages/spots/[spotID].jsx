@@ -18,7 +18,7 @@ import {
 
 import { GETSpotFetcherOne } from '../../utils/GETfetchers'
 
-import MapShow from '../../components/Maps/MapShow'
+import MapShow from '../../components/maps/map-show'
 
 import { TEXTAREA_INPUTS_FS } from '../../constants/responsive-fonts'
 

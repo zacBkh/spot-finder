@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 
-import Layout from '../components/Layout/layout'
+import Layout from '../components/layout-app/layout'
 
 import { SessionProvider } from 'next-auth/react'
 
