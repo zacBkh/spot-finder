@@ -10,6 +10,8 @@ import Map, {
 
 import { messageMapMAC, messageMapPC } from '../../constants/scroll-message-map'
 
+import Pin from './pin-marker'
+
 const MapShow = ({ markerCoordinates }) => {
     return (
         <>
