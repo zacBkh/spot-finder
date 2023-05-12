@@ -125,10 +125,6 @@ textarea:focus-visible {
     transform: translateY(-25%);
 }
 
-.upload-widget-popup {
-    backdrop-filter: blur(5px) !important;
-}
-
 .footer.bg-window {
     display: none !important;
 }
@@ -224,4 +220,10 @@ textarea:focus-visible {
     to {
         opacity: 100%;
     }
+}
+
+.center {
+    position: fixed;
+    left: 50%;
+    bottom: 5%;
 }

@@ -99,12 +99,9 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         fallbackData: indivSpot,
     })
 
-    console.log('updatedIndivSpot', updatedIndivSpot)
-
     const { reviews: updatedReviews, visitors: updatedVisitors } = updatedIndivSpot
 
     let hasUserVisited = updatedVisitors.includes(currentUserID)
-    console.log('hasUserVisited', hasUserVisited)
 
     const [isInputEditable, setIsInputEditable] = useState({
         title: false,

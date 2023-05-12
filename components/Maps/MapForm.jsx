@@ -33,23 +33,14 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
 
     // End dragging
     const dragStopHandler = evt => {
-        console.log('You stopped dragging the marker', evt.lngLat)
         const { lat, lng } = evt.lngLat
         const goodCoordinates = [lng, lat]
-        console.log('goodCoordinates', goodCoordinates)
         onNewCoor(goodCoordinates)
     }
 
     const getCoordinatesFromGeoCoder = geoCoderCoordinates => {
-        console.log('geoCoderCoordinates', geoCoderCoordinates)
-
-        // console.log('LONGITUDE', geoCoderCoordinates.result.center[0])
-        // console.log('LATITUDE', geoCoderCoordinates.result.center[1])
-
         const [Longitude, Latitude] = geoCoderCoordinates.result.center
-        console.log('Longitude & Latitude', Longitude, Latitude)
         const goodCoordinates = [Longitude, Latitude]
-        console.log('goodCoordinates', goodCoordinates)
         onNewCoor(goodCoordinates)
     }
 

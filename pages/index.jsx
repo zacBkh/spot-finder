@@ -12,6 +12,9 @@ import OpenedDrawer from '../components/filters-drawer/opened-drawer'
 
 import getAvrgGrade from '../utils/Spots/getAverageRate'
 
+import MapIndex from '../components/Maps/map-index'
+import ToggleToMapView from '../components/toggle-to-map-view-btn'
+
 export const getServerSideProps = async context => {
     try {
         // Executing the fx that will fetch all Spots
@@ -46,6 +49,11 @@ const AllSpots = ({ spots }) => {
     const [activeSortCriteria, setactiveSortCriteria] = useState('')
 
     const [filteredSpots, setFilteredSpots] = useState(spots)
+
+    const [isOnMapMode, setIsOnMapMode] = useState(false)
+    const toggleToMapViewHandler = () => {
+        setIsOnMapMode(prevMapState => !prevMapState)
+    }
 
     // Maintain the current activee categorie(s) array
     const catFilterHandler = filteredCat => {
@@ -170,6 +178,33 @@ const AllSpots = ({ spots }) => {
     const drawerToggleHandler = () => {
         setIsDrawerOpen(prev => !prev)
     }
+
+    const initialMapCoordinates = {
+        longitude: 55.18,
+        latitude: 25.07,
+        zoom: 2,
+    }
+
+    const arrayOfSpotsGEOJSON = filteredSpots.map(spot => ({
+        type: 'Feature',
+        properties: {
+            id: spot._id,
+            title: spot.title,
+            author: spot.author,
+            coordinates: spot.geometry.coordinates,
+        },
+        geometry: {
+            type: 'Point',
+            coordinates: [spot.geometry.coordinates[0], spot.geometry.coordinates[1]],
+        },
+    }))
+
+    const clusterGeoJSON = {
+        type: 'FeatureCollection',
+        crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:OGC:1.3:CRS84' } },
+        features: arrayOfSpotsGEOJSON,
+    }
+
     return (
         <>
             <Head>
@@ -182,7 +217,7 @@ const AllSpots = ({ spots }) => {
                     className={`${
                         isDrawerOpen ? 'md:w-[30%] 2xl:w-[20%]' : 'md:w-[8%] xl:w-[5%]'
                     } w-full transition-all
-                    flex flex-col items-center border-r-[1px] border-[#cfd9e0] py-2 md:sticky md:top-28 xl:min-h-screen px-1`}
+                    flex flex-col items-center border-r-[1px] border-[#cfd9e0] py-2 md:sticky md:top-28  px-1`}
                 >
                     <div className="w-full">
                         {isDrawerOpen ? (
@@ -200,21 +235,37 @@ const AllSpots = ({ spots }) => {
                         )}
                     </div>
                 </aside>
-                <div
-                    className="
-                    flex flex-wrap
-                    justify-center md:justify-start
-                    gap-y-5
-                    gap-x-8
-                    w-full
-                    h-fit
-                    "
-                >
-                    {filteredSpots.map(spot => (
-                        <SpotCard key={spot._id} w={'w-64'} h={'h-64'} spotData={spot} />
-                    ))}
-                </div>
+                {isOnMapMode ? (
+                    <div className="w-screen h-[80vh]  ">
+                        <MapIndex
+                            initialView={initialMapCoordinates}
+                            spotsCoordinates={clusterGeoJSON}
+                        />
+                    </div>
+                ) : (
+                    <div
+                        className="flex flex-wrap
+                        justify-center md:justify-start
+                        gap-y-5
+                        gap-x-8
+                        w-full
+                        h-fit"
+                    >
+                        {filteredSpots.map(spot => (
+                            <SpotCard
+                                key={spot._id}
+                                w={'w-64'}
+                                h={'h-64'}
+                                spotData={spot}
+                            />
+                        ))}
+                    </div>
+                )}
             </div>
+            <ToggleToMapView
+                isOnMapMode={isOnMapMode}
+                onToggleMapView={toggleToMapViewHandler}
+            />
         </>
     )
 }

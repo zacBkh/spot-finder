@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import Pin from './Pin'
@@ -13,16 +11,14 @@ import Map, {
     useControl,
 } from 'react-map-gl'
 
-const MapShow = ({ markerCoordinates }) => {
-    // Will tell to parent the map finished loading
+import { messageMapMAC, messageMapPC } from '../../constants/scroll-message-map'
 
+const MapShow = ({ markerCoordinates }) => {
     return (
         <>
             <div className={`w-full h-full`}>
                 <Map
-                    // boxZoom={false}
                     cooperativeGestures={true}
-                    secrollZoom={false}
                     id={markerCoordinates}
                     initialViewState={{
                         latitude: markerCoordinates.Latitude,
@@ -36,9 +32,8 @@ const MapShow = ({ markerCoordinates }) => {
                     minZoom={10}
                     maxZoom={18}
                     locale={{
-                        'ScrollZoomBlocker.CtrlMessage':
-                            'Use CTRL + Scroll to zoom the map',
-                        'ScrollZoomBlocker.CmdMessage': 'Use ⌘ + Scroll to zoom the map',
+                        'ScrollZoomBlocker.CtrlMessage': messageMapPC,
+                        'ScrollZoomBlocker.CmdMessage': messageMapMAC,
                     }}
                 >
                     <Marker

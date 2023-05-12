@@ -14,7 +14,6 @@ export const findOneSpot = async spotID => {
 
 export const addSpotHandler = async enteredData => {
     console.log('NEW SPOT DATA from FETCHER', enteredData)
-    console.log('TYPE OF', typeof enteredData.locationDrag)
 
     // POSTING to MONGO
     const response = await fetch('/api/spots/new-spot', {
