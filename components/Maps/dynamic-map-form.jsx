@@ -4,7 +4,7 @@ const DynamicMapForm = dynamic(
     () =>
         import(
             /* webpackChunkName: 'lazy-loaded-new-spot-map' */
-            './MapForm'
+            './map-form'
         ),
     {
         loading: () => <p>The Map is loading...</p>,

@@ -43,8 +43,31 @@ export default async function APIHandler(req, res) {
             result: 'You should be authenticated to access this endpoint [amend existing Spot]',
         })
         return
-    } else if (!(await isAuthor(spotID, session.userID))) {
-        // if not author
+    }
+
+    if (req.method === 'POST') {
+        try {
+            await connectMongo()
+
+            const newSpot = await Spot.create(req.body)
+
+            // Adding in the user model the spot he owns
+            const user = await User.findByIdAndUpdate(session.userID, {
+                $addToSet: { spotsOwned: newSpot._id },
+            })
+
+            res.status(200).json({ success: true, result: newSpot })
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                success: false,
+                result: `There has been an error creating your new spot`,
+            })
+        }
+        return
+    }
+
+    if (!(await isAuthor(spotID, session.userID))) {
         res.status(401).json({
             success: false,
             result: 'You are not the owner of the spot [amend existing Spot]',

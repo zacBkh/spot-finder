@@ -2,7 +2,7 @@
 // To protect API routes --> unstable_getServerSession
 
 import { PATHS } from './constants/URLs'
-const { DOMAIN, DOMAIN_WITHOUT_SLASH, AUTH, PROFILE, PROFILE2, NEW_SPOT } = PATHS
+const { DOMAIN, DOMAIN_WITHOUT_SLASH, AUTH, PROFILE, NEW_SPOT } = PATHS
 import REDIRECT_QUERY_PARAMS from './constants/redirect-query-params'
 const {
     KEY_AUTH,
@@ -13,7 +13,6 @@ const {
 } = REDIRECT_QUERY_PARAMS
 
 const arrayOfProtectedPaths = [NEW_SPOT, PROFILE]
-const shouldNotBeUser = [AUTH, '/auth/register', '/auth/SignIn']
 
 import { NextResponse } from 'next/server'
 import { getToken } from 'next-auth/jwt'
@@ -44,7 +43,7 @@ export async function middleware(req) {
     }
 
     // Prevent logged in user to access to register and sign in
-    if (shouldNotBeUser.includes(pathname)) {
+    if (pathname === AUTH) {
         if (session !== null) {
             return NextResponse.redirect(
                 `${DOMAIN_WITHOUT_SLASH}?${KEY_AUTH}=${VALUE_ALREADY_LOGGED_IN}`,

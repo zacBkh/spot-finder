@@ -1,6 +1,6 @@
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import Pin from './Pin'
+import Pin from './marker'
 
 import Map, {
     Marker,
@@ -10,26 +10,15 @@ import Map, {
     GeolocateControl,
 } from 'react-map-gl'
 
-import GeocoderControl from './GeocoderControl.tsx'
+import GeocoderControl from './geocoder-control'
 
 const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }) => {
     // On marker click
     const clickMapHandler = evt => {
-        console.log('You clicked the MAP', evt)
         const { lat, lng } = evt.lngLat
         const goodCoordinates = [lng, lat]
         onNewCoor(goodCoordinates)
     }
-
-    // // On start dragging
-    // const dragStartHandler = (evt) => {
-    //     console.log('You started dragging the marker', evt)
-    // }
-
-    // // While dragging
-    // const dragWhileHandler = (evt) => {
-    //     console.log('You are dragging the marker', evt.lngLat)
-    // }
 
     // End dragging
     const dragStopHandler = evt => {
@@ -69,9 +58,6 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
                         longitude={markerCoordinates[0]}
                         latitude={markerCoordinates[1]}
                         color="red"
-                        // onClick={clickMarkerHandler}
-                        // onDragStart={dragStartHandler}
-                        // onDrag={dragWhileHandler}
                         onDragEnd={dragStopHandler}
                         draggable={!shouldBeDisabled}
                     >
@@ -98,5 +84,3 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
 }
 
 export default MapForm
-
-// <AttributionControl /> credits etc on the map, can custom it

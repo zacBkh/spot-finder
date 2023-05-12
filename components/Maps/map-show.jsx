@@ -1,6 +1,6 @@
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import Pin from './Pin'
+import Pin from './marker'
 
 import Map, {
     Marker,
