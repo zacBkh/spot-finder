@@ -11,6 +11,8 @@ import Map, {
     useControl,
 } from 'react-map-gl'
 
+import { messageMapMAC, messageMapPC } from '../../constants/scroll-message-map'
+
 const MapShow = ({ markerCoordinates }) => {
     return (
         <>
@@ -30,9 +32,8 @@ const MapShow = ({ markerCoordinates }) => {
                     minZoom={10}
                     maxZoom={18}
                     locale={{
-                        'ScrollZoomBlocker.CtrlMessage':
-                            'Use CTRL + Scroll to zoom the map',
-                        'ScrollZoomBlocker.CmdMessage': 'Use ⌘ + Scroll to zoom the map',
+                        'ScrollZoomBlocker.CtrlMessage': messageMapPC,
+                        'ScrollZoomBlocker.CmdMessage': messageMapMAC,
                     }}
                 >
                     <Marker

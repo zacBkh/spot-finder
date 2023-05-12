@@ -184,6 +184,27 @@ const AllSpots = ({ spots }) => {
         latitude: 25.07,
         zoom: 2,
     }
+
+    const arrayOfSpotsGEOJSON = filteredSpots.map(spot => ({
+        type: 'Feature',
+        properties: {
+            id: spot._id,
+            title: spot.title,
+            author: spot.author,
+            coordinates: spot.geometry.coordinates,
+        },
+        geometry: {
+            type: 'Point',
+            coordinates: [spot.geometry.coordinates[0], spot.geometry.coordinates[1]],
+        },
+    }))
+
+    const clusterGeoJSON = {
+        type: 'FeatureCollection',
+        crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:OGC:1.3:CRS84' } },
+        features: arrayOfSpotsGEOJSON,
+    }
+
     return (
         <>
             <Head>
@@ -196,7 +217,7 @@ const AllSpots = ({ spots }) => {
                     className={`${
                         isDrawerOpen ? 'md:w-[30%] 2xl:w-[20%]' : 'md:w-[8%] xl:w-[5%]'
                     } w-full transition-all
-                    flex flex-col items-center border-r-[1px] border-[#cfd9e0] py-2 md:sticky md:top-28 xl:min-h-screen px-1`}
+                    flex flex-col items-center border-r-[1px] border-[#cfd9e0] py-2 md:sticky md:top-28  px-1`}
                 >
                     <div className="w-full">
                         {isDrawerOpen ? (
@@ -215,8 +236,11 @@ const AllSpots = ({ spots }) => {
                     </div>
                 </aside>
                 {isOnMapMode ? (
-                    <div className="w-screen h-[80vw]  ">
-                        <MapIndex initialView={initialMapCoordinates} />
+                    <div className="w-screen h-[80vh]  ">
+                        <MapIndex
+                            initialView={initialMapCoordinates}
+                            spotsCoordinates={clusterGeoJSON}
+                        />
                     </div>
                 ) : (
                     <div

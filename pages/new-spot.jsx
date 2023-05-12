@@ -15,7 +15,7 @@ import { SMALL_TEXT_FS, BUTTON_FS, FORM_LABEL_FS } from '../constants/responsive
 import { DISABLED_STYLE, DISABLED_STYLE_STATELESS } from '../constants/disabled-style'
 import { validTitleDesc } from '../constants/validation-schemas'
 
-import getCountryName from '../services/get-country-name'
+import getCountryCode from '../services/get-country-code'
 
 import worldCountryDetails from '../utils/world-country-continents'
 
@@ -127,8 +127,7 @@ const AddNewSpot = ({}) => {
         }
 
         // Add country names
-        const countryData = await getCountryName(coordinates[0], coordinates[1])
-        const { countryCode } = countryData
+        const countryCode = await getCountryCode(coordinates[0], coordinates[1])
 
         // Adding region
         const country = worldCountryDetails.find(country => country.code === countryCode)
