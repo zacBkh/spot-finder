@@ -9,7 +9,7 @@ const markerStyle = {
     stroke: 'none',
 }
 
-const Marker = ({ size }) => {
+const Pin = ({ size }) => {
     return (
         <svg height={size} viewBox="0 0 24 24" style={markerStyle}>
             <path d={ICON} />
@@ -17,4 +17,4 @@ const Marker = ({ size }) => {
     )
 }
 
-export default React.memo(Marker)
+export default React.memo(Pin)

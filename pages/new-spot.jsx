@@ -7,7 +7,8 @@ import { useFormik } from 'formik'
 import SpotTextualInput from '../components/new-forms/textual-inputs'
 
 import DynamicSpotCategory from '../components/new-forms/spots/dynamic-category-checkbox'
-import DynamicMapForm from '../components/Maps/dynamic-map-form'
+
+import DynamicMapForm from '../components/maps/dynamic-map-form'
 
 import Spinner from '../components/spinner'
 
@@ -227,8 +228,6 @@ const AddNewSpot = ({}) => {
             )
         }
     }, [uploadedImages])
-
-    console.log('formik', formik)
 
     const DynamicImageUploader = dynamic(
         () =>

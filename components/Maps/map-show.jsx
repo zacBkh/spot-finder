@@ -1,6 +1,6 @@
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import Pin from './marker'
+import Pin from './pin-marker'
 
 import Map, {
     Marker,
@@ -8,7 +8,6 @@ import Map, {
     FullscreenControl,
     ScaleControl,
     GeolocateControl,
-    useControl,
 } from 'react-map-gl'
 
 import { messageMapMAC, messageMapPC } from '../../constants/scroll-message-map'
