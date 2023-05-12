@@ -1,7 +1,5 @@
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import Pin from './pin-marker'
-
 import Map, {
     Marker,
     NavigationControl,
