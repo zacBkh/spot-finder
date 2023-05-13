@@ -1,17 +1,16 @@
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import Pin from './marker'
-
 import Map, {
     Marker,
     NavigationControl,
     FullscreenControl,
     ScaleControl,
     GeolocateControl,
-    useControl,
 } from 'react-map-gl'
 
 import { messageMapMAC, messageMapPC } from '../../constants/scroll-message-map'
+
+import Pin from './pin-marker'
 
 const MapShow = ({ markerCoordinates }) => {
     return (
