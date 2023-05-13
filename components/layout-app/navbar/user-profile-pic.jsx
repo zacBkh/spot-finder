@@ -4,8 +4,6 @@ import { FaUserCircle } from 'react-icons/fa'
 import { GiHamburgerMenu } from 'react-icons/gi'
 
 const UserAvatar = ({ currentSession, onUserMenuClick, isOpen }) => {
-    console.log('isOpen', isOpen)
-
     return (
         <button
             className={`border border-[#DDDDDD] rounded-[21px] shadow-user-menu-hov  ${

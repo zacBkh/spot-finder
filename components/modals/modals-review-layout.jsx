@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { BiEdit } from 'react-icons/bi'
 import { MdGrade, MdOutlineRateReview } from 'react-icons/md'
@@ -99,11 +99,6 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
             setIsOnAddReviewMode(prev => !prev)
         }
     }
-
-    // Close modal if user change path
-    // useEffect(() => {
-    //     onCloseModal()
-    // }, [router.pathname])
 
     // Switch to review edit mode
     const reviewEditHandler = reviewToEditDetails => {
