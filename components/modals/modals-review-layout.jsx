@@ -143,7 +143,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
     return (
         <>
             <div onClick={onCloseModal} className="overlay"></div>
-            <div className="transition-modal flex items-center justify-center top-0 left-0 fixed z-[99999] overflow-hidden inset-0 text-form-color mx-auto my-auto w-[90vw] sm:w-[80vw] max-w-[90vw] sm:max-w-[80vw] h-[85vh]  ">
+            <div className="transition-modal flex items-center justify-center top-0 left-0 fixed z-[99999] overflow-hidden inset-0 text-form-color mx-auto my-auto w-[90vw] sm:w-[80vw] max-w-[90vw] sm:max-w-[80vw] h-[75vh]  ">
                 <div className="relative w-full h-full bg-white rounded-lg shadow">
                     <button
                         onClick={onCloseModal}
