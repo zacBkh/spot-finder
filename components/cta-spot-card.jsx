@@ -51,6 +51,7 @@ const SpotCardCTA = ({
 
     // Will open modal and add the spot details to global state
     const reviewSpotRequestHandler = () => {
+        console.log('asked for review displayer')
         modalContext.seeSpotReviews.toggleModalState()
         modalContext.seeSpotReviews.spotReviewedHandler({
             ...spotDetails,
