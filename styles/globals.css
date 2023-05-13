@@ -232,5 +232,6 @@ textarea:focus-visible {
 textarea:disabled,
 input:disabled {
     -webkit-appearance: none;
+    -webkit-text-fill-color: currentColor;
     opacity: 1;
 }
