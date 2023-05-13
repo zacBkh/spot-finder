@@ -12,7 +12,7 @@ import OpenedDrawer from '../components/filters-drawer/opened-drawer'
 
 import getAvrgGrade from '../utils/Spots/getAverageRate'
 
-import MapIndex from '../components/essai-maps/map-index'
+import MapIndex from '../components/maps/map-index'
 
 import ToggleToMapView from '../components/toggle-to-map-view-btn'
 
