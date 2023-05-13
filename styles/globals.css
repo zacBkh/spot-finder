@@ -231,7 +231,5 @@ textarea:focus-visible {
 /* Avoid IOS changing opacity of disabled inputs */
 textarea:disabled,
 input:disabled {
-    -webkit-appearance: none;
-    -webkit-text-fill-color: currentColor;
     opacity: 1;
 }
