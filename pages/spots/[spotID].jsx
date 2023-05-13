@@ -340,7 +340,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                         </div>
                     </div>
 
-                    <div className="row-span-1 col-span-full lg:col-span-2 h-fit !text-form-color">
+                    <div className="row-span-1 col-span-full lg:col-span-2 h-fit text-form-color">
                         <div className="space-y-4">
                             <CountryDisplayer name={country.name} code={country.code} />
                             <div
@@ -360,7 +360,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     id={'title'}
                                     name={'title'}
                                     spellCheck="false"
-                                    disabled={!shouldBeEditable}
+                                    // disabled={!shouldBeEditable}
                                     className={`${HEADER_TITLE_FS} ${
                                         validStyling('title').border
                                     }
