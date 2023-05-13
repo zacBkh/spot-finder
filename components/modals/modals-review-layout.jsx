@@ -101,9 +101,9 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
     }
 
     // Close modal if user change path
-    useEffect(() => {
-        onCloseModal()
-    }, [router.pathname])
+    // useEffect(() => {
+    //     onCloseModal()
+    // }, [router.pathname])
 
     // Switch to review edit mode
     const reviewEditHandler = reviewToEditDetails => {
