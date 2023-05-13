@@ -24,9 +24,9 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
     return (
         <Link href={`/spots/${_id}`}>
             <a>
-                <button className={`cursor-pointer flex flex-col w-44 sm:w-60 group`}>
+                <button className={`cursor-pointer flex flex-col w-72 sm:w-60 group`}>
                     <div
-                        className={`relative w-full h-44 sm:h-60 mx-auto rounded-lg overflow-hidden`}
+                        className={`relative w-full h-72 sm:h-60 mx-auto rounded-lg overflow-hidden`}
                     >
                         {images[0] ? (
                             <Image
