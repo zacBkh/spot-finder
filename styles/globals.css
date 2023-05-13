@@ -235,3 +235,59 @@ input:disabled {
     background: none !important;
     opacity: 1 !important;
 }
+
+/* Vertical carrousel */
+.logos {
+    overflow: hidden;
+    /* height: calc(100vh - (74px + 16px)); */
+    height: 90vh;
+    /* margin-top: 50px; */
+    /* border: 1px solid grey; */
+    white-space: nowrap;
+    position: relative;
+}
+
+.logos-slide {
+    animation: animate-vertical-carrousel 17s linear infinite;
+    animation-delay: 1s;
+}
+
+@keyframes animate-vertical-carrousel {
+    from {
+        transform: translateY(0%);
+    }
+    to {
+        transform: translateY(-100%);
+    }
+}
+
+.logos:hover .logos-slide {
+    animation-play-state: paused;
+}
+
+/* Gradient */
+.logos:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100px;
+    width: 100%;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
+    content: '';
+    z-index: 2;
+}
+
+/* To space spots cards */
+.logos-slide a {
+    margin-bottom: 25px;
+}
+
+/* Btn landing page animation */
+.animateElemsBtn {
+    transition: width 320ms, opacity 630ms, transform 405ms;
+    transition-timing-function: ease-out;
+}
+
+.svgCenter svg {
+    margin: 0 auto;
+}

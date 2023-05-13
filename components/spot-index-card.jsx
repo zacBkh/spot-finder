@@ -11,7 +11,13 @@ import SPOT_CATEGORIES from '../constants/spot-categories'
 
 import getAvrgGrade from '../utils/Spots/getAverageRate'
 
-const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
+const SpotCard = ({
+    spotData,
+    shouldNotDisplayUserPic,
+    width,
+    height,
+    isLandingPage,
+}) => {
     const { _id, title, categories, author, country, images, reviews } = spotData
 
     // Takes all reviews rate and do average (virtuals not working from client)
@@ -21,19 +27,24 @@ const SpotCard = ({ spotData, shouldNotDisplayUserPic }) => {
 
     const displaySuspensionPoints =
         'text-ellipsis whitespace-nowrap overflow-hidden text-start'
+
+    const hoverCardHandler = () => {
+        console.log('hovered spotData', spotData)
+    }
+
     return (
         <Link href={`/spots/${_id}`}>
-            <a>
-                <button className={`cursor-pointer flex flex-col w-72 sm:w-60 group`}>
+            <a onMouseEnter={isLandingPage && hoverCardHandler}>
+                <button className={`cursor-pointer flex flex-col ${width} group`}>
                     <div
-                        className={`relative w-full h-72 sm:h-60 mx-auto rounded-lg overflow-hidden`}
+                        className={`relative w-full ${height} mx-auto rounded-lg overflow-hidden`}
                     >
                         {images[0] ? (
                             <Image
                                 src={images[0]}
                                 alt="Picture of a Spot on SpotFinder"
                                 layout="fill"
-                                className=" object-cover group-hover:scale-105 transition-transform duration-[175ms] "
+                                className="object-cover group-hover:scale-105 transition-transform duration-[175ms] "
                                 quality={10}
                             />
                         ) : (

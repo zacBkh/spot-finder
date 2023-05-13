@@ -254,9 +254,9 @@ const AllSpots = ({ spots }) => {
                     >
                         {filteredSpots.map(spot => (
                             <SpotCard
+                                width={'w-72 sm:w-60'}
+                                height={'h-72 sm:h-60'}
                                 key={spot._id}
-                                w={'w-64'}
-                                h={'h-64'}
                                 spotData={spot}
                             />
                         ))}

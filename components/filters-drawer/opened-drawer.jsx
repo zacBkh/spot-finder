@@ -64,9 +64,9 @@ const OpenedDrawer = ({
                         {SPOT_REGIONS.map(region => (
                             <FilterSpots
                                 onClick={onClickFilterRegion}
-                                key={region.name}
+                                key={region}
                                 icon={<FaGlobeEurope />}
-                                value={region.name}
+                                value={region}
                                 activeItems={activeRegion}
                             />
                         ))}
