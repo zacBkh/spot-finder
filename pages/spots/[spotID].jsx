@@ -360,7 +360,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     id={'title'}
                                     name={'title'}
                                     spellCheck="false"
-                                    // disabled={!shouldBeEditable}
+                                    disabled={!shouldBeEditable}
                                     className={`${HEADER_TITLE_FS} ${
                                         validStyling('title').border
                                     }
