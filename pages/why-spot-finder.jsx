@@ -1,4 +1,3 @@
-// import { useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { FaUserPlus } from 'react-icons/fa'
 
@@ -17,7 +16,7 @@ const WhySpotFinder = ({}) => {
                     <div className="flex flex-col gap-y-6 w-[50%]">
                         <div>
                             <h1 className="text-5xl leading-[1.2] font-bold">
-                                Discover the world's hidden gems with Spot Finder
+                                Discover the world&apos;s hidden gems with Spot Finder
                             </h1>
                             <h2>Stop wasting your time and find out about amazing ...</h2>
                         </div>
