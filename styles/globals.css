@@ -240,7 +240,7 @@ input:disabled {
 .logos {
     overflow: hidden;
     /* height: calc(100vh - (74px + 16px)); */
-    height: 90vh;
+    height: 85vh;
     /* margin-top: 50px; */
     /* border: 1px solid grey; */
     white-space: nowrap;
@@ -249,7 +249,7 @@ input:disabled {
 
 .logos-slide {
     animation: animate-vertical-carrousel 17s linear infinite;
-    animation-delay: 1s;
+    animation-delay: 0.5s;
 }
 
 @keyframes animate-vertical-carrousel {
@@ -290,4 +290,29 @@ input:disabled {
 
 .svgCenter svg {
     margin: 0 auto;
+}
+
+/* Underline spreads on hover navbar */
+li.hoverUnderline:after {
+    transition: 0.25s ease-out;
+
+    border-bottom: 3px solid #ef5e4e;
+    transform: scaleX(0);
+
+    display: block;
+    content: '';
+}
+
+li.hoverUnderline:hover:after {
+    transform: scaleX(1);
+}
+
+/* Active link style */
+.isActiveNavLink {
+    font-weight: 600;
+    color: #ef5e4e;
+}
+
+li.isActiveNavLink:after {
+    transform: scaleX(1);
 }

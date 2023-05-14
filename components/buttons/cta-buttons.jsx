@@ -20,7 +20,9 @@ const CTAButtons = ({ text, icon, isSecondary, url }) => {
                     w-0 group-hover:w-10
                     opacity-0 group-hover:opacity-100
                    -translate-y-full group-hover:translate-y-0
-                    rotate-[180deg] group-hover:rotate-0`}
+                    rotate-[180deg] group-hover:rotate-0
+                    -translate-x-8 group-hover:translate-x-0
+                    `}
                     >
                         {icon}
                     </span>
