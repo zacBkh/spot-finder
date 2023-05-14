@@ -2,17 +2,29 @@ import Link from 'next/link'
 
 import { BUTTON_FS, ICON_IN_BUTTON_FS } from '../../constants/responsive-fonts'
 
-const CTAButtons = ({ text, icon, isSecondary, url }) => {
+const CTAButtons = ({ text, icon, isSecondary, url, isInvertedColor }) => {
+    let primaryBtnColors = 'bg-primary text-white'
+    let secondaryBtnColors = 'border border-primary text-primary'
+
+    if (isInvertedColor) {
+        primaryBtnColors = 'bg-white text-primary'
+        secondaryBtnColors = 'border border-white text-white'
+    }
+
+    if (isInvertedColor && isSecondary) {
+        primaryBtnColors = 'bg-white text-primary'
+        secondaryBtnColors = 'bg-transparent border border-white text-white'
+    }
+
     return (
         <Link href={url}>
             <a>
                 <button
                     className={`${BUTTON_FS} group py-2 px-4 2xl:py-3 2xl:px-9 flex items-center justify-center gap-x-2 +
-               ${
-                   isSecondary
-                       ? 'border border-primary text-primary'
-                       : 'bg-primary text-white'
-               } rounded-[0.3rem] w-fit font-bold overflow-hidden`}
+               
+               ${isSecondary ? secondaryBtnColors : primaryBtnColors}
+               
+               rounded-[0.3rem] w-fit font-bold overflow-hidden`}
                 >
                     <span>{text}</span>
                     <span

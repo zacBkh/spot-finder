@@ -10,7 +10,6 @@ import { PATHS } from '../constants/URLs'
 import HIGHLIGHTED_SPOTS_LANDING_PAGE from '../constants/highlighted-spots'
 
 const WhySpotFinder = ({}) => {
-    //  h-[calc(100vh-(74px+8px))] = 100vh -(navbarHeight + margin)
     return (
         <>
             <section className="px-4 my-auto h-[calc(100vh-(74px+16px))] lg:h-[calc(100vh-(74px+16px))] flex items-center">
@@ -36,7 +35,7 @@ const WhySpotFinder = ({}) => {
                             />
                         </div>
                     </div>
-                    <div className="logos flex flex-col ">
+                    <div className="logos flex flex-col overflow-hidden">
                         <div className="flex flex-col logos-slide">
                             {HIGHLIGHTED_SPOTS_LANDING_PAGE.map(spot => (
                                 <SpotCard
