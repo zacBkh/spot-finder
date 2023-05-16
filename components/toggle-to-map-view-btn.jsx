@@ -7,7 +7,7 @@ const ToggleToMapView = ({ isOnMapMode, onToggleMapView }) => {
         <>
             <button
                 onClick={onToggleMapView}
-                className={`${centerXAxis} py-[14px] px-[19px] rounded-3xl text-white bg-[#222222] flex items-center gap-x-2 text-sm`}
+                className={`${centerXAxis} py-[14px] px-[19px] rounded-3xl text-white bg-[#222222] flex items-center gap-x-2 text-sm z-30`}
             >
                 {isOnMapMode ? (
                     <>

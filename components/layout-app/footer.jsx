@@ -22,8 +22,8 @@ const submitNewsLetterHandler = event => {
 const Footer = ({}) => {
     return (
         <>
-            <footer className="mt-6">
-                <div className="bg-primary flex flex-col items-center gap-y-4 py-6 z-[1] relative">
+            <footer className="mt-6 text-center md:text-start">
+                <div className="bg-primary flex flex-col items-center gap-y-4 py-6 z-[1] relative px-2 ">
                     <h2 className="text-xl font-semibold text-white">
                         Stop wasting your time and find the best landmarks around you.
                     </h2>
@@ -44,8 +44,8 @@ const Footer = ({}) => {
                     </div>
                 </div>
 
-                <div className="flex gap-x-3 justify-between bg-secondary text-white px-6">
-                    <div className="flex flex-col gap-y-4 py-6">
+                <div className="flex flex-col gap-y-3 md:flex-row md:gap-x-3 md:gap-y-0 justify-between bg-secondary text-white px-6">
+                    <div className="flex flex-col gap-y-4 py-6 items-center md:items-start">
                         <div>
                             <h2 className="text-lg font-bold">Stop missing out</h2>
                             <p className="text-base mt-6">
@@ -72,7 +72,7 @@ const Footer = ({}) => {
                     <div className="flex flex-col gap-y-6 py-6">
                         <div>
                             <h2 className="text-lg font-bold">More from Spot Finder</h2>
-                            <div className="mt-6 flex flex-col gap-y-4 hoverLink">
+                            <div className="mt-6 flex flex-col gap-y-4 hoverLink w-fit mx-auto md:mx-0">
                                 <Link href={'#'}>My story</Link>
                                 <Link href={'#'}>Blog</Link>
                                 <Link href={'#'}>Contact Me</Link>
@@ -81,8 +81,8 @@ const Footer = ({}) => {
                         </div>
                     </div>
 
-                    <div className="flex items-end flex-col gap-y-4 py-6">
-                        <h2 className="text-lg font-bold">Follows us</h2>
+                    <div className="flex flex-col items-center md:items-end gap-y-4 py-6">
+                        <h2 className="text-lg font-bold">Follow us</h2>
                         <div className="flex items-center gap-x-4 text-xl cursor-pointer">
                             <Link href={'#'}>
                                 <a className="h-11 w-11 rounded-full bg-primary hover:bg-primary-hov flex justify-center items-center">
@@ -103,7 +103,11 @@ const Footer = ({}) => {
                             </Link>
                         </div>
 
-                        <ScrollToTopBtn iconSize={'text-4xl'} />
+                        <ScrollToTopBtn
+                            wrapperCSS={'self-end md:self-auto'}
+                            iconSize={'text-4xl'}
+                            shouldBounce
+                        />
                     </div>
                 </div>
 
