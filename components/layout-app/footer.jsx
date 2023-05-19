@@ -1,10 +1,12 @@
+import { useState } from 'react'
+
 import Link from 'next/link'
 
 import { AiOutlineSearch } from 'react-icons/ai'
 import { FaUserPlus, FaMedium } from 'react-icons/fa'
 import { IoIosSend } from 'react-icons/io'
 import { FaFacebookF } from 'react-icons/fa'
-import { BsInstagram, BsFillArrowUpCircleFill } from 'react-icons/bs'
+import { BsInstagram } from 'react-icons/bs'
 
 import CTAButtons from '../buttons/cta-buttons'
 import { PATHS } from '../../constants/URLs'
@@ -12,18 +14,30 @@ const { AUTH, HOME } = PATHS
 
 import ScrollToTopBtn from '../design/scroll-to-top'
 
-const submitNewsLetterHandler = event => {
-    event.preventDefault()
-    const { email } = event.target.elements
-    console.log('email.value', email.value)
-    email.value = ''
-}
+import { subscribeToNewsletter } from '../../services/mongo-fetchers'
 
 const Footer = ({}) => {
+    const [feedbackNewsLetter, setFeedbackNewsLetter] = useState('')
+    const [visitorEmail, setVisitorEmail] = useState('')
+
+    const submitNewsLetterHandler = async event => {
+        event.preventDefault()
+        if (!visitorEmail || !visitorEmail.includes('@')) {
+            setFeedbackNewsLetter('Your email seems invalid.')
+            return
+        }
+
+        setFeedbackNewsLetter('Thank you! Please check your junk mail folder.')
+
+        const subscribeVisitor = await subscribeToNewsletter(visitorEmail)
+        setFeedbackNewsLetter(subscribeVisitor.result)
+        setVisitorEmail('')
+    }
+
     return (
         <>
-            <footer className="mt-6 text-center md:text-start">
-                <div className="bg-primary flex flex-col items-center gap-y-4 py-6 z-[1] relative px-2 ">
+            <footer className="text-center md:text-start ">
+                <div className="upperFooter bg-primary flex flex-col items-center gap-y-4 py-6 z-[1] relative px-2 ">
                     <h2 className="text-xl font-semibold text-white">
                         Stop wasting your time and find the best landmarks around you.
                     </h2>
@@ -53,9 +67,11 @@ const Footer = ({}) => {
                             </p>
                         </div>
 
-                        <form onSubmit={submitNewsLetterHandler}>
-                            <div className="newsLetter flex items-center border-b border-white text-white w-fit">
+                        <form noValidate onSubmit={submitNewsLetterHandler}>
+                            <div className="newsLetter flex items-center mx-auto md:mx-0 border-b border-white text-white w-fit">
                                 <input
+                                    value={visitorEmail}
+                                    onChange={e => setVisitorEmail(e.target.value)}
                                     className="newsLetter bg-transparent py-4 w-52"
                                     type="email"
                                     name="email"
@@ -66,6 +82,7 @@ const Footer = ({}) => {
                                     <IoIosSend />
                                 </button>
                             </div>
+                            <p className="text-xs mt-1">{feedbackNewsLetter}</p>
                         </form>
                     </div>
 
@@ -121,5 +138,4 @@ const Footer = ({}) => {
         </>
     )
 }
-
 export default Footer

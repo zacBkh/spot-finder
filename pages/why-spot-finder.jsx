@@ -7,8 +7,11 @@ import CTAButtons from '../components/buttons/cta-buttons'
 import { PATHS } from '../constants/URLs'
 
 import HIGHLIGHTED_SPOTS_LANDING_PAGE from '../constants/highlighted-spots'
+import useTypeCharacters from '../hooks/useTypeCharacters'
 
 const WhySpotFinder = ({}) => {
+    const { activities, currentPhase } = useTypeCharacters()
+
     return (
         <>
             <section className="px-4 my-auto h-[calc(100vh-(74px+16px))] lg:h-[calc(100vh-(74px+16px))] flex items-center">
@@ -18,7 +21,18 @@ const WhySpotFinder = ({}) => {
                             <h1 className="text-5xl leading-[1.2] font-bold">
                                 Discover the world&apos;s hidden gems with Spot Finder
                             </h1>
-                            <h2>Stop wasting your time and find out about amazing ...</h2>
+                            <h2 className="text-xl mt-4">
+                                Stop wasting your time and find out <br /> about amazing{' '}
+                                <span
+                                    className={`${
+                                        currentPhase !== 'pausing'
+                                            ? 'blinkingCursorDynamic'
+                                            : 'blinkingCursorPause'
+                                    }`}
+                                >
+                                    {activities}
+                                </span>
+                            </h2>
                         </div>
                         <div className="flex items-center gap-x-8 w-[90%]">
                             <CTAButtons
@@ -34,7 +48,7 @@ const WhySpotFinder = ({}) => {
                             />
                         </div>
                     </div>
-                    <div className="logos flex flex-col overflow-hidden">
+                    <div className="carrouselWrapper flex flex-col overflow-hidden">
                         <div className="flex flex-col logos-slide">
                             {HIGHLIGHTED_SPOTS_LANDING_PAGE.map(spot => (
                                 <SpotCard

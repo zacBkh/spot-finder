@@ -143,6 +143,17 @@ export const editUserHandler = async (newPwd, userID) => {
     return data
 }
 
+// Subscribe visitor to newsletter
+export const subscribeToNewsletter = async visitorEmail => {
+    const response = await fetch('/api/users/subscribe-newsletter', {
+        method: 'POST',
+        body: JSON.stringify(visitorEmail),
+        headers: { 'Content-Type': 'application/json' },
+    })
+    const data = await response.json()
+    return data
+}
+
 /* !SC */
 
 /*SC REVIEWS */

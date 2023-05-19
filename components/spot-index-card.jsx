@@ -34,7 +34,7 @@ const SpotCard = ({
 
     return (
         <Link href={`/spots/${_id}`}>
-            <a onMouseEnter={isLandingPage && hoverCardHandler}>
+            <a onMouseEnter={isLandingPage && hoverCardHandler} className="hoverSpotCard">
                 <button className={`cursor-pointer flex flex-col ${width} group`}>
                     <div
                         className={`relative w-full ${height} mx-auto rounded-lg overflow-hidden`}
