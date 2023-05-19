@@ -1,4 +1,4 @@
-import connectMongo from '../../../utils/connectMongo'
+import connectMongo from '../../../utils/connect-to-mongo'
 import User from '../../../models/user'
 
 // USE for Async valid in logger

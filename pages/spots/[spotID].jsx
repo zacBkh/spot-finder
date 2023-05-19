@@ -16,7 +16,7 @@ import {
     findOneSpot,
 } from '../../services/mongo-fetchers'
 
-import { GETSpotFetcherOne } from '../../utils/GETfetchers'
+import { GETSpotFetcherOne } from '../../services/fetchers-ssr'
 
 import MapShow from '../../components/maps/map-show'
 

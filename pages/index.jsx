@@ -5,12 +5,12 @@ import { SearchBarContext } from '../context/AppContext'
 
 import Head from 'next/head'
 
-import { GETSpotFetcherAll } from '../utils/GETfetchers'
+import { GETSpotFetcherAll } from '../services/fetchers-ssr'
 
 import ClosedDrawer from '../components/filters-drawer/closed-drawer'
 import OpenedDrawer from '../components/filters-drawer/opened-drawer'
 
-import getAvrgGrade from '../utils/Spots/getAverageRate'
+import getAvrgGrade from '../utils/get-average-rate'
 
 import MapIndex from '../components/maps/map-index'
 

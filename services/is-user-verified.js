@@ -1,5 +1,5 @@
-import connectMongo from '../connectMongo'
-import User from '../../models/user'
+import connectMongo from '../utils/connect-to-mongo'
+import User from '../models/user'
 
 // Check if user completed the verification process
 const isUserVerified = async userID => {

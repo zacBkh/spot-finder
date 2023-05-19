@@ -1,9 +1,9 @@
 import Spot from '../../models/spot'
 import User from '../../models/user'
 
-import connectMongo from '../../utils/connectMongo'
+import connectMongo from '../../utils/connect-to-mongo'
 
-import createToken from '../../utils/JWTMailToken/helpers/createToken'
+import createToken from '../../utils/jwt-mail-tokens/helpers/generate-token'
 
 // This route will help us see which data is in our Database, delete etc
 

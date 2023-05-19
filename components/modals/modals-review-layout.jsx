@@ -23,7 +23,7 @@ import { TOAST_PARAMS } from '../../constants/toast-query-params'
 import ErrorIllustration from '../error-illustration'
 import ErrorImage from '../../public/images/no-data-found.svg'
 
-import getAvrgGrade from '../../utils/Spots/getAverageRate'
+import getAvrgGrade from '../../utils/get-average-rate'
 
 const {
     KEY_REQUIRE,

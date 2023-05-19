@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import capitalize from '../capitalize'
+import capitalize from '../../utils/capitalize'
 
 import { PATHS } from '../../constants/URLs'
 const { DOMAIN, NEW_SPOT } = PATHS

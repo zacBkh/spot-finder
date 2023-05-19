@@ -1,7 +1,7 @@
 import { BsFillMapFill, BsListUl } from 'react-icons/bs'
 
 const ToggleToMapView = ({ isOnMapMode, onToggleMapView }) => {
-    const centerXAxis = 'fixed left-1/2 bottom-[5%]'
+    const centerXAxis = 'fixed left-[47%] bottom-[5%]'
 
     return (
         <>

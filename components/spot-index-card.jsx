@@ -9,7 +9,7 @@ import UserImage from './user-image'
 
 import SPOT_CATEGORIES from '../constants/spot-categories'
 
-import getAvrgGrade from '../utils/Spots/getAverageRate'
+import getAvrgGrade from '../utils/get-average-rate'
 
 const SpotCard = ({
     spotData,

@@ -1,8 +1,8 @@
-import connectMongo from '../../../utils/connectMongo'
+import connectMongo from '../../../utils/connect-to-mongo'
 import Spot from '../../../models/spot'
 import User from '../../../models/user'
 
-import isAuthor from '../../../utils/Auth/isAuthor'
+import isAuthor from '../../../services/is-user-spot-owner'
 
 import { unstable_getServerSession } from 'next-auth/next'
 import { authOptions } from '../auth/[...nextauth]'

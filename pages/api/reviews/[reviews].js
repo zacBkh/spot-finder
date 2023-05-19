@@ -1,4 +1,4 @@
-import connectMongo from '../../../utils/connectMongo'
+import connectMongo from '../../../utils/connect-to-mongo'
 import Review from '../../../models/reviews'
 import Spot from '../../../models/spot'
 

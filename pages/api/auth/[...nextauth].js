@@ -9,11 +9,11 @@ import User from '../../../models/user'
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
 import clientPromise from '../../../lib/mongodb'
 
-import connectMongo from '../../../utils/connectMongo'
+import connectMongo from '../../../utils/connect-to-mongo'
 
 import { compare } from 'bcryptjs'
-import sendWelcomeEmail from '../../../utils/Mailers/sendWelcomeEmail'
-import isUserVerified from '../../../utils/Auth/isUserVerified'
+import sendWelcomeEmail from '../../../services/emailers-srv/welcome-email'
+import isUserVerified from '../../../services/is-user-verified'
 import { whichEnv } from '../../../utils/env-helper'
 
 const currEnv = whichEnv()

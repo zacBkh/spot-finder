@@ -1,6 +1,6 @@
 import ResetPwdForm from '../../../components/auth/ResetPwdForm'
 
-import JWTVerifyer from '../../../utils/JWTMailToken/helpers/ResetPwd/JWTVerifyer'
+import JWTVerifyer from '../../../utils/jwt-mail-tokens/verify-jwt'
 
 import CustomErrorPage from '../../404'
 
