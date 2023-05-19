@@ -12,7 +12,9 @@ const UserAvatar = ({ currentSession, onUserMenuClick, isOpen }) => {
             onClick={onUserMenuClick}
         >
             <div className="flex items-center gap-x-2 px-2 py-[5px]  ">
-                <GiHamburgerMenu />
+                <span className="hidden md:block">
+                    <GiHamburgerMenu />
+                </span>
                 {currentSession && currentSession.user.image ? (
                     <div>
                         <Image

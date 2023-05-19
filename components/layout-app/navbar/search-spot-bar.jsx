@@ -24,7 +24,7 @@ const SearchSpotBar = ({ disabled }) => {
                 id="search-navbar"
                 placeholder="Search a Spot..."
                 className={`${DISABLED_STYLE} focus:ring-white focus:border-secondary border-[1.6px] border-[#bbb8bd]
-                text-dark-color text-xs md:text-sm block w-32 md:w-48 p-2 pl-10 rounded-md`}
+                text-dark-color text-xs md:text-sm block  md:w-48 p-2 pl-10 rounded-md`}
             />
 
             {searchContext.value.length > 0 ? (

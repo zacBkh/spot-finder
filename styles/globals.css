@@ -141,6 +141,7 @@ textarea:focus-visible {
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* Animate from display none */
 .transition-modal {
     animation-name: modalTransition;
     animation-duration: 0.2s;
@@ -159,6 +160,7 @@ textarea:focus-visible {
     }
 }
 
+/* Modal */
 .overlay {
     position: fixed;
     z-index: 1000;
@@ -193,6 +195,7 @@ textarea:focus-visible {
     backdrop-filter: saturate(180%) blur(7px);
 }
 
+/* Animate from display none */
 .transition-user-menu {
     animation-name: userMenuTransition;
     animation-duration: 0.1s;
@@ -281,15 +284,17 @@ input:disabled {
     z-index: 2;
 }
 
-.upperFooter::after {
-    position: absolute;
-    bottom: 100%;
-    left: 0;
-    height: 100px;
-    width: 100%;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), white);
-    content: '';
-    z-index: 2;
+@media (min-width: 768px) {
+    .upperFooter::after {
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        height: 100px;
+        width: 100%;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0), white);
+        content: '';
+        z-index: 2;
+    }
 }
 
 /* To space spots cards */

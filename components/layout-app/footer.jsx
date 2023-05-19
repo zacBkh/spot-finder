@@ -3,9 +3,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 import { AiOutlineSearch } from 'react-icons/ai'
-import { FaUserPlus, FaMedium } from 'react-icons/fa'
+import { FaUserPlus, FaMedium, FaFacebookF } from 'react-icons/fa'
 import { IoIosSend } from 'react-icons/io'
-import { FaFacebookF } from 'react-icons/fa'
 import { BsInstagram } from 'react-icons/bs'
 
 import CTAButtons from '../buttons/cta-buttons'
@@ -37,7 +36,7 @@ const Footer = ({}) => {
     return (
         <>
             <footer className="text-center md:text-start ">
-                <div className="upperFooter bg-primary flex flex-col items-center gap-y-4 py-6 z-[1] relative px-2 ">
+                <div className="upperFooter bg-primary flex flex-col items-center gap-y-4 py-6 z-[1] relative px-2 mt-4 md:mt-0">
                     <h2 className="text-xl font-semibold text-white">
                         Stop wasting your time and find the best landmarks around you.
                     </h2>

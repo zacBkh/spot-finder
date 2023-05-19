@@ -9,16 +9,18 @@ import { PATHS } from '../constants/URLs'
 import HIGHLIGHTED_SPOTS_LANDING_PAGE from '../constants/highlighted-spots'
 import useTypeCharacters from '../hooks/useTypeCharacters'
 
+import { BIG_TITLE_FS } from '../constants/responsive-fonts'
+
 const WhySpotFinder = ({}) => {
     const { activities, currentPhase } = useTypeCharacters()
 
     return (
         <>
-            <section className="px-4 my-auto h-[calc(100vh-(74px+16px))] lg:h-[calc(100vh-(74px+16px))] flex items-center">
+            <section className="px-4 my-auto lg:h-[calc(100vh-(74px+16px))] flex items-center">
                 <div className="flex justify-between items-center">
-                    <div className="flex flex-col gap-y-6 w-[50%]">
+                    <div className="flex flex-col items-center md:items-start  gap-y-6 w-fit md:w-[50%] text-center md:text-start">
                         <div>
-                            <h1 className="text-5xl leading-[1.2] font-bold">
+                            <h1 className={`${BIG_TITLE_FS} leading-[1.2] font-bold`}>
                                 Discover the world&apos;s hidden gems with Spot Finder
                             </h1>
                             <h2 className="text-xl mt-4">
@@ -34,7 +36,7 @@ const WhySpotFinder = ({}) => {
                                 </span>
                             </h2>
                         </div>
-                        <div className="flex items-center gap-x-8 w-[90%]">
+                        <div className="flex items-center justify-center md:justify-start gap-x-8 w-[90%]">
                             <CTAButtons
                                 text={'Browse Spots'}
                                 icon={<AiOutlineSearch />}
@@ -48,7 +50,7 @@ const WhySpotFinder = ({}) => {
                             />
                         </div>
                     </div>
-                    <div className="carrouselWrapper flex flex-col overflow-hidden">
+                    <div className="carrouselWrapper flex-col hidden md:flex overflow-hidden">
                         <div className="flex flex-col logos-slide">
                             {HIGHLIGHTED_SPOTS_LANDING_PAGE.map(spot => (
                                 <SpotCard
