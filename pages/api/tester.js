@@ -68,9 +68,7 @@ async function showAllVisitedSpots(resArg, userID) {
 }
 
 // MAILCHIMP
-
 import mailchimp from '@mailchimp/mailchimp_marketing'
-import md5 from 'md5'
 
 mailchimp.setConfig({
     apiKey: process.env.MAILCHIMP_API_KEY,

@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import capitalize from '../capitalize'
+import capitalize from '../../utils/capitalize'
 import { PATHS } from '../../constants/URLs'
 const sendPwdResetEmail = async (userRecipient, userName, token) => {
     console.log('userRecipient', userRecipient)
