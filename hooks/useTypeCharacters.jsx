@@ -2,14 +2,12 @@ import { useState, useEffect } from 'react'
 
 // Input array of typed words here
 
-const arrayOfActivities = ['Photo Spots.', 'Points of Interest.', 'Strolls.']
-
 // Intervals constants
 const TYPING_INTERVAL = 150
 const PAUSE_MS = 1200
 const DELETE_INTERVAL = 50
 
-const useTypeCharacters = () => {
+const useTypeCharacters = arrayOfWords => {
     // 3 phases possible : typing - pausing - deleting
     const [currentPhase, setCurrentPhase] = useState('typing')
 
@@ -22,7 +20,7 @@ const useTypeCharacters = () => {
     useEffect(() => {
         switch (currentPhase) {
             case 'typing': {
-                const nextTypedActivities = arrayOfActivities[selectedIndex].slice(
+                const nextTypedActivities = arrayOfWords[selectedIndex].slice(
                     0,
                     activities.length + 1,
                 )
@@ -42,11 +40,11 @@ const useTypeCharacters = () => {
             case 'deleting': {
                 if (!activities) {
                     const nextIndex = selectedIndex + 1
-                    setSelectedIndex(arrayOfActivities[nextIndex] ? nextIndex : 0)
+                    setSelectedIndex(arrayOfWords[nextIndex] ? nextIndex : 0)
                     setCurrentPhase('typing')
                     return
                 }
-                const nextRemaining = arrayOfActivities[selectedIndex].slice(
+                const nextRemaining = arrayOfWords[selectedIndex].slice(
                     0,
                     activities.length - 1,
                 )

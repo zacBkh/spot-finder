@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
-import capitalize from '../capitalize'
+import capitalize from '../../utils/connect-to-mongo'
 
-import { whichDomain } from '../env-helper'
+import { whichDomain } from '../../utils/env-helper'
 const currDomain = whichDomain()
 
 const sendVerifEmail = async (userRecipient, userData, token) => {

@@ -254,7 +254,7 @@ input:disabled {
     position: relative;
 }
 
-.logos-slide {
+.spots-slide {
     animation: animate-vertical-carrousel 17s linear infinite;
     animation-delay: 0.5s;
 }
@@ -268,7 +268,7 @@ input:disabled {
     }
 }
 
-.carrouselWrapper:hover .logos-slide {
+.carrouselWrapper:hover .spots-slide {
     animation-play-state: paused;
 }
 
@@ -279,13 +279,13 @@ input:disabled {
     left: 0;
     height: 100px;
     width: 100%;
-    background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
+    background: linear-gradient(to top, rgba(255, 255, 255, 0), #f7f5f5);
     content: '';
     z-index: 2;
 }
 
 @media (min-width: 768px) {
-    .upperFooter::after {
+    .carrouselWrapperBottom::after {
         position: absolute;
         bottom: 100%;
         left: 0;
@@ -293,12 +293,12 @@ input:disabled {
         width: 100%;
         background: linear-gradient(to bottom, rgba(255, 255, 255, 0), white);
         content: '';
-        z-index: 2;
+        z-index: 999;
     }
 }
 
 /* To space spots cards */
-.logos-slide a {
+.spots-slide a {
     margin-bottom: 25px;
 }
 
@@ -363,12 +363,10 @@ div.hoverLink a:hover {
 /* Two classes : one to make the cursor blink for pausing phrase and one blinking for typing & deleting */
 .blinkingCursorDynamic::after {
     content: '|';
-    @apply text-black;
 }
 
 .blinkingCursorPause::after {
     content: '|';
-    @apply text-black;
     animation: blink 1s step-start infinite;
 }
 
@@ -378,9 +376,34 @@ div.hoverLink a:hover {
     }
 }
 
-.hoverSpotCard:hover {
+.hoverCardShadow:hover {
     box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 4px rgba(0, 0, 0, 0.2);
     border: none;
     transition: box-shadow 83ms;
     border-radius: 0.8rem;
+}
+
+@media (min-width: 768px) {
+    .verticalBarStats:before {
+        position: absolute;
+        left: 0;
+        height: 100%;
+        width: 4px;
+        border-radius: 2px;
+        top: 5%;
+    }
+}
+
+/* Align stats on landing page */
+.alignStats {
+    width: calc(50% - 1.5rem / 2);
+}
+
+/* Display ellipsis suspension on multi-lines text */
+.ellipsis-multi-lines {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* start showing ellipsis when 3rd line is reached */
+    white-space: pre-wrap; /* let the text wrap preserving spaces */
 }

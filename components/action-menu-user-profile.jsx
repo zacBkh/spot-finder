@@ -40,7 +40,7 @@ const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser, currentUserID
             <div
                 className={`${
                     isOpen ? 'block' : 'hidden'
-                } z-50 absolute -left-9 md:left-[150%] md:-bottom-8`}
+                } z-50 absolute -left-9 md:left-[150%] md:-bottom-14`}
             >
                 <div
                     className={`

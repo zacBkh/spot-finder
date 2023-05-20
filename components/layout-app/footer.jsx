@@ -36,7 +36,10 @@ const Footer = ({}) => {
     return (
         <>
             <footer className="text-center md:text-start ">
-                <div className="upperFooter bg-primary flex flex-col items-center gap-y-4 py-6 z-[1] relative px-2 mt-4 md:mt-0">
+                <div
+                    className={`
+                      bg-primary flex flex-col items-center gap-y-4 py-6 relative px-2md:mt-0`}
+                >
                     <h2 className="text-xl font-semibold text-white">
                         Stop wasting your time and find the best landmarks around you.
                     </h2>

@@ -11,6 +11,8 @@ import SPOT_CATEGORIES from '../constants/spot-categories'
 
 import getAvrgGrade from '../utils/get-average-rate'
 
+import { PATHS } from '../constants/URLs'
+
 const SpotCard = ({
     spotData,
     shouldNotDisplayUserPic,
@@ -33,8 +35,11 @@ const SpotCard = ({
     }
 
     return (
-        <Link href={`/spots/${_id}`}>
-            <a onMouseEnter={isLandingPage && hoverCardHandler} className="hoverSpotCard">
+        <Link href={`${PATHS.SPOT}/${_id}`}>
+            <a
+                onMouseEnter={isLandingPage && hoverCardHandler}
+                className="hoverCardShadow"
+            >
                 <button className={`cursor-pointer flex flex-col ${width} group`}>
                     <div
                         className={`relative w-full ${height} mx-auto rounded-lg overflow-hidden`}
