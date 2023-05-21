@@ -246,10 +246,7 @@ input:disabled {
 /* Vertical carrousel */
 .carrouselWrapper {
     overflow: hidden;
-    /* height: calc(100vh - (74px + 16px)); */
     height: 95vh;
-    /* margin-top: 50px; */
-    /* border: 1px solid grey; */
     white-space: nowrap;
     position: relative;
 }
@@ -406,4 +403,8 @@ div.hoverLink a:hover {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3; /* start showing ellipsis when 3rd line is reached */
     white-space: pre-wrap; /* let the text wrap preserving spaces */
+}
+
+.bounceTimingFunction {
+    transition-timing-function: cubic-bezier(0.42, 1.44, 0.39, 0.87);
 }

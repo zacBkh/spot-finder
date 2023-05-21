@@ -12,7 +12,7 @@ import useTypeCharacters from '../hooks/useTypeCharacters'
 import { BIG_TITLE_FS } from '../constants/responsive-fonts'
 
 import Stats from '../components/why-spot-finder/stats'
-import FeatureSelector from '../components/why-spot-finder/features-selector'
+import FeatureSelector from '../components/why-spot-finder/features/features-selector'
 
 const WhySpotFinder = ({}) => {
     const arrayOfActivities = ['Photo Spots.', 'Points of Interest.', 'Strolls.']
@@ -23,7 +23,7 @@ const WhySpotFinder = ({}) => {
         <div className="flex flex-col gap-y-12 md:gap-y-0">
             <section className="px-8 my-auto lg:h-[calc(100vh-(74px+16px))] flex items-center">
                 <div className="flex justify-between items-center">
-                    <div className="flex flex-col items-center md:items-start  gap-y-6 w-fit md:w-[50%] text-center md:text-start">
+                    <div className="flex flex-col items-center md:items-start gap-y-6 w-fit md:w-[50%] text-center md:text-start z-50">
                         <div>
                             <h1 className={`${BIG_TITLE_FS} leading-[1.2] font-bold`}>
                                 Discover the world&apos;s hidden gems with Spot Finder
@@ -55,7 +55,7 @@ const WhySpotFinder = ({}) => {
                             />
                         </div>
                     </div>
-                    <div className="carrouselWrapper flex-col hidden md:flex overflow-hidden">
+                    <div className="carrouselWrapper flex-col hidden md:flex overflow-hidden mr-16">
                         <div className="flex flex-col spots-slide">
                             {HIGHLIGHTED_SPOTS_LANDING_PAGE.map(spot => (
                                 <SpotCard

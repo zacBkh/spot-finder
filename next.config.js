@@ -13,6 +13,7 @@ const nextConfig = {
             'platform-lookaside.fbsbx.com',
             'res.cloudinary.com',
             'flagcdn.com',
+            'www.datocms-assets.com',
         ],
     },
 }

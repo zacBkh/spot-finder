@@ -16,7 +16,7 @@ const Stats = () => {
     const { activities, currentPhase } = useTypeCharacters(arrayOfActivities)
 
     return (
-        <section className="flex justify-center md:justify-between items-center gap-x-12 bg-tertiary z-10 relative carrouselWrapperBottom px-6 text-center md:text-start ">
+        <section className="flex justify-center md:justify-between items-center gap-x-12 bg-tertiary z-10 relative carrouselWrapperBottom px-2 sm:px-6 text-center md:text-start ">
             <div className="carrouselWrapper max-w-[50%] flex-col hidden md:flex">
                 <div className="flex flex-col spots-slide">
                     {HIGHLIGHTED_USERS_LANDING_PAGE.map(user => (

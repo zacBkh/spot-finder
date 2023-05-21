@@ -34,7 +34,7 @@ export const ARROW_TEXT_FS =
     'text-sm sm:text-sm md:text-base lg:text-base xl:text-base 2xl:text-base'
 
 export const TITLE_FS = 'text-2xl sm:text-3xl'
-export const BIG_TITLE_FS = 'text-4xl md:text-5xl'
+export const BIG_TITLE_FS = 'text-5xl md:text-6xl'
 export const SMALL_TITLE_FS = 'text-xl sm:text-2xl'
 
 export const BODY_FS =
