@@ -38,6 +38,7 @@ const ImageDemo = ({ activeFeature, arrayOfImages }) => {
                 >
                     {arrayOfImages.map((img, index) => (
                         <img
+                            key={img}
                             className={`${
                                 activeFeature !== index
                                     ? 'blur-[2px] opacity-80'
