@@ -21,7 +21,7 @@ import DividerDesign from '../design/divider'
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
 
 import ErrorIllustration from '../error-illustration'
-import ErrorImage from '../../public/images/no-data-found.svg'
+import NoDataImg from '../../public/images/no-data-found.svg'
 
 import getAvrgGrade from '../../utils/get-average-rate'
 
@@ -115,7 +115,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
     const reviewsOrFallback = !reviews.length ? (
         <>
             <ErrorIllustration
-                img={ErrorImage}
+                img={NoDataImg}
                 altTxt={'No reviews found illustration'}
                 title={'This spot does not have any reviews yet.'}
             />
@@ -203,7 +203,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                         {!isOnAddReviewMode && (
                             <div
                                 className="
-                                max-h-[63vh] md:max-h-[60vh] 
+                                max-h-[63vh] md:max-h-[60vh] xl:max-h-[50vh] 
                                 overflow-y-auto h-fit px-4 text-start flex flex-col gap-y-10"
                             >
                                 {reviewsOrFallback}

@@ -46,7 +46,7 @@ const Navigation = () => {
 
     return (
         <>
-            <header className="mx-auto px-7 py-2 text-dark-color sticky top-0 z-[999] border-b-[1.6px] border-[#dadada] transparent-navbar ">
+            <header className="mx-auto px-7 py-2 text-dark-color sticky top-0 z-[999] border-b-[1.6px] border-[#dadada] transparent-navbar">
                 <div className="flex items-center justify-between">
                     <div className="cursor-pointer h-[56px]">
                         <Link href={HOME}>

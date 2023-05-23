@@ -54,15 +54,15 @@ const FeatureSelector = ({}) => {
             return 'ml-0'
         }
         if (activeFeature === 1) {
-            return 'sm:ml-[33%] md:ml-[29%] lg:ml-[31%]'
+            return 'sm:ml-[33%] md:ml-[29%] lg:ml-[32%]'
         }
 
         if (activeFeature === 2) {
-            return 'sm:ml-[60%] md:ml-[57%] lg:ml-[61%]'
+            return 'sm:ml-[60%] md:ml-[57%] lg:ml-[63%] 2xl:ml-[64%]'
         }
 
         if (activeFeature === 3) {
-            return 'sm:ml-[81%] md:ml-[77%] lg:ml-[86%]'
+            return 'sm:ml-[81%] md:ml-[77%] lg:ml-[90%] 2xl:ml-[93.5%]'
         }
     }
 
@@ -71,7 +71,7 @@ const FeatureSelector = ({}) => {
             <div className="carrouselWrapperBottom relative">
                 <div
                     className={`flex flex-col items-center
-                    w-[320px] sm:w-[500px] md:w-[600px] lg:w-[1020px]  
+                    w-[90%]  
                     mx-auto  `}
                 >
                     <div
@@ -101,7 +101,7 @@ const FeatureSelector = ({}) => {
                        `}
                         ></div>
                     </div>
-                    <div className="self-start mb-4">
+                    <div className="self-start mb-6">
                         <p>{features.find(feat => feat.id === activeFeature).text}</p>
                     </div>
                 </div>
