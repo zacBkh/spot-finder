@@ -11,7 +11,7 @@ const SearchSpotBar = ({ disabled }) => {
     return (
         <div className="relative hidden sm:block">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <AiOutlineSearch className=" text-gray-400 text-lg " />
+                <AiOutlineSearch className=" text-gray-400 text-lg" />
                 <span className="sr-only">Search icon</span>
             </div>
 

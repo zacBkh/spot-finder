@@ -25,6 +25,11 @@ const userSchema = new Schema(
             minLength: 8,
         },
 
+        country: {
+            type: String,
+            required: true,
+        },
+
         emailVerified: {
             type: Boolean,
             default: false,

@@ -1,4 +1,5 @@
 import * as Yup from 'yup'
+import worldCountryDetails from '../utils/world-country-continents'
 
 // Auth
 const forbiddenNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -31,7 +32,7 @@ const name = {
         )
         .min(3, 'Your name should be at least 3 characters long.')
         .max(18, 'Your name should not exceed 18 characters long.')
-        .required('Name is required')
+        .required('Name is required.')
         .test('noNumber', 'Your name cannot contain any number.', async valueToTest => {
             if (!valueToTest) {
                 return
@@ -42,6 +43,21 @@ const name = {
                 return true
             }
         }),
+}
+
+const userCountryName = {
+    country: Yup.string().trim().required('Your country of origin is required.'),
+    // .test('isACountry', 'Your country seems invalid.', async valueToTest => {
+    //     if (!valueToTest) {
+    //         return
+    //     }
+
+    //     const countryNames = worldCountryDetails.map(country => country.name)
+    //     if (!countryNames.includes(valueToTest)) {
+    //         return false
+    //     }
+    //     return true
+    // }),
 }
 
 // Mail
@@ -56,10 +72,11 @@ export const validMailPwd = Yup.object().shape({
 })
 
 // Mail + pwd + name
-export const validMailPwdName = Yup.object().shape({
+export const validFullUser = Yup.object().shape({
     ...mail,
     ...pwdRegister,
     ...name,
+    ...userCountryName,
 })
 
 // Reset password form

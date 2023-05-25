@@ -6,34 +6,36 @@ import { BiArrowBack } from 'react-icons/bi'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
-import { PATHS } from '../../constants/URLs'
+import { PATHS } from '../../../constants/URLs'
 
-import { TOAST_PARAMS } from '../../constants/toast-query-params'
+import { TOAST_PARAMS } from '../../../constants/toast-query-params'
 const { KEY, VALUE_LOGIN } = TOAST_PARAMS
 
-import { DISABLED_STYLE } from '../../constants/disabled-style'
+import { DISABLED_STYLE } from '../../../constants/disabled-style'
+
+import SearchCountry from './search-country'
 
 import {
     BUTTON_FS,
     SMALL_TEXT_FS,
     ARROW_ICON_FS,
     ARROW_TEXT_FS,
-} from '../../constants/responsive-fonts'
-import { addUserHandler, checkEmailUniq } from '../../services/mongo-fetchers'
+} from '../../../constants/responsive-fonts'
+import { addUserHandler, checkEmailUniq } from '../../../services/mongo-fetchers'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 
 import {
     validMail,
     validMailPwd,
-    validMailPwdName,
-} from '../../constants/validation-schemas'
+    validFullUser,
+} from '../../../constants/validation-schemas'
 
-import capitalize from '../../utils/capitalize'
-import Spinner from '../spinner'
+import capitalize from '../../../utils/capitalize'
+import Spinner from '../../spinner'
 
-import useInputAutoFocus from '../../hooks/useInputAutoFocus'
+import useInputAutoFocus from '../../../hooks/useInputAutoFocus'
 
-import { sendPwdResetMail } from '../../services/mongo-fetchers'
+import { sendPwdResetMail } from '../../../services/mongo-fetchers'
 
 const EMailLogger = ({
     authMode,
@@ -102,7 +104,7 @@ const EMailLogger = ({
         finalValidationSchema = validMailPwd
     } else {
         // if is registering a new user
-        finalValidationSchema = validMailPwdName
+        finalValidationSchema = validFullUser
     }
 
     let onSubmitHandler
@@ -135,6 +137,7 @@ const EMailLogger = ({
                     onSelectEMail('credentials', email, false)
                 }
                 formik.touched.password = false
+                formik.touched.country = false
             }
         } else {
             if (!isnewUser) {
@@ -162,10 +165,11 @@ const EMailLogger = ({
             } else {
                 // register
                 onSubmitHandler = async formValues => {
-                    const { email, password, name } = formValues
+                    const { email, password, name, country } = formValues
                     // Trimming values except pwd
                     const formValuesFormatted = {
                         password,
+                        country,
                         email: email.trim(),
                         name: capitalize(name).trim(),
                     }
@@ -192,7 +196,7 @@ const EMailLogger = ({
     }
 
     const formik = useFormik({
-        initialValues: { email: '', password: '', name: '' },
+        initialValues: { email: '', password: '', name: '', country: '' },
         onSubmit: onSubmitHandler,
         validationSchema: finalValidationSchema,
     })
@@ -208,8 +212,8 @@ const EMailLogger = ({
     }
 
     const mailRef = useRef(null)
-    const nameRef = useRef(null)
     const pwdRef = useRef(null)
+    const nameRef = useRef(null)
     const submitBtnRef = useRef(null)
 
     useInputAutoFocus(
@@ -242,6 +246,10 @@ const EMailLogger = ({
                     'Welcome back! Please log in to continue exploring the best Spots around you. 📍',
             }
         }
+    }
+
+    const selectCountryHandler = selectedCountry => {
+        formik.setFieldValue('country', selectedCountry)
     }
 
     return (
@@ -305,6 +313,39 @@ const EMailLogger = ({
                             {validStyling('name').message}
                         </div>
                     </div>
+                )}
+
+                {/* COUNTRY FIELD */}
+                {isnewUser === true && (
+                    <>
+                        <SearchCountry
+                            formik={formik}
+                            // formikOnChange={formik.handleChange}
+                            onCountrySelect={selectCountryHandler}
+                            validData={validStyling('country')}
+                        />
+                        {/* <div>
+                            <input
+                                onChange={formik.handleChange}
+                                value={formik.values.lastName}
+                                onBlur={formik.handleBlur}
+                                // {...formik.getFieldProps('country')}
+                                disabled={formik.isSubmitting}
+                                className={`
+                                ${validStyling('country').border}
+                                ${DISABLED_STYLE}
+                                rounded-lg border w-full
+                                p-2
+                        `}
+                                type="search"
+                                name="country"
+                                placeholder="Your country"
+                            />
+                            <div className="mt-1 whitespace-pre-wrap">
+                                {validStyling('country').message}
+                            </div>
+                        </div> */}
+                    </>
                 )}
 
                 {/* PWD FIELD */}

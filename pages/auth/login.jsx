@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import Divider from '../../components/auth/divider'
 import OAuthLogger from '../../components/auth/oAuth-logger'
-import EMailLogger from '../../components/auth/email-logger'
+import EMailLogger from '../../components/auth/email-logger/email-logger'
 import { useRouter } from 'next/router'
 
 import Image from 'next/image'
