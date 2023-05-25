@@ -1,20 +1,19 @@
 import nodemailer from 'nodemailer'
-import capitalize from '../capitalize'
+import capitalize from '../../utils/capitalize'
+import { PATHS } from '../../constants/URLs'
+const sendPwdResetEmail = async (userRecipient, userName, token) => {
+    console.log('userRecipient', userRecipient)
+    console.log('userName', userName)
+    console.log('token', token)
 
-import { whichDomain } from '../env-helper'
-const currDomain = whichDomain()
-
-const sendVerifEmail = async (userRecipient, userData, token) => {
-    if (!userRecipient || !userData || !token) {
+    if (!userRecipient || !userName || !token) {
         return {
             success: false,
-            result: `At least one parameter to send the email is missing [sendVerifEmail]`,
+            result: `At least one parameter to send the email is missing [sendPwdReset email]`,
         }
     }
 
     try {
-        const { name } = userData
-
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -36,26 +35,27 @@ const sendVerifEmail = async (userRecipient, userData, token) => {
         })
 
         const htmlToSend = `
-        <h3> Hello ${capitalize(name)} !  </h3>
-        <p> Thanks for registering. Just one more step... </p>
-        <p> To activate account, please follow this link : 
-        <a target = "_" href="${currDomain}/auth/verify-your-email/${token}"> Activate my Account 
-        </a> </p>
-        <p> Thank you</p>`
+        <h3>Hello ${capitalize(userName)}!</h3>
+        <p>You asked to reset your password.</p>
+        <p>Please follow this link <a href="${
+            PATHS.DOMAIN_WITHOUT_SLASH
+        }/auth/verify-reset-pwd/${token}"> to reset your password</a></p>
+        <p>Thank you.</p>
+        `
 
         // send mail with defined transport object
         const mailOptions = await transporter.sendMail({
             from: 'Spot Finder team 👻 <process.env.GOOGLE_USER>', // sender address
             // from: process.env.GOOGLE_USER,
             to: userRecipient,
-            subject: `${capitalize(name)}, activate your Spot Finder Account ✔ !`, // Subject line
+            subject: `${capitalize(userName)}, reset your Spot Finder password ✔ !`, // Subject line
             text: 'Hello world?', // plain text body
             html: htmlToSend, // html body
         })
 
         return {
             success: true,
-            result: `Check your emails to verify your account!`,
+            result: `Check your emdails to reset your password!`,
         }
     } catch (error) {
         return {
@@ -65,4 +65,4 @@ const sendVerifEmail = async (userRecipient, userData, token) => {
     }
 }
 
-export default sendVerifEmail
+export default sendPwdResetEmail

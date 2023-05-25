@@ -5,14 +5,14 @@ import { SearchBarContext } from '../context/AppContext'
 
 import Head from 'next/head'
 
-import { GETSpotFetcherAll } from '../utils/GETfetchers'
+import { GETSpotFetcherAll } from '../services/fetchers-ssr'
 
 import ClosedDrawer from '../components/filters-drawer/closed-drawer'
 import OpenedDrawer from '../components/filters-drawer/opened-drawer'
 
-import getAvrgGrade from '../utils/Spots/getAverageRate'
+import getAvrgGrade from '../utils/get-average-rate'
 
-import MapIndex from '../components/essai-maps/map-index'
+import MapIndex from '../components/maps/map-index'
 
 import ToggleToMapView from '../components/toggle-to-map-view-btn'
 
@@ -254,9 +254,9 @@ const AllSpots = ({ spots }) => {
                     >
                         {filteredSpots.map(spot => (
                             <SpotCard
+                                width={'w-72 sm:w-60'}
+                                height={'h-72 sm:h-60'}
                                 key={spot._id}
-                                w={'w-64'}
-                                h={'h-64'}
                                 spotData={spot}
                             />
                         ))}

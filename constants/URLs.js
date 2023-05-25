@@ -11,41 +11,44 @@ export const PATHS = {
             ? 'http://localhost:3008'
             : 'https://www.spot-finder.com',
     HOME: '/',
+    WHY_SPOT_FINDER: '/why-spot-finder',
     NEW_SPOT: '/new-spot',
     AUTH: '/auth/login',
     PROFILE: '/users',
     SPOT: '/spots',
 }
 
+const { HOME, NEW_SPOT, WHY_SPOT_FINDER, PROFILE } = PATHS
+
 export const NAVBAR_ITEMS = [
     {
         name: 'Home',
-        link: PATHS.HOME,
+        link: HOME,
     },
 
     {
         name: 'Add your Spot!',
-        link: PATHS.NEW_SPOT,
+        link: NEW_SPOT,
     },
 
     {
         name: 'Why Spot Finder ?',
-        link: '#',
+        link: WHY_SPOT_FINDER,
     },
 ]
 
 export const NAVBAR_USER_ITEMS = [
     {
         name: 'My Profile',
-        link: PATHS.PROFILE,
+        link: PROFILE,
     },
 
     {
         name: 'Settings',
-        link: PATHS.HOME,
+        link: HOME,
     },
     {
         name: 'Sign Out',
-        link: PATHS.NEW_SPOT,
+        link: NEW_SPOT,
     },
 ]

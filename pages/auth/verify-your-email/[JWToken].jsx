@@ -1,43 +1,30 @@
-import { useState } from "react"
+import { useState } from 'react'
 
-import JWTVerifyer from "../../../utils/JWTMailToken/JWTVerifyer"
-
-
-
+import JWTVerifyer from '../../../utils/jwt-mail-tokens/verify-jwt'
 
 // Get Server Side Props
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async context => {
+    const { JWToken } = context.params
+    const emailVerifResult = await JWTVerifyer(JWToken)
+    console.log('emailVerifResult', emailVerifResult)
 
-  const { JWToken } = context.params
-  const emailVerifResult = await JWTVerifyer(JWToken)
-  console.log('emailVerifResult', emailVerifResult)
-
-  return {
-    props: {
-      emailVerifResult
-    },
-  };
+    return {
+        props: {
+            emailVerifResult,
+        },
+    }
 }
-
-
-
-
-
 
 // Component
 const VerifyEmail = ({ emailVerifResult }) => {
+    // Display current status
+    const [status, setStatus] = useState(emailVerifResult.result)
 
-  // Display current status
-  const [status, setStatus] = useState(emailVerifResult.result);
-
-
-
-
-  return (
-    <>
-      <h1>{status}</h1>
-    </>
-  )
+    return (
+        <>
+            <h1>{status}</h1>
+        </>
+    )
 }
 
-export default VerifyEmail 
+export default VerifyEmail

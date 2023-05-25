@@ -1,9 +1,9 @@
 import Spot from '../../models/spot'
 import User from '../../models/user'
 
-import connectMongo from '../../utils/connectMongo'
+import connectMongo from '../../utils/connect-to-mongo'
 
-import createToken from '../../utils/JWTMailToken/helpers/createToken'
+import createToken from '../../utils/jwt-mail-tokens/helpers/generate-token'
 
 // This route will help us see which data is in our Database, delete etc
 
@@ -67,13 +67,75 @@ async function showAllVisitedSpots(resArg, userID) {
     return resArg.send(DBData)
 }
 
+// MAILCHIMP
+import mailchimp from '@mailchimp/mailchimp_marketing'
+
+mailchimp.setConfig({
+    apiKey: process.env.MAILCHIMP_API_KEY,
+    server: process.env.MAILCHIMP_SERVER_PREFIX,
+})
+
+const mailChimpTest = async resArg => {
+    const response = await mailchimp.ping.get()
+    console.log('mailchipm API response', response)
+
+    return resArg.send(response)
+}
+
+const subscribingUser = {
+    email: 'zkd@live.fr',
+}
+
+const mailChimpTestaddContact = async resArg => {
+    try {
+        const response = await mailchimp.lists.addListMember(
+            process.env.MAILCHIMP_AUDIENCE_ID,
+            {
+                email_address: subscribingUser.email,
+                status: 'pending',
+                tags: ['newsletter'],
+            },
+        )
+
+        console.log(
+            `Successfully added contact as an audience member. The contact's id is ${response.id}.`,
+        )
+        return resArg.send(response)
+    } catch (error) {
+        console.log('error MAIL CHIMP', error)
+
+        return resArg.send(error)
+    }
+}
+
+const email = 'zachariedupain@hotmail.fr'
+const subscriberHash = md5(email.toLowerCase())
+
+// return subscribed, unsubscribed, pending or cleaned
+const checkIfEmailsAlreadySubscribed = async resArg => {
+    try {
+        const response = await mailchimp.lists.getListMember(
+            process.env.MAILCHIMP_AUDIENCE_ID,
+            subscriberHash,
+        )
+        console.log(`This user's subscription status is ${response.status}.`)
+        return resArg.send(response)
+    } catch (error) {
+        if (error.status === 404) {
+            // user does not subscribe
+            console.log(`This email is not subscribed to this list`, error)
+            return resArg.send(error)
+        }
+    }
+}
+
 export default async function TESTER(req, res) {
     await connectMongo()
 
     // await helpppp(res, "638d7783050b1dd32d06c7c1")
 
     // await showAllSpots(res)
-    await showAllVisitedSpots(res, '642ced6dd3fa11d36106522b')
+    // await showAllVisitedSpots(res, '642ced6dd3fa11d36106522b')
     // await deleteAllSpots(res)
 
     // await showAllUsers(res)
@@ -82,6 +144,7 @@ export default async function TESTER(req, res) {
 
     // await checkUserExists(res, "roblaf93@gmail.com")
     // await tokenGen(res)
+    // await mailChimpTest(res)
+    await mailChimpTestaddContact(res)
+    // await checkIfEmailsAlreadySubscribed(res)
 }
-
-//

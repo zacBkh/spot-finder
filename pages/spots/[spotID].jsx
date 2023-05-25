@@ -16,9 +16,9 @@ import {
     findOneSpot,
 } from '../../services/mongo-fetchers'
 
-import { GETSpotFetcherOne } from '../../utils/GETfetchers'
+import { GETSpotFetcherOne } from '../../services/fetchers-ssr'
 
-import MapShow from '../../components/essai-maps/map-show'
+import MapShow from '../../components/maps/map-show'
 
 import { TEXTAREA_INPUTS_FS } from '../../constants/responsive-fonts'
 

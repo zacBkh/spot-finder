@@ -1,0 +1,44 @@
+import Image from 'next/image'
+
+const ImageDemo = ({ activeFeature, arrayOfImages }) => {
+    return (
+        <div
+            className={` overflow-x-hidden mx-auto transition-colors duration-500 
+            ${activeFeature % 2 === 0 ? 'bg-primary' : 'bg-secondary'}`}
+        >
+            <div className="relative translate-x-[10%] sm:translate-x-[10%] md:translate-x-[14%] lg:translate-x-[23%] xl:translate-x-[28%]">
+                <div
+                    className=" w-[70%] sm:sm:w-[550px] 2xl:sm:w-[700px]
+                     flex transition-transform bounceTimingFunction duration-500 "
+                    style={{ transform: `translateX(-${activeFeature * 100}%)` }}
+                >
+                    {arrayOfImages.map((img, index) => (
+                        <img
+                            key={img}
+                            className={`${
+                                activeFeature !== index
+                                    ? ' blur-[3px] opacity-60'
+                                    : 'blur-0'
+                            } drop-shadow-md transition-all duration-500 bounceTimingFunction`}
+                            id="index"
+                            src={img}
+                            alt="A feature"
+                        />
+                        // <Image
+                        //     key={img}
+                        //     alt={`Image of a feature`}
+                        //     layout="fill"
+                        //     objectFit="contain"
+                        //     className={`
+                        //  transition-all duration-500 bounceTimingFunction`}
+                        //     src={img}
+                        //     style={{ transform: `translateX(${index * 50}%)` }}
+                        // />
+                    ))}
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default ImageDemo

@@ -23,7 +23,7 @@ const CustomErrorPage = ({ contextErrHelper }) => {
     )
     return (
         <>
-            <div className="flex flex-col sm:flex-row justify-between gap-x-6 gap-y-3 sm:gap-y-0 items-center relative px-8 ">
+            <div className="flex flex-col sm:flex-row justify-between gap-x-6 gap-y-3 sm:gap-y-0 items-center relative px-8 mb-6 ">
                 <div className="w-fit sm:w-[30%] text-start space-y-10 order-2 sm:order-1">
                     <div className="space-y-4">
                         <h1 className={`font-bold ${TITLE_FS}`}>

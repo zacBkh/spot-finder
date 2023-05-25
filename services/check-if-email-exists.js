@@ -1,5 +1,5 @@
-import connectMongo from '../connectMongo'
-import User from '../../models/user'
+import connectMongo from '../utils/connect-to-mongo'
+import User from '../models/user'
 
 // Checking if user exists (email) server side
 // Return full user, null if does not exist

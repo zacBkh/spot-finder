@@ -25,6 +25,7 @@ const { HOME } = PATHS
 
 const Navigation = () => {
     const router = useRouter()
+    const { pathname, query } = router
 
     const { data: session, status } = useSession()
 
@@ -45,7 +46,7 @@ const Navigation = () => {
 
     return (
         <>
-            <header className="mx-auto px-7 py-2 text-dark-color sticky top-0 z-[999] border-b-[1.6px] border-[#dadada] transparent-navbar ">
+            <header className="mx-auto px-7 py-2 text-dark-color sticky top-0 z-[999] border-b-[1.6px] border-[#dadada] transparent-navbar">
                 <div className="flex items-center justify-between">
                     <div className="cursor-pointer h-[56px]">
                         <Link href={HOME}>
@@ -63,6 +64,7 @@ const Navigation = () => {
                         <ul className="flex gap-x-3 md:gap-x-6">
                             {NAVBAR_ITEMS.map(item => (
                                 <NavItems
+                                    currentPath={pathname}
                                     key={item.link}
                                     name={item.name}
                                     link={item.link}
@@ -72,15 +74,10 @@ const Navigation = () => {
                     </nav>
 
                     <div className="flex justify-between items-center gap-x-3 lg:gap-x-6">
-                        <SearchSpotBar
-                            disabled={router.pathname === HOME ? false : true}
-                        />
+                        <SearchSpotBar disabled={pathname === HOME ? false : true} />
 
                         {status === 'authenticated' ? (
-                            <UserHeader
-                                currentQuery={router.query}
-                                currentUser={session}
-                            />
+                            <UserHeader currentQuery={query} currentUser={session} />
                         ) : (
                             ''
                         )}

@@ -1,6 +1,6 @@
-import checkEmailExist from '../../../utils/Auth/checkEmailExist'
-import createToken from '../../../utils/JWTMailToken/helpers/createToken'
-import sendPwdResetEmail from '../../../utils/Mailers/sendPwdResetEmail'
+import checkEmailExist from '../../../services/check-if-email-exists'
+import createToken from '../../../utils/jwt-mail-tokens/helpers/generate-token'
+import sendPwdResetEmail from '../../../services/emailers-srv/pwd-reset'
 import { whichDomain } from '../../../utils/env-helper'
 
 export default async function resetPwdLink(req, res) {

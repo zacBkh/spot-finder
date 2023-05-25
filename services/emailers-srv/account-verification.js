@@ -1,21 +1,20 @@
 import nodemailer from 'nodemailer'
-import capitalize from '../capitalize'
+import capitalize from '../../utils/connect-to-mongo'
 
-import { PATHS } from '../../constants/URLs'
-const { DOMAIN, NEW_SPOT } = PATHS
+import { whichDomain } from '../../utils/env-helper'
+const currDomain = whichDomain()
 
-const sendWelcomeEmail = async (userRecipient, userName) => {
-    console.log('userRecipient', userRecipient)
-    console.log('userName', userName)
-
-    if (!userRecipient || !userName) {
+const sendVerifEmail = async (userRecipient, userData, token) => {
+    if (!userRecipient || !userData || !token) {
         return {
             success: false,
-            result: `At least one parameter to send  the email is missing [sendWelcomeEmail]`,
+            result: `At least one parameter to send the email is missing [sendVerifEmail]`,
         }
     }
 
     try {
+        const { name } = userData
+
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -37,30 +36,33 @@ const sendWelcomeEmail = async (userRecipient, userName) => {
         })
 
         const htmlToSend = `
-        <h3> Hello ${capitalize(userName)} !  </h3>
-        <p> Welcome to the Spot Finder Community!... </p>
-        <p> 
-        Start <a target = "_" href="${DOMAIN}/${NEW_SPOT}"> adding new spots here
-        </a> or <a target = "_" href="${DOMAIN}"> browse through our amazing existing spots </a> already shared by our community!
-        </p>
+        <h3> Hello ${capitalize(name)} !  </h3>
+        <p> Thanks for registering. Just one more step... </p>
+        <p> To activate account, please follow this link : 
+        <a target = "_" href="${currDomain}/auth/verify-your-email/${token}"> Activate my Account 
+        </a> </p>
         <p> Thank you</p>`
 
         // send mail with defined transport object
         const mailOptions = await transporter.sendMail({
-            from: 'Spot Finder team 👻 <process.env.GOOGLE_USER>', // sender name + address
+            from: 'Spot Finder team 👻 <process.env.GOOGLE_USER>', // sender address
+            // from: process.env.GOOGLE_USER,
             to: userRecipient,
-            subject: `${capitalize(userName)}, Welcome to Spot Finder! ✔ !`, // Subject line
+            subject: `${capitalize(name)}, activate your Spot Finder Account ✔ !`, // Subject line
             text: 'Hello world?', // plain text body
             html: htmlToSend, // html body
         })
 
-        return { success: true, result: `Welcome email sent!` }
+        return {
+            success: true,
+            result: `Check your emails to verify your account!`,
+        }
     } catch (error) {
         return {
             success: false,
-            result: `There has been an error in sending the welcome email: ${error.stack}`,
+            result: `There has been an error in sending the email: ${error.message}, ${error.stack}`,
         }
     }
 }
 
-export default sendWelcomeEmail
+export default sendVerifEmail

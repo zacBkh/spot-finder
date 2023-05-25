@@ -14,6 +14,10 @@ button:active {
     transform: scale(0.9);
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 html,
 body {
     padding: 0;
@@ -137,6 +141,7 @@ textarea:focus-visible {
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* Animate from display none */
 .transition-modal {
     animation-name: modalTransition;
     animation-duration: 0.2s;
@@ -155,6 +160,7 @@ textarea:focus-visible {
     }
 }
 
+/* Modal */
 .overlay {
     position: fixed;
     z-index: 1000;
@@ -189,6 +195,7 @@ textarea:focus-visible {
     backdrop-filter: saturate(180%) blur(7px);
 }
 
+/* Animate from display none */
 .transition-user-menu {
     animation-name: userMenuTransition;
     animation-duration: 0.1s;
@@ -234,4 +241,170 @@ input:disabled {
     color: #000 !important;
     background: none !important;
     opacity: 1 !important;
+}
+
+/* Vertical carrousel */
+.carrouselWrapper {
+    overflow: hidden;
+    height: 95vh;
+    white-space: nowrap;
+    position: relative;
+}
+
+.spots-slide {
+    animation: animate-vertical-carrousel 17s linear infinite;
+    animation-delay: 0.5s;
+}
+
+@keyframes animate-vertical-carrousel {
+    from {
+        transform: translateY(0%);
+    }
+    to {
+        transform: translateY(-100%);
+    }
+}
+
+.carrouselWrapper:hover .spots-slide {
+    animation-play-state: paused;
+}
+
+/* Gradient */
+.carrouselWrapper:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100px;
+    width: 100%;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0), #f7f5f5);
+    content: '';
+    z-index: 2;
+}
+
+@media (min-width: 768px) {
+    .carrouselWrapperBottom::after {
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        height: 100px;
+        width: 100%;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0), white);
+        content: '';
+        z-index: 999;
+    }
+}
+
+/* To space spots cards */
+.spots-slide a {
+    margin-bottom: 25px;
+}
+
+/* Btn landing page animation */
+.animateElemsBtn {
+    transition: width 320ms, opacity 630ms, transform 405ms;
+    transition-timing-function: ease-out;
+}
+
+.svgCenter svg {
+    margin: 0 auto;
+}
+
+/* Underline spreads on hover navbar */
+li.hoverUnderline:after {
+    transition: 0.25s ease-out;
+
+    border-bottom: 3px solid #ef5e4e;
+    transform: scaleX(0);
+
+    display: block;
+    content: '';
+}
+
+li.hoverUnderline:hover:after {
+    transform: scaleX(1);
+}
+
+/* Active link style */
+.isActiveNavLink {
+    font-weight: 600;
+    color: #ef5e4e;
+}
+
+li.isActiveNavLink:after {
+    transform: scaleX(1);
+}
+
+/* Input Plceholder color newsletter footer */
+input.newsLetter::placeholder {
+    color: white;
+}
+
+/* Hover effect link footer */
+div.hoverLink a {
+    text-decoration-color: transparent;
+    text-decoration-line: underline;
+    text-underline-offset: 8px;
+    transition: text-decoration-color 0.2s ease;
+    text-decoration-thickness: 2px;
+}
+
+div.hoverLink a:hover {
+    text-decoration-color: #ef5e4e;
+    text-decoration-line: underline;
+    text-underline-offset: 8px;
+    text-decoration-thickness: 2px;
+}
+
+/* Type writing effect */
+
+/* Two classes : one to make the cursor blink for pausing phrase and one blinking for typing & deleting */
+.blinkingCursorDynamic::after {
+    content: '|';
+}
+
+.blinkingCursorPause::after {
+    content: '|';
+    animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.hoverCardShadow:hover {
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.01), 0px 4px 4px rgba(0, 0, 0, 0.2);
+    border: none;
+    transition: box-shadow 83ms;
+    border-radius: 0.8rem;
+}
+
+@media (min-width: 768px) {
+    .verticalBarStats:before {
+        position: absolute;
+        left: 0;
+        height: 100%;
+        width: 4px;
+        border-radius: 2px;
+        top: 5%;
+    }
+}
+
+/* Align stats on landing page */
+.alignStats {
+    width: calc(50% - 1.5rem / 2);
+}
+
+/* Display ellipsis suspension on multi-lines text */
+.ellipsis-multi-lines {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* start showing ellipsis when 3rd line is reached */
+    white-space: pre-wrap; /* let the text wrap preserving spaces */
+}
+
+.bounceTimingFunction {
+    transition-timing-function: cubic-bezier(0.42, 1.44, 0.39, 0.87);
 }

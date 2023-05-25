@@ -1,8 +1,11 @@
 import Link from 'next/link'
 
-const NavItems = ({ name, link, onUserMenuClick }) => {
+const NavItems = ({ name, link, onUserMenuClick, currentPath }) => {
     return (
-        <li onClick={onUserMenuClick} className="hover:text-primary">
+        <li
+            onClick={onUserMenuClick}
+            className={` hoverUnderline ${currentPath === link ? 'isActiveNavLink' : ''}`}
+        >
             <Link href={link}>{name}</Link>
         </li>
     )

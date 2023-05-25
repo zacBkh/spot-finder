@@ -1,4 +1,4 @@
-import connectMongo from '../../../utils/connectMongo'
+import connectMongo from '../../../utils/connect-to-mongo'
 
 import User from '../../../models/user'
 import Spot from '../../../models/spot'
@@ -6,9 +6,9 @@ import Reviews from '../../../models/reviews'
 
 import { hash } from 'bcryptjs'
 
-import sendVerifEmail from '../../../utils/Mailers/sendVerifEmail'
-import createToken from '../../../utils/JWTMailToken/helpers/createToken'
-import checkEmailExist from '../../../utils/Auth/checkEmailExist'
+import sendVerifEmail from '../../../services/emailers-srv/account-verification'
+import createToken from '../../../utils/jwt-mail-tokens/helpers/generate-token'
+import checkEmailExist from '../../../services/check-if-email-exists'
 
 import { unstable_getServerSession } from 'next-auth/next'
 import { authOptions } from '../auth/[...nextauth]'
