@@ -342,7 +342,11 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
                     <div className="row-span-1 col-span-full lg:col-span-2 h-fit text-form-color">
                         <div className="space-y-4">
-                            <CountryDisplayer name={country.name} code={country.code} />
+                            <CountryDisplayer
+                                name={country.name}
+                                code={country.code}
+                                context={'spotPage'}
+                            />
                             <div
                                 className={`inputElem ${
                                     shouldBeEditable

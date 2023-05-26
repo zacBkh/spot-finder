@@ -85,7 +85,7 @@ const EMailLogger = ({
             return {
                 border: 'border-2 border-primary',
                 message: (
-                    <span className={`${SMALL_TEXT_FS} !text-primary `}>
+                    <span className={`${SMALL_TEXT_FS} !text-primary`}>
                         {formik.errors[field]}
                     </span>
                 ),
@@ -165,11 +165,11 @@ const EMailLogger = ({
             } else {
                 // register
                 onSubmitHandler = async formValues => {
-                    const { email, password, name, country } = formValues
+                    const { email, password, name, country: countryName } = formValues
                     // Trimming values except pwd
                     const formValuesFormatted = {
                         password,
-                        country,
+                        country: { name: countryName, code: userCountryCode },
                         email: email.trim(),
                         name: capitalize(name).trim(),
                     }
@@ -196,7 +196,12 @@ const EMailLogger = ({
     }
 
     const formik = useFormik({
-        initialValues: { email: '', password: '', name: '', country: '' },
+        initialValues: {
+            email: '',
+            password: '',
+            name: '',
+            country: '',
+        },
         onSubmit: onSubmitHandler,
         validationSchema: finalValidationSchema,
     })
@@ -248,10 +253,17 @@ const EMailLogger = ({
         }
     }
 
+    const [userCountryCode, setUserCountryCode] = useState('')
+
     const selectCountryHandler = selectedCountry => {
-        formik.setFieldValue('country', selectedCountry)
+        console.log('selectedCountry++', selectedCountry)
+        formik.setFieldValue('country', selectedCountry.name)
+        setUserCountryCode(selectedCountry.code)
     }
 
+    console.log('formik.touched', formik.touched)
+    console.log('formik.values', formik.values)
+    console.log('formik.ERRORS', formik.errors)
     return (
         <>
             {authMode === 'credentials' && (
@@ -317,35 +329,11 @@ const EMailLogger = ({
 
                 {/* COUNTRY FIELD */}
                 {isnewUser === true && (
-                    <>
-                        <SearchCountry
-                            formik={formik}
-                            // formikOnChange={formik.handleChange}
-                            onCountrySelect={selectCountryHandler}
-                            validData={validStyling('country')}
-                        />
-                        {/* <div>
-                            <input
-                                onChange={formik.handleChange}
-                                value={formik.values.lastName}
-                                onBlur={formik.handleBlur}
-                                // {...formik.getFieldProps('country')}
-                                disabled={formik.isSubmitting}
-                                className={`
-                                ${validStyling('country').border}
-                                ${DISABLED_STYLE}
-                                rounded-lg border w-full
-                                p-2
-                        `}
-                                type="search"
-                                name="country"
-                                placeholder="Your country"
-                            />
-                            <div className="mt-1 whitespace-pre-wrap">
-                                {validStyling('country').message}
-                            </div>
-                        </div> */}
-                    </>
+                    <SearchCountry
+                        formik={formik}
+                        onCountrySelect={selectCountryHandler}
+                        validData={validStyling('country')}
+                    />
                 )}
 
                 {/* PWD FIELD */}

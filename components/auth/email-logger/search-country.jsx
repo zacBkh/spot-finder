@@ -3,9 +3,14 @@ import { useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 
 import { DISABLED_STYLE } from '../../../constants/disabled-style'
+import { SMALL_TEXT_FS } from '../../../constants/responsive-fonts'
 
 import worldCountryDetails from '../../../utils/world-country-continents'
-const countryNamesArr = worldCountryDetails.map(country => country.name)
+
+const countryNamesArr = worldCountryDetails.map(country => ({
+    name: country.name,
+    code: country.code,
+}))
 
 const SearchCountry = ({
     formik,
@@ -13,15 +18,20 @@ const SearchCountry = ({
 
     validData,
 }) => {
+    const [selectedCountryCode, setSelectedCountryCode] = useState('')
+
     const [isSelectorVisible, setIsSelectorVisible] = useState(false)
     const [filteredData, setFilteredData] = useState(countryNamesArr)
-
     const countrySelectHandler = selectedCountry => {
+        console.log('selectedCountry', selectedCountry)
         onCountrySelect(selectedCountry)
         setIsSelectorVisible(false)
     }
 
     const boldMatchedLetters = (country, inputValue) => {
+        // if (!country) {
+        //     return
+        // }
         const startIndex = country.toLowerCase().indexOf(inputValue.toLowerCase())
         const endIndex = startIndex + inputValue.length
 
@@ -37,16 +47,16 @@ const SearchCountry = ({
     const activeCountryNames = filteredData.map(country => (
         <div
             onClick={() => countrySelectHandler(country)}
-            key={country}
+            key={country.code}
             className={`z-[5555] pl-2 py-2 w-full flex items-center text-black hover:bg-tertiary-hov cursor-pointer`}
         >
-            {boldMatchedLetters(country, formik.values.country)}
+            {boldMatchedLetters(country.name, formik.values.country)}
         </div>
     ))
 
     const searchHandler = searchedWord => {
         const newFilter = countryNamesArr.filter(country =>
-            country.toLowerCase().includes(searchedWord.toLowerCase()),
+            country.name.toLowerCase().includes(searchedWord.toLowerCase()),
         )
         setFilteredData(newFilter)
         setIsSelectorVisible(true)
@@ -95,7 +105,11 @@ const SearchCountry = ({
                 ) : (
                     ''
                 )}
-                <div className="mt-1 whitespace-pre-wrap">{validData.message}</div>
+                <div
+                    className={`${SMALL_TEXT_FS} !text-primary mt-1 whitespace-pre-wrap`}
+                >
+                    {formik.touched.country ? formik.errors.country : ''}
+                </div>
             </div>
         </>
     )

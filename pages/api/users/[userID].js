@@ -71,6 +71,7 @@ export default async function userHandling(req, res) {
 
     if (req.method === 'POST') {
         const { email } = req.body
+        console.log('req.body', req.body)
 
         if (!(await checkEmailExist(email))) {
             // if user does not exist, create it

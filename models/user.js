@@ -30,6 +30,11 @@ const userSchema = new Schema(
             required: true,
         },
 
+        country: {
+            name: { type: String, required: true },
+            code: { type: String, required: true },
+        },
+
         emailVerified: {
             type: Boolean,
             default: false,

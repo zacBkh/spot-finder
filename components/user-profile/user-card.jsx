@@ -3,6 +3,7 @@ import { useState, useRef } from 'react'
 import { SlOptions } from 'react-icons/sl'
 
 import { useRouter } from 'next/router'
+// import Image from 'next/image'
 
 import {
     TITLE_FS,
@@ -36,6 +37,8 @@ import RelatedSpots from './related-spots-user'
 
 import { sendPwdResetMail } from '../../services/mongo-fetchers'
 
+import CountryDisplayer from '../country-displayer'
+
 const UserCard = ({ isLoading, visitedUser, currentUser }) => {
     const router = useRouter()
 
@@ -45,6 +48,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         visitedSpots,
         spotsUserReviewed,
         createdAt,
+        country: countryOfOrigin,
         _id: visitedUserID,
     } = visitedUser
 
@@ -152,7 +156,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                             ) : (
                                 <>
                                     <div className="flex items-center gap-x-3">
-                                        <h1 className={`${TITLE_FS} font-bold`}>
+                                        <h1 className={`${TITLE_FS} font-bold break-all`}>
                                             Hi, I am {name}
                                         </h1>
                                         <button
@@ -173,9 +177,18 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                             )}
                                         </button>
                                     </div>
-                                    <span className={`${SMALL_TEXT_FS}`}>
+                                    {countryOfOrigin ? (
+                                        <CountryDisplayer
+                                            name={countryOfOrigin.name}
+                                            code={countryOfOrigin.code}
+                                            context={'userPage'}
+                                        />
+                                    ) : (
+                                        ''
+                                    )}
+                                    <p className={`${SMALL_TEXT_FS} mt-2`}>
                                         Joined in {joiningDate}
-                                    </span>
+                                    </p>
                                 </>
                             )}
                         </div>
