@@ -180,7 +180,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
         await addOneVisitSpotHandler(currentUserID, spotID, hasUserVisited)
 
-        mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE) // run again
+        mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE)
 
         if (!hasUserVisited) {
             router.push(

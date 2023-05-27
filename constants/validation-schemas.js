@@ -161,3 +161,13 @@ export const validRateComment = Yup.object().shape({
     ...rate,
     ...comment,
 })
+
+// Add/Change user description
+
+export const validUserDescription = Yup.object().shape({
+    description: Yup.string()
+        .required('Please add a description')
+        .trim()
+        .min(40, ({ min }) => `Please add at least ${min} characters`)
+        .max(900, ({ max }) => `Please add no more than ${max} characters`),
+})

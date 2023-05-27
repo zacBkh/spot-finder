@@ -3,18 +3,17 @@ import { useState, useRef } from 'react'
 import { SlOptions } from 'react-icons/sl'
 
 import { useRouter } from 'next/router'
-// import Image from 'next/image'
 
-import {
-    TITLE_FS,
-    SMALL_TEXT_FS,
-    BODY_FS,
-    SMALL_TITLE_FS,
-} from '../../constants/responsive-fonts'
+import { TITLE_FS, SMALL_TEXT_FS, SMALL_TITLE_FS } from '../../constants/responsive-fonts'
 
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
-const { KEY, VALUE_RESET_PWD_EMAIL_SENT_SUCCESS, VALUE_RESET_PWD_EMAIL_SENT_FAILURE } =
-    TOAST_PARAMS
+const {
+    KEY,
+    VALUE_RESET_PWD_EMAIL_SENT_SUCCESS,
+    VALUE_RESET_PWD_EMAIL_SENT_FAILURE,
+    VALUE_EDIT_DESC_SUCCESS,
+    VALUE_EDIT_DESC_FAILURE,
+} = TOAST_PARAMS
 
 import UserImage from '../user-image'
 
@@ -38,6 +37,7 @@ import RelatedSpots from './related-spots-user'
 import { sendPwdResetMail } from '../../services/mongo-fetchers'
 
 import CountryDisplayer from '../country-displayer'
+import UserDescription from './user-description'
 
 const UserCard = ({ isLoading, visitedUser, currentUser }) => {
     const router = useRouter()
@@ -49,6 +49,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         spotsUserReviewed,
         createdAt,
         country: countryOfOrigin,
+        description,
         _id: visitedUserID,
     } = visitedUser
 
@@ -87,6 +88,8 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         }
     }
 
+    const userID = router.query.userID
+
     // Send email to reset pws
     const pwdChangeHandler = async () => {
         const sendPwdReset = await sendPwdResetMail(currentUser.user.email)
@@ -106,8 +109,6 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
             return
         }
 
-        const userID = router.query.userID
-
         router.push(
             {
                 query: {
@@ -120,6 +121,37 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                 shallow: true,
             },
         )
+    }
+
+    const descriptionUpdateHandler = isChangeSuccessful => {
+        console.log('isChangeSuccessful', isChangeSuccessful)
+        if (!isChangeSuccessful) {
+            router.push(
+                {
+                    query: {
+                        userID,
+                        [KEY]: VALUE_EDIT_DESC_FAILURE,
+                    },
+                },
+                undefined,
+                {
+                    shallow: true,
+                },
+            )
+        } else {
+            router.push(
+                {
+                    query: {
+                        userID,
+                        [KEY]: VALUE_EDIT_DESC_SUCCESS,
+                    },
+                },
+                undefined,
+                {
+                    shallow: true,
+                },
+            )
+        }
     }
 
     return (
@@ -243,21 +275,15 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         ) : (
                             <>
                                 <h2 className={`${SMALL_TITLE_FS} font-semibold`}>
-                                    About
+                                    About Me
                                 </h2>
-                                <p className={`${BODY_FS}`}>
-                                    Hi, I am Nicola and I am lucky enough to live in one
-                                    of the most beautiful areas of the Tuscan countryside
-                                    near the historical town of Siena .This territory is
-                                    my home,my work and my passion. With my wife and
-                                    children I live on and work a farm producing
-                                    traditional organic crops and also help my family
-                                    preserve the beautiful castle which is our family
-                                    heritage, where my Mum and Aunt still make their home
-                                    and where we produce great Chianti wine and Tuscan
-                                    olive oil. My family and I are hospitable people who
-                                    enjoy sharing this territory we love with our guests.
-                                </p>
+                                <UserDescription
+                                    onDescriptionUpdate={descriptionUpdateHandler}
+                                    userID={visitedUserID}
+                                    userName={name}
+                                    initialDesc={description}
+                                    isProfileOwner={isCurrentUserVisitedUser}
+                                />
                             </>
                         )}
                     </div>

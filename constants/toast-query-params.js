@@ -33,4 +33,7 @@ export const TOAST_PARAMS = {
 
     VALUE_RESET_PWD_EMAIL_SENT_SUCCESS: 'resetPwdEmailSentSuccess',
     VALUE_RESET_PWD_EMAIL_SENT_FAILURE: 'resetPwdEmailSentFailure',
+
+    VALUE_EDIT_DESC_SUCCESS: 'editDescriptionSuccess',
+    VALUE_EDIT_DESC_FAILURE: 'editDescriptionFailure',
 }

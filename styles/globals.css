@@ -344,7 +344,7 @@ div.hoverLink a {
     text-decoration-color: transparent;
     text-decoration-line: underline;
     text-underline-offset: 8px;
-    transition: text-decoration-color 0.2s ease;
+    transition: text-decoration-color 0.1s ease;
     text-decoration-thickness: 2px;
 }
 

@@ -17,10 +17,9 @@ import { authOptions } from '../auth/[...nextauth]'
 // Receive payload (req.body = new userDATA) and userID in URL (req.query)
 export default async function userHandling(req, res) {
     await connectMongo()
+    const { userID } = req.query
 
     if (req.method === 'GET') {
-        const { userID } = req.query
-
         // Used lean to convert mongo doc to JS object
         const user = await User.findById(userID)
             .populate({
@@ -117,29 +116,68 @@ export default async function userHandling(req, res) {
         return
     }
 
+    // DONT FORGET TO PROTECT USER EDIT MUST BE LOGGED IN
     if (req.method === 'PATCH') {
-        try {
-            //Hash password
-            const hashedPassword = await hash(req.body, 12)
-            console.log('hashedPassword', hashedPassword)
+        console.log('req.body', req.body)
+        const { isPwdReset, newUserData } = req.body
 
-            const userEdition = await User.findByIdAndUpdate(
-                userID,
-                { password: hashedPassword },
-                { runValidators: true, new: true },
-            )
+        // If request related to pwd change
+        if (JSON.parse(isPwdReset)) {
+            try {
+                //Hash password
+                const hashedPassword = await hash(req.body, 12)
+                console.log('hashedPassword', hashedPassword)
 
-            console.log('USER TO EDIT -->', userEdition)
+                const userEdition = await User.findByIdAndUpdate(
+                    userID,
+                    { password: hashedPassword },
+                    { runValidators: true, new: true },
+                )
 
-            res.status(200).json({ success: true, result: userEdition })
-        } catch (error) {
-            console.log(error)
-            res.status(400).json({
-                success: false,
-                result: `There has been an arror changing your password: ${error} `,
-            })
+                console.log('USER TO EDIT -->', userEdition)
+
+                res.status(200).json({ success: true, result: userEdition })
+            } catch (error) {
+                console.log(error)
+                res.status(400).json({
+                    success: false,
+                    result: `There has been an error changing your password: ${error} `,
+                })
+            }
+            return
+            // ONLY WORKS FOR DESCRIPTION EDIT FOR NOW !!!
+        } else {
+            const session = await unstable_getServerSession(req, res, authOptions)
+
+            try {
+                if (!session) {
+                    // If not authenticated
+                    res.status(401).json({
+                        success: false,
+                        result: 'You should be authenticated to access this endpoint [edit User description]',
+                    })
+                    return
+                }
+
+                const userEdition = await User.findByIdAndUpdate(
+                    userID,
+                    { description: newUserData }, // CHANGE CODE HERE TO ADAPT
+                    {
+                        runValidators: true,
+                        new: true,
+                    },
+                )
+
+                res.status(200).json({ success: true, result: userEdition })
+            } catch (error) {
+                console.log(error)
+                res.status(400).json({
+                    success: false,
+                    result: `There has been an error updating your profile: ${error} `,
+                })
+            }
+            return
         }
-        return
     }
 
     if (req.method === 'DELETE') {

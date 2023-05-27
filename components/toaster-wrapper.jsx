@@ -37,6 +37,9 @@ const {
     VALUE_MUST_NOT_HAVE_ALREADY_REVIEWED,
     VALUE_RESET_PWD_EMAIL_SENT_SUCCESS,
     VALUE_RESET_PWD_EMAIL_SENT_FAILURE,
+
+    VALUE_EDIT_DESC_SUCCESS,
+    VALUE_EDIT_DESC_FAILURE,
 } = TOAST_PARAMS
 
 import REDIRECT_QUERY_PARAMS from '../constants/redirect-query-params'
@@ -229,7 +232,7 @@ const Toaster = () => {
             if (queryString[KEY] === VALUE_RESET_PWD_EMAIL_SENT_FAILURE) {
                 toast.error(
                     <>
-                        There has been an issue trying to change your password <br />
+                        There has been an issue trying to change your password. <br />
                         Please try again later.
                     </>,
                     {
@@ -237,6 +240,26 @@ const Toaster = () => {
                         toastId: 'resetPwdEmailSentFailure',
                     },
                 )
+            }
+
+            if (queryString[KEY] === VALUE_EDIT_DESC_FAILURE) {
+                toast.error(
+                    <>
+                        There has been an issue trying to edit your description. <br />
+                        Please try again later.
+                    </>,
+                    {
+                        position: 'bottom-left',
+                        toastId: 'editDescFailure',
+                    },
+                )
+            }
+
+            if (queryString[KEY] === VALUE_EDIT_DESC_SUCCESS) {
+                toast.success('You successfully edited your description!', {
+                    position: 'bottom-left',
+                    toastId: 'editDescSuccess',
+                })
             }
         } else {
             if (queryString[KEY] === VALUE_LOGOUT) {

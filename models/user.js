@@ -25,9 +25,9 @@ const userSchema = new Schema(
             minLength: 8,
         },
 
-        country: {
+        description: {
             type: String,
-            required: true,
+            trim: true,
         },
 
         country: {

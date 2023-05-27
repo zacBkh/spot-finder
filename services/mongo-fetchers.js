@@ -130,12 +130,13 @@ export const sendPwdResetMail = async email => {
 }
 
 // Change PWD in DB ONLY FOR NOW CHANGE PWD
-export const editUserHandler = async (newPwd, userID) => {
+export const editUserHandler = async (isPwdReset, newUserData, userID) => {
+    console.log('isPwdReset', isPwdReset)
+    console.log('newUserData', newUserData)
     console.log('userID', userID)
-    console.log('newPwd', newPwd)
     const response = await fetch(`/api/users/${userID}`, {
         method: 'PATCH',
-        body: JSON.stringify(newPwd),
+        body: JSON.stringify({ isPwdReset, newUserData }),
         headers: { 'Content-Type': 'application/json' },
     })
     const data = await response.json()

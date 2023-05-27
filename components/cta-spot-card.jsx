@@ -3,7 +3,7 @@ import { useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import SpotSpecsDisplayer from './specs-spot-displayer'
-import ButtonSpotCard from './design/button-spot-card'
+import ButtonPrimary from './design/button-primary'
 import SpotterProfilePreview from './spotter-profile-preview'
 import DividerDesign from './design/divider'
 import Toggler from './toggler-visited-spot'
@@ -78,7 +78,7 @@ const SpotCardCTA = ({
                 onOpenReviewModal={reviewSpotRequestHandler}
             />
             <div className="flex justify-center gap-x-4 sticky top-11">
-                <ButtonSpotCard
+                <ButtonPrimary
                     icon={<MdOutlineRateReview />}
                     text={'Reviews'}
                     onClickHandler={reviewSpotRequestHandler}
@@ -86,10 +86,10 @@ const SpotCardCTA = ({
 
                 {shouldBeEditable ? (
                     <div onClick={deleteSpotRequestHandler}>
-                        <ButtonSpotCard icon={<AiFillDelete />} text={'Delete'} />
+                        <ButtonPrimary icon={<AiFillDelete />} text={'Delete'} />
                     </div>
                 ) : (
-                    <ButtonSpotCard
+                    <ButtonPrimary
                         icon={<BiEdit />}
                         text={'Suggest edits'}
                         onClickHandler={featureNotReadyHandler}

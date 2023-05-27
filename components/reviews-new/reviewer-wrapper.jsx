@@ -6,7 +6,7 @@ import { validRateComment } from '../../constants/validation-schemas'
 import StarRater from './star-rating'
 import Comment from './comment'
 
-import ButtonSpotCard from '../design/button-spot-card'
+import ButtonPrimary from '../design/button-primary'
 
 import { SMALL_TEXT_FS } from '../../constants/responsive-fonts'
 
@@ -99,7 +99,7 @@ const ReviewerWrapper = ({ onCloseModal, spotID, reviewToEditDetails }) => {
                     formikWizardComment={formik.getFieldProps('comment')}
                     errorFeedback={validStyling('comment')}
                 />
-                <ButtonSpotCard
+                <ButtonPrimary
                     shouldBeDisabled={formik.isSubmitting}
                     iconFirst
                     isSubmitBtn
