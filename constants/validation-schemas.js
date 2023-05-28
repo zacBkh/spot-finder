@@ -47,17 +47,10 @@ const name = {
 
 const userCountryName = {
     country: Yup.string().trim().required('Your country of origin is required.'),
-    // .test('isACountry', 'Your country seems invalid.', async valueToTest => {
-    //     if (!valueToTest) {
-    //         return
-    //     }
+}
 
-    //     const countryNames = worldCountryDetails.map(country => country.name)
-    //     if (!countryNames.includes(valueToTest)) {
-    //         return false
-    //     }
-    //     return true
-    // }),
+const userProfilePic = {
+    profilePic: Yup.string().trim().required('Please upload or pick a profile picture.'),
 }
 
 // Mail
@@ -71,12 +64,12 @@ export const validMailPwd = Yup.object().shape({
     ...pwdLogin,
 })
 
-// Mail + pwd + name
 export const validFullUser = Yup.object().shape({
     ...mail,
     ...pwdRegister,
     ...name,
     ...userCountryName,
+    ...userProfilePic,
 })
 
 // Reset password form

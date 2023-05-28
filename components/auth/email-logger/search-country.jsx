@@ -18,8 +18,6 @@ const SearchCountry = ({
 
     validData,
 }) => {
-    const [selectedCountryCode, setSelectedCountryCode] = useState('')
-
     const [isSelectorVisible, setIsSelectorVisible] = useState(false)
     const [filteredData, setFilteredData] = useState(countryNamesArr)
     const countrySelectHandler = selectedCountry => {

@@ -115,6 +115,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'editedSpotSuccess',
                 })
+                return
             }
 
             if (queryString[KEY] === VALUE_LOGIN) {
@@ -122,6 +123,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'loggedIn', // prevent duplicates
                 })
+                return
             }
 
             if (queryString[KEY] === VALUE_CREATED_SPOT_SUCCESS) {
@@ -129,6 +131,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'spotCreationSuccess', // prevent duplicates
                 })
+                return
             }
 
             if (queryString[KEY] === VALUE_DELETED_SPOT_SUCCESS) {
@@ -150,6 +153,7 @@ const Toaster = () => {
                         toastId: 'spotCreationFailure', // prevent duplicates
                     },
                 )
+                return
             }
 
             // Display toast depending on query params
@@ -158,6 +162,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'alreadyLoggedIn',
                 })
+                return
             }
 
             if (queryString[KEY] === VALUE_ADD_SPOT_AS_VISITED_SUCCESS) {
@@ -165,12 +170,14 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'markSpotAsVisited',
                 })
+                return
             }
 
             if (queryString[KEY] === VALUE_ADDED_PIC_SUCCESS) {
                 toast.success(`You successfully uploaded one image.`, {
                     position: 'bottom-left',
                 })
+                return
             }
 
             if (queryString[KEY] === VALUE_REMOVE_SPOT_AS_VISITED_SUCCESS) {
@@ -178,6 +185,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'removeSpotFromVisited',
                 })
+                return
             }
 
             if (queryString[KEY_REQUIRE] === VALUE_MUST_NOT_BE_OWNER_ADD_VISIT) {
@@ -188,6 +196,7 @@ const Toaster = () => {
                         toastId: 'cannotRemoveFromVisited',
                     },
                 )
+                return
             }
 
             if (queryString[KEY] === VALUE_REVIEWED_SPOT_SUCCESS) {
@@ -195,6 +204,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'reviewedSpot',
                 })
+                return
             }
 
             if (queryString[KEY_REQUIRE] === VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW) {
@@ -208,6 +218,7 @@ const Toaster = () => {
                         toastId: 'cannotReviewOwnedSpot',
                     },
                 )
+                return
             }
 
             if (queryString[KEY_REQUIRE] === VALUE_MUST_NOT_HAVE_ALREADY_REVIEWED) {
@@ -221,6 +232,7 @@ const Toaster = () => {
                         toastId: 'cannotReviewAlreadyEditedSpot',
                     },
                 )
+                return
             }
 
             if (queryString[KEY] === VALUE_RESET_PWD_EMAIL_SENT_SUCCESS) {
@@ -228,7 +240,9 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'resetPwdEmailSentSuccess',
                 })
+                return
             }
+
             if (queryString[KEY] === VALUE_RESET_PWD_EMAIL_SENT_FAILURE) {
                 toast.error(
                     <>
@@ -240,6 +254,7 @@ const Toaster = () => {
                         toastId: 'resetPwdEmailSentFailure',
                     },
                 )
+                return
             }
 
             if (queryString[KEY] === VALUE_EDIT_DESC_FAILURE) {
@@ -253,6 +268,7 @@ const Toaster = () => {
                         toastId: 'editDescFailure',
                     },
                 )
+                return
             }
 
             if (queryString[KEY] === VALUE_EDIT_DESC_SUCCESS) {
@@ -260,6 +276,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'editDescSuccess',
                 })
+                return
             }
         } else {
             if (queryString[KEY] === VALUE_LOGOUT) {
@@ -267,6 +284,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'loggedOut',
                 })
+                return
             }
 
             if (router.query[KEY_AUTH] === VALUE_CREATE_SPOT) {
@@ -274,6 +292,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'alreadyLoggedIn',
                 })
+                return
             }
 
             if (router.query[KEY_AUTH] === VALUE_ACCESS_PROFILE) {
@@ -281,6 +300,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'mustBeAuthToViewProfile',
                 })
+                return
             }
 
             if (router.query[KEY_AUTH_ERROR] === VALUE_AUTH_ERROR) {
@@ -288,6 +308,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'oAuthError',
                 })
+                return
             }
 
             if (queryString[KEY_REQUIRE] === VALUE_MUST_LOGIN) {
@@ -295,6 +316,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'mustLogInToMarkAsVisited',
                 })
+                return
             }
 
             if (queryString[KEY] === VALUE_DELETED_USER_SUCCESS) {
@@ -302,6 +324,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'deletedAccount',
                 })
+                return
             }
 
             if (router.query[KEY_REQUIRE] === VALUE_MUST_LOGIN_TO_REVIEW) {
@@ -309,6 +332,7 @@ const Toaster = () => {
                     position: 'bottom-left',
                     toastId: 'loginToReviewSpot',
                 })
+                return
             }
         }
     }, [router, isReady, status])

@@ -26,11 +26,8 @@ const UserAvatar = ({ currentSession, onUserMenuClick, isOpen }) => {
                         />
                     </div>
                 ) : (
-                    <div className="">
-                        <FaUserCircle
-                            // stroke-width="0"
-                            className="text-3xl text-primary"
-                        />
+                    <div>
+                        <FaUserCircle className="text-3xl text-primary" />
                     </div>
                 )}
             </div>

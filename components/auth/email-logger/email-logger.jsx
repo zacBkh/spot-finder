@@ -14,6 +14,7 @@ const { KEY, VALUE_LOGIN } = TOAST_PARAMS
 import { DISABLED_STYLE } from '../../../constants/disabled-style'
 
 import SearchCountry from './search-country'
+import SelectProfilePic from './profile-pic-field'
 
 import {
     BUTTON_FS,
@@ -201,6 +202,7 @@ const EMailLogger = ({
             password: '',
             name: '',
             country: '',
+            profilePic: '',
         },
         onSubmit: onSubmitHandler,
         validationSchema: finalValidationSchema,
@@ -259,6 +261,10 @@ const EMailLogger = ({
         console.log('selectedCountry++', selectedCountry)
         formik.setFieldValue('country', selectedCountry.name)
         setUserCountryCode(selectedCountry.code)
+    }
+
+    const pictureSelectHandler = selectedPic => {
+        formik.setFieldValue('profilePic', selectedPic)
     }
 
     console.log('formik.touched', formik.touched)
@@ -367,6 +373,14 @@ const EMailLogger = ({
                         </div>
                         <div className="mt-1">{validStyling('password').message}</div>
                     </div>
+                )}
+
+                {/* PROFILE PIC FIELD */}
+                {isnewUser === true && (
+                    <SelectProfilePic
+                        formik={formik}
+                        onPictureSelect={pictureSelectHandler}
+                    />
                 )}
 
                 {!isResetPwd && (
