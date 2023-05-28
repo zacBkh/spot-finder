@@ -13,7 +13,7 @@ import connectMongo from '../../../utils/connect-to-mongo'
 
 import { compare } from 'bcryptjs'
 import sendWelcomeEmail from '../../../services/emailers-srv/welcome-email'
-import isUserVerified from '../../../services/is-user-verified'
+import sessionDataLoader from '../../../services/data-loader-session'
 import { whichEnv } from '../../../utils/env-helper'
 
 const currEnv = whichEnv()
@@ -77,9 +77,6 @@ export const authOptions = {
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            // jwt: {
-            //     maxAge: 10,
-            // }
         }),
         FacebookProvider({
             clientId: process.env.FACEBOOK_CLIENT_ID,
@@ -90,7 +87,6 @@ export const authOptions = {
     session: {
         strategy: 'jwt',
         maxAge: 3000,
-        // jwt: true,
     },
 
     // Callbacks replace default next auth parameters
@@ -112,14 +108,18 @@ export const authOptions = {
 
         //The session callback is called whenever a session is checked.
         async session({ session, token, user }) {
-            const isCurrentUserVerified = await isUserVerified(token.sub)
+            const dataLoader = await sessionDataLoader(token.sub)
 
             // Send properties to the client, like an access_token and user id from a provider.
             // Loading session with custom values
+            session.user.emailVerified = dataLoader.result.emailVerified
+            session.user.image = dataLoader.result.profilePic
+
+            session.user.image = { isCustom: true, link: token.picture } // add in sesison the picture from oAuth
+
             session.accessToken = token.accessToken // XX
             session.userID = token.sub
             session.user.provider = token.provider
-            session.user.emailVerified = isCurrentUserVerified.result
             session.isNewUser = token.isNewUser
             // session.user.emailVerified = user.emailVerified
             // session.user.id = token.id
@@ -140,22 +140,31 @@ export const authOptions = {
             console.log(
                 'This function get triggers everytime someone signs in with oAuth',
             )
-            console.log('user', user)
-            console.log('account', account)
-            console.log('profile', profile)
-            console.log('isNewUser', isNewUser)
+            console.log('user events', user)
+            console.log('account events', account)
+            console.log('profile events', profile)
+            console.log('isNewUser events', isNewUser)
         },
 
         createUser: async ({ user }) => {
             // Sends welcome email to user using oAuth
             console.log('user 6666>', user)
             const sender = await sendWelcomeEmail('zachariedupain@hotmail.fr', user.name)
-            const updateUserOnDB = User.findByIdAndUpdate(user.id, {
-                emailVerified: true,
-                provider: session.user.provider,
-                createdAt: new Date().toISOString(),
-            })
             console.log('sender', sender)
+
+            const updateUserOnDB = await User.findByIdAndUpdate(
+                user.id,
+                {
+                    emailVerified: true,
+                    createdAtOAuth: new Date().toISOString(),
+                    spotsOwned: [],
+                    profilePic: { isCustom: true, link: user.image },
+                    provider: 'oAuth',
+                },
+                { new: true },
+            )
+
+            console.log('updateUserOnDB', updateUserOnDB)
         },
     },
 

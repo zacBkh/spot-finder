@@ -50,7 +50,13 @@ const userCountryName = {
 }
 
 const userProfilePic = {
-    profilePic: Yup.string().trim().required('Please upload or pick a profile picture.'),
+    profilePic: Yup.object({
+        isCustom: Yup.boolean().nullable(),
+        link: Yup.string()
+            .min(5)
+            .url()
+            .required('Please upload or pick a profile picture.'),
+    }).required('-- Please upload or pick a profile picture.'),
 }
 
 // Mail

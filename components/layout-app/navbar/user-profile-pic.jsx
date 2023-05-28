@@ -4,9 +4,10 @@ import { FaUserCircle } from 'react-icons/fa'
 import { GiHamburgerMenu } from 'react-icons/gi'
 
 const UserAvatar = ({ currentSession, onUserMenuClick, isOpen }) => {
+    const imageSession = currentSession?.user.image
     return (
         <button
-            className={`border border-[#DDDDDD] rounded-[21px] shadow-user-menu-hov  ${
+            className={`border border-[#DDDDDD] rounded-[21px] shadow-user-menu-hov ${
                 isOpen && 'shadow-user-menu'
             }`}
             onClick={onUserMenuClick}
@@ -15,16 +16,14 @@ const UserAvatar = ({ currentSession, onUserMenuClick, isOpen }) => {
                 <span className="hidden md:block">
                     <GiHamburgerMenu />
                 </span>
-                {currentSession && currentSession.user.image ? (
-                    <div>
-                        <Image
-                            width={32}
-                            height={32}
-                            className="h-8 w-8 rounded-full"
-                            src={currentSession.user.image}
-                            alt="Profile picture"
-                        />
-                    </div>
+                {currentSession && imageSession?.link ? (
+                    <Image
+                        width={32}
+                        height={32}
+                        className="h-8 w-8 rounded-full"
+                        src={imageSession.link}
+                        alt="Profile picture"
+                    />
                 ) : (
                     <div>
                         <FaUserCircle className="text-3xl text-primary" />

@@ -108,9 +108,6 @@ const mailChimpTestaddContact = async resArg => {
     }
 }
 
-const email = 'zachariedupain@hotmail.fr'
-const subscriberHash = md5(email.toLowerCase())
-
 // return subscribed, unsubscribed, pending or cleaned
 const checkIfEmailsAlreadySubscribed = async resArg => {
     try {
@@ -138,13 +135,13 @@ export default async function TESTER(req, res) {
     // await showAllVisitedSpots(res, '642ced6dd3fa11d36106522b')
     // await deleteAllSpots(res)
 
-    // await showAllUsers(res)
+    await showAllUsers(res)
     // await deleteAllUsers(res)
     // await deleteAllUsersBut(res, "637c4b8252e6f480e190104f")
 
     // await checkUserExists(res, "roblaf93@gmail.com")
     // await tokenGen(res)
     // await mailChimpTest(res)
-    await mailChimpTestaddContact(res)
+    // await mailChimpTestaddContact(res)
     // await checkIfEmailsAlreadySubscribed(res)
 }

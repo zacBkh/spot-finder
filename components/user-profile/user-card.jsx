@@ -58,7 +58,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         isCurrentUserVisitedUser = true
     }
 
-    const joiningDate = new Date(createdAt).getFullYear()
+    const joiningDate = new Date(createdAt ?? visitedUser.createdAtOAuth).getFullYear()
 
     const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
     const onActionClick = () => {

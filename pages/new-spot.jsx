@@ -323,6 +323,9 @@ const AddNewSpot = ({}) => {
                         <DynamicImageUploader
                             onSuccessfulUpload={imgUploadHandler}
                             btnStyle={btnClassName}
+                            uploadPreset={'spot-finder-spot-upload-preset'}
+                            multiple={true}
+                            maxFiles={3}
                         />
                         <div className="mx-auto w-fit">
                             {validStyling('images').message}

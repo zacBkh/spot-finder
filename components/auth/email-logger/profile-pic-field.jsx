@@ -1,14 +1,17 @@
 import { useState } from 'react'
 
-import { AiOutlineCheck } from 'react-icons/ai'
 import { FaUserCircle } from 'react-icons/fa'
-import { BsFillCameraFill } from 'react-icons/bs'
+import { BsFillCameraFill, BsCheckLg } from 'react-icons/bs'
 
 import UserImage from '../../user-image'
 
 import DividerDesign from '../../design/divider'
 
-const SelectProfilePic = ({ formik, onPictureSelect }) => {
+import ImageUploaderWrapper from '../../image-uploader-wrapper'
+
+import { SMALL_TEXT_FS } from '../../../constants/responsive-fonts'
+
+const SelectProfilePic = ({ formik, onPictureSelect, validData }) => {
     const picOptions = [
         {
             name: 'Photographer during sunset.',
@@ -29,21 +32,20 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
         },
     ]
 
+    const [isCustomPic, setIsCustomPic] = useState(null)
+
     const imgSize = 'w-14 xl:w-20 h-14 xl:h-20'
 
-    const selectPicHandler = (isCustomPicChosen, picLink) => {
-        console.log('isCustomPicChosen', isCustomPicChosen)
+    const selectDefaultPicHandler = picLink => {
         console.log('picLink', picLink)
-
-        if (isCustomPicChosen === true) {
-            console.log('88', 88)
-            onPictureSelect(picLink)
-        } else {
-            onPictureSelect(picLink)
-        }
+        onPictureSelect(false, picLink)
+        setIsCustomPic(false)
     }
 
-    const validTick = <AiOutlineCheck />
+    const successUploadCustomPicHandler = picURL => {
+        onPictureSelect(true, picURL)
+        setIsCustomPic(true)
+    }
 
     return (
         <>
@@ -52,9 +54,24 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
             </p>
             <div className="overflow-x-scroll w-full pb-4">
                 <div className="mt-2 flex justify-between items-center gap-x-4 xl:gap-x-6 w-fit ">
-                    <button onClick={() => selectPicHandler(true)} type="button">
+                    <ImageUploaderWrapper
+                        headless
+                        onSuccessfulUpload={successUploadCustomPicHandler}
+                        uploadPreset={'spot-finder-user-profile-pic-upload-preset'}
+                        multiple={false}
+                        maxFiles={1}
+                        cropping={true}
+                    >
                         <div title="Add your own profile picture." className="relative">
-                            <FaUserCircle className={`${imgSize} text-primary`} />
+                            {formik.values.profilePic.isCustom ? (
+                                <UserImage
+                                    title="You have uploaded this picture"
+                                    width={imgSize}
+                                    picLink={formik.values.profilePic.link}
+                                />
+                            ) : (
+                                <FaUserCircle className={`${imgSize} text-primary`} />
+                            )}
                             <div
                                 className="absolute left-full -ml-[32px] top-full -mt-[26px] 
                                 text-lg text-white bg-secondary rounded-full p-[6px]"
@@ -62,12 +79,12 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                                 <BsFillCameraFill />
                             </div>
                         </div>
-                    </button>
+                    </ImageUploaderWrapper>
                     <DividerDesign vertical />
                     {picOptions.map(pic => (
                         <button
                             key={pic.name}
-                            onClick={() => selectPicHandler(false, pic.link)}
+                            onClick={() => selectDefaultPicHandler(pic.link)}
                             type="button"
                         >
                             <div className="relative">
@@ -76,11 +93,14 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                                     width={imgSize}
                                     picLink={pic.link}
                                 />
-                                {formik.values.profilePic === pic.link ? (
+                                {formik.values.profilePic.link === pic.link ? (
                                     <>
-                                        <div className="absolute top-0 left-0 w-full h-full bg-white rounded-full opacity-40"></div>
-                                        <div className="absolute left-1/2 -ml-[18px] top-1/2 -mt-[18px]">
-                                            <AiOutlineCheck className="text-primary text-4xl" />
+                                        <div
+                                            title="You have chosen this picture."
+                                            className="absolute top-0 left-0 w-full h-full bg-white rounded-full opacity-50"
+                                        ></div>
+                                        <div className="absolute left-1/2 -ml-[15px] top-1/2 -mt-[15px] text-primary text-3xl">
+                                            <BsCheckLg />
                                         </div>
                                     </>
                                 ) : (
@@ -90,6 +110,9 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                         </button>
                     ))}
                 </div>
+            </div>
+            <div className={`${SMALL_TEXT_FS} !text-primary mt-1 whitespace-pre-wrap`}>
+                {formik.values.password.length > 8 ? formik.errors.profilePic.link : ''}
             </div>
         </>
     )

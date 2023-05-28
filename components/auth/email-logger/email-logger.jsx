@@ -166,13 +166,20 @@ const EMailLogger = ({
             } else {
                 // register
                 onSubmitHandler = async formValues => {
-                    const { email, password, name, country: countryName } = formValues
+                    const {
+                        email,
+                        password,
+                        name,
+                        country: countryName,
+                        profilePic,
+                    } = formValues
                     // Trimming values except pwd
                     const formValuesFormatted = {
                         password,
                         country: { name: countryName, code: userCountryCode },
                         email: email.trim(),
                         name: capitalize(name).trim(),
+                        profilePic,
                     }
                     setDisableSubmitBtn(true)
 
@@ -202,7 +209,7 @@ const EMailLogger = ({
             password: '',
             name: '',
             country: '',
-            profilePic: '',
+            profilePic: { isCustom: null, link: '' },
         },
         onSubmit: onSubmitHandler,
         validationSchema: finalValidationSchema,
@@ -263,8 +270,8 @@ const EMailLogger = ({
         setUserCountryCode(selectedCountry.code)
     }
 
-    const pictureSelectHandler = selectedPic => {
-        formik.setFieldValue('profilePic', selectedPic)
+    const pictureSelectHandler = (isCustom, selectedPic) => {
+        formik.setFieldValue('profilePic', { isCustom, link: selectedPic })
     }
 
     console.log('formik.touched', formik.touched)
@@ -380,6 +387,7 @@ const EMailLogger = ({
                     <SelectProfilePic
                         formik={formik}
                         onPictureSelect={pictureSelectHandler}
+                        validData={<>validStyling('profilePic')</>}
                     />
                 )}
 
@@ -407,7 +415,7 @@ const EMailLogger = ({
                     disabled={shouldBtnBeDisabled()}
                     className={`
                         ${BUTTON_FS} ${DISABLED_STYLE}
-                        text-white font-bold py-3 bg-primary rounded-lg w-full
+                        text-white font-bold py-3 bg-primary rounded-lg w-full disabled:active:transform-none
                         `}
                     type="submit"
                 >

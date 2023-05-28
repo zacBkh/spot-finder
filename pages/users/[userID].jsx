@@ -33,13 +33,11 @@ const UserProfile = () => {
     }
 
     return (
-        <>
-            <UserCard
-                isLoading={!userVisited}
-                visitedUser={!userVisited ? '' : userVisited.result}
-                currentUser={sessionNotReady ? '' : session}
-            />
-        </>
+        <UserCard
+            isLoading={!userVisited}
+            visitedUser={!userVisited ? '' : userVisited.result}
+            currentUser={sessionNotReady ? '' : session}
+        />
     )
 }
 

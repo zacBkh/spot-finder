@@ -27,16 +27,15 @@ const SearchCountry = ({
     }
 
     const boldMatchedLetters = (country, inputValue) => {
-        // if (!country) {
-        //     return
-        // }
         const startIndex = country.toLowerCase().indexOf(inputValue.toLowerCase())
         const endIndex = startIndex + inputValue.length
 
         return (
             <span>
                 {country.substring(0, startIndex)}
-                <strong>{country.substring(startIndex, endIndex)}</strong>
+                <strong className="text-primary">
+                    {country.substring(startIndex, endIndex)}
+                </strong>
                 {country.substring(endIndex)}
             </span>
         )
