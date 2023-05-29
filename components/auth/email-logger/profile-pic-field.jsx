@@ -11,7 +11,7 @@ import ImageUploaderWrapper from '../../image-uploader-wrapper'
 
 import { SMALL_TEXT_FS } from '../../../constants/responsive-fonts'
 
-const SelectProfilePic = ({ formik, onPictureSelect, validData }) => {
+const SelectProfilePic = ({ formik, onPictureSelect }) => {
     const picOptions = [
         {
             name: 'Photographer during sunset.',

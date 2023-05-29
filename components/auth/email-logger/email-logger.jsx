@@ -387,7 +387,6 @@ const EMailLogger = ({
                     <SelectProfilePic
                         formik={formik}
                         onPictureSelect={pictureSelectHandler}
-                        validData={<>validStyling('profilePic')</>}
                     />
                 )}
 
