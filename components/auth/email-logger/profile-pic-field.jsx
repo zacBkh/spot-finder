@@ -50,6 +50,7 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                 <div className="mt-2 flex justify-between items-center gap-x-4 xl:gap-x-6 w-fit ">
                     <ImageUploaderWrapper
                         headless
+                        shouldBeDisabled={formik.isSubmitting}
                         onSuccessfulUpload={successUploadCustomPicHandler}
                         uploadPreset={'spot-finder-user-profile-pic-upload-preset'}
                         multiple={false}

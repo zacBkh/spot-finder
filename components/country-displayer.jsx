@@ -13,7 +13,11 @@ const CountryDisplayer = ({ name, code, context }) => {
                 <span className="font-semibold">{name}</span>
             </p>
 
-            <div className="relative min-w-[24px] overflow-hidden w-6 h-6 rounded-sm">
+            <div
+                className={`relative min-w-[24px] overflow-hidden w-6 h-5 rounded-sm ${
+                    context !== 'spotPage' && 'shadow-md'
+                }`}
+            >
                 <Image
                     alt={`The flag of ${name}`}
                     layout="fill"

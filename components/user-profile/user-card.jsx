@@ -51,6 +51,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         country: countryOfOrigin,
         description,
         _id: visitedUserID,
+        profilePic,
     } = visitedUser
 
     let isCurrentUserVisitedUser = false
@@ -164,7 +165,13 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         <SkeletonUserCard />
                     ) : (
                         <>
-                            <UserImage noBorder width={'w-32'} height={'h-32'} />
+                            <UserImage
+                                suggestAddCustom={!profilePic?.isCustom}
+                                picLink={profilePic?.link}
+                                noBorder
+                                width={'w-32'}
+                                height={'h-32'}
+                            />
                             <UserStats
                                 onScrollClick={scrollClickHandler}
                                 nbOwned={spotsOwned.length}
@@ -232,9 +239,11 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 />
                             ) : (
                                 <UserImage
+                                    suggestAddCustom={!profilePic?.isCustom}
+                                    picLink={profilePic?.link}
                                     noBorder
-                                    width={'w-20 sm:w-32'}
-                                    height={'h-20 sm:h-32'}
+                                    width={'w-32'}
+                                    height={'h-32'}
                                 />
                             )}
                         </div>

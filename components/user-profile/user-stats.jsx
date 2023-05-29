@@ -15,7 +15,7 @@ const UserStats = ({
     onChangePasswordRequest,
     isCurrentUserVisitedUser,
 }) => {
-    const specStyle = 'flex items-center gap-x-2'
+    const specStyle = 'flex items-center gap-x-2 hover:underline'
 
     const shouldSpecBePluralized = spec => {
         return spec === 0 || spec > 1 ? 'Spots' : 'Spot'

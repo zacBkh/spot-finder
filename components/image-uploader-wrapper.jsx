@@ -15,6 +15,8 @@ const ImageUploaderWrapper = ({
     maxFiles,
     multiple,
     cropping,
+
+    shouldBeDisabled,
 }) => {
     const [isWidgetLoading, setIsWidgetLoading] = useState(false)
 
@@ -53,7 +55,11 @@ const ImageUploaderWrapper = ({
                     if (headless) {
                         return (
                             <>
-                                <button type="button" onClick={handleOnClick}>
+                                <button
+                                    disabled={shouldBeDisabled}
+                                    type="button"
+                                    onClick={handleOnClick}
+                                >
                                     {children}
                                 </button>
                             </>

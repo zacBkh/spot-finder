@@ -115,8 +115,6 @@ export const authOptions = {
             session.user.emailVerified = dataLoader.result.emailVerified
             session.user.image = dataLoader.result.profilePic
 
-            session.user.image = { isCustom: true, link: token.picture } // add in sesison the picture from oAuth
-
             session.accessToken = token.accessToken // XX
             session.userID = token.sub
             session.user.provider = token.provider

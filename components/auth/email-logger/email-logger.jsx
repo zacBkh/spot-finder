@@ -414,7 +414,7 @@ const EMailLogger = ({
                     disabled={shouldBtnBeDisabled()}
                     className={`
                         ${BUTTON_FS} ${DISABLED_STYLE}
-                        text-white font-bold py-3 bg-primary rounded-lg w-full disabled:active:transform-none
+                        text-white font-bold py-3 bg-primary rounded-lg w-full
                         `}
                     type="submit"
                 >
