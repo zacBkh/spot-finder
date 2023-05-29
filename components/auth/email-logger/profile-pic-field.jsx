@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import { FaUserCircle } from 'react-icons/fa'
 import { BsFillCameraFill, BsCheckLg } from 'react-icons/bs'
 
@@ -32,19 +30,15 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
         },
     ]
 
-    const [isCustomPic, setIsCustomPic] = useState(null)
-
     const imgSize = 'w-14 xl:w-20 h-14 xl:h-20'
 
     const selectDefaultPicHandler = picLink => {
         console.log('picLink', picLink)
         onPictureSelect(false, picLink)
-        setIsCustomPic(false)
     }
 
     const successUploadCustomPicHandler = picURL => {
         onPictureSelect(true, picURL)
-        setIsCustomPic(true)
     }
 
     return (
