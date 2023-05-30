@@ -444,3 +444,12 @@ div.hoverLink a:hover {
         transform: translateY(0%);
     }
 }
+
+.dimOnHover {
+    transition: filter 0.2s ease-out;
+    cursor: pointer;
+}
+
+.dimOnHover:hover {
+    filter: brightness(87%);
+}

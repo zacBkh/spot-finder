@@ -304,7 +304,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                 {isPicViewerOpen && (
                     <div
                         id="carrouselViewer"
-                        className="z-50 bg-black opacity-[0.99] w-full h-full absolute p-2 md:p-3 select-none text-white transition-bottom-up "
+                        className="z-50 bg-black w-full h-full absolute p-2 md:p-3 select-none text-white transition-bottom-up"
                     >
                         <div className="flex items-center justify-between">
                             <span className="ml-[48%]">
@@ -320,7 +320,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             </button>
                         </div>
 
-                        <div className="mt-2 relative mx-auto flex gap-x-2 justify-between  items-center">
+                        <div
+                            className=" relative mx-auto flex gap-x-2 justify-between  items-center 
+                        my-[15%] sm:my-[1.5%] md:my-[1.5%] 2xl:my-[2%]"
+                        >
                             <button
                                 onClick={() => switchPicHandler('-')}
                                 className={` ${arrowStyle} ${
@@ -329,7 +332,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             >
                                 <IoIosArrowBack />
                             </button>
-                            <div className=" relative w-[800px] h-[400px] border border-red-600 ">
+                            <div
+                                className="relative
+                            w-[800px] h-[400px] 2xl:w-[1000px] 2xl:h-[700px]"
+                            >
                                 <Image
                                     src={images[activeImg]}
                                     alt="Picture"
@@ -352,7 +358,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                         </div>
                     </div>
                 )}
-                <div className="px-4 md:px-9 xl:px-16 2xl:px-36 space-y-6 ">
+                <div className="px-4 md:px-9 xl:px-16 2xl:px-56 space-y-6 ">
                     <div
                         className="grid-container grid grid-rows-[350px] lg:grid-rows-[400px] 2xl:grid-rows-[600px] grid-cols-3 gap-2 relative 
                        "
@@ -361,7 +367,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             onClick={() => setisPicViewerOpen(true)}
                             className="gap-2 grid grid-rows-2 grid-cols-3 col-span-full relative"
                         >
-                            <div className="relative row-span-2 col-span-2">
+                            <div className="relative row-span-2 col-span-2 dimOnHover">
                                 {isMapVisible ? (
                                     <MapShow
                                         initialView={{
@@ -380,7 +386,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         onClick={() => setActiveImg(0)}
                                         alt="Picture"
                                         layout="fill"
-                                        className="object-cover rounded-sm"
+                                        className="object-cover rounded-l-md"
                                         priority={true}
                                         quality={10}
                                     />
@@ -398,14 +404,14 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 </div>
                             </div>
 
-                            <div className="relative row-span-1 col-span-1">
+                            <div className="relative row-span-1 col-span-1 dimOnHover">
                                 {images[1] ? (
                                     <Image
                                         src={images[1]}
                                         onClick={() => setActiveImg(1)}
                                         alt="Picture"
                                         layout="fill"
-                                        className="object-cover rounded-sm"
+                                        className="object-cover rounded-r-md"
                                         sizes="(max-width: 768px) 100vw, 33vw"
                                         quality={10}
                                     />
@@ -413,14 +419,14 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     <MissingImage />
                                 )}
                             </div>
-                            <div className="relative row-span-1 col-span-1">
+                            <div className="relative row-span-1 col-span-1 dimOnHover">
                                 {images[2] ? (
                                     <Image
                                         src={images[2]}
                                         onClick={() => setActiveImg(2)}
                                         alt="Picture"
                                         layout="fill"
-                                        className="object-cover rounded-sm"
+                                        className="object-cover rounded-r-md"
                                         quality={10}
                                     />
                                 ) : (
