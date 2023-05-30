@@ -125,7 +125,7 @@ const coordinates = {
 const images = {
     images: Yup.array()
         .of(Yup.string())
-        .min(1, 'At least one picture is required.')
+        .min(1, 'At least one picture is required and a maximum of 3.')
         .max(3, 'You can only add up to 3 pictures.'),
 }
 
