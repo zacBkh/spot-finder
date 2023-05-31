@@ -388,7 +388,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         layout="fill"
                                         className="object-cover rounded-l-md"
                                         priority={true}
-                                        quality={10}
+                                        quality={20}
                                     />
                                 )}
                                 <div className="absolute float-left top-[78%] sm:top-[76%] md:top-[87%] lg:top-[88%] left-[1.5%] flex flex-col md:flex-row gap-1  ">

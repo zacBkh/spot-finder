@@ -46,6 +46,8 @@ const SpotCard = ({
                     >
                         {images[0] ? (
                             <Image
+                                placeholder="blur"
+                                blurDataURL="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzPDMY-sRuOCWFaR5tzVyphHL4DRxUFem-6johZogeUD7-s9AqWpvSGWu4NM7VKug9Pv4&usqp=CAU"
                                 src={images[0]}
                                 alt="Picture of a Spot on SpotFinder"
                                 layout="fill"
