@@ -15,6 +15,7 @@ import ScrollToTopBtn from '../design/scroll-to-top'
 
 import { subscribeToNewsletter } from '../../services/mongo-fetchers'
 
+import { FOOTER_HOOK_TOP_FS } from '../../constants/responsive-fonts'
 const Footer = ({}) => {
     const [feedbackNewsLetter, setFeedbackNewsLetter] = useState('')
     const [visitorEmail, setVisitorEmail] = useState('')
@@ -35,15 +36,15 @@ const Footer = ({}) => {
 
     return (
         <>
-            <footer className="text-center md:text-start mt-4">
+            <footer className="text-center md:text-start mt-4 text-white ">
                 <div
                     className={`
                       bg-primary flex flex-col items-center gap-y-4 py-6 relative px-2md:mt-0`}
                 >
-                    <h2 className="text-xl font-semibold text-white">
+                    <h2 className={FOOTER_HOOK_TOP_FS}>
                         Stop wasting your time and find the best landmarks around you.
                     </h2>
-                    <div className="flex items-center gap-x-4">
+                    <div className="flex justify-center items-center gap-x-4">
                         <CTAButtons
                             text={'Browse Spots'}
                             icon={<AiOutlineSearch />}
@@ -60,17 +61,17 @@ const Footer = ({}) => {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-y-3 md:flex-row md:gap-x-3 md:gap-y-0 justify-between bg-secondary text-white px-6">
+                <div className="flex flex-col gap-y-3 md:flex-row md:gap-x-3 md:gap-y-0 justify-between bg-secondary  px-6">
                     <div className="flex flex-col gap-y-4 py-6 items-center md:items-start">
                         <div>
-                            <h2 className="text-lg font-bold">Stop missing out</h2>
+                            <h2 className={FOOTER_HOOK_TOP_FS}>STOP MISSING OUT !</h2>
                             <p className="text-base mt-6">
                                 Monthly update about hottest spots and latest features.
                             </p>
                         </div>
 
                         <form noValidate onSubmit={submitNewsLetterHandler}>
-                            <div className="newsLetter flex items-center mx-auto md:mx-0 border-b border-white text-white w-fit">
+                            <div className="newsLetter flex items-center mx-auto md:mx-0 border-b border-white  w-fit">
                                 <input
                                     value={visitorEmail}
                                     onChange={e => setVisitorEmail(e.target.value)}
@@ -90,7 +91,9 @@ const Footer = ({}) => {
 
                     <div className="flex flex-col gap-y-6 py-6">
                         <div>
-                            <h2 className="text-lg font-bold">More from Spot Finder</h2>
+                            <h2 className="text-lg font-semibold">
+                                More from Spot Finder
+                            </h2>
                             <div className="mt-6 flex flex-col gap-y-4 hoverLink w-fit mx-auto md:mx-0">
                                 <Link href={'#'}>My story</Link>
                                 <Link href={'#'}>Blog</Link>
@@ -101,7 +104,7 @@ const Footer = ({}) => {
                     </div>
 
                     <div className="flex flex-col items-center md:items-end gap-y-4 py-6">
-                        <h2 className="text-lg font-bold">Follow us</h2>
+                        <h2 className="text-lg font-semibold">Follow us</h2>
                         <div className="flex items-center gap-x-4 text-xl cursor-pointer">
                             <Link href={'#'}>
                                 <a className="h-11 w-11 rounded-full bg-primary hover:bg-primary-hov flex justify-center items-center">
@@ -130,7 +133,7 @@ const Footer = ({}) => {
                     </div>
                 </div>
 
-                <div className="bg-tertiary flex justify-center items-center py-3">
+                <div className="bg-tertiary text-form-color flex justify-center items-center py-3">
                     <p className="font-semibold">
                         Made with <span className="text-primary">❤ </span>between Paris &
                         Dubai

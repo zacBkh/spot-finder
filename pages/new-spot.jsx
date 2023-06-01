@@ -249,7 +249,7 @@ const AddNewSpot = ({}) => {
         <>
             <form
                 onSubmit={formik.handleSubmit}
-                className="w-[80%] max-w-3xl mx-auto space-y-3"
+                className="w-[90%] sm:w-[80%] max-w-4xl mx-auto space-y-3"
             >
                 <SpotTextualInput
                     formikWizard={formik.getFieldProps('title')}
@@ -272,9 +272,9 @@ const AddNewSpot = ({}) => {
                 )}
                 {currentStep > 2 && (
                     <div>
-                        <h1 className={`${FORM_LABEL_FS} mb-2`}>
+                        <h2 className={`${FORM_LABEL_FS} mb-2 text-form-color`}>
                             Which category your Spot would best fit in ? *
-                        </h1>
+                        </h2>
                         <div
                             className={`${
                                 previousInputToBlur(3) && DISABLED_STYLE_STATELESS
@@ -322,9 +322,9 @@ const AddNewSpot = ({}) => {
                 {/* PICTURE UPLOAD */}
                 {currentStep > 4 && (
                     <>
-                        <h1 className={`${FORM_LABEL_FS} !mt-6`}>
+                        <h2 className={`${FORM_LABEL_FS} !mt-6 text-form-color`}>
                             Upload pictures of your Spot *
-                        </h1>
+                        </h2>
                         <DynamicImageUploader
                             onSuccessfulUpload={imgUploadHandler}
                             btnStyle={btnClassName}

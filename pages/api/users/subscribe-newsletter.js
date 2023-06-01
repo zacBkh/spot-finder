@@ -1,8 +1,6 @@
 import mailchimp from '@mailchimp/mailchimp_marketing'
 
 export default async function userHandling(req, res) {
-    console.log('req.body', req.body)
-
     if (req.method === 'GET') {
         res.status(200).json({
             success: false,
@@ -13,8 +11,14 @@ export default async function userHandling(req, res) {
 
     if (req.method === 'POST') {
         const email = req.body
+        console.log('email---------', email)
 
         try {
+            mailchimp.setConfig({
+                apiKey: process.env.MAILCHIMP_API_KEY,
+                server: process.env.MAILCHIMP_SERVER_PREFIX,
+            })
+
             const response = await mailchimp.lists.addListMember(
                 process.env.MAILCHIMP_AUDIENCE_ID,
                 {

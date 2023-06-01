@@ -8,7 +8,7 @@ import { useState } from 'react'
 
 import SortSpots from '../filters-and-sorts/sorts'
 
-const MapControlPanelStyles = ({ onStyleChange, currentMapStyle }) => {
+const MapControlPanelStyles = ({ onStyleChange, currentMapStyle, additionalStyle }) => {
     const mapStyles = [
         {
             link: 'mapbox://styles/mapbox/satellite-streets-v12?optimize=true',
@@ -41,7 +41,9 @@ const MapControlPanelStyles = ({ onStyleChange, currentMapStyle }) => {
 
     return (
         <>
-            <div className="control-panel absolute max-w-sm bg-white text-dark-color outline-none shadow-2xl py-2 px-2 m-3 flex flex-col gap-y-2 rounded-md">
+            <div
+                className={`control-panel absolute max-w-sm bg-white text-dark-color outline-none shadow-2xl py-2 px-2 m-3 flex flex-col gap-y-2 rounded-md ${additionalStyle}`}
+            >
                 <button
                     onClick={() => setIsPanelActive(prev => !prev)}
                     className="flex items-center gap-x-1 hover:underline font-semibold active:transform-none"

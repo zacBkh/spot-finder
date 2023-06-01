@@ -14,8 +14,8 @@ button:active {
     transform: scale(0.9);
 }
 
-.disabled\:active\:transform-none:active:disabled {
-    transform: none;
+button:active:disabled {
+    transform: none !important;
 }
 
 html {
@@ -120,6 +120,11 @@ textarea:focus-visible {
 /* Remove mapbox logo */
 .mapboxgl-ctrl-bottom-left {
     display: none !important;
+}
+
+/* Responsive FS geocoder placeholde */
+.mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
+    @apply !text-sm;
 }
 
 .iconToAnimate {

@@ -11,7 +11,9 @@ export default function GeocoderControl(props) {
     const geocoder = useControl(
         () => {
             const ctrl = new MapboxGeocoder({
+                placeholder: 'Search for a location',
                 ...props,
+
                 marker: false,
                 accessToken: props.mapboxAccessToken,
             })

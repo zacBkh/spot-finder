@@ -70,29 +70,25 @@ export default async function userHandling(req, res) {
 
     if (req.method === 'POST') {
         const { email } = req.body
-        console.log('req.body', req.body)
 
         if (!(await checkEmailExist(email))) {
             // if user does not exist, create it
-            console.log('THE USER WITH EMAIL', email, 'DOES NOT EXIST YET')
 
             //Hash password
-            const hashedPassword = await hash(req.body.password, 12)
+            const hashedPassword = await hash(req.body.password, 10)
             const finalUserData = {
                 ...req.body,
                 password: hashedPassword,
                 provider: 'credentials',
             }
-            console.log('finalUserData', finalUserData)
 
             const newUser = await User.create(finalUserData)
-            console.log('CREATED USER -->', newUser)
 
             // Helper fx that creates tokens
             const token = await createToken(newUser._id, newUser.email, '1d')
             if (!token.success) {
                 res.status(400).json({ success: token.success, result: token.result })
-                console.log('error', token.result)
+                console.log('error from token generation', token.result)
 
                 return // stop fx execution if failure (will not send email)
             } else {
@@ -125,7 +121,7 @@ export default async function userHandling(req, res) {
         if (JSON.parse(isPwdReset)) {
             try {
                 //Hash password
-                const hashedPassword = await hash(req.body, 12)
+                const hashedPassword = await hash(req.body, 10)
                 console.log('hashedPassword', hashedPassword)
 
                 const userEdition = await User.findByIdAndUpdate(
