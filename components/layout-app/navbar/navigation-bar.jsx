@@ -5,7 +5,7 @@ import Link from 'next/link'
 import SearchSpotBar from './search-spot-bar'
 import { useSession } from 'next-auth/react'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 import { PATHS, NAVBAR_ITEMS } from '../../../constants/URLs'
 
@@ -24,6 +24,20 @@ import useOnClickOutside from '../../../hooks/useOnClickOutside'
 const { HOME } = PATHS
 
 const Navigation = () => {
+    // Check for scroll
+    const [isScrolled, setisScrolled] = useState(false)
+    useEffect(() => {
+        const handleScroll = () => {
+            window.scrollY > 0 ? setisScrolled(true) : setisScrolled(false)
+        }
+
+        window.addEventListener('scroll', handleScroll)
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
+
     const router = useRouter()
     const { pathname, query } = router
 
@@ -46,7 +60,11 @@ const Navigation = () => {
 
     return (
         <>
-            <header className="mx-auto px-7 py-2 text-dark-color sticky top-0 z-[999] border-b-[1.6px] border-[#dadada] transparent-navbar">
+            <header
+                className={`mx-auto px-7 py-2 text-dark-color sticky top-0 z-[999] 
+                ${isScrolled ? 'border-[#dadada] border-b-[1.6px]' : ''}
+                  transparent-navbar`}
+            >
                 <div className="flex items-center justify-between">
                     <div className="cursor-pointer h-[56px]">
                         <Link href={HOME}>

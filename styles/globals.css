@@ -196,7 +196,7 @@ textarea:focus-visible {
 
 .transparent-navbar {
     background-color: hsla(0, 0%, 100%, 0.8);
-    backdrop-filter: saturate(180%) blur(7px);
+    backdrop-filter: saturate(180%) blur(4px);
 }
 
 /* Animate from display none */
