@@ -265,7 +265,6 @@ const EMailLogger = ({
     const [userCountryCode, setUserCountryCode] = useState('')
 
     const selectCountryHandler = selectedCountry => {
-        console.log('selectedCountry++', selectedCountry)
         formik.setFieldValue('country', selectedCountry.name)
         setUserCountryCode(selectedCountry.code)
     }
@@ -274,9 +273,6 @@ const EMailLogger = ({
         formik.setFieldValue('profilePic', { isCustom, link: selectedPic })
     }
 
-    console.log('formik.touched', formik.touched)
-    console.log('formik.values', formik.values)
-    console.log('formik.ERRORS', formik.errors)
     return (
         <>
             {authMode === 'credentials' && (
@@ -291,7 +287,13 @@ const EMailLogger = ({
             <span className="text-form-color text-center">
                 {whichNameBtnAndUserInfo().stepGuide}
             </span>
-            <form noValidate onSubmit={formik.handleSubmit} className="space-y-4">
+            <form
+                noValidate
+                onSubmit={formik.handleSubmit}
+                className={`${DISABLED_STYLE} ${
+                    formik.isSubmitting && 'cursor-not-allowed'
+                } space-y-4`}
+            >
                 {/* EMAIL FIELD */}
                 <div>
                     {isResetPwd && <p className="mb-4 text-center">{resetPwdStatus}</p>}

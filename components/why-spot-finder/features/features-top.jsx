@@ -18,7 +18,7 @@ const FeatureTop = ({ id, isActive, onFeatureChange, name, icon }) => {
                 >
                     {icon}
                 </div>
-                <p className=" whitespace-nowrap mb-6">{name}</p>
+                <p className="font-semibold whitespace-nowrap mb-6">{name}</p>
             </div>
         </>
     )

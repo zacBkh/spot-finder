@@ -51,7 +51,7 @@ const SpotCategory = ({
                     htmlFor={value}
                     className={`${BODY_FS} ${errorStying.border} 
                         flex justify-between items-center px-4 py-3 gap-x-1 w-fit  
-                        rounded-[0.5rem] border-[0.1rem] border-transparent
+                        rounded-[0.5rem] border-[0.1rem] border-transparent 
                        ${
                            !isInputEditable && shouldBeDisabled
                                ? 'cursor-not-allowed'

@@ -9,6 +9,8 @@ import ImageUploaderWrapper from '../../image-uploader-wrapper'
 
 import { SMALL_TEXT_FS } from '../../../constants/responsive-fonts'
 
+import { DISABLED_STYLE_STATELESS } from '../../../constants/disabled-style'
+
 const SelectProfilePic = ({ formik, onPictureSelect }) => {
     const picOptions = [
         {
@@ -46,7 +48,11 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
             <p className="font-semibold text-sm text-center sm:text-start">
                 Upload your photo or just pick one
             </p>
-            <div className="overflow-x-scroll w-full pb-4">
+            <div
+                className={`overflow-x-scroll w-full pb-4 ${
+                    formik.isSubmitting ? DISABLED_STYLE_STATELESS : ''
+                }`}
+            >
                 <div className="mt-2 flex justify-between items-center gap-x-4 xl:gap-x-6 w-fit ">
                     <ImageUploaderWrapper
                         headless
@@ -79,6 +85,7 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                     <DividerDesign vertical />
                     {picOptions.map(pic => (
                         <button
+                            disabled={formik.isSubmitting}
                             key={pic.name}
                             onClick={() => selectDefaultPicHandler(pic.link)}
                             type="button"

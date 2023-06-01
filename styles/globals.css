@@ -14,8 +14,8 @@ button:active {
     transform: scale(0.9);
 }
 
-.disabled\:active\:transform-none:active:disabled {
-    transform: none;
+button:active:disabled {
+    transform: none !important;
 }
 
 html {
@@ -122,6 +122,11 @@ textarea:focus-visible {
     display: none !important;
 }
 
+/* Responsive FS geocoder placeholde */
+.mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
+    @apply !text-sm;
+}
+
 .iconToAnimate {
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -196,7 +201,7 @@ textarea:focus-visible {
 
 .transparent-navbar {
     background-color: hsla(0, 0%, 100%, 0.8);
-    backdrop-filter: saturate(180%) blur(7px);
+    backdrop-filter: saturate(180%) blur(4px);
 }
 
 /* Animate from display none */

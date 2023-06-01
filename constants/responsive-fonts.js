@@ -44,3 +44,5 @@ export const SMALL_TEXT_FS = 'text-xs sm:text-sm'
 
 export const REVIEW_MODAL_FS = 'text-sm sm:text-lg'
 export const REVIEW_MODAL_SECONDARY_FS = 'text-xs sm:text-base'
+
+export const FOOTER_HOOK_TOP_FS = 'text-lg md:text-xl xl:text-2xl font-semibold'
