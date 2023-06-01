@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 // This is for icon + vertical bar
 const FeatureTop = ({ id, isActive, onFeatureChange, name, icon }) => {
     return (

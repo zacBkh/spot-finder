@@ -9,7 +9,7 @@ export const GETSpotFetcherAll = async () => {
     await connectMongo()
 
     const res = await Spot.find({})
-        .populate('author', 'name') // Populating ONLY author name
+        .populate('author', 'name profilePic.link') // Populating ONLY author name
         .populate('reviews')
     const allSpots = JSON.parse(JSON.stringify(res))
     return allSpots
@@ -20,7 +20,7 @@ export const GETSpotFetcherOne = async ID => {
     await connectMongo()
 
     const response = await Spot.findById(ID)
-        .populate('author', 'name') // Populating ONLY author name
+        .populate('author', 'name profilePic.link') // Populating ONLY author name
         .populate({
             path: 'reviews',
             // Get reviewAuthor of every reviews - populate the 'reviewAuthor' field for every reviews but with only reviewer name - deep population

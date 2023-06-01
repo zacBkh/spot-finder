@@ -5,8 +5,10 @@ const getCountryCode = async (Longitude, Latitude) => {
     try {
         const response = await fetch(APIEndpoint)
         const data = await response.json()
+        if (!data.features.length) {
+            return
+        }
         const countryCode = data.features[0].properties.short_code.toUpperCase()
-
         return countryCode
     } catch (err) {
         console.log('There has been an error in getting the country name =>', err)

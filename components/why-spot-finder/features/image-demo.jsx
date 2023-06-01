@@ -16,9 +16,7 @@ const ImageDemo = ({ activeFeature, arrayOfImages }) => {
                         <img
                             key={img}
                             className={`${
-                                activeFeature !== index
-                                    ? ' blur-[3px] opacity-60'
-                                    : 'blur-0'
+                                activeFeature !== index ? 'opacity-60' : ''
                             } drop-shadow-md transition-all duration-500 bounceTimingFunction`}
                             id="index"
                             src={img}

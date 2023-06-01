@@ -1,4 +1,5 @@
 import * as Yup from 'yup'
+import worldCountryDetails from '../utils/world-country-continents'
 
 // Auth
 const forbiddenNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -31,7 +32,7 @@ const name = {
         )
         .min(3, 'Your name should be at least 3 characters long.')
         .max(18, 'Your name should not exceed 18 characters long.')
-        .required('Name is required')
+        .required('Name is required.')
         .test('noNumber', 'Your name cannot contain any number.', async valueToTest => {
             if (!valueToTest) {
                 return
@@ -42,6 +43,20 @@ const name = {
                 return true
             }
         }),
+}
+
+const userCountryName = {
+    country: Yup.string().trim().required('Your country of origin is required.'),
+}
+
+const userProfilePic = {
+    profilePic: Yup.object({
+        isCustom: Yup.boolean().nullable(),
+        link: Yup.string()
+            .min(5)
+            .url()
+            .required('Please upload or pick a profile picture.'),
+    }).required('-- Please upload or pick a profile picture.'),
 }
 
 // Mail
@@ -55,11 +70,12 @@ export const validMailPwd = Yup.object().shape({
     ...pwdLogin,
 })
 
-// Mail + pwd + name
-export const validMailPwdName = Yup.object().shape({
+export const validFullUser = Yup.object().shape({
     ...mail,
     ...pwdRegister,
     ...name,
+    ...userCountryName,
+    ...userProfilePic,
 })
 
 // Reset password form
@@ -109,7 +125,7 @@ const coordinates = {
 const images = {
     images: Yup.array()
         .of(Yup.string())
-        .min(1, 'At least one picture is required.')
+        .min(1, 'At least one picture is required and a maximum of 3.')
         .max(3, 'You can only add up to 3 pictures.'),
 }
 
@@ -143,4 +159,14 @@ const comment = {
 export const validRateComment = Yup.object().shape({
     ...rate,
     ...comment,
+})
+
+// Add/Change user description
+
+export const validUserDescription = Yup.object().shape({
+    description: Yup.string()
+        .required('Please add a description')
+        .trim()
+        .min(40, ({ min }) => `Please add at least ${min} characters`)
+        .max(900, ({ max }) => `Please add no more than ${max} characters`),
 })

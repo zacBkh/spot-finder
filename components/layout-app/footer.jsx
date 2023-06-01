@@ -35,7 +35,7 @@ const Footer = ({}) => {
 
     return (
         <>
-            <footer className="text-center md:text-start ">
+            <footer className="text-center md:text-start mt-4">
                 <div
                     className={`
                       bg-primary flex flex-col items-center gap-y-4 py-6 relative px-2md:mt-0`}

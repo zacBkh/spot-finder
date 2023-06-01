@@ -8,7 +8,7 @@ import { TITLE_FS, BODY_FS } from '../constants/responsive-fonts'
 import { BsCompass } from 'react-icons/bs'
 import { AiOutlineUserAdd } from 'react-icons/ai'
 
-import ButtonSpotCard from '../components/design/button-spot-card'
+import ButtonPrimary from '../components/design/button-primary'
 
 import { PATHS } from '../constants/URLs'
 
@@ -37,7 +37,7 @@ const CustomErrorPage = ({ contextErrHelper }) => {
                     <div className="flex flex-col gap-y-3">
                         <Link href={PATHS.HOME}>
                             <a>
-                                <ButtonSpotCard
+                                <ButtonPrimary
                                     icon={<BsCompass />}
                                     text={'Discover our Spots'}
                                 />
@@ -45,7 +45,7 @@ const CustomErrorPage = ({ contextErrHelper }) => {
                         </Link>
                         <Link href={PATHS.AUTH}>
                             <a>
-                                <ButtonSpotCard
+                                <ButtonPrimary
                                     icon={<AiOutlineUserAdd />}
                                     text={'Login or Register'}
                                 />

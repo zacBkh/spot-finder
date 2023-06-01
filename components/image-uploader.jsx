@@ -1,18 +1,30 @@
 import { useRef } from 'react'
 import Script from 'next/script'
 
-const ImageUploader = ({ children, onUpload }) => {
+const ImageUploader = ({
+    children,
+    onUpload,
+    uploadPreset,
+
+    maxFiles,
+    multiple,
+    cropping,
+}) => {
     const cloudinary = useRef()
     const widget = useRef()
 
     const createWidget = () => {
         const options = {
+            maxFileSize: 800000,
             cloudName: 'dfaatxxwl',
-            uploadPreset: 'spot-finder-spot-upload-preset',
+            uploadPreset,
             resourceType: 'image',
-            maxFileSize: 800000, // max 800kb
             clientAllowedFormats: ['webp', 'jpg', 'png'],
-            maxFiles: 3,
+            maxFiles,
+            multiple,
+            cropping,
+            showSkipCropButton: false,
+            croppingAspectRatio: 1.0,
             sources: ['local', 'url', 'instagram'],
             maxImageWidth: 1312,
             maxImageHeight: 894,

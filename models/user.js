@@ -2,6 +2,7 @@ import { Schema, model, models } from 'mongoose'
 
 import Spot from './spot'
 import Review from './reviews'
+import { boolean } from 'yup'
 
 const userSchema = new Schema(
     {
@@ -25,6 +26,21 @@ const userSchema = new Schema(
             minLength: 8,
         },
 
+        description: {
+            type: String,
+            trim: true,
+        },
+
+        country: {
+            name: { type: String, required: true },
+            code: { type: String, required: true },
+        },
+
+        profilePic: {
+            isCustom: { type: Boolean, required: true },
+            link: { type: String, required: true },
+        },
+
         emailVerified: {
             type: Boolean,
             default: false,
@@ -36,13 +52,27 @@ const userSchema = new Schema(
             required: true,
         },
 
-        spotsOwned: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Spot',
-                default: [],
-            },
-        ],
+        // spotsOwned: [
+        //     {
+        //         type: Schema.Types.ObjectId,
+        //         ref: 'Spot',
+        //         default: [],
+        //     },
+        // ],
+
+        spotsOwned: {
+            type: [
+                {
+                    type: Schema.Types.ObjectId,
+                    ref: 'Spot',
+                },
+            ],
+            default: [], // Default value as an empty array
+        },
+
+        createdAtOAuth: {
+            type: Date,
+        },
     },
     { timestamps: true },
 )

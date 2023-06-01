@@ -95,7 +95,7 @@ const MyApp = ({ Component, pageProps: { session, ...pageProps }, router }) => {
     // Disable scroll when one modal opened
     useEffect(() => {
         const body = document.querySelector('body')
-        body.style.overflow = isOneModalOpened ? 'clip' : 'auto'
+        body.style.overflow = isOneModalOpened ? 'clip' : ''
     }, [isOneModalOpened])
     return (
         <SessionProvider session={session}>

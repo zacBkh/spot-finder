@@ -130,8 +130,13 @@ const AddNewSpot = ({}) => {
         // Add country names
         const countryCode = await getCountryCode(coordinates[0], coordinates[1])
 
-        // Adding region
-        const country = worldCountryDetails.find(country => country.code === countryCode)
+        // Adding region + country fallback
+        let country
+        if (countryCode === undefined) {
+            country = null
+        } else {
+            country = worldCountryDetails.find(country => country.code === countryCode)
+        }
 
         // Combining values + GeoJSON + country + images
         const newObjectWithGeoJSON = {
@@ -323,6 +328,9 @@ const AddNewSpot = ({}) => {
                         <DynamicImageUploader
                             onSuccessfulUpload={imgUploadHandler}
                             btnStyle={btnClassName}
+                            uploadPreset={'spot-finder-spot-upload-preset'}
+                            multiple={true}
+                            maxFiles={3}
                         />
                         <div className="mx-auto w-fit">
                             {validStyling('images').message}

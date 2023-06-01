@@ -9,7 +9,6 @@ const markerStyle = {
     stroke: 'none',
 }
 
-console.log('8', 8)
 const Pin = ({ size }) => {
     return (
         <svg height={size} viewBox="0 0 24 24" style={markerStyle}>

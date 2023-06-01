@@ -45,7 +45,7 @@ const ResetPwdForm = ({ userData }) => {
         console.log('formValues', formValues)
         const { password: newPwd } = formValues
 
-        const changeUserPwd = await editUserHandler(newPwd, userData._id)
+        const changeUserPwd = await editUserHandler(true, newPwd, userData._id)
 
         const { email } = changeUserPwd.result
         console.log('changeUserPwd -->', changeUserPwd)

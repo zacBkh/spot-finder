@@ -6,34 +6,37 @@ import { BiArrowBack } from 'react-icons/bi'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
-import { PATHS } from '../../constants/URLs'
+import { PATHS } from '../../../constants/URLs'
 
-import { TOAST_PARAMS } from '../../constants/toast-query-params'
+import { TOAST_PARAMS } from '../../../constants/toast-query-params'
 const { KEY, VALUE_LOGIN } = TOAST_PARAMS
 
-import { DISABLED_STYLE } from '../../constants/disabled-style'
+import { DISABLED_STYLE } from '../../../constants/disabled-style'
+
+import SearchCountry from './search-country'
+import SelectProfilePic from './profile-pic-field'
 
 import {
     BUTTON_FS,
     SMALL_TEXT_FS,
     ARROW_ICON_FS,
     ARROW_TEXT_FS,
-} from '../../constants/responsive-fonts'
-import { addUserHandler, checkEmailUniq } from '../../services/mongo-fetchers'
+} from '../../../constants/responsive-fonts'
+import { addUserHandler, checkEmailUniq } from '../../../services/mongo-fetchers'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 
 import {
     validMail,
     validMailPwd,
-    validMailPwdName,
-} from '../../constants/validation-schemas'
+    validFullUser,
+} from '../../../constants/validation-schemas'
 
-import capitalize from '../../utils/capitalize'
-import Spinner from '../spinner'
+import capitalize from '../../../utils/capitalize'
+import Spinner from '../../spinner'
 
-import useInputAutoFocus from '../../hooks/useInputAutoFocus'
+import useInputAutoFocus from '../../../hooks/useInputAutoFocus'
 
-import { sendPwdResetMail } from '../../services/mongo-fetchers'
+import { sendPwdResetMail } from '../../../services/mongo-fetchers'
 
 const EMailLogger = ({
     authMode,
@@ -83,7 +86,7 @@ const EMailLogger = ({
             return {
                 border: 'border-2 border-primary',
                 message: (
-                    <span className={`${SMALL_TEXT_FS} !text-primary `}>
+                    <span className={`${SMALL_TEXT_FS} !text-primary`}>
                         {formik.errors[field]}
                     </span>
                 ),
@@ -102,7 +105,7 @@ const EMailLogger = ({
         finalValidationSchema = validMailPwd
     } else {
         // if is registering a new user
-        finalValidationSchema = validMailPwdName
+        finalValidationSchema = validFullUser
     }
 
     let onSubmitHandler
@@ -135,6 +138,7 @@ const EMailLogger = ({
                     onSelectEMail('credentials', email, false)
                 }
                 formik.touched.password = false
+                formik.touched.country = false
             }
         } else {
             if (!isnewUser) {
@@ -162,12 +166,20 @@ const EMailLogger = ({
             } else {
                 // register
                 onSubmitHandler = async formValues => {
-                    const { email, password, name } = formValues
+                    const {
+                        email,
+                        password,
+                        name,
+                        country: countryName,
+                        profilePic,
+                    } = formValues
                     // Trimming values except pwd
                     const formValuesFormatted = {
                         password,
+                        country: { name: countryName, code: userCountryCode },
                         email: email.trim(),
                         name: capitalize(name).trim(),
+                        profilePic,
                     }
                     setDisableSubmitBtn(true)
 
@@ -192,7 +204,13 @@ const EMailLogger = ({
     }
 
     const formik = useFormik({
-        initialValues: { email: '', password: '', name: '' },
+        initialValues: {
+            email: '',
+            password: '',
+            name: '',
+            country: '',
+            profilePic: { isCustom: null, link: '' },
+        },
         onSubmit: onSubmitHandler,
         validationSchema: finalValidationSchema,
     })
@@ -208,8 +226,8 @@ const EMailLogger = ({
     }
 
     const mailRef = useRef(null)
-    const nameRef = useRef(null)
     const pwdRef = useRef(null)
+    const nameRef = useRef(null)
     const submitBtnRef = useRef(null)
 
     useInputAutoFocus(
@@ -244,6 +262,21 @@ const EMailLogger = ({
         }
     }
 
+    const [userCountryCode, setUserCountryCode] = useState('')
+
+    const selectCountryHandler = selectedCountry => {
+        console.log('selectedCountry++', selectedCountry)
+        formik.setFieldValue('country', selectedCountry.name)
+        setUserCountryCode(selectedCountry.code)
+    }
+
+    const pictureSelectHandler = (isCustom, selectedPic) => {
+        formik.setFieldValue('profilePic', { isCustom, link: selectedPic })
+    }
+
+    console.log('formik.touched', formik.touched)
+    console.log('formik.values', formik.values)
+    console.log('formik.ERRORS', formik.errors)
     return (
         <>
             {authMode === 'credentials' && (
@@ -307,6 +340,15 @@ const EMailLogger = ({
                     </div>
                 )}
 
+                {/* COUNTRY FIELD */}
+                {isnewUser === true && (
+                    <SearchCountry
+                        formik={formik}
+                        onCountrySelect={selectCountryHandler}
+                        validData={validStyling('country')}
+                    />
+                )}
+
                 {/* PWD FIELD */}
                 {authMode === 'credentials' && !isResetPwd && (
                     <div>
@@ -338,6 +380,14 @@ const EMailLogger = ({
                         </div>
                         <div className="mt-1">{validStyling('password').message}</div>
                     </div>
+                )}
+
+                {/* PROFILE PIC FIELD */}
+                {isnewUser === true && (
+                    <SelectProfilePic
+                        formik={formik}
+                        onPictureSelect={pictureSelectHandler}
+                    />
                 )}
 
                 {!isResetPwd && (

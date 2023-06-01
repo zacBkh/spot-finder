@@ -4,16 +4,16 @@ import { SlOptions } from 'react-icons/sl'
 
 import { useRouter } from 'next/router'
 
-import {
-    TITLE_FS,
-    SMALL_TEXT_FS,
-    BODY_FS,
-    SMALL_TITLE_FS,
-} from '../../constants/responsive-fonts'
+import { TITLE_FS, SMALL_TEXT_FS, SMALL_TITLE_FS } from '../../constants/responsive-fonts'
 
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
-const { KEY, VALUE_RESET_PWD_EMAIL_SENT_SUCCESS, VALUE_RESET_PWD_EMAIL_SENT_FAILURE } =
-    TOAST_PARAMS
+const {
+    KEY,
+    VALUE_RESET_PWD_EMAIL_SENT_SUCCESS,
+    VALUE_RESET_PWD_EMAIL_SENT_FAILURE,
+    VALUE_EDIT_DESC_SUCCESS,
+    VALUE_EDIT_DESC_FAILURE,
+} = TOAST_PARAMS
 
 import UserImage from '../user-image'
 
@@ -36,6 +36,9 @@ import RelatedSpots from './related-spots-user'
 
 import { sendPwdResetMail } from '../../services/mongo-fetchers'
 
+import CountryDisplayer from '../country-displayer'
+import UserDescription from './user-description'
+
 const UserCard = ({ isLoading, visitedUser, currentUser }) => {
     const router = useRouter()
 
@@ -45,7 +48,10 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         visitedSpots,
         spotsUserReviewed,
         createdAt,
+        country: countryOfOrigin,
+        description,
         _id: visitedUserID,
+        profilePic,
     } = visitedUser
 
     let isCurrentUserVisitedUser = false
@@ -53,7 +59,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         isCurrentUserVisitedUser = true
     }
 
-    const joiningDate = new Date(createdAt).getFullYear()
+    const joiningDate = new Date(createdAt ?? visitedUser.createdAtOAuth).getFullYear()
 
     const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
     const onActionClick = () => {
@@ -83,6 +89,8 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         }
     }
 
+    const userID = router.query.userID
+
     // Send email to reset pws
     const pwdChangeHandler = async () => {
         const sendPwdReset = await sendPwdResetMail(currentUser.user.email)
@@ -102,8 +110,6 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
             return
         }
 
-        const userID = router.query.userID
-
         router.push(
             {
                 query: {
@@ -118,6 +124,37 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         )
     }
 
+    const descriptionUpdateHandler = isChangeSuccessful => {
+        console.log('isChangeSuccessful', isChangeSuccessful)
+        if (!isChangeSuccessful) {
+            router.push(
+                {
+                    query: {
+                        userID,
+                        [KEY]: VALUE_EDIT_DESC_FAILURE,
+                    },
+                },
+                undefined,
+                {
+                    shallow: true,
+                },
+            )
+        } else {
+            router.push(
+                {
+                    query: {
+                        userID,
+                        [KEY]: VALUE_EDIT_DESC_SUCCESS,
+                    },
+                },
+                undefined,
+                {
+                    shallow: true,
+                },
+            )
+        }
+    }
+
     return (
         <>
             <div className="flex flex-col-reverse lg:flex-row gap-x-14 w-[90%] xl:w-[80%] 2xl:w-[60%] mx-auto mt-3 text-form-color ">
@@ -128,7 +165,14 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         <SkeletonUserCard />
                     ) : (
                         <>
-                            <UserImage noBorder width={'w-32'} height={'h-32'} />
+                            <UserImage
+                                alt={`Profile picture of ${name}`}
+                                suggestAddCustom={!profilePic?.isCustom}
+                                picLink={profilePic?.link}
+                                noBorder
+                                width={'w-32'}
+                                height={'h-32'}
+                            />
                             <UserStats
                                 onScrollClick={scrollClickHandler}
                                 nbOwned={spotsOwned.length}
@@ -152,7 +196,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                             ) : (
                                 <>
                                     <div className="flex items-center gap-x-3">
-                                        <h1 className={`${TITLE_FS} font-bold`}>
+                                        <h1 className={`${TITLE_FS} font-bold break-all`}>
                                             Hi, I am {name}
                                         </h1>
                                         <button
@@ -173,9 +217,18 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                             )}
                                         </button>
                                     </div>
-                                    <span className={`${SMALL_TEXT_FS}`}>
+                                    {countryOfOrigin ? (
+                                        <CountryDisplayer
+                                            name={countryOfOrigin.name}
+                                            code={countryOfOrigin.code}
+                                            context={'userPage'}
+                                        />
+                                    ) : (
+                                        ''
+                                    )}
+                                    <p className={`${SMALL_TEXT_FS} mt-2`}>
                                         Joined in {joiningDate}
-                                    </span>
+                                    </p>
                                 </>
                             )}
                         </div>
@@ -187,9 +240,12 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 />
                             ) : (
                                 <UserImage
+                                    alt={`Profile picture of ${name}`}
+                                    suggestAddCustom={!profilePic?.isCustom}
+                                    picLink={profilePic?.link}
                                     noBorder
-                                    width={'w-20 sm:w-32'}
-                                    height={'h-20 sm:h-32'}
+                                    width={'w-32'}
+                                    height={'h-32'}
                                 />
                             )}
                         </div>
@@ -230,21 +286,15 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         ) : (
                             <>
                                 <h2 className={`${SMALL_TITLE_FS} font-semibold`}>
-                                    About
+                                    About Me
                                 </h2>
-                                <p className={`${BODY_FS}`}>
-                                    Hi, I am Nicola and I am lucky enough to live in one
-                                    of the most beautiful areas of the Tuscan countryside
-                                    near the historical town of Siena .This territory is
-                                    my home,my work and my passion. With my wife and
-                                    children I live on and work a farm producing
-                                    traditional organic crops and also help my family
-                                    preserve the beautiful castle which is our family
-                                    heritage, where my Mum and Aunt still make their home
-                                    and where we produce great Chianti wine and Tuscan
-                                    olive oil. My family and I are hospitable people who
-                                    enjoy sharing this territory we love with our guests.
-                                </p>
+                                <UserDescription
+                                    onDescriptionUpdate={descriptionUpdateHandler}
+                                    userID={visitedUserID}
+                                    userName={name}
+                                    initialDesc={description}
+                                    isProfileOwner={isCurrentUserVisitedUser}
+                                />
                             </>
                         )}
                     </div>

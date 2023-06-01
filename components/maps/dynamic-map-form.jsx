@@ -7,7 +7,7 @@ const DynamicMapForm = dynamic(
             './map-form'
         ),
     {
-        loading: () => <p>The Map is loading...</p>,
+        loading: () => <p className="text-center mx-auto">The Map is loading...</p>,
         ssr: false,
     },
 )

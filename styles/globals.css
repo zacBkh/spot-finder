@@ -14,6 +14,10 @@ button:active {
     transform: scale(0.9);
 }
 
+.disabled\:active\:transform-none:active:disabled {
+    transform: none;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -344,7 +348,7 @@ div.hoverLink a {
     text-decoration-color: transparent;
     text-decoration-line: underline;
     text-underline-offset: 8px;
-    transition: text-decoration-color 0.2s ease;
+    transition: text-decoration-color 0.1s ease;
     text-decoration-thickness: 2px;
 }
 
@@ -407,4 +411,45 @@ div.hoverLink a:hover {
 
 .bounceTimingFunction {
     transition-timing-function: cubic-bezier(0.42, 1.44, 0.39, 0.87);
+}
+
+.transition-image-viewer {
+    animation-name: transImgView;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes transImgView {
+    from {
+        opacity: 70%;
+    }
+    to {
+        opacity: 100%;
+    }
+}
+
+.transition-bottom-up {
+    animation-name: transImgViewBottomUp;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-out;
+}
+
+@keyframes transImgViewBottomUp {
+    from {
+        opacity: 15%;
+        transform: translateY(80%);
+    }
+    to {
+        opacity: 100%;
+        transform: translateY(0%);
+    }
+}
+
+.dimOnHover {
+    transition: filter 0.2s ease-out;
+    cursor: pointer;
+}
+
+.dimOnHover:hover {
+    filter: brightness(87%);
 }

@@ -36,7 +36,7 @@ const OpenedDrawer = ({
             </button>
             <DividerDesign />
 
-            <div className="flex flex-col gap-y-8 transition-filters">
+            <div className="flex flex-col gap-y-8 transition-filters pl-2">
                 <div className="flex flex-col items-start gap-y-2 font-bold">
                     <div className="flex items-center gap-x-2">
                         <BiCategoryAlt />

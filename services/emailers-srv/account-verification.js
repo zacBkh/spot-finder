@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import capitalize from '../../utils/connect-to-mongo'
+import capitalize from '../../utils/capitalize'
 
 import { whichDomain } from '../../utils/env-helper'
 const currDomain = whichDomain()
@@ -36,7 +36,7 @@ const sendVerifEmail = async (userRecipient, userData, token) => {
         })
 
         const htmlToSend = `
-        <h3> Hello ${capitalize(name)} !  </h3>
+        <h3> Hello ${capitalize(name)} ! </h3>
         <p> Thanks for registering. Just one more step... </p>
         <p> To activate account, please follow this link : 
         <a target = "_" href="${currDomain}/auth/verify-your-email/${token}"> Activate my Account 

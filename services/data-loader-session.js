@@ -2,14 +2,16 @@ import connectMongo from '../utils/connect-to-mongo'
 import User from '../models/user'
 
 // Check if user completed the verification process
-const isUserVerified = async userID => {
+const sessionDataLoader = async userID => {
     await connectMongo()
 
-    const isVerified = await User.findById(userID).select('emailVerified')
+    const loadedDataSession = await User.findById(userID).select(
+        'emailVerified profilePic',
+    )
 
-    console.log('isVerified??', isVerified) // will return obj with obect ID
+    console.log('loadedDataSession', loadedDataSession) // will return obj with obect ID
 
-    if (isVerified === null) {
+    if (loadedDataSession === null) {
         // If could not find user...
         return {
             success: false,
@@ -19,9 +21,9 @@ const isUserVerified = async userID => {
         // If could find user
         return {
             success: true,
-            result: isVerified.emailVerified,
+            result: loadedDataSession,
         }
     }
 }
 
-export default isUserVerified
+export default sessionDataLoader

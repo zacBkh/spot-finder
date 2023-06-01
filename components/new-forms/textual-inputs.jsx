@@ -1,10 +1,12 @@
 import { FORM_LABEL_FS } from '../../constants/responsive-fonts'
 import { DISABLED_STYLE } from '../../constants/disabled-style'
+
+import capitalize from '../../utils/capitalize'
+
 const SpotTextualInput = ({
     identifier,
     formikWizard,
     errorStying,
-    isEditMode,
     placeholder,
     isTextArea,
     shouldBeDisabled,
@@ -30,7 +32,7 @@ const SpotTextualInput = ({
                     text-form-color
                     `}
                 >
-                    {identifier} *
+                    {capitalize(identifier)} *
                 </label>
 
                 {isTextArea ? (
