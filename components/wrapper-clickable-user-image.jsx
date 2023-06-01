@@ -4,14 +4,14 @@ import UserImage from './user-image'
 
 import { BODY_FS } from '../constants/responsive-fonts'
 
-const ClickableUserImage = ({ url, width, height, children }) => {
+const ClickableUserImage = ({ url, width, height, children, profilePic }) => {
     return (
         <Link href={url}>
             <a title="Visit my profile.">
                 <button
                     className={`${BODY_FS} group text-form-color flex justify-center items-center gap-x-3 w-fit mx-auto`}
                 >
-                    <UserImage width={width} height={height} />
+                    <UserImage picLink={profilePic.link} width={width} height={height} />
 
                     {children ?? ''}
                 </button>

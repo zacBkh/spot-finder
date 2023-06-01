@@ -5,7 +5,7 @@ import { PATHS } from '../constants/URLs'
 const UserCardSmall = ({
     userID,
     name,
-    profilePic,
+    picLink,
     country,
     joiningDate,
     description,
@@ -21,7 +21,8 @@ const UserCardSmall = ({
             <a onMouseEnter={hoverUserCardHandler}>
                 <button className="hoverCardShadow flex gap-x-2 items-center group mt-6 w-fit cursor-pointer text-start">
                     <UserImage
-                        profilePic={profilePic}
+                        alt={`Profile picture of ${name}`}
+                        picLink={picLink}
                         width={'w-32 max-w-[40%]'}
                         height={'h-32'}
                     />

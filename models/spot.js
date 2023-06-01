@@ -61,8 +61,8 @@ const spotSchema = new Schema(
         },
 
         country: {
-            name: { type: String, required: true },
-            code: { type: String, required: true },
+            name: { type: String },
+            code: { type: String },
             region: { type: String },
             subRegion: { type: String },
             intermediateRegion: { type: String },
@@ -70,11 +70,12 @@ const spotSchema = new Schema(
 
         images: {
             type: [String],
-            required: [true, 'Images are required'],
+            required: [true, 'Images are required.'],
             validate: [array => array.length !== 0, 'You must submit at least one image'],
         },
 
         author: {
+            required: [true, 'Author is required.'],
             type: Schema.Types.ObjectId,
             ref: 'User',
         },

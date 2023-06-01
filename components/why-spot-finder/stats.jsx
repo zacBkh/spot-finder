@@ -24,7 +24,7 @@ const Stats = () => {
                             key={user._id}
                             userID={user._id}
                             name={user.name}
-                            profilePic={user.profilePic}
+                            picLink={user.profilePic.link}
                             country={user.country}
                             joiningDate={user.joiningDate}
                             description={user.description}
@@ -39,8 +39,9 @@ const Stats = () => {
                             key={user._id}
                             userID={user._id}
                             name={user.name}
-                            profilePic={user.profilePic}
+                            picLink={user.profilePic.link}
                             country={user.country}
+                            joiningDate={user.joiningDate}
                             description={user.description}
                             nbSpotsOwned={user.nbSpotsOwned}
                         />

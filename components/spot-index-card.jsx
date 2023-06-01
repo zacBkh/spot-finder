@@ -13,6 +13,8 @@ import getAvrgGrade from '../utils/get-average-rate'
 
 import { PATHS } from '../constants/URLs'
 
+import getCloudiImg from '../utils/transform-cloudi-img'
+
 const SpotCard = ({
     spotData,
     shouldNotDisplayUserPic,
@@ -47,12 +49,11 @@ const SpotCard = ({
                         {images[0] ? (
                             <Image
                                 placeholder="blur"
-                                blurDataURL="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzPDMY-sRuOCWFaR5tzVyphHL4DRxUFem-6johZogeUD7-s9AqWpvSGWu4NM7VKug9Pv4&usqp=CAU"
-                                src={images[0]}
+                                blurDataURL={getCloudiImg(undefined, images[0])}
+                                src={getCloudiImg('', images[0])}
                                 alt="Picture of a Spot on SpotFinder"
                                 layout="fill"
                                 className="object-cover group-hover:scale-105 transition-transform duration-[175ms] "
-                                quality={10}
                             />
                         ) : (
                             <MissingImage />
@@ -60,7 +61,7 @@ const SpotCard = ({
                     </div>
                     <div className="flex flex-col gap-y-1 px-1 w-full">
                         <div className="mt-2 flex justify-between items-start text-form-color text-[15px] w-full">
-                            <div className="w-[75%] flex flex-col">
+                            <div className="w-[80%] 2xl:w-full flex flex-col">
                                 <p
                                     className={`font-semibold ${displaySuspensionPoints} `}
                                 >
@@ -69,7 +70,7 @@ const SpotCard = ({
                                 <div className="flex items-center text-greyText">
                                     <MdLocationOn className="text-lg" />
                                     <p className={`text-sm ${displaySuspensionPoints}`}>
-                                        {country.name}
+                                        {country?.name ?? 'Country unavailable. 😢'}
                                     </p>
                                 </div>
                             </div>
@@ -88,7 +89,12 @@ const SpotCard = ({
                             ''
                         ) : (
                             <div className="flex gap-x-2 items-center group w-fit text-greyText">
-                                <UserImage width={'w-8'} height={'h-8'} />
+                                <UserImage
+                                    alt={`Profile picture of ${author.name}`}
+                                    picLink={author?.profilePic?.link}
+                                    width={'w-8'}
+                                    height={'h-8'}
+                                />
                                 <span className="text-sm group-hover:underline ">
                                     Spot by {author.name}
                                 </span>

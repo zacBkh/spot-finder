@@ -166,6 +166,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                     ) : (
                         <>
                             <UserImage
+                                alt={`Profile picture of ${name}`}
                                 suggestAddCustom={!profilePic?.isCustom}
                                 picLink={profilePic?.link}
                                 noBorder
@@ -239,6 +240,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 />
                             ) : (
                                 <UserImage
+                                    alt={`Profile picture of ${name}`}
                                     suggestAddCustom={!profilePic?.isCustom}
                                     picLink={profilePic?.link}
                                     noBorder

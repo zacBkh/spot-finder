@@ -60,6 +60,7 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                         <div title="Add your own profile picture." className="relative">
                             {formik.values.profilePic.isCustom ? (
                                 <UserImage
+                                    alt={'The picture you have uploaded'}
                                     title="You have uploaded this picture"
                                     width={imgSize}
                                     picLink={formik.values.profilePic.link}
@@ -84,6 +85,7 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                         >
                             <div className="relative">
                                 <UserImage
+                                    alt={'A picture you can pick as profile picture'}
                                     title={pic.name}
                                     width={imgSize}
                                     picLink={pic.link}

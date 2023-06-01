@@ -1,5 +1,6 @@
 import Spot from '../../models/spot'
 import User from '../../models/user'
+import Review from '../../models/reviews'
 
 import connectMongo from '../../utils/connect-to-mongo'
 
@@ -60,6 +61,11 @@ async function helpppp(resArg, userDeleted) {
 
 //     return resArg.send(DBData);
 // }
+
+async function deleteAllReviews(resArg) {
+    const DBData = await Review.deleteMany({})
+    return resArg.send(DBData)
+}
 
 // Show Spots visited by a x user
 async function showAllVisitedSpots(resArg, userID) {
@@ -131,13 +137,15 @@ export default async function TESTER(req, res) {
 
     // await helpppp(res, "638d7783050b1dd32d06c7c1")
 
-    // await showAllSpots(res)
+    await showAllSpots(res)
     // await showAllVisitedSpots(res, '642ced6dd3fa11d36106522b')
     // await deleteAllSpots(res)
 
-    await showAllUsers(res)
+    // await showAllUsers(res)
     // await deleteAllUsers(res)
     // await deleteAllUsersBut(res, "637c4b8252e6f480e190104f")
+
+    // await deleteAllReviews(res)
 
     // await checkUserExists(res, "roblaf93@gmail.com")
     // await tokenGen(res)

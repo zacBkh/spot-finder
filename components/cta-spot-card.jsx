@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 
 import { useRouter } from 'next/router'
 
@@ -60,15 +60,6 @@ const SpotCardCTA = ({
         })
     }
 
-    // const [updatedNbOfVisits, setUpdatedNbfVisits] = useState(nbOfVisits)
-
-    const toggleSwitchHandler = () => {
-        onAddVisit()
-        // didUserVisitSpot
-        //     ? setUpdatedNbfVisits(prevState => prevState - 1)
-        //     : setUpdatedNbfVisits(prevState => prevState + 1)
-    }
-
     return (
         <>
             <SpotSpecsDisplayer
@@ -103,7 +94,7 @@ const SpotCardCTA = ({
                 spanTxt={`Visit ${author.name}'s profile`}
             />
             <DividerDesign />
-            <Toggler onToggle={toggleSwitchHandler} didUserVisitSpot={didUserVisitSpot} />
+            <Toggler onToggle={() => onAddVisit()} didUserVisitSpot={didUserVisitSpot} />
         </>
     )
 }

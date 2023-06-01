@@ -9,7 +9,7 @@ const CountryDisplayer = ({ name, code, context }) => {
          ${context === 'spotPage' ? 'mr-3 bg-gray-100 px-4 py-1 rounded-md' : ''}`}
         >
             <p className={`w-max ${BODY_FS}`}>
-                {context === 'spotPage' ? 'This spot is located in ' : 'From '}
+                {context === 'spotPage' ? 'This Spot is located in ' : 'From '}
                 <span className="font-semibold">{name}</span>
             </p>
 

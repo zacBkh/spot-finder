@@ -71,7 +71,7 @@ const WhySpotFinder = ({}) => {
                         <div className=" hidden md:flex flex-col spots-slide">
                             {HIGHLIGHTED_SPOTS_LANDING_PAGE.map(spot => (
                                 <SpotCard
-                                    key={`${spot._id}`}
+                                    key={`${spot._id}#2`}
                                     width={'w-96 sm:w-96'}
                                     height={'h-64 sm:h-64'}
                                     spotData={spot}

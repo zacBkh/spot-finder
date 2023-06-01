@@ -52,6 +52,8 @@ import SPOT_CATEGORIES from '../../constants/spot-categories'
 import MissingImage from '../../components/image-off-placeholder'
 import CountryDisplayer from '../../components/country-displayer'
 
+import getCloudiImg from '../../utils/transform-cloudi-img'
+
 export const getServerSideProps = async context => {
     const session = await unstable_getServerSession(context.req, context.res, authOptions)
 
@@ -337,14 +339,12 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             w-[800px] h-[400px] 2xl:w-[1000px] 2xl:h-[700px]"
                             >
                                 <Image
-                                    src={images[activeImg]}
+                                    src={getCloudiImg('', images[activeImg])}
                                     alt="Picture"
                                     layout="fill"
                                     objectFit="contain"
                                     key={activeImg}
                                     className="object-cover rounded-lg transition-image-viewer "
-                                    priority={true}
-                                    quality={10}
                                 />
                             </div>
                             <button
@@ -382,13 +382,14 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     />
                                 ) : (
                                     <Image
-                                        src={images[0]}
+                                        placeholder="blur"
+                                        blurDataURL={getCloudiImg(undefined, images[0])}
+                                        src={getCloudiImg('', images[0])}
                                         onClick={() => setActiveImg(0)}
                                         alt="Picture"
                                         layout="fill"
                                         className="object-cover rounded-l-md"
                                         priority={true}
-                                        quality={20}
                                     />
                                 )}
                                 <div className="absolute float-left top-[78%] sm:top-[76%] md:top-[87%] lg:top-[88%] left-[1.5%] flex flex-col md:flex-row gap-1  ">
@@ -407,13 +408,14 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             <div className="relative row-span-1 col-span-1 dimOnHover">
                                 {images[1] ? (
                                     <Image
-                                        src={images[1]}
+                                        placeholder="blur"
+                                        blurDataURL={getCloudiImg(undefined, images[1])}
+                                        src={getCloudiImg('', images[1])}
                                         onClick={() => setActiveImg(1)}
                                         alt="Picture"
                                         layout="fill"
                                         className="object-cover rounded-r-md"
                                         sizes="(max-width: 768px) 100vw, 33vw"
-                                        quality={10}
                                     />
                                 ) : (
                                     <MissingImage />
@@ -422,12 +424,13 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             <div className="relative row-span-1 col-span-1 dimOnHover">
                                 {images[2] ? (
                                     <Image
-                                        src={images[2]}
+                                        placeholder="blur"
+                                        blurDataURL={getCloudiImg(undefined, images[2])}
+                                        src={getCloudiImg('', images[2])}
                                         onClick={() => setActiveImg(2)}
                                         alt="Picture"
                                         layout="fill"
                                         className="object-cover rounded-r-md"
-                                        quality={10}
                                     />
                                 ) : (
                                     <MissingImage />
@@ -437,11 +440,16 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
                         <div className="row-span-1 col-span-full lg:col-span-2 h-fit text-form-color">
                             <div className="space-y-4">
-                                <CountryDisplayer
-                                    name={country.name}
-                                    code={country.code}
-                                    context={'spotPage'}
-                                />
+                                {country ? (
+                                    <CountryDisplayer
+                                        name={country.name}
+                                        code={country.code}
+                                        context={'spotPage'}
+                                    />
+                                ) : (
+                                    ''
+                                )}
+
                                 <div
                                     className={`inputElem ${
                                         shouldBeEditable
@@ -585,7 +593,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 spotDetails={{
                                     title,
                                     reviews: updatedReviews,
-                                    country: country.name,
+                                    country: country?.name && null,
                                 }}
                             />
                         </div>
@@ -601,7 +609,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             spotDetails={{
                                 title,
                                 reviews: updatedReviews,
-                                country: country.name,
+                                country: country?.name && null,
                                 virtuals,
                             }}
                         />
