@@ -11,27 +11,9 @@ import { SMALL_TEXT_FS } from '../../../constants/responsive-fonts'
 
 import { DISABLED_STYLE_STATELESS } from '../../../constants/disabled-style'
 
+import profilePicOptions from '../../../constants/default-profile-pic'
+
 const SelectProfilePic = ({ formik, onPictureSelect }) => {
-    const picOptions = [
-        {
-            name: 'Photographer during sunset.',
-            link: 'https://images.unsplash.com/photo-1506434304575-afbb92660c28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
-        },
-        {
-            name: 'Photographer at the top of a summit.',
-            link: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
-        },
-
-        {
-            name: 'Women photographer in the nature.',
-            link: 'https://images.unsplash.com/photo-1500027419059-afa3360ead5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-        },
-        {
-            name: 'Women photographer in the street.',
-            link: 'https://images.unsplash.com/photo-1523359247812-29dde5ac53a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-        },
-    ]
-
     const imgSize = 'w-14 xl:w-20 h-14 xl:h-20'
 
     const selectDefaultPicHandler = picLink => {
@@ -83,7 +65,7 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                         </div>
                     </ImageUploaderWrapper>
                     <DividerDesign vertical />
-                    {picOptions.map(pic => (
+                    {profilePicOptions.map(pic => (
                         <button
                             disabled={formik.isSubmitting}
                             key={pic.name}

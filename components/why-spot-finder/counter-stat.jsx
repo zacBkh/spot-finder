@@ -1,10 +1,6 @@
 import { CountUp } from 'use-count-up'
 
-const Counter = ({ endNum, text }) => {
-    const onComplete = () => {
-        return { shouldRepeat: true, delay: 2 }
-    }
-
+const Counter = ({ endNum, text, isStatInView }) => {
     return (
         <div
             className="verticalBarStats before:bg-gradient-to-b before:from-primary before:to-[#ef5e4e93]
@@ -12,11 +8,10 @@ const Counter = ({ endNum, text }) => {
         >
             <span className="text-[40px]">
                 <CountUp
-                    isCounting
+                    isCounting={isStatInView}
                     thousandsSeparator={' '}
-                    onComplete={onComplete}
                     end={endNum}
-                    duration={4}
+                    duration={3.5}
                     easing={'easeOutCubic'}
                 />
             </span>

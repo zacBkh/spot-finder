@@ -14,10 +14,19 @@ import { BIG_TITLE_FS } from '../constants/responsive-fonts'
 import Stats from '../components/why-spot-finder/stats'
 import FeatureSelector from '../components/why-spot-finder/features/features-selector'
 
+import { useInView } from 'react-intersection-observer'
+
 const WhySpotFinder = ({}) => {
     const arrayOfActivities = ['Photo Spots.', 'Points of Interest.', 'Strolls.']
 
     const { activities, currentPhase } = useTypeCharacters(arrayOfActivities)
+
+    const options = {
+        triggerOnce: true,
+        threshold: 0.75, // 10% of the element visible to trigger
+    }
+
+    const [refStats, isStatInView] = useInView(options)
 
     return (
         <div className="flex flex-col gap-y-12 md:gap-y-0">
@@ -83,7 +92,7 @@ const WhySpotFinder = ({}) => {
                 </div>
             </section>
 
-            <Stats />
+            <Stats isStatInView={isStatInView} refStats={refStats} />
 
             <FeatureSelector />
         </div>

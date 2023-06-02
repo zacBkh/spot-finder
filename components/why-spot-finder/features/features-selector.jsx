@@ -49,21 +49,27 @@ const FeatureSelector = ({}) => {
         },
     ]
 
+    // Controls the positionning of the bar in the line
     const getMargin = () => {
         if (activeFeature === 0) {
             return 'ml-0'
         }
         if (activeFeature === 1) {
-            return 'sm:ml-[33%] md:ml-[29%] lg:ml-[32%]'
+            return 'sm:ml-[33%] md:ml-[29%] lg:ml-[31.2%]'
         }
 
         if (activeFeature === 2) {
-            return 'sm:ml-[60%] md:ml-[57%] lg:ml-[63%] 2xl:ml-[64%]'
+            return 'sm:ml-[60%] md:ml-[57%] lg:ml-[61.3%] 2xl:ml-[64%]'
         }
 
         if (activeFeature === 3) {
-            return 'sm:ml-[81%] md:ml-[77%] lg:ml-[90%] 2xl:ml-[93.5%]'
+            return 'sm:ml-[81%] md:ml-[77%] lg:ml-[88%] 2xl:ml-[93.5%]'
         }
+    }
+
+    const featChangeFromImgClickHandler = param => {
+        console.log('param', param)
+        setActiveFeature(param)
     }
 
     return (
@@ -107,6 +113,7 @@ const FeatureSelector = ({}) => {
                 </div>
             </div>
             <ImageDemo
+                onFeatChangeFromImgClick={featChangeFromImgClickHandler}
                 activeFeature={activeFeature}
                 arrayOfImages={features.map(feat => feat.image)}
             />
