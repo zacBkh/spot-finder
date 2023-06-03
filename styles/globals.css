@@ -486,3 +486,15 @@ div.hoverLink a:hover {
     background-color: rgba(0, 0, 0, 0.5); /* Dark overlay color and opacity */
     z-index: 998; /* Ensure the overlay is on top */
 }
+
+/* Close btn on map popup */
+.mapboxgl-popup-close-button {
+    padding: 2px 5px;
+}
+
+.centerXAxis {
+    position: fixed;
+    bottom: 1%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+}

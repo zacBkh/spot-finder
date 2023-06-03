@@ -1,13 +1,11 @@
 import { BsFillMapFill, BsListUl } from 'react-icons/bs'
 
 const ToggleToMapView = ({ isOnMapMode, onToggleMapView }) => {
-    const centerXAxis = 'fixed left-[47%] bottom-[5%]'
-
     return (
         <>
             <button
                 onClick={onToggleMapView}
-                className={`${centerXAxis} py-[14px] px-[19px] rounded-3xl text-white bg-[#222222] flex items-center gap-x-2 text-sm z-30`}
+                className={`centerXAxis py-[14px] px-[19px] rounded-3xl text-white bg-[#222222] flex items-center gap-x-2 text-sm z-30`}
             >
                 {isOnMapMode ? (
                     <>
