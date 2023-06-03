@@ -38,7 +38,8 @@ const WhySpotFinder = ({}) => {
                                 Discover the world&apos;s hidden gems with Spot Finder
                             </h1>
                             <h2 className="text-xl mt-4">
-                                Stop wasting your time and find out <br /> about amazing{' '}
+                                Stop wasting your time and find out{' '}
+                                <br className="hidden md:inline" /> about amazing{' '}
                                 <span
                                     className={`text-black ${
                                         currentPhase !== 'pausing'
@@ -64,13 +65,13 @@ const WhySpotFinder = ({}) => {
                             />
                         </div>
                     </div>
-                    <div className="carrouselWrapper flex-col hidden md:flex overflow-hidden mr-16">
+                    <div className="carrouselWrapper flex-col hidden md:flex overflow-hidden mr-8 lg:mr-16">
                         <div className="flex flex-col spots-slide">
                             {HIGHLIGHTED_SPOTS_LANDING_PAGE.map(spot => (
                                 <SpotCard
                                     key={spot._id}
-                                    width={'w-96 sm:w-96'}
-                                    height={'h-64 sm:h-64'}
+                                    width={'md:w-72 lg:w-96'}
+                                    height={'md:h-72 lg:h-64'}
                                     spotData={spot}
                                     isLandingPage
                                 />
@@ -81,8 +82,8 @@ const WhySpotFinder = ({}) => {
                             {HIGHLIGHTED_SPOTS_LANDING_PAGE.map(spot => (
                                 <SpotCard
                                     key={`${spot._id}#2`}
-                                    width={'w-96 sm:w-96'}
-                                    height={'h-64 sm:h-64'}
+                                    width={'md:w-72 lg:w-96'}
+                                    height={'md:h-72 lg:h-64'}
                                     spotData={spot}
                                     isLandingPage
                                 />

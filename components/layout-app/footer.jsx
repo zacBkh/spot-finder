@@ -23,17 +23,20 @@ const Footer = ({}) => {
     const submitNewsLetterHandler = async event => {
         event.preventDefault()
         if (!visitorEmail || !visitorEmail.includes('@')) {
-            setFeedbackNewsLetter('Your email seems invalid.')
+            setFeedbackNewsLetter(
+                'Oops! It seems this is not a valid email. Please try again.',
+            )
             return
         }
-
-        setFeedbackNewsLetter('Thank you! Please check your junk mail folder.')
+        //fr.airbnb.com/?_set_bev_on_new_domain=1655089355_ZTUwMjFiYjg3NGZh
+        https: setFeedbackNewsLetter('Thank you! Please check your junk mail folder.')
 
         const subscribeVisitor = await subscribeToNewsletter(visitorEmail)
         setFeedbackNewsLetter(subscribeVisitor.result)
         setVisitorEmail('')
     }
 
+    const linksStyle = 'text-primary hover:underline'
     return (
         <>
             <footer className="text-center md:text-start mt-4 text-white ">
@@ -64,7 +67,7 @@ const Footer = ({}) => {
                 <div className="flex flex-col gap-y-3 md:flex-row md:gap-x-3 md:gap-y-0 justify-between bg-secondary  px-6">
                     <div className="flex flex-col gap-y-4 py-6 items-center md:items-start">
                         <div>
-                            <h2 className={FOOTER_HOOK_TOP_FS}>STOP MISSING OUT !</h2>
+                            <h2 className={FOOTER_HOOK_TOP_FS}>STOP MISSING OUT ! 🥳</h2>
                             <p className="text-base mt-6">
                                 Monthly update about hottest spots and latest features.
                             </p>
@@ -133,10 +136,20 @@ const Footer = ({}) => {
                     </div>
                 </div>
 
-                <div className="bg-tertiary text-form-color flex justify-center items-center py-3">
+                <div className="bg-tertiary text-form-color flex flex-col justify-center items-center py-2">
                     <p className="font-semibold">
                         Made with <span className="text-primary">❤ </span>between Paris &
-                        Dubai
+                        Dubai.
+                    </p>
+                    <p className="text-xs">
+                        Design inspired by{' '}
+                        <a href="https://www.propertyfinder.ae/" className={linksStyle}>
+                            Property Finder
+                        </a>{' '}
+                        and{' '}
+                        <a href="https://fr.airbnb.com/" className={linksStyle}>
+                            Airbnb.
+                        </a>{' '}
                     </p>
                 </div>
             </footer>

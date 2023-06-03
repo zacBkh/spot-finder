@@ -58,14 +58,30 @@ const Navigation = () => {
 
     useOnClickOutside(refOutside, () => setIsUserMenuOpen(false))
 
+    // Disable scrolling when hamburger menu opened
+    useEffect(() => {
+        if (isHamburgerOpen) {
+            document.body.style.overflow = 'hidden'
+        }
+
+        return () => (document.body.style.overflow = 'auto')
+    }, [isHamburgerOpen])
+
     return (
         <>
+            <div
+                onClick={() => setIsHamburgerOpen(false)}
+                className={` ${
+                    isHamburgerOpen ? 'overlayDarkener' : 'bg-transparent'
+                } transition-all duration-400 ease-out md:hidden`}
+            ></div>
+
             <header
-                className={`mx-auto px-7 py-2 text-dark-color sticky top-0 z-[999] 
-                ${isScrolled ? 'border-[#dadada] border-b-[1.6px]' : ''}
-                  transparent-navbar`}
+                className={`mx-auto text-dark-color sticky top-0 z-[999] 
+                ${!isHamburgerOpen ? 'transparent-navbar' : 'bg-white'}  
+                ${isScrolled ? 'border-[#dadada] border-b-[1.6px]' : ''}`}
             >
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between px-7 py-2">
                     <div className="cursor-pointer h-[56px]">
                         <Link href={HOME}>
                             <a>
@@ -84,8 +100,7 @@ const Navigation = () => {
                                 <NavItems
                                     currentPath={pathname}
                                     key={item.link}
-                                    name={item.name}
-                                    link={item.link}
+                                    details={item}
                                 />
                             ))}
                         </ul>
@@ -120,7 +135,13 @@ const Navigation = () => {
                     </div>
                 </div>
 
-                <HamburgerMenu isOpen={isHamburgerOpen} />
+                {isHamburgerOpen && (
+                    <HamburgerMenu
+                        isOpen={isHamburgerOpen}
+                        onHambMenuClick={() => setIsHamburgerOpen(false)}
+                        currentPath={pathname}
+                    />
+                )}
             </header>
         </>
     )

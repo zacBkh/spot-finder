@@ -20,20 +20,27 @@ export const PATHS = {
 
 const { HOME, NEW_SPOT, WHY_SPOT_FINDER, PROFILE } = PATHS
 
+import { AiFillHome } from 'react-icons/ai'
+import { BsFillCameraFill } from 'react-icons/bs'
+import { BsMegaphoneFill } from 'react-icons/bs'
+
 export const NAVBAR_ITEMS = [
     {
         name: 'Home',
         link: HOME,
+        icon: <AiFillHome />,
     },
 
     {
         name: 'Add your Spot!',
         link: NEW_SPOT,
+        icon: <BsFillCameraFill />,
     },
 
     {
         name: 'Why Spot Finder ?',
         link: WHY_SPOT_FINDER,
+        icon: <BsMegaphoneFill />,
     },
 ]
 
