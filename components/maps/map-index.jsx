@@ -197,21 +197,19 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
                                             <IoIosArrowBack />
                                         </button>
                                         {popupInfo.images.map((img, index) => (
-                                            <div>
-                                                <Image
-                                                    id={getImgQueue(index) + index}
-                                                    key={img}
-                                                    layout="fill"
-                                                    objectFit="cover"
-                                                    alt="Picture of a Spot"
-                                                    src={getCloudiImg('', img)}
-                                                    className={`${getImgQueue(
-                                                        index,
-                                                    )} transition-transform duration-[400ms]`}
-                                                    // placeholder="blur"
-                                                    // blurDataURL={getCloudiImg(undefined, images[0])}
-                                                />
-                                            </div>
+                                            <Image
+                                                id={getImgQueue(index) + index}
+                                                key={img}
+                                                layout="fill"
+                                                objectFit="cover"
+                                                alt="Picture of a Spot"
+                                                src={getCloudiImg('', img)}
+                                                className={`${getImgQueue(
+                                                    index,
+                                                )} transition-transform duration-[400ms]`}
+                                                // placeholder="blur"
+                                                // blurDataURL={getCloudiImg(undefined, images[0])}
+                                            />
                                         ))}
 
                                         <button
