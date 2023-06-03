@@ -236,7 +236,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         <div className={`${hideOnLarge}`}>
                             {isLoading ? (
                                 <SkeletonImage
-                                    style={'w-20 sm:w-32 h-20 sm:h-32 rounded-full'}
+                                    style={'w-24 sm:w-32 h-20 sm:h-32 rounded-full'}
                                 />
                             ) : (
                                 <UserImage
@@ -244,8 +244,8 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                     suggestAddCustom={!profilePic?.isCustom}
                                     picLink={profilePic?.link}
                                     noBorder
-                                    width={'w-32'}
-                                    height={'h-32'}
+                                    width={'w-24 sm:w-32'}
+                                    height={'h-24 sm:h-32'}
                                 />
                             )}
                         </div>

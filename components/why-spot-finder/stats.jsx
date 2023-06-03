@@ -5,7 +5,7 @@ import HIGHLIGHTED_USERS_LANDING_PAGE from '../../constants/highlighted-users'
 
 import useTypeCharacters from '../../hooks/useTypeCharacters'
 
-const Stats = () => {
+const Stats = ({ refStats, isStatInView }) => {
     const arrayOfActivities = [
         'Photographers.',
         'Adventure seekers.',
@@ -48,7 +48,7 @@ const Stats = () => {
                     ))}
                 </div>
             </div>
-            <div className="flex flex-col w-auto md:w-1/2 gap-y-6">
+            <div ref={refStats} className="flex flex-col w-auto md:w-1/2 gap-y-6">
                 <div>
                     <h2 className={`text-3xl md:text-4xl font-bold !leading-[3.2rem]`}>
                         Join a global community of <br />{' '}
@@ -65,11 +65,27 @@ const Stats = () => {
                 </div>
 
                 <div className="flex flex-wrap justify-center md:justify-start">
-                    <Counter endNum={298} text={'of Spots shared worldwide'} />
-                    <Counter endNum={49} text={'active users'} />
+                    <Counter
+                        isStatInView={isStatInView}
+                        endNum={298}
+                        text={'Spots shared worldwide'}
+                    />
+                    <Counter
+                        isStatInView={isStatInView}
+                        endNum={49}
+                        text={'active users'}
+                    />
 
-                    <Counter endNum={121} text={'countries represented'} />
-                    <Counter endNum={1496} text={'reviews posted'} />
+                    <Counter
+                        isStatInView={isStatInView}
+                        endNum={121}
+                        text={'countries represented'}
+                    />
+                    <Counter
+                        isStatInView={isStatInView}
+                        endNum={1496}
+                        text={'reviews posted'}
+                    />
                 </div>
             </div>
         </section>

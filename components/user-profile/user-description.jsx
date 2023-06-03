@@ -75,7 +75,7 @@ const UserDescription = ({
         return (
             <>
                 <form noValidate onSubmit={formik.handleSubmit}>
-                    <div className="flex justify-between items-start">
+                    <div className="flex justify-between items-center">
                         {!isEditMode ? (
                             <p className={`${BODY_FS} mr-6 `}>
                                 {description ?? `You don't have a description yet.`}
