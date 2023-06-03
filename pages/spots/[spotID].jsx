@@ -323,12 +323,12 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                         </div>
 
                         <div
-                            className=" relative mx-auto flex gap-x-2 justify-between  items-center 
-                        my-[15%] sm:my-[1.5%] md:my-[1.5%] 2xl:my-[2%]"
+                            className="relative mx-auto flex gap-x-2 justify-between  items-center 
+                            my-[15%] sm:my-[1.5%] md:my-[1.5%] 2xl:my-[2%]"
                         >
                             <button
                                 onClick={() => switchPicHandler('-')}
-                                className={` ${arrowStyle} ${
+                                className={`${arrowStyle} ${
                                     activeImg === 0 && 'invisible'
                                 }`}
                             >

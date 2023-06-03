@@ -185,13 +185,14 @@ const AllSpots = ({ spots }) => {
         latitude: 25.07,
         zoom: 2,
     }
-
+    // These data will be available on the map
     const arrayOfSpotsGEOJSON = filteredSpots.map(spot => ({
         type: 'Feature',
         properties: {
             id: spot._id,
             title: spot.title,
             author: spot.author,
+            images: spot.images,
             coordinates: spot.geometry.coordinates,
         },
         geometry: {
@@ -237,7 +238,7 @@ const AllSpots = ({ spots }) => {
                     </div>
                 </aside>
                 {isOnMapMode ? (
-                    <div className="w-screen h-[80vh]  ">
+                    <div className="w-screen h-[85vh]  ">
                         <MapIndex
                             initialView={initialMapCoordinates}
                             spotsCoordinates={clusterGeoJSON}
