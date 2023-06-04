@@ -27,6 +27,8 @@ import getCloudiImg from '../../utils/transform-cloudi-img'
 const MapIndex = ({ spotsCoordinates, initialView }) => {
     const mapRef = useRef(null)
     const [popupInfo, setPopupInfo] = useState(null)
+    const { images, coordinates, title, author } = popupInfo ?? {}
+    console.log('popupInfo', popupInfo)
     const [currentMapStyle, setCurrentMapStyle] = useState(
         'mapbox://styles/mapbox/satellite-streets-v12?optimize=true',
     )
@@ -91,10 +93,10 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
     const [activeImg, setActiveImg] = useState(0)
 
     const arrowStyle =
-        'bg-white bg-opacity-90 active:bg-opacity-100 text-sm p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-[0.25s] absolute z-50 active:transform-none'
+        'bg-white bg-opacity-90 active:bg-opacity-100 text-[10px] md:text-sm p-1 md:p-2 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-[0.25s] absolute z-50 active:transform-none'
 
     const switchPicHandler = operator => {
-        if (operator === '+' && activeImg < popupInfo.images.length - 1) {
+        if (operator === '+' && activeImg < images.length - 1) {
             setActiveImg(prev => prev + 1)
             return
         }
@@ -111,10 +113,7 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
             return 'prev'
         }
 
-        if (
-            index === activeImg + 1 ||
-            (activeImg === popupInfo.images.length - 1 && index === 0)
-        ) {
+        if (index === activeImg + 1 || (activeImg === images.length - 1 && index === 0)) {
             return 'next'
         }
 
@@ -169,22 +168,22 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
                             closeOnClick={false}
                             closeOnMove={true}
                             onClose={() => setPopupInfo(null)}
-                            className="!max-w-[200px] md:!max-w-sm 2xl:!max-w-md "
+                            className=" md:!max-w-sm 2xl:!max-w-md  "
                             focusAfterOpen={false}
                             offset={6}
-                            longitude={popupInfo.coordinates[0]}
-                            latitude={popupInfo.coordinates[1]}
+                            longitude={coordinates[0]}
+                            latitude={coordinates[1]}
                         >
                             <div
-                                className={`text-xs bg-white text-center pb-4
-                                font-['Open_Sans'] !rounded-full
+                                className={`text-xs bg-white text-center md:pb-4
+                                font-['Open_Sans']  md:w-fit !rounded-full 
                             `}
                             >
-                                <div className="flex flex-col gap-y-2 items-start">
+                                <div className="flex md:flex-col  items-start ">
                                     <div
                                         className="!max-w-full md:!max-w-sm 2xl:!max-w-md  
-                                        w-72 h-48
-                                    relative overflow-x-auto group"
+                                        w-52 h-32 md:w-72 md:h-44
+                                        relative group whitespace-nowrap  "
                                     >
                                         <button
                                             onClick={() => switchPicHandler('-')}
@@ -196,9 +195,8 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
                                         >
                                             <IoIosArrowBack />
                                         </button>
-                                        {popupInfo.images.map((img, index) => (
+                                        {images.map((img, index) => (
                                             <Image
-                                                id={getImgQueue(index) + index}
                                                 key={img}
                                                 layout="fill"
                                                 objectFit="cover"
@@ -206,7 +204,7 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
                                                 src={getCloudiImg('', img)}
                                                 className={`${getImgQueue(
                                                     index,
-                                                )} transition-transform duration-[400ms]`}
+                                                )} transition-transform duration-[400ms] rounded-tl-xl rounded-bl-xl md:rounded-tl-xl  md:rounded-tr-xl  md:rounded-bl-none `}
                                                 // placeholder="blur"
                                                 // blurDataURL={getCloudiImg(undefined, images[0])}
                                             />
@@ -216,8 +214,7 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
                                             onClick={() => switchPicHandler('+')}
                                             className={`
                                             ${
-                                                activeImg ===
-                                                    popupInfo.images.length - 1 &&
+                                                activeImg === images.length - 1 &&
                                                 'invisible'
                                             }
                                             alignBtnCarrPopUpRight
@@ -228,12 +225,12 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
                                         </button>
                                     </div>
 
-                                    <div className="px-3 flex justify-between w-full">
-                                        <p>
-                                            <strong> {popupInfo.title} </strong>,{' '}
-                                            <span className="font-light">
+                                    <div className="p-3 w-1/2 md:w-full flex flex-col sm:flex-row justify-between  gap-y-2 md:gap-y-0 text-start">
+                                        <p className="md:whitespace-nowrap overflow-hidden text-ellipsis">
+                                            <strong> {title}</strong>,{' '}
+                                            <span className="block md:inline font-light">
                                                 {' '}
-                                                by {popupInfo.author.name}.
+                                                by {author.name}.
                                             </span>
                                         </p>
 

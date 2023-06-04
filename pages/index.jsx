@@ -214,7 +214,7 @@ const AllSpots = ({ spots }) => {
                 <meta name="description" content="Browse the best spots, in a minute!" />
             </Head>
 
-            <div className="flex flex-col md:flex-row gap-x-4 gap-y-3">
+            <div className="flex flex-col md:flex-row gap-x-4 gap-y-1">
                 <aside
                     className={`${
                         isDrawerOpen ? 'md:w-[30%] 2xl:w-[20%]' : 'md:w-[8%] xl:w-[5%]'
@@ -238,7 +238,7 @@ const AllSpots = ({ spots }) => {
                     </div>
                 </aside>
                 {isOnMapMode ? (
-                    <div className="w-screen h-[85vh]  ">
+                    <div className="w-screen h-[87vh]  ">
                         <MapIndex
                             initialView={initialMapCoordinates}
                             spotsCoordinates={clusterGeoJSON}

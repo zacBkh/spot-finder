@@ -37,7 +37,10 @@ const MapControlPanelStyles = ({ onStyleChange, currentMapStyle, additionalStyle
         },
     ]
 
-    const [isPanelActive, setIsPanelActive] = useState(true)
+    const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 0
+    console.log('viewportWidth', viewportWidth)
+
+    const [isPanelActive, setIsPanelActive] = useState(viewportWidth < 768 ? false : true)
 
     return (
         <>
