@@ -39,7 +39,7 @@ const Footer = ({}) => {
     const linksStyle = 'text-primary hover:underline'
     return (
         <>
-            <footer className="text-center md:text-start mt-4 text-white ">
+            <footer className="text-center md:text-start mt-2 text-white ">
                 <div
                     className={`
                       bg-primary flex flex-col items-center gap-y-4 py-6 relative px-2md:mt-0`}
