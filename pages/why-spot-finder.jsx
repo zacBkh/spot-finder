@@ -17,7 +17,11 @@ import FeatureSelector from '../components/why-spot-finder/features/features-sel
 import { useInView } from 'react-intersection-observer'
 
 const WhySpotFinder = ({}) => {
-    const arrayOfActivities = ['Photo Spots.', 'Points of Interest.', 'Strolls.']
+    const arrayOfActivities = [
+        'Photo Spots.',
+        'Points of Interest.',
+        'Amazing locations.',
+    ]
 
     const { activities, currentPhase } = useTypeCharacters(arrayOfActivities)
 
@@ -35,7 +39,7 @@ const WhySpotFinder = ({}) => {
                     <div className="flex flex-col items-center md:items-start gap-y-6 w-fit md:w-[50%] text-center md:text-start z-50">
                         <div>
                             <h1 className={`${BIG_TITLE_FS} leading-[1.2] font-bold`}>
-                                Discover the world&apos;s hidden gems with Spot Finder
+                                Discover the world&apos;s hidden gems with Spot Finder 📸
                             </h1>
                             <h2 className="text-xl mt-4">
                                 Stop wasting your time and find out{' '}

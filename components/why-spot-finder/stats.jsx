@@ -9,7 +9,7 @@ const Stats = ({ refStats, isStatInView }) => {
     const arrayOfActivities = [
         'Photographers.',
         'Adventure seekers.',
-        'Travel lovers',
+        'Travel lovers.',
         'Curious humans.',
     ]
 

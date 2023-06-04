@@ -194,6 +194,10 @@ const AllSpots = ({ spots }) => {
             author: spot.author,
             images: spot.images,
             coordinates: spot.geometry.coordinates,
+            reviews: {
+                nbOfRev: spot.reviews.length,
+                avrgGrade: getAvrgGrade(spot.reviews),
+            },
         },
         geometry: {
             type: 'Point',

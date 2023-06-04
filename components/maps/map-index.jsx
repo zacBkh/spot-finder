@@ -24,11 +24,11 @@ import {
 import { clusterLayer, clusterCountLayer, unclusteredPointLayer } from './layers'
 
 import getCloudiImg from '../../utils/transform-cloudi-img'
+
 const MapIndex = ({ spotsCoordinates, initialView }) => {
     const mapRef = useRef(null)
     const [popupInfo, setPopupInfo] = useState(null)
-    const { images, coordinates, title, author } = popupInfo ?? {}
-    console.log('popupInfo', popupInfo)
+    const { images, coordinates, title, author, reviews } = popupInfo ?? {}
     const [currentMapStyle, setCurrentMapStyle] = useState(
         'mapbox://styles/mapbox/satellite-streets-v12?optimize=true',
     )
@@ -48,6 +48,7 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
                     spot => spot.properties.id === clickedSpotID,
                 )
                 setPopupInfo(spotClicked.properties)
+                console.log('popupInfo', popupInfo)
             } catch (error) {
                 console.log('error', error)
             }
@@ -236,7 +237,7 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
 
                                         <div className="flex items-center align-top gap-x-1">
                                             <MdGrade className="w-4 h-4" />
-                                            <span>5.3</span>
+                                            <span>{reviews.avrgGrade}</span>
                                         </div>
                                     </div>
                                 </div>

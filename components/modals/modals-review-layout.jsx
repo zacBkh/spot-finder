@@ -148,12 +148,12 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                     <button
                         onClick={onCloseModal}
                         type="button"
-                        className="absolute top-1 right-1 sm:top-3 sm:right-3 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                        className="absolute top-1 right-1 sm:top-3 sm:right-3 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1 ml-auto inline-flex items-center"
                         data-modal-hide="popup-modal"
                     >
                         <AiOutlineClose className="w-5 h-5" />
                     </button>
-                    <div className="flex flex-col p-3 sm:p-6 text-center">
+                    <div className="flex flex-col p-4 sm:p-6 text-center">
                         <div className="space-y-4">
                             <div className="flex justify-between items-center gap-x-6 sm:gap-x-16 bg-white ">
                                 <div className="flex flex-col gap-y-3 text-start">
