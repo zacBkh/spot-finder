@@ -16,7 +16,6 @@ const SpotTextualInput = ({
     text-sm border border-gray-300 text-gray-900 w-full p-2.5 mt-2`
 
     const pressEnterHandler = e => {
-        console.log('e', e)
         if (e.key === 'Enter') {
             e.preventDefault()
             onEnterKeyPress('+')

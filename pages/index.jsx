@@ -189,15 +189,7 @@ const AllSpots = ({ spots }) => {
     const arrayOfSpotsGEOJSON = filteredSpots.map(spot => ({
         type: 'Feature',
         properties: {
-            id: spot._id,
-            title: spot.title,
-            author: spot.author,
-            images: spot.images,
-            coordinates: spot.geometry.coordinates,
-            reviews: {
-                nbOfRev: spot.reviews.length,
-                avrgGrade: getAvrgGrade(spot.reviews),
-            },
+            ...spot,
         },
         geometry: {
             type: 'Point',

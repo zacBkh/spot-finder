@@ -50,7 +50,7 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                                 <UserImage
                                     alt={'The picture you have uploaded'}
                                     title="You have uploaded this picture"
-                                    width={imgSize}
+                                    size={imgSize}
                                     picLink={formik.values.profilePic.link}
                                 />
                             ) : (
@@ -76,7 +76,7 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                                 <UserImage
                                     alt={'A picture you can pick as profile picture'}
                                     title={pic.name}
-                                    width={imgSize}
+                                    size={imgSize}
                                     picLink={pic.link}
                                 />
                                 {formik.values.profilePic.link === pic.link ? (

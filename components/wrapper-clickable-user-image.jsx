@@ -11,7 +11,7 @@ const ClickableUserImage = ({ url, width, height, children, profilePic }) => {
                 <button
                     className={`${BODY_FS} group text-form-color flex justify-center items-center gap-x-3 w-fit mx-auto`}
                 >
-                    <UserImage picLink={profilePic.link} width={width} height={height} />
+                    <UserImage picLink={profilePic.link} size={`${width} ${height}`} />
 
                     {children ?? ''}
                 </button>

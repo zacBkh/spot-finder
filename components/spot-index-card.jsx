@@ -1,6 +1,7 @@
+import { useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
 import { MdLocationOn } from 'react-icons/md'
 import { MdGrade } from 'react-icons/md'
 
@@ -15,13 +16,24 @@ import { PATHS } from '../constants/URLs'
 
 import getCloudiImg from '../utils/transform-cloudi-img'
 
+import { useRouter } from 'next/router'
+
 const SpotCard = ({
     spotData,
-    shouldNotDisplayUserPic,
     width,
     height,
+
     isLandingPage,
+    shouldNotDisplayUserPic,
+
+    moreStyleContainer,
+    spotTitleFS,
+    spotOtherFS,
+    userImgSize,
+    isMapPopUp,
 }) => {
+    const router = useRouter()
+
     const { _id, title, categories, author, country, images, reviews } = spotData
 
     // Takes all reviews rate and do average (virtuals not working from client)
@@ -32,101 +44,215 @@ const SpotCard = ({
     const displaySuspensionPoints =
         'text-ellipsis whitespace-nowrap overflow-hidden text-start'
 
+    const [activeImg, setActiveImg] = useState(0)
+
+    const arrowStyle =
+        'bg-white bg-opacity-90 active:bg-opacity-100 text-[10px] md:text-sm p-1 md:p-2 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-[0.25s] absolute z-50 active:transform-none'
+
+    const switchPicHandler = operator => {
+        if (operator === '+' && activeImg < images.length - 1) {
+            setActiveImg(prev => prev + 1)
+            return
+        }
+        if (operator === '-' && activeImg > 0) {
+            setActiveImg(prev => prev - 1)
+        }
+    }
+
+    const getImgQueue = index => {
+        if (index === activeImg) {
+            return 'active'
+        }
+        if (index === activeImg - 1) {
+            return 'prev'
+        }
+
+        if (index === activeImg + 1 || (activeImg === images.length - 1 && index === 0)) {
+            return 'next'
+        }
+        return ''
+    }
+
+    const onSpotCardClick = evt => {
+        const isCarouselBtn = evt.target.getAttribute('iscarrouselbtn')
+        const nodeName = evt.target.nodeName
+        console.log('evt.target', evt.target)
+        console.log('evt.target.nodeName', evt.target.nodeName)
+        console.log('isCarouselBtn', isCarouselBtn)
+        if (isCarouselBtn || nodeName !== 'SPAN') {
+            console.log('44', 44)
+            return
+        }
+        router.push(`${PATHS.SPOT}/${_id}`)
+    }
+
+    const preFetcher = async () => {
+        try {
+            await router.prefetch(`${PATHS.SPOT}/${_id}`)
+        } catch (error) {
+            console.log('prefetchError', error)
+        }
+    }
+
     const hoverCardHandler = () => {
-        console.log('hovered spotData', spotData)
+        if (isLandingPage) {
+            console.log('hovered spotData', spotData)
+            return
+        }
+        preFetcher()
     }
 
     return (
-        <Link href={`${PATHS.SPOT}/${_id}`}>
-            <a
-                onMouseEnter={isLandingPage && hoverCardHandler}
-                className="hoverCardShadow"
+        <div
+            onMouseEnter={hoverCardHandler}
+            className={`hoverCardShadow ${isLandingPage ? 'mt-4' : ''}`}
+            onClick={onSpotCardClick}
+        >
+            <div
+                className={`cursor-pointer flex 
+                    ${isMapPopUp && 'relative'}
+                    ${isMapPopUp ? 'flex-row items-center' : 'flex-col'}
+                    ${isMapPopUp ? 'w-auto' : width} group`}
             >
-                <button className={`cursor-pointer flex flex-col ${width} group`}>
-                    <div
-                        className={`relative w-full ${height} mx-auto rounded-lg overflow-hidden`}
+                <div
+                    className={`relative ${height} mx-auto 
+                        ${isMapPopUp ? '' : 'rounded-lg'} 
+                        ${isMapPopUp ? 'w-1/2  rounded-tl-xl rounded-bl-xl ' : ' w-full'} 
+                        overflow-hidden group`}
+                >
+                    <button
+                        iscarrouselbtn="true"
+                        onClick={() => switchPicHandler('-')}
+                        className={`
+                                            ${activeImg === 0 && 'invisible'}
+                                            alignBtnCarrPopUpLeft
+                                            ${arrowStyle}
+                                            `}
                     >
-                        {images[0] ? (
+                        <IoIosArrowBack iscarrouselbtn="true" />
+                    </button>
+                    {images[0] ? (
+                        images.map((img, index) => (
                             <Image
+                                key={img}
+                                layout="fill"
+                                objectFit="cover"
+                                alt="Picture of a Spot"
+                                src={getCloudiImg('', img)}
                                 placeholder="blur"
                                 blurDataURL={getCloudiImg(undefined, images[0])}
-                                src={getCloudiImg('', images[0])}
-                                alt="Picture of a Spot on SpotFinder"
-                                layout="fill"
-                                className="object-cover group-hover:scale-105 transition-transform duration-[175ms] "
+                                className={`${getImgQueue(
+                                    index,
+                                )} transition-transform duration-[400ms] `}
                             />
-                        ) : (
-                            <MissingImage />
-                        )}
-                    </div>
-                    <div className="flex flex-col gap-y-1 px-1 w-full">
-                        <div className="mt-2 flex justify-between items-start text-form-color text-[15px] w-full">
-                            <div className="w-[80%] 2xl:w-full flex flex-col">
-                                <p
-                                    className={`font-semibold ${displaySuspensionPoints} `}
-                                >
-                                    {title}
-                                </p>
-                                <div className="flex items-center text-greyText">
-                                    <MdLocationOn className="text-lg" />
-                                    <p className={`text-sm ${displaySuspensionPoints}`}>
-                                        {country?.name ?? 'Country unavailable. 😢'}
-                                    </p>
-                                </div>
-                            </div>
+                        ))
+                    ) : (
+                        <MissingImage />
+                    )}
 
-                            {spotAverageRate ? (
-                                <div className="flex items-center align-top">
-                                    <MdGrade className="w-4 h-4" />
-                                    <span>{spotAverageRate}</span>
-                                </div>
-                            ) : (
-                                ''
-                            )}
+                    <button
+                        iscarrouselbtn="true"
+                        onClick={() => switchPicHandler('+')}
+                        className={`
+                            ${activeImg === images.length - 1 && 'invisible'}
+                            alignBtnCarrPopUpRight
+                            ${arrowStyle}
+                            `}
+                    >
+                        <IoIosArrowForward iscarrouselbtn="true" />
+                    </button>
+                </div>
+
+                <div
+                    className={`flex flex-col px-1 
+                        ${isMapPopUp ? 'w-1/2 gap-y-4' : 'w-full gap-y-1'} 
+                        ${moreStyleContainer}
+                        `}
+                >
+                    <div
+                        className={`mt-2 flex justify-between
+                             ${isMapPopUp ? 'items-center' : 'items-start'} 
+                             text-form-color
+                             ${spotTitleFS ?? 'text-[15px]'}
+                             
+                             w-full`}
+                    >
+                        <div
+                            className={`${isMapPopUp ? ' w-[70%]' : ' w-[80%]'} 
+                            2xl:w-full flex flex-col`}
+                        >
+                            <p
+                                className={`font-semibold 
+                                    ${isMapPopUp ? '' : displaySuspensionPoints}
+                                     `}
+                            >
+                                {title}
+                            </p>
+                            <div className="flex items-center text-greyText">
+                                <MdLocationOn className="text-lg" />
+                                <p
+                                    className={`${spotOtherFS ?? 'text-sm'}
+                                        ${displaySuspensionPoints}`}
+                                >
+                                    {country?.name ?? 'Country unavailable. 😢'}
+                                </p>
+                            </div>
                         </div>
 
-                        {shouldNotDisplayUserPic ? (
-                            ''
-                        ) : (
-                            <div className="flex gap-x-2 items-center group w-fit text-greyText">
-                                <UserImage
-                                    alt={`Profile picture of ${author.name}`}
-                                    picLink={author?.profilePic?.link}
-                                    width={'w-8'}
-                                    height={'h-8'}
-                                />
-                                <span className="text-sm group-hover:underline ">
-                                    Spot by {author.name}
-                                </span>
+                        {spotAverageRate ? (
+                            <div className="flex items-center align-top">
+                                <MdGrade className="w-4 h-4" />
+                                <span>{spotAverageRate}</span>
                             </div>
+                        ) : (
+                            ''
                         )}
+                    </div>
 
-                        <div className="flex items-center mx-auto">
-                            {spotIcons.map((icon, index) => (
-                                <div
-                                    key={icon.name}
-                                    title={`This spot is related to the ${icon.name} category`}
-                                    className=" items-center text-greyText w-fit inline"
-                                >
-                                    {index === spotIcons.length - 1 ? (
-                                        <span className="flex items-center gap-x-2">
+                    {shouldNotDisplayUserPic ? (
+                        ''
+                    ) : (
+                        <div className="flex gap-x-2 items-center group w-fit text-greyText">
+                            <UserImage
+                                alt={`Profile picture of ${author.name}`}
+                                picLink={author?.profilePic?.link}
+                                size={`${userImgSize ?? 'w-8 h-8'}`}
+                            />
+                            <span
+                                className={`${
+                                    spotOtherFS ?? 'text-sm'
+                                } group-hover:underline`}
+                            >
+                                Spot by {author.name}
+                            </span>
+                        </div>
+                    )}
+
+                    <div className="flex items-center mx-auto">
+                        {spotIcons.map((icon, index) => (
+                            <div
+                                key={icon.name}
+                                title={`This spot is related to the ${icon.name} category`}
+                                className=" items-center text-greyText w-fit inline"
+                            >
+                                {index === spotIcons.length - 1 ? (
+                                    <span className="flex items-center gap-x-2">
+                                        {icon.icon}
+                                    </span>
+                                ) : (
+                                    <span className="flex items-center">
+                                        <span className="flex items-center gap-x-2 ">
                                             {icon.icon}
                                         </span>
-                                    ) : (
-                                        <span className="flex items-center">
-                                            <span className="flex items-center gap-x-2 ">
-                                                {icon.icon}
-                                            </span>
-                                            <span className="mx-2">|</span>
-                                        </span>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+                                        <span className="mx-2">|</span>
+                                    </span>
+                                )}
+                            </div>
+                        ))}
                     </div>
-                </button>
-            </a>
-        </Link>
+                </div>
+            </div>
+        </div>
     )
 }
 

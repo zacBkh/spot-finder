@@ -25,10 +25,12 @@ import { clusterLayer, clusterCountLayer, unclusteredPointLayer } from './layers
 
 import getCloudiImg from '../../utils/transform-cloudi-img'
 
+import SpotCard from '../spot-index-card'
+
 const MapIndex = ({ spotsCoordinates, initialView }) => {
     const mapRef = useRef(null)
     const [popupInfo, setPopupInfo] = useState(null)
-    const { images, coordinates, title, author, reviews } = popupInfo ?? {}
+    const { images, geometry, title, author, reviews } = popupInfo ?? {}
     const [currentMapStyle, setCurrentMapStyle] = useState(
         'mapbox://styles/mapbox/satellite-streets-v12?optimize=true',
     )
@@ -44,9 +46,12 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
         if (feature.layer.id === 'unclustered-point') {
             try {
                 const clickedSpotID = feature.properties.id
+                console.log('clickedSpotID', clickedSpotID)
+                console.log('spotsCoordinates', spotsCoordinates)
                 const spotClicked = spotsCoordinates.features.find(
-                    spot => spot.properties.id === clickedSpotID,
+                    spot => spot.properties._id == clickedSpotID,
                 )
+                console.log('spotClicked', spotClicked)
                 setPopupInfo(spotClicked.properties)
                 console.log('popupInfo', popupInfo)
             } catch (error) {
@@ -169,87 +174,22 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
                             closeOnClick={false}
                             closeOnMove={true}
                             onClose={() => setPopupInfo(null)}
-                            className=" md:!max-w-sm 2xl:!max-w-md  "
+                            className=" md:!max-w-sm 2xl:!max-w-md   "
                             focusAfterOpen={false}
                             offset={6}
-                            longitude={coordinates[0]}
-                            latitude={coordinates[1]}
+                            longitude={geometry.coordinates[0]}
+                            latitude={geometry.coordinates[1]}
                         >
-                            <div
-                                className={`text-xs bg-white text-center md:pb-4
-                                font-['Open_Sans']  md:w-fit !rounded-full 
-                            `}
-                            >
-                                <div className="flex md:flex-col  items-start ">
-                                    <div
-                                        className="!max-w-full md:!max-w-sm 2xl:!max-w-md  
-                                        w-52 h-32 md:w-72 md:h-44
-                                        relative group whitespace-nowrap  "
-                                    >
-                                        <button
-                                            onClick={() => switchPicHandler('-')}
-                                            className={`
-                                            ${activeImg === 0 && 'invisible'}
-                                            alignBtnCarrPopUpLeft
-                                            ${arrowStyle}
-                                            `}
-                                        >
-                                            <IoIosArrowBack />
-                                        </button>
-                                        {images.map((img, index) => (
-                                            <Image
-                                                key={img}
-                                                layout="fill"
-                                                objectFit="cover"
-                                                alt="Picture of a Spot"
-                                                src={getCloudiImg('', img)}
-                                                className={`${getImgQueue(
-                                                    index,
-                                                )} transition-transform duration-[400ms] rounded-tl-xl rounded-bl-xl md:rounded-tl-xl  md:rounded-tr-xl  md:rounded-bl-none `}
-                                                // placeholder="blur"
-                                                // blurDataURL={getCloudiImg(undefined, images[0])}
-                                            />
-                                        ))}
-
-                                        <button
-                                            onClick={() => switchPicHandler('+')}
-                                            className={`
-                                            ${
-                                                activeImg === images.length - 1 &&
-                                                'invisible'
-                                            }
-                                            alignBtnCarrPopUpRight
-                                            ${arrowStyle}
-                                            `}
-                                        >
-                                            <IoIosArrowForward />
-                                        </button>
-                                    </div>
-
-                                    <div className="p-3 w-1/2 md:w-full flex flex-col sm:flex-row justify-between  gap-y-2 md:gap-y-0 text-start">
-                                        <p className="md:whitespace-nowrap overflow-hidden text-ellipsis">
-                                            <strong> {title}</strong>,{' '}
-                                            <span className="block md:inline font-light">
-                                                {' '}
-                                                by {author.name}.
-                                            </span>
-                                        </p>
-
-                                        <div className="flex items-center align-top gap-x-1">
-                                            <MdGrade className="w-4 h-4" />
-                                            <span>{reviews.avrgGrade}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/*
-                                <Link
-                                    className="underline underline-offset-2"
-                                    // href={`${popupInfo.name}`}
-                                    href="/le-1905"
-                                >
-                                    En savoir plus
-                                </Link> */}
-                            </div>
+                            <SpotCard
+                                width={'w-48 sm:w-52'}
+                                height={'h-48 sm:h-52'}
+                                spotData={popupInfo}
+                                moreStyleContainer={'!p-2'}
+                                // spotTitleFS={'text-sm'}
+                                // spotOtherFS={'text-xs'}
+                                userImgSize={'w-8 h-8'}
+                                isMapPopUp
+                            />
                         </Popup>
                     )}
                     <MapControlPanelStyles

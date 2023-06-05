@@ -512,22 +512,21 @@ div.hoverLink a:hover {
     width: 100% !important;
 }
 
-@media (max-width: 768px) {
-    .mapboxgl-popup {
-        position: absolute !important;
-        bottom: 3% !important;
-        top: auto !important;
-        left: 49% !important;
-        transform: translateX(-50%) !important;
-        z-index: 50 !important;
-        width: 90% !important;
-        max-width: 90% !important;
-        border-radius: 50px;
-    }
+/* Will place pop up at the bottom on mobile */
+.mapboxgl-popup {
+    position: absolute !important;
+    bottom: 3% !important;
+    top: auto !important;
+    left: 49% !important;
+    transform: translateX(-50%) !important;
+    z-index: 50 !important;
+    width: 90% !important;
+    max-width: 90% !important;
+    border-radius: 50px;
+}
 
-    .mapboxgl-popup-tip {
-        border: none !important;
-    }
+.mapboxgl-popup-tip {
+    border: none !important;
 }
 
 .alignBtnCarrPopUpLeft {

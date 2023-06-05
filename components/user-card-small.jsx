@@ -23,8 +23,7 @@ const UserCardSmall = ({
                     <UserImage
                         alt={`Profile picture of ${name}`}
                         picLink={picLink}
-                        width={'w-32 max-w-[40%]'}
-                        height={'h-32'}
+                        size={'w-32 max-w-[40%] h-32'}
                     />
                     <div className="flex flex-col gap-y-2 text-sm border-l-2 border-primary h-[75%] pl-2 max-w-[60%] ">
                         <div>
