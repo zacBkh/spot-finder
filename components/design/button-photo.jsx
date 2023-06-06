@@ -1,13 +1,13 @@
 import { BsCamera } from 'react-icons/bs'
 import { GoLocation } from 'react-icons/go'
 
-import { BUTTON_FS } from '../../constants/responsive-fonts'
-const ButtonPhoto = ({ type, isMapFullScreen, onMapToggle, qtyPhotos }) => {
+const ButtonPhoto = ({ type, isMapFullScreen, qtyPhotos }) => {
     return (
         <>
             <button
-                onClick={onMapToggle}
-                className={`${BUTTON_FS} py-2 px-2 md:px-3  flex items-center gap-x-2 bg-white text-form-color rounded-lg shadow-md`}
+                data-action={type}
+                id={type}
+                className={`py-2 px-2 md:px-3  flex items-center gap-x-2 bg-white text-form-color rounded-lg shadow-md text-sm z-[99999] !hover:brightness-100`}
             >
                 {type === 'showPhotos' ? (
                     <>

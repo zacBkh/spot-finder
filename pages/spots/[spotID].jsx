@@ -246,10 +246,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
     const [isMapVisible, setIsMapVisible] = useState(false)
 
-    const mapToggleHandler = () => {
-        setIsMapVisible(prev => !prev)
-    }
-
     const categoriesToIterateOn = isInputEditable.categories
         ? SPOT_CATEGORIES
         : formik.values.categories
@@ -286,6 +282,20 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         return () => (document.body.style.overflow = 'auto')
     }, [isPicViewerOpen])
 
+    const imgClickHandler = evt => {
+        const clicked = evt.target.nodeName
+        console.log('clicked', clicked)
+        const dataset = evt.target.dataset.action
+
+        if (clicked === 'BUTTON' && dataset === 'showMap') {
+            setIsMapVisible(prev => !prev)
+            console.log('showmap')
+        } else {
+            console.log('showPic')
+            setisPicViewerOpen(true)
+        }
+    }
+
     return (
         <div>
             {isPicViewerOpen && (
@@ -300,7 +310,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
             <div className="px-4 md:px-9 xl:px-16 2xl:px-56 space-y-6 ">
                 <div className="grid-container grid grid-rows-[350px] lg:grid-rows-[400px] 2xl:grid-rows-[600px] grid-cols-3 gap-2 relative">
                     <div
-                        onClick={() => setisPicViewerOpen(true)}
+                        onClick={imgClickHandler}
                         className="gap-2 grid grid-rows-2 grid-cols-3 col-span-full relative"
                     >
                         <div className="relative row-span-2 col-span-2 dimOnHover">
@@ -335,7 +345,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 />
                                 <ButtonPhoto
                                     isMapFullScreen={isMapVisible}
-                                    onMapToggle={mapToggleHandler}
                                     type={'showMap'}
                                 />
                             </div>
