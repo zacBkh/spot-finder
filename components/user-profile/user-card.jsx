@@ -170,8 +170,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 suggestAddCustom={!profilePic?.isCustom}
                                 picLink={profilePic?.link}
                                 noBorder
-                                width={'w-32'}
-                                height={'h-32'}
+                                size={'w-32 h-32'}
                             />
                             <UserStats
                                 onScrollClick={scrollClickHandler}
@@ -244,8 +243,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                     suggestAddCustom={!profilePic?.isCustom}
                                     picLink={profilePic?.link}
                                     noBorder
-                                    width={'w-24 sm:w-32'}
-                                    height={'h-24 sm:h-32'}
+                                    size={'w-24 sm:w-32 h-24 sm:h-32'}
                                 />
                             )}
                         </div>

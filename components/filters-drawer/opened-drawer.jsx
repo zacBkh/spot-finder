@@ -26,7 +26,7 @@ const OpenedDrawer = ({
     onDrawerToggle,
 }) => {
     return (
-        <div className="flex flex-col items-center gap-y-4">
+        <div className="flex flex-col items-center gap-y-2">
             <button
                 onClick={onDrawerToggle}
                 className="w-full flex items-center justify-center gap-x-3 font-semibold"

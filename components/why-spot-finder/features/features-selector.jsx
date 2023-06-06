@@ -81,7 +81,7 @@ const FeatureSelector = ({}) => {
                     mx-auto  `}
                 >
                     <div
-                        className={`flex justify-between items-center mt-6  
+                        className={`flex justify-between items-center mt-6   
                     w-full px-4 overflow-x-auto gap-x-10 sm:gap-x-0
                     
                     ${router.pathname === WHY_SPOT_FINDER ? '' : 'mt-6'} 

@@ -252,7 +252,7 @@ input:disabled {
     opacity: 1 !important;
 }
 
-/* Vertical carrousel */
+/* Vertical carrousel landing page */
 .carrouselWrapper {
     overflow: hidden;
     height: 95vh;
@@ -504,10 +504,29 @@ div.hoverLink a:hover {
     transform: translate(-50%, -50%) !important;
 }
 
+/* Pop up mapbox */
 .mapboxgl-popup-content {
     padding: 0 !important;
     box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2) !important;
     border-radius: 12px !important;
+    width: 100% !important;
+}
+
+/* Will place pop up at the bottom on mobile */
+.mapboxgl-popup {
+    position: absolute !important;
+    bottom: 3% !important;
+    top: auto !important;
+    left: 49% !important;
+    transform: translateX(-50%) !important;
+    z-index: 50 !important;
+    width: 90% !important;
+    max-width: 90% !important;
+    border-radius: 50px;
+}
+
+.mapboxgl-popup-tip {
+    border: none !important;
 }
 
 .alignBtnCarrPopUpLeft {
