@@ -3,6 +3,10 @@ import { useState, useRef, useEffect } from 'react'
 import useSWR, { useSWRConfig } from 'swr'
 import SWR_KEYS from '../../constants/SWR-keys'
 
+import { MdOutlineEditLocation } from 'react-icons/md'
+import { BsCamera } from 'react-icons/bs'
+import { GoLocation } from 'react-icons/go'
+
 import { authOptions } from '../api/auth/[...nextauth]'
 
 import { unstable_getServerSession } from 'next-auth/next'
@@ -252,7 +256,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         ? SPOT_CATEGORIES
         : formik.values.categories
 
-    const [txtareaHeight, setTxtareaHeight] = useState('')
+    const [txtareaHeight, setTxtareaHeight] = useState('height')
 
     // Set text area state height onMount
     useEffect(() => {
@@ -322,7 +326,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
             <div className="px-4 md:px-9 xl:px-16 2xl:px-56 space-y-6 ">
                 <div className="grid-container grid grid-rows-[350px] lg:grid-rows-[400px] 2xl:grid-rows-[600px] grid-cols-3 gap-2 relative">
                     <div className="gap-2 grid grid-rows-2 grid-cols-3 col-span-full relative">
-                        <div className="relative row-span-2 col-span-2 dimOnHover">
+                        <div className="relative row-span-2 col-span-2">
                             {isMapVisible ? (
                                 <MapShow
                                     isMarkerDraggable={isMarkerDraggable}
@@ -340,7 +344,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         src={getCloudiImg('', images[0])}
                                         alt="Picture"
                                         layout="fill"
-                                        className="object-cover rounded-l-md"
+                                        className="object-cover rounded-l-md dimOnHover"
                                         priority={true}
                                     />
                                 </div>
@@ -349,21 +353,24 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             <div className="absolute float-left top-[78%] sm:top-[76%] md:top-[87%] lg:top-[88%] left-[1.5%] flex flex-col md:flex-row gap-1">
                                 <div onClick={() => imgClickHandler(0)}>
                                     <ButtonPhoto
-                                        type={'showPhotos'}
-                                        qtyPhotos={images.length}
+                                        txt={`Show ${images.length} photos.`}
+                                        icon={<BsCamera />}
                                     />
                                 </div>
 
                                 <div onClick={() => setIsMapVisible(prev => !prev)}>
                                     <ButtonPhoto
-                                        isMapFullScreen={isMapVisible}
-                                        type={'showMap'}
+                                        txt={isMapVisible ? 'Hide Map' : 'Show on Map'}
+                                        icon={<GoLocation />}
                                     />
                                 </div>
 
                                 {shouldBeEditable ? (
                                     <div onClick={editCoordRequestHandler}>
-                                        <ButtonPhoto type={'editLocation'} />
+                                        <ButtonPhoto
+                                            txt={'Edit your Spot Location'}
+                                            icon={<MdOutlineEditLocation />}
+                                        />
                                     </div>
                                 ) : (
                                     ''
