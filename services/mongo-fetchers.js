@@ -26,7 +26,6 @@ export const addSpotHandler = async enteredData => {
 }
 
 export const editSpotHandler = async (editedEnteredData, spotID) => {
-    console.log('editedEnteredDatapp', editedEnteredData)
     const response = await fetch(`/api/spots/${spotID}`, {
         method: 'PATCH',
         body: JSON.stringify(editedEnteredData), //conv to JSON

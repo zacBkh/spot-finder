@@ -74,13 +74,11 @@ const SpotCard = ({
     }
 
     const onSpotCardClick = evt => {
-        const isCarouselBtn = evt.target.getAttribute('iscarrouselbtn')
         const nodeName = evt.target.nodeName
         console.log('evt.target', evt.target)
         console.log('evt.target.nodeName', evt.target.nodeName)
-        console.log('isCarouselBtn', isCarouselBtn)
-        if (isCarouselBtn || nodeName !== 'SPAN') {
-            console.log('44', 44)
+        const arrayBtnClick = ['BUTTON', 'svg', 'path']
+        if (arrayBtnClick.includes(nodeName)) {
             return
         }
         router.push(`${PATHS.SPOT}/${_id}`)
@@ -121,7 +119,6 @@ const SpotCard = ({
                         overflow-hidden group`}
                 >
                     <button
-                        iscarrouselbtn="true"
                         onClick={() => switchPicHandler('-')}
                         className={`
                                             ${activeImg === 0 && 'invisible'}
@@ -129,7 +126,7 @@ const SpotCard = ({
                                             ${arrowStyle}
                                             `}
                     >
-                        <IoIosArrowBack iscarrouselbtn="true" />
+                        <IoIosArrowBack />
                     </button>
                     {images[0] ? (
                         images.map((img, index) => (
@@ -151,7 +148,6 @@ const SpotCard = ({
                     )}
 
                     <button
-                        iscarrouselbtn="true"
                         onClick={() => switchPicHandler('+')}
                         className={`
                             ${activeImg === images.length - 1 && 'invisible'}
@@ -159,18 +155,18 @@ const SpotCard = ({
                             ${arrowStyle}
                             `}
                     >
-                        <IoIosArrowForward iscarrouselbtn="true" />
+                        <IoIosArrowForward />
                     </button>
                 </div>
 
                 <div
-                    className={`flex flex-col px-1 
+                    className={`flex flex-col p-2
                         ${isMapPopUp ? 'w-1/2 gap-y-4' : 'w-full gap-y-1'} 
                         ${moreStyleContainer}
                         `}
                 >
                     <div
-                        className={`mt-2 flex justify-between
+                        className={`flex justify-between
                              ${isMapPopUp ? 'items-center' : 'items-start'} 
                              text-form-color
                              ${spotTitleFS ?? 'text-[15px]'}

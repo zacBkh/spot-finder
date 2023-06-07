@@ -12,7 +12,30 @@ import { messageMapMAC, messageMapPC } from '../../constants/scroll-message-map'
 
 import Pin from './pin-marker'
 
-const MapShow = ({ markerCoordinates }) => {
+import getCountryCode from '../../services/get-country-code'
+import worldCountryDetails from '../../utils/world-country-continents'
+
+const MapShow = ({ markerCoordinates, isMarkerDraggable, onSpotLocationChange }) => {
+    const markerDragHandler = async coordinates => {
+        const { lat, lng } = coordinates.lngLat
+
+        const countryCode = await getCountryCode(lng, lat)
+
+        let country
+        if (countryCode === undefined) {
+            country = null
+        } else {
+            country = worldCountryDetails.find(country => country.code === countryCode)
+        }
+
+        const geometry = {
+            type: 'Point',
+            coordinates: [lng, lat],
+        }
+
+        onSpotLocationChange(geometry, country)
+    }
+
     return (
         <>
             <div className={`w-full h-full`}>
@@ -22,13 +45,12 @@ const MapShow = ({ markerCoordinates }) => {
                     initialViewState={{
                         latitude: markerCoordinates.Latitude,
                         longitude: markerCoordinates.Longitude,
-                        zoom: 7,
+                        zoom: 3,
                     }}
                     mapStyle="mapbox://styles/mapbox/satellite-streets-v12?optimize=true"
                     mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
                     attributionControl={false}
-                    onZoom={e => console.log(e.viewState.zoom)}
-                    minZoom={10}
+                    minZoom={2}
                     maxZoom={18}
                     locale={{
                         'ScrollZoomBlocker.CtrlMessage': messageMapPC,
@@ -36,6 +58,8 @@ const MapShow = ({ markerCoordinates }) => {
                     }}
                 >
                     <Marker
+                        onDragEnd={markerDragHandler}
+                        draggable={isMarkerDraggable}
                         longitude={markerCoordinates.Longitude}
                         latitude={markerCoordinates.Latitude}
                         color="red"
