@@ -32,16 +32,10 @@ const ResetPassword = ({ userID }) => {
 
         const changeUserPwd = await editUserHandler(true, newPwd, userID)
 
-        // if (!changeUserPwd.success) {
-        //     router.push(
-        //         { query: { userID, [KEY]: VALUE_RESET_PWD_FAILURE } },
-        //         undefined,
-        //         {
-        //             shallow: true,
-        //         },
-        //     )
-        //     return
-        // }
+        if (!changeUserPwd.success) {
+            router.push(`${PATHS.HOME}?${KEY}=${VALUE_RESET_PWD_FAILURE}`)
+            return
+        }
         const { email } = changeUserPwd.result
 
         await signIn('credentials', {

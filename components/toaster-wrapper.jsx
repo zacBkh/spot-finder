@@ -105,7 +105,13 @@ const Toaster = () => {
             return
         }
 
-        console.log('queryString', queryString)
+        if (queryString[KEY] === VALUE_RESET_PWD_FAILURE) {
+            toast.error('There has been an issue resetting your password.', {
+                position: 'bottom-left',
+                toastId: 'resetPwdFailure',
+            })
+            return
+        }
 
         if (status === 'authenticated') {
             const currentUserName = capitalize(session.user.name)
@@ -301,15 +307,7 @@ const Toaster = () => {
                 return
             }
 
-            if (router.query[KEY] === VALUE_RESET_PWD_FAILURE) {
-                toast.error('There has been an issue resetting your password.', {
-                    position: 'bottom-left',
-                    toastId: 'resetPwdFailure',
-                })
-                return
-            }
-
-            if (router.query[KEY_AUTH] === VALUE_CREATE_SPOT) {
+            if (queryString[KEY_AUTH] === VALUE_CREATE_SPOT) {
                 toast.error(`You must be authenticated to create a new Spot.`, {
                     position: 'bottom-left',
                     toastId: 'alreadyLoggedIn',
@@ -317,7 +315,7 @@ const Toaster = () => {
                 return
             }
 
-            if (router.query[KEY_AUTH] === VALUE_ACCESS_PROFILE) {
+            if (queryString[KEY_AUTH] === VALUE_ACCESS_PROFILE) {
                 toast.error(`You must be authenticated to view your profile.`, {
                     position: 'bottom-left',
                     toastId: 'mustBeAuthToViewProfile',
@@ -325,7 +323,7 @@ const Toaster = () => {
                 return
             }
 
-            if (router.query[KEY_AUTH_ERROR] === VALUE_AUTH_ERROR) {
+            if (queryString[KEY_AUTH_ERROR] === VALUE_AUTH_ERROR) {
                 toast.error(`Try to login with another provider: Facebook or Google.`, {
                     position: 'bottom-left',
                     toastId: 'oAuthError',
@@ -349,7 +347,7 @@ const Toaster = () => {
                 return
             }
 
-            if (router.query[KEY_REQUIRE] === VALUE_MUST_LOGIN_TO_REVIEW) {
+            if (queryString[KEY_REQUIRE] === VALUE_MUST_LOGIN_TO_REVIEW) {
                 toast.error(toastLinkToLoginReturnTo(' to review this Spot.'), {
                     position: 'bottom-left',
                     toastId: 'loginToReviewSpot',
