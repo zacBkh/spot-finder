@@ -296,12 +296,13 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     const [isMarkerDraggable, setIsMarkerDraggable] = useState(false)
     const editCoordRequestHandler = () => {
         setIsMapVisible(true)
-        setIsMarkerDraggable(true)
+        setIsMarkerDraggable(prev => !prev)
     }
 
     const confirmLocationChangeHandler = async (geometry, country) => {
         await editSpotHandler({ geometry, country }, spotID)
-        mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE)
+        await mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE)
+        setIsMarkerDraggable(false)
 
         return router.push(
             { query: { spotID, [KEY]: VALUE_EDITED_SPOT_SUCCESS } },
@@ -368,6 +369,11 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 {shouldBeEditable ? (
                                     <div onClick={editCoordRequestHandler}>
                                         <ButtonPhoto
+                                            moreStyle={`${
+                                                isMarkerDraggable
+                                                    ? ' !bg-primary !text-white'
+                                                    : ''
+                                            }`}
                                             txt={'Edit your Spot Location'}
                                             icon={<MdOutlineEditLocation />}
                                         />
@@ -415,10 +421,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
                     <div className="row-span-1 col-span-full lg:col-span-2 h-fit text-form-color">
                         <div className="space-y-4">
-                            {country ? (
+                            {updatedCountry ? (
                                 <CountryDisplayer
-                                    name={updatedCountry.name}
-                                    code={updatedCountry.code}
+                                    name={updatedCountry?.name}
+                                    code={updatedCountry?.code}
                                     context={'spotPage'}
                                 />
                             ) : (
