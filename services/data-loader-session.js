@@ -9,8 +9,6 @@ const sessionDataLoader = async userID => {
         'emailVerified profilePic',
     )
 
-    console.log('loadedDataSession', loadedDataSession) // will return obj with obect ID
-
     if (loadedDataSession === null) {
         // If could not find user...
         return {

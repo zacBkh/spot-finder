@@ -13,8 +13,6 @@ export const findOneSpot = async spotID => {
 }
 
 export const addSpotHandler = async enteredData => {
-    console.log('NEW SPOT DATA from FETCHER', enteredData)
-
     // POSTING to MONGO
     const response = await fetch(`/api/spots/''`, {
         method: 'POST',
@@ -32,7 +30,6 @@ export const editSpotHandler = async (editedEnteredData, spotID) => {
         headers: { 'Content-Type': 'application/json' },
     })
     const data = await response.json()
-    console.log('Result of edition', data)
 }
 
 export const addOneVisitSpotHandler = async (visitorID, spotID, hadVisited) => {
@@ -46,12 +43,10 @@ export const addOneVisitSpotHandler = async (visitorID, spotID, hadVisited) => {
 }
 
 export const deleteSpotHandler = async spotID => {
-    console.log('from aa', spotID)
     const response = await fetch(`/api/spots/${spotID}`, {
         method: 'DELETE',
     })
     const data = await response.json()
-    console.log('Result of deletion', data)
 }
 ;/ *!SC */
 
@@ -66,7 +61,6 @@ export const addUserHandler = async enteredData => {
     })
 
     const data = await response.json()
-    console.log('Add user from API  fetcher', data)
     return data
 }
 
@@ -75,31 +69,23 @@ export const getUserData = async userID => {
     const response = await fetch(`/api/users/${userID}`, {
         method: 'GET',
     })
-
     const data = await response.json()
-    console.log('Accessed user from API route', data)
     return data
 }
 
 // Delete a user
 export const deleteUserHandler = async userID => {
-    console.log('USER TO DELETE', userID)
-    console.log('TYPEEE', typeof userID)
-
     // POSTING to MONGO
     const response = await fetch(`/api/users/${userID}`, {
         method: 'DELETE',
     })
 
     const data = await response.json()
-    console.log('Delete user from API fetcher', data)
     return data
 }
 
 // Can run client side
 export const checkEmailUniq = async email => {
-    console.log('EMAIL FROM API FETCHER', email)
-
     const response = await fetch('/api/users/emailCheckerAsync', {
         method: 'POST',
         body: JSON.stringify(email),
@@ -107,7 +93,6 @@ export const checkEmailUniq = async email => {
     })
 
     const data = await response.json()
-    console.log('Data received from emailCheckerAsync -->', data)
     return data
 }
 
@@ -115,7 +100,7 @@ export const checkEmailUniq = async email => {
 
 // Send an email holding a JWT to reset pwd
 export const sendPwdResetMail = async email => {
-    console.log('sendPwdResetMail -->', email)
+    console.log('sendPwdResetMail to -->', email)
 
     const response = await fetch('/api/users/send-link-pwd-reset', {
         method: 'POST',
@@ -128,7 +113,6 @@ export const sendPwdResetMail = async email => {
     return data
 }
 
-// Change PWD in DB ONLY FOR NOW CHANGE PWD
 export const editUserHandler = async (isPwdReset, newUserData, userID) => {
     console.log('isPwdReset', isPwdReset)
     console.log('newUserData', newUserData)
@@ -139,7 +123,6 @@ export const editUserHandler = async (isPwdReset, newUserData, userID) => {
         headers: { 'Content-Type': 'application/json' },
     })
     const data = await response.json()
-    console.log('Result of USER edition', data)
     return data
 }
 
@@ -164,20 +147,16 @@ export const addOneReview = async (spotID, review) => {
         headers: { 'Content-Type': 'application/json' },
     })
     const result = await response.json()
-    console.log('result review fetcher', result)
     return result
 }
 
 export const editOneReview = async (reviewIDToEdit, review) => {
-    console.log('reviewIDToEdit', reviewIDToEdit)
-    console.log('review', review)
     const response = await fetch(`/api/reviews/${reviewIDToEdit}`, {
         method: 'PATCH',
         body: JSON.stringify(review),
         headers: { 'Content-Type': 'application/json' },
     })
     const result = await response.json()
-    console.log('result review edit fetcher', result)
     return result
 }
 
@@ -186,6 +165,5 @@ export const deleteOneReview = async reviewIDToDelete => {
         method: 'DELETE',
     })
     const result = await response.json()
-    console.log('result review edit fetcher', result)
     return result
 }

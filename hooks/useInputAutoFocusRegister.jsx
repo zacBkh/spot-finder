@@ -14,8 +14,6 @@ const useInputAutoFocusRegister = (
     isnewUser,
 ) => {
     useEffect(() => {
-        console.log('customhookhavebeen')
-
         if (isResetPwd === true) {
             return submitBtnRef.current.focus()
         }

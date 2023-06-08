@@ -9,10 +9,13 @@ export default async function resetPwdLink(req, res) {
 
     if (req.method === 'POST') {
         const email = req.body
-
         const doesUserExist = await checkEmailExist(email.toLowerCase())
         if (!doesUserExist) {
-            return { success: false, result: 'This user does not exist' } // if user does not exist STOP
+            res.status(200).json({
+                success: false,
+                result: 'This email cannot be matched with any of the exisitng accounts.',
+            })
+            return
         }
 
         const { id, name } = doesUserExist
@@ -21,6 +24,7 @@ export default async function resetPwdLink(req, res) {
         const token = await createToken(id, email, '1d')
         if (!token.success) {
             res.status(400).json({ success: token.success, result: token.result })
+            return
         }
         console.log('token', token.result)
 
@@ -38,7 +42,7 @@ export default async function resetPwdLink(req, res) {
         }
     } else {
         res.status(401).send(
-            'You should not try to access this endpoint this way... [create New User]',
+            'You should not try to access this endpoint this way... [send password reset token]',
         )
     }
 }

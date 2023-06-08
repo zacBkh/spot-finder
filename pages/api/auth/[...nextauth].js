@@ -134,21 +134,11 @@ export const authOptions = {
     // Events allow to perform side effect upon events
     // Only works when created with oAuth, not creds
     events: {
-        signIn: ({ user, account, profile, isNewUser }) => {
-            console.log(
-                'This function get triggers everytime someone signs in with oAuth',
-            )
-            console.log('user events', user)
-            console.log('account events', account)
-            console.log('profile events', profile)
-            console.log('isNewUser events', isNewUser)
-        },
+        signIn: ({ user, account, profile, isNewUser }) => {},
 
         createUser: async ({ user }) => {
             // Sends welcome email to user using oAuth
-            console.log('user 6666>', user)
             const sender = await sendWelcomeEmail('zachariedupain@hotmail.fr', user.name)
-            console.log('sender', sender)
 
             const updateUserOnDB = await User.findByIdAndUpdate(
                 user.id,
@@ -161,7 +151,6 @@ export const authOptions = {
                 },
                 { new: true },
             )
-
             console.log('updateUserOnDB', updateUserOnDB)
         },
     },

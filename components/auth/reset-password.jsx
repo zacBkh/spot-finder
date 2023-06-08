@@ -1,34 +1,56 @@
 import { useState } from 'react'
 import { useFormik } from 'formik'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
-import Spinner from '../spinner'
+import { useRouter } from 'next/router'
+
+import { signIn } from 'next-auth/react'
 
 import { SMALL_TEXT_FS } from '../../constants/responsive-fonts'
 import { DISABLED_STYLE } from '../../constants/disabled-style'
 import { BUTTON_FS } from '../../constants/responsive-fonts'
 import { doublePwdFieldSchema } from '../../constants/validation-schemas'
-const ResetPassword = ({}) => {
+
+import { editUserHandler } from '../../services/mongo-fetchers'
+
+import { TOAST_PARAMS } from '../../constants/toast-query-params'
+import { PATHS } from '../../constants/URLs'
+
+import Spinner from '../spinner'
+
+const { KEY, VALUE_RESET_PWD_SUCCESS, VALUE_RESET_PWD_FAILURE } = TOAST_PARAMS
+
+import { FORM_LABEL_FS } from '../../constants/responsive-fonts'
+
+const ResetPassword = ({ userID }) => {
     const [isPwdVisible, setIsPwdVisible] = useState(false)
+
+    const router = useRouter()
 
     // Formik - Submit Fx
     const onSubmitFormik = async formValues => {
-        console.log('YOU RESET YOUR Password')
+        const { password: newPwd } = formValues
 
-        // const { password: newPwd } = formValues
+        const changeUserPwd = await editUserHandler(true, newPwd, userID)
 
-        // const changeUserPwd = await editUserHandler(newPwd, userData._id)
+        // if (!changeUserPwd.success) {
+        //     router.push(
+        //         { query: { userID, [KEY]: VALUE_RESET_PWD_FAILURE } },
+        //         undefined,
+        //         {
+        //             shallow: true,
+        //         },
+        //     )
+        //     return
+        // }
+        const { email } = changeUserPwd.result
 
-        // const { email } = changeUserPwd.result
-        // console.log('changeUserPwd -->', changeUserPwd)
+        await signIn('credentials', {
+            email,
+            password: newPwd,
+            redirect: false,
+        })
 
-        // // For toaster notif
-        // localStorage.setItem('toast', 'resetPwd')
-
-        // await signIn('credentials', {
-        //     email,
-        //     password: newPwd,
-        //     callbackUrl: HOME,
-        // })
+        router.push(`${PATHS.HOME}?${KEY}=${VALUE_RESET_PWD_SUCCESS}`)
     }
 
     // Yup Validation Schema
@@ -60,72 +82,91 @@ const ResetPassword = ({}) => {
         if (formik.isSubmitting) {
             return true
         }
-        // if (formik.touched.email && Object.keys(formik.errors).length > 0) {
-        //     return true
-        // }
+        if (formik.touched.password && Object.keys(formik.errors).length > 0) {
+            return true
+        }
         return false
     }
 
     return (
         <>
             <form noValidate onSubmit={formik.handleSubmit}>
-                <div className="flex flex-col gap-y-4">
+                <div className="flex flex-col gap-y-8 w-[80%] sm:w-[30%] mx-auto my-10">
                     <div>
-                        <div className="relative">
-                            <input
-                                {...formik.getFieldProps('password')}
-                                // ref={pwdRef}
-                                disabled={formik.isSubmitting}
-                                className={`
+                        <div className="space-y-2">
+                            <label
+                                className={`text-form-color ${FORM_LABEL_FS}`}
+                                htmlFor="password"
+                            >
+                                Enter your new password
+                            </label>
+                            <div className="relative">
+                                <input
+                                    {...formik.getFieldProps('password')}
+                                    // ref={pwdRef}
+                                    disabled={formik.isSubmitting}
+                                    className={`
                                     ${validStyling('password').border}
                                     ${DISABLED_STYLE}  
                                     p-2 rounded-xl border w-full 
                             `}
-                                type={isPwdVisible ? 'text' : 'password'}
-                                name="password"
-                                placeholder="Password"
-                            />
-                            <button
-                                onClick={() => setIsPwdVisible(prev => !prev)}
-                                type="button"
-                                className=""
-                            >
-                                {isPwdVisible ? (
-                                    <AiFillEyeInvisible className="absolute top-1/2 right-3 -translate-y-1/2 text-xl" />
-                                ) : (
-                                    <AiFillEye className="absolute top-1/2 right-3 -translate-y-1/2 text-xl" />
-                                )}
-                            </button>
+                                    type={isPwdVisible ? 'text' : 'password'}
+                                    name="password"
+                                    placeholder="Password"
+                                    id="password"
+                                />
+                                <button
+                                    onClick={() => setIsPwdVisible(prev => !prev)}
+                                    type="button"
+                                    className=""
+                                >
+                                    {isPwdVisible ? (
+                                        <AiFillEyeInvisible className="absolute top-1/2 right-3 -translate-y-1/2 text-xl" />
+                                    ) : (
+                                        <AiFillEye className="absolute top-1/2 right-3 -translate-y-1/2 text-xl" />
+                                    )}
+                                </button>
+                            </div>
                         </div>
                         <span className="mt-1">{validStyling('password').message}</span>
                     </div>
 
                     <div>
-                        <div className="relative">
-                            <input
-                                {...formik.getFieldProps('password2')}
-                                // ref={pwdRef}
-                                disabled={formik.isSubmitting}
-                                className={`
+                        <div className="space-y-2">
+                            <label
+                                className={`text-form-color ${FORM_LABEL_FS}`}
+                                htmlFor="password2"
+                            >
+                                Confirm your new password
+                            </label>
+
+                            <div className="relative">
+                                <input
+                                    {...formik.getFieldProps('password2')}
+                                    // ref={pwdRef}
+                                    disabled={formik.isSubmitting}
+                                    className={`
                                     ${validStyling('password2').border}
                                     ${DISABLED_STYLE}  
                                     p-2 rounded-xl border w-full 
                             `}
-                                type={isPwdVisible ? 'text' : 'password'}
-                                name="password2"
-                                placeholder="Password2"
-                            />
-                            <button
-                                onClick={() => setIsPwdVisible(prev => !prev)}
-                                type="button"
-                                className=""
-                            >
-                                {isPwdVisible ? (
-                                    <AiFillEyeInvisible className="absolute top-1/2 right-3 -translate-y-1/2 text-xl" />
-                                ) : (
-                                    <AiFillEye className="absolute top-1/2 right-3 -translate-y-1/2 text-xl" />
-                                )}
-                            </button>
+                                    type={isPwdVisible ? 'text' : 'password'}
+                                    name="password2"
+                                    id="password2"
+                                    placeholder="Password2"
+                                />
+                                <button
+                                    onClick={() => setIsPwdVisible(prev => !prev)}
+                                    type="button"
+                                    className=""
+                                >
+                                    {isPwdVisible ? (
+                                        <AiFillEyeInvisible className="absolute top-1/2 right-3 -translate-y-1/2 text-xl" />
+                                    ) : (
+                                        <AiFillEye className="absolute top-1/2 right-3 -translate-y-1/2 text-xl" />
+                                    )}
+                                </button>
+                            </div>
                         </div>
                         <span className="mt-1">{validStyling('password2').message}</span>
                     </div>
@@ -135,11 +176,9 @@ const ResetPassword = ({}) => {
                         disabled={shouldBtnBeDisabled()}
                         className={`
                             ${BUTTON_FS} ${DISABLED_STYLE}
-                            mt-10
                             text-white font-bold py-3 bg-primary rounded-lg w-full
                     `}
                     >
-                        {/* {whichNameBtn()} */}
                         Reset your password
                         {formik.isSubmitting && (
                             <Spinner color={'border-t-secondary'} className="ml-2" />

@@ -313,6 +313,11 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         )
     }
 
+    const toggleMapHandler = () => {
+        setIsMapVisible(prev => !prev)
+        setIsMarkerDraggable(false)
+    }
+
     return (
         <div>
             {isPicViewerOpen && (
@@ -359,7 +364,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     />
                                 </div>
 
-                                <div onClick={() => setIsMapVisible(prev => !prev)}>
+                                <div onClick={toggleMapHandler}>
                                     <ButtonPhoto
                                         txt={isMapVisible ? 'Hide Map' : 'Show on Map'}
                                         icon={<GoLocation />}

@@ -35,8 +35,12 @@ const {
 
     VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW,
     VALUE_MUST_NOT_HAVE_ALREADY_REVIEWED,
+
     VALUE_RESET_PWD_EMAIL_SENT_SUCCESS,
     VALUE_RESET_PWD_EMAIL_SENT_FAILURE,
+
+    VALUE_RESET_PWD_SUCCESS,
+    VALUE_RESET_PWD_FAILURE,
 
     VALUE_EDIT_DESC_SUCCESS,
     VALUE_EDIT_DESC_FAILURE,
@@ -92,6 +96,16 @@ const Toaster = () => {
                 },
             )
         }
+
+        if (queryString[KEY] === VALUE_RESET_PWD_EMAIL_SENT_SUCCESS) {
+            toast.info(`An email to reset your password has been sent to you.`, {
+                position: 'bottom-left',
+                toastId: 'resetPwdEmailSentSuccess',
+            })
+            return
+        }
+
+        console.log('queryString', queryString)
 
         if (status === 'authenticated') {
             const currentUserName = capitalize(session.user.name)
@@ -235,14 +249,6 @@ const Toaster = () => {
                 return
             }
 
-            if (queryString[KEY] === VALUE_RESET_PWD_EMAIL_SENT_SUCCESS) {
-                toast.info(`An email to reset your password has been sent to you.`, {
-                    position: 'bottom-left',
-                    toastId: 'resetPwdEmailSentSuccess',
-                })
-                return
-            }
-
             if (queryString[KEY] === VALUE_RESET_PWD_EMAIL_SENT_FAILURE) {
                 toast.error(
                     <>
@@ -278,11 +284,27 @@ const Toaster = () => {
                 })
                 return
             }
+
+            if (queryString[KEY] === VALUE_RESET_PWD_SUCCESS) {
+                toast.success('You successfully reset your password!', {
+                    position: 'bottom-left',
+                    toastId: 'resetPwdSuccess',
+                })
+                return
+            }
         } else {
             if (queryString[KEY] === VALUE_LOGOUT) {
                 toast.info(`You successfully logged out.`, {
                     position: 'bottom-left',
                     toastId: 'loggedOut',
+                })
+                return
+            }
+
+            if (router.query[KEY] === VALUE_RESET_PWD_FAILURE) {
+                toast.error('There has been an issue resetting your password.', {
+                    position: 'bottom-left',
+                    toastId: 'resetPwdFailure',
                 })
                 return
             }
@@ -340,7 +362,7 @@ const Toaster = () => {
     return (
         <>
             <ToastContainer
-                autoClose={4000}
+                autoClose={5000}
                 className={`${TOASTER_FS} text-form-color !w-screen sm:!w-fit sm:!min-w-[350px] !sm:max-w-[50vw] !bottom-0 !left-0 !mb-0 sm:ml-6 relative !z-[9999999]`}
             />
         </>

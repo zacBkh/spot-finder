@@ -37,9 +37,9 @@ const sendPwdResetEmail = async (userRecipient, userName, token) => {
         const htmlToSend = `
         <h3>Hello ${capitalize(userName)}!</h3>
         <p>You asked to reset your password.</p>
-        <p>Please follow this link <a href="${
+        <p>Please follow <a href="${
             PATHS.DOMAIN_WITHOUT_SLASH
-        }/auth/verify-reset-pwd/${token}"> to reset your password</a></p>
+        }/auth/verify-reset-pwd/${token}"> this link to reset your password</a></p>
         <p>Thank you.</p>
         `
 
@@ -48,14 +48,14 @@ const sendPwdResetEmail = async (userRecipient, userName, token) => {
             from: 'Spot Finder team 👻 <process.env.GOOGLE_USER>', // sender address
             // from: process.env.GOOGLE_USER,
             to: userRecipient,
-            subject: `${capitalize(userName)}, reset your Spot Finder password ✔ !`, // Subject line
+            subject: `${capitalize(userName)}, reset your Spot Finder password 🔒 !`, // Subject line
             text: 'Hello world?', // plain text body
             html: htmlToSend, // html body
         })
 
         return {
             success: true,
-            result: `Check your emdails to reset your password!`,
+            result: `Check your emails to reset your password!`,
         }
     } catch (error) {
         return {
