@@ -190,7 +190,7 @@ const SpotCard = ({
                                     className={`${spotOtherFS ?? 'text-sm'}
                                         ${displaySuspensionPoints}`}
                                 >
-                                    {country?.name ?? 'Country unavailable. 😢'}
+                                    {country?.name ?? 'Country unavailable 😢'}
                                 </p>
                             </div>
                         </div>

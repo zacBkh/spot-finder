@@ -34,12 +34,19 @@ const PicViewer = ({
 
     useEffect(() => {
         const keyDownHandler = event => {
+            console.log('event', event)
             if (event.key === 'ArrowLeft') {
                 switchPicHandler('-')
+                return
             }
 
             if (event.key === 'ArrowRight') {
                 switchPicHandler('+')
+                return
+            }
+            if (event.key === 'Escape') {
+                onPicViewerClose()
+                return
             }
         }
 
