@@ -4,6 +4,8 @@ import { DISABLED_STYLE } from '../../constants/disabled-style'
 import capitalize from '../../utils/capitalize'
 
 const SpotTextualInput = ({
+    inputRef,
+
     identifier,
     formikWizard,
     errorStying,
@@ -36,6 +38,7 @@ const SpotTextualInput = ({
 
                 {isTextArea ? (
                     <textarea
+                        ref={inputRef}
                         {...formikWizard}
                         id={identifier}
                         placeholder={placeholder}
@@ -46,6 +49,7 @@ const SpotTextualInput = ({
                     />
                 ) : (
                     <input
+                        ref={inputRef}
                         onKeyDown={e => pressEnterHandler(e)}
                         disabled={shouldBeDisabled}
                         {...formikWizard}

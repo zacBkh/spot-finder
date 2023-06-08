@@ -34,7 +34,7 @@ import {
 import capitalize from '../../../utils/capitalize'
 import Spinner from '../../spinner'
 
-import useInputAutoFocus from '../../../hooks/useInputAutoFocus'
+import useInputAutoFocusRegister from '../../../hooks/useInputAutoFocusRegister'
 
 import { sendPwdResetMail } from '../../../services/mongo-fetchers'
 
@@ -230,7 +230,7 @@ const EMailLogger = ({
     const nameRef = useRef(null)
     const submitBtnRef = useRef(null)
 
-    useInputAutoFocus(
+    useInputAutoFocusRegister(
         mailRef,
         nameRef,
         pwdRef,

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 
 import { useSession } from 'next-auth/react'
@@ -28,6 +28,8 @@ import { TOAST_PARAMS } from '../constants/toast-query-params'
 import SPOT_CATEGORIES from '../constants/spot-categories'
 
 import dynamic from 'next/dynamic'
+
+import useInputAutoFocusNewSpot from '../hooks/useInputAutoFocusNewSpot'
 
 const {
     KEY,
@@ -245,6 +247,18 @@ const AddNewSpot = ({}) => {
         },
     )
 
+    // Handle auto-focus behaviour
+
+    const titleRef = useRef()
+    const descRef = useRef()
+
+    useInputAutoFocusNewSpot(
+        titleRef,
+        descRef,
+
+        currentStep,
+    )
+
     return (
         <>
             <form
@@ -252,6 +266,7 @@ const AddNewSpot = ({}) => {
                 className="w-[90%] sm:w-[80%] max-w-4xl mx-auto space-y-3"
             >
                 <SpotTextualInput
+                    inputRef={titleRef}
                     formikWizard={formik.getFieldProps('title')}
                     identifier="title"
                     errorStying={validStyling('title')}
@@ -261,6 +276,7 @@ const AddNewSpot = ({}) => {
                 />
                 {currentStep > 1 && (
                     <SpotTextualInput
+                        inputRef={descRef}
                         formikWizard={formik.getFieldProps('description')}
                         identifier="description"
                         errorStying={validStyling('description')}

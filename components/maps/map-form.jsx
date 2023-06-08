@@ -97,7 +97,7 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
                     <NavigationControl />
                     <ScaleControl />
                     <MapControlPanelStyles
-                        additionalStyle={'top-[13%] sm:top-[0%]'}
+                        additionalStyle={'top-[13%] sm:top-[10%]'}
                         currentMapStyle={currentMapStyle}
                         onStyleChange={styleChangeHandler}
                     />
