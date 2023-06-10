@@ -24,7 +24,7 @@ export default async function APIHandler(req, res) {
                 .populate({
                     path: 'reviews',
                     // Get reviewAuthor of every reviews - populate the 'reviewAuthor' field for every reviews but with only reviewer name - deep population
-                    populate: { path: 'reviewAuthor', select: 'name' },
+                    populate: { path: 'reviewAuthor', select: 'name profilePic' },
                 })
             console.log('oneSpot', oneSpot)
             res.status(200).json({ success: true, result: oneSpot })

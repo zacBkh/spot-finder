@@ -143,17 +143,17 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
     return (
         <>
             <div onClick={onCloseModal} className="overlay"></div>
-            <div className="transition-modal flex items-center justify-center top-0 left-0 fixed z-[99999] overflow-hidden inset-0 text-form-color mx-auto my-auto w-[90vw] sm:w-[80vw] max-w-[90vw] sm:max-w-[80vw] h-[75vh]  ">
+            <div className="transition-modal flex items-center justify-center top-0 left-0 fixed z-[99999] overflow-hidden inset-0 text-form-color mx-auto my-auto w-[90vw] sm:w-[80vw] max-w-[90vw] sm:max-w-[80vw] h-[80vh]  ">
                 <div className="relative w-full h-full bg-white rounded-lg shadow">
                     <button
                         onClick={onCloseModal}
                         type="button"
-                        className="absolute top-1 right-1 sm:top-3 sm:right-3 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1 ml-auto inline-flex items-center"
+                        className="absolute top-1 right-1 sm:top-2 sm:right-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1 ml-auto inline-flex items-center"
                         data-modal-hide="popup-modal"
                     >
                         <AiOutlineClose className="w-5 h-5" />
                     </button>
-                    <div className="flex flex-col p-4 sm:p-6 text-center">
+                    <div className="flex flex-col p-4 sm:p-6 h-full text-center">
                         <div className="space-y-4">
                             <div className="flex justify-between items-center gap-x-6 sm:gap-x-16 bg-white ">
                                 <div className="flex flex-col gap-y-3 text-start">

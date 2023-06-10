@@ -4,7 +4,6 @@
 
 // for useSwr from client side
 export const findOneSpot = async spotID => {
-    // POSTING to MONGO
     const response = await fetch(`/api/spots/${spotID}`, {
         method: 'GET',
     })
@@ -13,10 +12,9 @@ export const findOneSpot = async spotID => {
 }
 
 export const addSpotHandler = async enteredData => {
-    // POSTING to MONGO
     const response = await fetch(`/api/spots/''`, {
         method: 'POST',
-        body: JSON.stringify(enteredData), //conv to JSON
+        body: JSON.stringify(enteredData),
         headers: { 'Content-Type': 'application/json' },
     })
 
@@ -26,7 +24,7 @@ export const addSpotHandler = async enteredData => {
 export const editSpotHandler = async (editedEnteredData, spotID) => {
     const response = await fetch(`/api/spots/${spotID}`, {
         method: 'PATCH',
-        body: JSON.stringify(editedEnteredData), //conv to JSON
+        body: JSON.stringify(editedEnteredData),
         headers: { 'Content-Type': 'application/json' },
     })
     const data = await response.json()
@@ -35,7 +33,7 @@ export const editSpotHandler = async (editedEnteredData, spotID) => {
 export const addOneVisitSpotHandler = async (visitorID, spotID, hadVisited) => {
     const response = await fetch(`/api/spots/add-a-visit/${spotID}`, {
         method: 'PATCH',
-        body: JSON.stringify({ visitorID, hadVisited }), //conv to JSON
+        body: JSON.stringify({ visitorID, hadVisited }),
         headers: { 'Content-Type': 'application/json' },
     })
     const result = await response.json()
@@ -53,10 +51,9 @@ export const deleteSpotHandler = async spotID => {
 /* SC USERS */
 // Registers a new user
 export const addUserHandler = async enteredData => {
-    // POSTING to MONGO
     const response = await fetch(`/api/users/''`, {
         method: 'POST',
-        body: JSON.stringify(enteredData), //conv to JSON
+        body: JSON.stringify(enteredData),
         headers: { 'Content-Type': 'application/json' },
     })
 
@@ -75,7 +72,6 @@ export const getUserData = async userID => {
 
 // Delete a user
 export const deleteUserHandler = async userID => {
-    // POSTING to MONGO
     const response = await fetch(`/api/users/${userID}`, {
         method: 'DELETE',
     })

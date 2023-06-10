@@ -29,7 +29,11 @@ const Review = ({
 }) => {
     const router = useRouter()
 
-    const { name: revAuthorName, _id: revAuthorID } = reviewAuthorDetails
+    const {
+        name: revAuthorName,
+        _id: revAuthorID,
+        profilePic: revAuthorPicture,
+    } = reviewAuthorDetails
 
     const linkToUserProfile = `${PATHS.PROFILE}/${revAuthorID}`
 
@@ -67,9 +71,10 @@ const Review = ({
                 <div className="flex justify-between items-center w-full">
                     <div className="flex gap-x-2 justify-center items-center">
                         <ClickableUserImage
+                            profilePic={revAuthorPicture}
                             url={linkToUserProfile}
-                            width={'w-10'}
-                            height={'h-10'}
+                            width={'w-10 sm:w-14 2xl:w-16'}
+                            height={'h-10 sm:h-14 2xl:h-16'}
                         />
                         <div className="flex flex-col">
                             <div className="font-semibold flex items-center gap-x-1">

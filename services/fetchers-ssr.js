@@ -24,7 +24,7 @@ export const GETSpotFetcherOne = async ID => {
         .populate({
             path: 'reviews',
             // Get reviewAuthor of every reviews - populate the 'reviewAuthor' field for every reviews but with only reviewer name - deep population
-            populate: { path: 'reviewAuthor', select: 'name' },
+            populate: { path: 'reviewAuthor', select: 'name profilePic' },
         })
 
     // .populate('reviews')
