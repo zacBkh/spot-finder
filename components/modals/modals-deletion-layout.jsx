@@ -5,14 +5,15 @@ const LayoutModalDeletion = ({
     onCloseModal,
     onConfirmedAction,
     text,
+    text2,
     btnConfirm,
     btnCancel,
 }) => {
     return (
         <>
             <div onClick={onCloseModal} className="overlay"></div>
-            <div className="transition-modal overflow-hidden flex items-center justify-center top-0 left-0 fixed z-[99999] p-4 md:inset-0 text-form-color w-fit h-fit mx-auto my-auto">
-                <div className="relative w-full h-full max-w-md md:h-auto  bg-white rounded-lg shadow">
+            <div className="transition-modal z-[99999] overflow-hidden text-form-color  centerModalWrapper">
+                <div className="relative bg-white rounded-lg shadow centerModalContent w-[80%] md:w-[50%]">
                     <button
                         onClick={onCloseModal}
                         type="button"
@@ -23,10 +24,11 @@ const LayoutModalDeletion = ({
                     </button>
                     <div className="p-6 text-center">
                         <RiErrorWarningLine className="mb-4 mx-auto w-14 h-14 text-primary" />
-                        <h3 className="mb-5 text-lg font-normal">{text}</h3>
+                        <h3 className="text-lg">{text}</h3>
+                        <h4 className="mb-5 text-lg font-semibold">{text2}</h4>
                         <button
                             onClick={onConfirmedAction}
-                            className="text-white bg-primary hover:bg-primary-hov rounded-lg inline-flex items-center px-5 py-2.5 text-center mr-2"
+                            className="text-white bg-primary hover:bg-primary-hov rounded-lg inline-flex items-center px-5 py-2.5 text-center mr-2 mb-2 sm:mb-0"
                         >
                             {btnConfirm}
                         </button>

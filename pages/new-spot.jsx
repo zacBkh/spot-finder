@@ -342,6 +342,7 @@ const AddNewSpot = ({}) => {
                             Upload pictures of your Spot *
                         </h2>
                         <DynamicImageUploader
+                            shouldBeDisabled={formik.isSubmitting}
                             onSuccessfulUpload={imgUploadHandler}
                             btnStyle={btnClassName}
                             uploadPreset={'spot-finder-spot-upload-preset'}

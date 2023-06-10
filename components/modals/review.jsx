@@ -51,9 +51,7 @@ const Review = ({
     }
 
     const confirmDeleteReview = async () => {
-        console.log('about to be removed')
         const deleteRev = await deleteOneReview(reviewID)
-        console.log('deleteRev', deleteRev)
         onCloseModal()
 
         router.push(
@@ -77,14 +75,14 @@ const Review = ({
                             height={'h-10 sm:h-14 2xl:h-16'}
                         />
                         <div className="flex flex-col">
-                            <div className="font-semibold flex items-center gap-x-1">
-                                <span> {revAuthorName}</span>
+                            <div className="font-semibold flex flex-col sm:flex-row sm:items-center sm:gap-x-1">
+                                <span>{revAuthorName}</span>
                                 <Rating
                                     readonly
                                     initialValue={rate}
                                     emptyStyle={{ display: 'flex ' }}
                                     fillStyle={{ display: '-webkit-inline-box' }}
-                                    size={20}
+                                    size={18}
                                 />
                             </div>
                             <p className="text-sm font-light text-greyText ">
@@ -94,10 +92,10 @@ const Review = ({
                     </div>
                     <div>
                         {isCurrUserReviewAuthor ? (
-                            <div className="flex items-center gap-x-4">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:gap-x-4 text-xs sm:text-sm">
                                 <button
                                     onClick={reviewEditRequestHandler}
-                                    className="flex items-center gap-x-1 hover:underline text-sm"
+                                    className="flex items-center gap-x-1 hover:underline"
                                 >
                                     <BiEdit />
                                     <span>Edit</span>
@@ -111,7 +109,7 @@ const Review = ({
                                     }
                                     className={` ${
                                         isReviewDeleteStage && 'text-primary'
-                                    } flex items-center gap-x-1 hover:underline text-sm`}
+                                    } flex items-center gap-x-1 hover:underline`}
                                 >
                                     <AiOutlineDelete />
                                     <span>

@@ -195,7 +195,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 </div>
                             ) : (
                                 <>
-                                    <div className="flex items-center gap-x-3">
+                                    <div className="flex items-center gap-x-2 sm:gap-x-3">
                                         <h1 className={`${TITLE_FS} font-bold break-all`}>
                                             Hi, I am {name}
                                         </h1>
@@ -236,7 +236,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         <div className={`${hideOnLarge}`}>
                             {isLoading ? (
                                 <SkeletonImage
-                                    style={'w-24 sm:w-32 h-20 sm:h-32 rounded-full'}
+                                    style={'w-20 sm:w-28 h-20 sm:h-28 rounded-full'}
                                 />
                             ) : (
                                 <UserImage
@@ -244,7 +244,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                     suggestAddCustom={!profilePic?.isCustom}
                                     picLink={profilePic?.link}
                                     noBorder
-                                    size={'w-24 sm:w-32 h-24 sm:h-32'}
+                                    size={'w-20 sm:w-28 h-20 sm:h-28'}
                                 />
                             )}
                         </div>
@@ -301,19 +301,19 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                     <DividerDesign />
                     <RelatedSpots
                         isLoading={isLoading}
-                        title={`${name}'s Spots`}
+                        title={`${name}'s Spots 👇🏼`}
                         refClick={spotsCreated}
                         spots={spotsOwned ?? []}
                     />
                     <RelatedSpots
                         isLoading={isLoading}
-                        title={`Spots ${name} visited`}
+                        title={`Spots ${name} visited 👇🏼`}
                         refClick={spotsVisited}
                         spots={visitedSpots ?? []}
                     />
                     <RelatedSpots
                         isLoading={isLoading}
-                        title={`Spots ${name} reviewed`}
+                        title={`Spots ${name} reviewed 👇🏼`}
                         refClick={spotsReviewed}
                         spots={spotsUserReviewed ?? []}
                     />

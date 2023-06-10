@@ -40,11 +40,11 @@ const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser, currentUserID
             <div
                 className={`${
                     isOpen ? 'block' : 'hidden'
-                } z-50 absolute -left-9 md:left-[150%] md:-bottom-14`}
+                } z-50 absolute -left-[400%] md:left-[150%] md:-bottom-14`}
             >
                 <div
                     className={`
-                        mt-2 w-fit rounded-md bg-white py-1 transform opacity-100 scale-100
+                        mt-2 w-fit rounded-md bg-white py-1 opacity-100 scale-100
                         shadowPF
                         flex flex-col
                         text-dark-color

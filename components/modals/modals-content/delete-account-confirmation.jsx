@@ -18,13 +18,12 @@ const DeleteAccountConfirmationModal = ({ children, modalContextAccountDeletion 
     }
 
     const userConfirmedDeletionHandler = async () => {
-        await deleteUserHandler(modalContextAccountDeletion.userToDelete)
-        await signOut({ redirect: false })
-
         await router.push({
             pathname: PATHS.HOME,
             query: { [KEY]: VALUE_DELETED_USER_SUCCESS },
         })
+        await deleteUserHandler(modalContextAccountDeletion.userToDelete)
+        await signOut({ redirect: false })
 
         closeModalHandler()
     }
@@ -32,15 +31,14 @@ const DeleteAccountConfirmationModal = ({ children, modalContextAccountDeletion 
     return (
         <>
             {modalContextAccountDeletion.isActive && (
-                <>
-                    <LayoutModalDeletion
-                        onCloseModal={closeModalHandler}
-                        onConfirmedAction={userConfirmedDeletionHandler}
-                        text={'Are you sure you want to delete your account?'}
-                        btnConfirm={'Yes, I am sure.'}
-                        btnCancel={'No, cancel'}
-                    />
-                </>
+                <LayoutModalDeletion
+                    onCloseModal={closeModalHandler}
+                    onConfirmedAction={userConfirmedDeletionHandler}
+                    text={'Are you sure you want to delete your account?'}
+                    text2={'This action is irreversible.'}
+                    btnConfirm={'Yes, I am sure.'}
+                    btnCancel={'No, cancel'}
+                />
             )}
             {children}
         </>

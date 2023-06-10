@@ -31,15 +31,14 @@ const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion }) => 
     return (
         <>
             {modalContextSpotDeletion.isActive && (
-                <>
-                    <LayoutModalDeletion
-                        onCloseModal={closeModalHandler}
-                        onConfirmedAction={spotConfirmedDeletionHandler}
-                        text={'Are you sure you want to delete this Spot?'}
-                        btnConfirm={'Yes, I am sure.'}
-                        btnCancel={'No, cancel'}
-                    />
-                </>
+                <LayoutModalDeletion
+                    onCloseModal={closeModalHandler}
+                    onConfirmedAction={spotConfirmedDeletionHandler}
+                    text={'Are you sure you want to delete this Spot?'}
+                    text2={'This action is irreversible.'}
+                    btnConfirm={'Yes, I am sure.'}
+                    btnCancel={'No, cancel'}
+                />
             )}
 
             {children}

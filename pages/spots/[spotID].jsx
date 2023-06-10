@@ -356,7 +356,12 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 </div>
                             )}
 
-                            <div className="absolute float-left top-[78%] sm:top-[76%] md:top-[87%] lg:top-[88%] left-[1.5%] flex flex-col md:flex-row gap-1">
+                            <div
+                                className={`absolute float-left ${
+                                    shouldBeEditable ? 'top-[68%]' : 'top-[78%]'
+                                }  sm:top-[76%] md:top-[87%] lg:top-[88%]
+                                 left-[1.5%] flex flex-col md:flex-row gap-1`}
+                            >
                                 <div onClick={() => imgClickHandler(0)}>
                                     <ButtonPhoto
                                         txt={`Show ${images.length} photos.`}

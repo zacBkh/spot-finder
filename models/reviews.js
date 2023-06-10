@@ -28,10 +28,6 @@ const reviewSchema = new Schema(
 
 // Query Middleware --> when review is deleted :
 reviewSchema.post('findOneAndDelete', async function (reviewDeleted) {
-    console.log(
-        'review that has just been deleted from mongoose query middleware',
-        reviewDeleted,
-    )
     const reviewID = reviewDeleted._id.toString()
 
     // Remove the deleted review from the spots model

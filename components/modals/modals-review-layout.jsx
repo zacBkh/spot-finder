@@ -25,6 +25,8 @@ import NoDataImg from '../../public/images/no-data-found.svg'
 
 import getAvrgGrade from '../../utils/get-average-rate'
 
+import ButtonPrimary from '../design/button-primary'
+
 const {
     KEY_REQUIRE,
     VALUE_MUST_LOGIN_TO_REVIEW,
@@ -143,12 +145,12 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
     return (
         <>
             <div onClick={onCloseModal} className="overlay"></div>
-            <div className="transition-modal flex items-center justify-center top-0 left-0 fixed z-[99999] overflow-hidden inset-0 text-form-color mx-auto my-auto w-[90vw] sm:w-[80vw] max-w-[90vw] sm:max-w-[80vw] h-[80vh]  ">
+            <div className="transition-modal flex items-center justify-center top-0 left-0 fixed z-[99999] overflow-hidden inset-0 text-form-color mx-auto my-auto w-[90vw] sm:w-[80vw] max-w-[90vw] sm:max-w-[80vw] h-[80vh]">
                 <div className="relative w-full h-full bg-white rounded-lg shadow">
                     <button
                         onClick={onCloseModal}
                         type="button"
-                        className="absolute top-1 right-1 sm:top-2 sm:right-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1 ml-auto inline-flex items-center"
+                        className="absolute top-[2px] right-[2px]  sm:top-1 sm:right-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1 ml-auto inline-flex items-center"
                         data-modal-hide="popup-modal"
                     >
                         <AiOutlineClose className="w-5 h-5" />
@@ -182,21 +184,22 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                                     </h2>
                                 </div>
 
-                                <button
-                                    onClick={addReviewModeHandler}
-                                    className={`buttonWrapper text-white bg-primary hover:bg-primary-hov hover:underline rounded-md inline-flex items-center justify-center gap-x-3 px-2 py-2 text-center mr-2 w-max ${BUTTON_FS}`}
-                                >
-                                    <span className="iconToAnimate">
-                                        {isOnAddReviewMode ? (
+                                <ButtonPrimary
+                                    isSmaller
+                                    onClickHandler={addReviewModeHandler}
+                                    icon={
+                                        isOnAddReviewMode ? (
                                             <MdOutlineRateReview />
                                         ) : (
                                             <BiEdit />
-                                        )}
-                                    </span>
-                                    {isOnAddReviewMode
-                                        ? 'Back to reviews'
-                                        : 'Write a review'}
-                                </button>
+                                        )
+                                    }
+                                    text={
+                                        isOnAddReviewMode
+                                            ? 'Back to reviews'
+                                            : 'Write a review'
+                                    }
+                                />
                             </div>
                             <DividerDesign />
                         </div>

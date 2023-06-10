@@ -70,13 +70,11 @@ const SpotCard = ({
         if (index === activeImg + 1 || (activeImg === images.length - 1 && index === 0)) {
             return 'next'
         }
-        return ''
+        return 'next'
     }
 
     const onSpotCardClick = evt => {
         const nodeName = evt.target.nodeName
-        console.log('evt.target', evt.target)
-        console.log('evt.target.nodeName', evt.target.nodeName)
         const arrayBtnClick = ['BUTTON', 'svg', 'path']
         if (arrayBtnClick.includes(nodeName)) {
             return
@@ -121,10 +119,10 @@ const SpotCard = ({
                     <button
                         onClick={() => switchPicHandler('-')}
                         className={`
-                                            ${activeImg === 0 && 'invisible'}
-                                            alignBtnCarrPopUpLeft
-                                            ${arrowStyle}
-                                            `}
+                        ${activeImg === 0 && 'invisible'}
+                        alignBtnCarrPopUpLeft
+                        ${arrowStyle}
+                        `}
                     >
                         <IoIosArrowBack />
                     </button>
@@ -138,9 +136,8 @@ const SpotCard = ({
                                 src={getCloudiImg('', img)}
                                 placeholder="blur"
                                 blurDataURL={getCloudiImg(undefined, images[0])}
-                                className={`${getImgQueue(
-                                    index,
-                                )} transition-transform duration-[400ms] `}
+                                className={`${getImgQueue(index)}
+                                 transition-transform duration-[400ms] `}
                             />
                         ))
                     ) : (
