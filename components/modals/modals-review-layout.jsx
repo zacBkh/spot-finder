@@ -153,7 +153,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                     >
                         <AiOutlineClose className="w-5 h-5" />
                     </button>
-                    <div className="flex flex-col p-4 sm:p-6 h-full text-center">
+                    <div className="flex flex-col p-4 sm:p-5 h-full text-center">
                         <div className="space-y-4">
                             <div className="flex justify-between items-center gap-x-6 sm:gap-x-16 bg-white ">
                                 <div className="flex flex-col gap-y-3 text-start">

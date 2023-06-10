@@ -87,7 +87,7 @@ const ReviewerWrapper = ({ onCloseModal, spotID, reviewToEditDetails }) => {
             <form
                 noValidate
                 onSubmit={formik.handleSubmit}
-                className="flex flex-col justify-evenly sm:justify-between h-full mt-4 px-1 pb-2
+                className="flex flex-col justify-evenly sm:justify-between h-full mt-4 px-1
                 max-h-[63vh] md:max-h-[58vh] overflow-y-auto"
             >
                 <StarRater

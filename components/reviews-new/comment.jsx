@@ -2,7 +2,7 @@ const Comment = ({ formikWizardComment, errorFeedback }) => {
     const isCommentFieldError = errorFeedback.message !== ''
     return (
         <>
-            <div className="xl:h-[60%] space-y-4">
+            <div className="xl:h-[45%] 2xl:max-h-[60%] space-y-1 2xl:space-y-4">
                 <textarea
                     {...formikWizardComment}
                     id="message"
