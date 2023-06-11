@@ -254,7 +254,9 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                             )}
                         </div>
                     </div>
-                    <div className={`${hideOnLarge} flex flex-col gap-y-4 font-semibold`}>
+                    <div
+                        className={`${hideOnLarge} flex flex-col gap-y-4 font-semibold items-center lg:items-start `}
+                    >
                         {isLoading ? (
                             <SkeletonText
                                 type={'smTitle'}

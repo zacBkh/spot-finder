@@ -80,7 +80,7 @@ const MapShow = ({ markerCoordinates, isMarkerDraggable, onSpotLocationChange })
                         latitude={markerCoordinates.Latitude}
                         color="red"
                     >
-                        <Pin size={20} />
+                        <Pin />
                     </Marker>
                 )}
                 <FullscreenControl />

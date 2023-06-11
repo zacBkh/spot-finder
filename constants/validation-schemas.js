@@ -52,10 +52,7 @@ const userCountryName = {
 const userProfilePic = {
     profilePic: Yup.object({
         isCustom: Yup.boolean().nullable(),
-        link: Yup.string()
-            .min(5)
-            .url()
-            .required('Please upload or pick a profile picture.'),
+        link: Yup.string().min(5).required('Please upload or pick a profile picture.'),
     }).required('-- Please upload or pick a profile picture.'),
 }
 

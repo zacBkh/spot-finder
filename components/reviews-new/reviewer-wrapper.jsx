@@ -87,7 +87,7 @@ const ReviewerWrapper = ({ onCloseModal, spotID, reviewToEditDetails }) => {
             <form
                 noValidate
                 onSubmit={formik.handleSubmit}
-                className="flex flex-col justify-evenly sm:justify-between h-full mt-4 px-1
+                className="flex flex-col gap-y-4 justify-evenly sm:justify-between h-full mt-4 px-1
                 max-h-[63vh] md:max-h-[58vh] overflow-y-auto"
             >
                 <StarRater
@@ -100,6 +100,7 @@ const ReviewerWrapper = ({ onCloseModal, spotID, reviewToEditDetails }) => {
                     errorFeedback={validStyling('comment')}
                 />
                 <ButtonPrimary
+                    additionalCSS={'mx-auto md:mx-0'}
                     shouldBeDisabled={formik.isSubmitting}
                     iconFirst
                     isSubmitBtn

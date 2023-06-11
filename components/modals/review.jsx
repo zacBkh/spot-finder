@@ -92,7 +92,7 @@ const Review = ({
                     </div>
                     <div>
                         {isCurrUserReviewAuthor ? (
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:gap-x-4 text-xs sm:text-sm">
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-y-1 sm:gap-y-0 sm:gap-x-4 text-xs sm:text-sm">
                                 <button
                                     onClick={reviewEditRequestHandler}
                                     className="flex items-center gap-x-1 hover:underline"

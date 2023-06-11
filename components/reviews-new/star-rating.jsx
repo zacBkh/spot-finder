@@ -16,7 +16,7 @@ const StarRater = ({ onUserRate, errorFeedback, initialRate }) => {
                     showTooltip
                     tooltipArray={tooltipArray}
                     tooltipClassName={
-                        '!bg-secondary !ml-0 !mt-2 !block !text-sm !md:text-base'
+                        '!bg-secondary !ml-0 !mt-2 !block !text-sm !md:text-base text-center'
                     }
                     emptyStyle={{ display: 'flex' }}
                     fillStyle={{ display: '-webkit-inline-box' }}

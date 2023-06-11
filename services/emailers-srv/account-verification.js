@@ -37,7 +37,7 @@ const sendVerifEmail = async (userRecipient, userData, token) => {
 
         const htmlToSend = `
         <h3> Hello ${capitalize(name)} ! </h3>
-        <p> Thanks for registering. Just one more step... </p>
+        <p> Thanks for registering. Just one more step... 🙏 </p>
         <p> To activate account, please follow this link : 
         <a target = "_" href="${currDomain}/auth/verify-your-email/${token}"> Activate my Account 
         </a> </p>

@@ -79,7 +79,7 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
                             onDragEnd={dragStopHandler}
                             draggable={!shouldBeDisabled}
                         >
-                            <Pin size={20} />
+                            <Pin />
                         </Marker>
                     )}
 

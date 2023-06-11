@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer'
 import capitalize from '../../utils/capitalize'
 
 import { PATHS } from '../../constants/URLs'
-const { DOMAIN, NEW_SPOT } = PATHS
+const { DOMAIN, NEW_SPOT, DOMAIN_WITHOUT_SLASH, PROFILE } = PATHS
 
 const sendWelcomeEmail = async (userRecipient, userName) => {
     console.log('userRecipient', userRecipient)
@@ -40,18 +40,20 @@ const sendWelcomeEmail = async (userRecipient, userName) => {
         <h3> Hello ${capitalize(userName)} ! </h3>
 
         <p> You have just activated your account by verifying your email! </p>
-        <p> Welcome to the Spot Finder Community! </p>
+        <p> Welcome to the Spot Finder Community! 🥳 </p>
         <p> 
-        Start <a target = "_" href="${DOMAIN}/${NEW_SPOT}"> adding new spots here
+        Start <a target = "_" href="${DOMAIN_WITHOUT_SLASH}${NEW_SPOT}"> adding new spots here
         </a> or <a target = "_" href="${DOMAIN}"> browse through our amazing existing spots </a> already shared by our community!
         </p>
-        <p> Thank you</p>`
+        <p> You can also <a target = "_" href="${DOMAIN_WITHOUT_SLASH}${PROFILE}"> add a description to your profile </a> to let other members know more abou you 👍
+        </p>
+        <p>Thank you</p>`
 
         // send mail with defined transport object
         const mailOptions = await transporter.sendMail({
             from: 'Spot Finder team 👻 <process.env.GOOGLE_USER>', // sender name + address
             to: userRecipient,
-            subject: `${capitalize(userName)}, Welcome to Spot Finder! ✔ !`, // Subject line
+            subject: `${capitalize(userName)}, Welcome to Spot Finder! 😍 !`, // Subject line
             text: 'Hello world?', // plain text body
             html: htmlToSend, // html body
         })

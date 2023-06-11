@@ -210,7 +210,7 @@ const AllSpots = ({ spots }) => {
                 <meta name="description" content="Browse the best spots, in a minute!" />
             </Head>
 
-            <div className="flex flex-col md:flex-row gap-x-4 gap-y-1">
+            <div className="flex flex-col md:flex-row gap-x-4 gap-y-4">
                 <aside
                     className={`${
                         isDrawerOpen ? 'md:w-[30%] 2xl:w-[20%]' : 'md:w-[8%] xl:w-[5%]'
