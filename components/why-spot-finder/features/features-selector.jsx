@@ -99,7 +99,7 @@ const FeatureSelector = ({}) => {
                         ))}
                     </div>
                     <div
-                        className={`hidden sm:block w-full bg-[#3b96ba75] overflow-hidden mb-6`}
+                        className={`hidden sm:block w-full bg-[#3b96ba2f] overflow-hidden mb-6`}
                     >
                         <div
                             className={`px-12 h-[3px] bg-secondary rounded-full transition-all duration-500 bounceTimingFunction origin-right w-11 md:w-36 opacity-100 relative

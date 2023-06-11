@@ -54,6 +54,9 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         profilePic,
     } = visitedUser
 
+    console.log('visitedUser', visitedUser)
+    const provider = visitedUser.provider
+
     let isCurrentUserVisitedUser = false
     if (currentUser && visitedUserID === currentUser.userID) {
         isCurrentUserVisitedUser = true
@@ -166,6 +169,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                     ) : (
                         <>
                             <UserImage
+                                noCloudi={provider !== 'credentials'}
                                 alt={`Profile picture of ${name}`}
                                 suggestAddCustom={!profilePic?.isCustom}
                                 picLink={profilePic?.link}
@@ -240,6 +244,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 />
                             ) : (
                                 <UserImage
+                                    noCloudi={provider !== 'credentials'}
                                     alt={`Profile picture of ${name}`}
                                     suggestAddCustom={!profilePic?.isCustom}
                                     picLink={profilePic?.link}

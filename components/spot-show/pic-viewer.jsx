@@ -88,7 +88,7 @@ const PicViewer = ({
                             w-[800px] h-[400px] 2xl:w-[1000px] 2xl:h-[700px]"
                 >
                     <Image
-                        src={getCloudiImg('', images[activeImg])}
+                        src={getCloudiImg(undefined, images[activeImg])}
                         alt="Picture"
                         layout="fill"
                         objectFit="contain"

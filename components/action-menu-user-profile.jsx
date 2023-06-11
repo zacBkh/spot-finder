@@ -40,7 +40,7 @@ const ActionMenuUserProfile = ({ isOpen, isCurrentUserVisitedUser, currentUserID
             <div
                 className={`${
                     isOpen ? 'block' : 'hidden'
-                } z-50 absolute -left-[400%] md:left-[150%] md:-bottom-14`}
+                } z-50 absolute -left-[400%] md:left-[150%] md:-bottom-14 transition-menu-zoom`}
             >
                 <div
                     className={`

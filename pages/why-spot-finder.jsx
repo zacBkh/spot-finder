@@ -38,7 +38,7 @@ const WhySpotFinder = ({}) => {
                 <div className="flex justify-between items-center">
                     <div className="flex flex-col items-center md:items-start gap-y-6 w-fit md:w-[50%] text-center md:text-start z-50">
                         <div>
-                            <h1 className={`${BIG_TITLE_FS} leading-[1.2] font-bold`}>
+                            <h1 className={`${BIG_TITLE_FS} font-bold`}>
                                 Discover the world&apos;s hidden gems with Spot Finder 📸
                             </h1>
                             <h2 className="text-xl mt-4">

@@ -10,7 +10,7 @@ const ImageDemo = ({ activeFeature, arrayOfImages, onFeatChangeFromImgClick }) =
                 <div
                     className="w-[70%] sm:sm:w-[550px] 2xl:sm:w-[700px]
                      flex transition-transform bounceTimingFunction duration-500 "
-                    style={{ transform: `translateX(-${activeFeature * 100}%)` }}
+                    style={{ transform: `translateX(-${activeFeature * 97}%)` }}
                 >
                     {arrayOfImages.map((img, index) => (
                         <img

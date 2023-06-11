@@ -1,21 +1,29 @@
-const profilePicOptions = [
-    {
-        name: 'Photographer during sunset.',
-        link: 'https://images.unsplash.com/photo-1506434304575-afbb92660c28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
-    },
+const PROFILE_PIC_DEFAULT_OPTIONS = [
     {
         name: 'Photographer at the top of a summit.',
-        link: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
+        link: '/v1686394955/users-profile-picture-default/mzhe7kihieqvuqzm6gjh.avif',
+    },
+    {
+        name: 'Women Photographer in the street.',
+        link: '/v1686394954/users-profile-picture-default/zekp5r3gv9lj2sqgeu73.avif',
     },
 
     {
         name: 'Women photographer in the nature.',
-        link: 'https://images.unsplash.com/photo-1500027419059-afa3360ead5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+        link: '/v1686394954/users-profile-picture-default/yo6hcif1ldlybyew4tdm.avif',
     },
     {
-        name: 'Women photographer in the street.',
-        link: 'https://images.unsplash.com/photo-1523359247812-29dde5ac53a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+        name: 'Photographer during sunset.',
+        link: '/v1686394954/users-profile-picture-default/yrxqfzwno9zjb822l8qe.avif',
+    },
+    {
+        name: 'Vintage photographer in the street with backpack.',
+        link: '/v1686398989/users-profile-picture-default/ydsp7ny43ydgov4eeq8p.avif',
+    },
+    {
+        name: 'Photographer outside with sunglasses.',
+        link: '/v1686398989/users-profile-picture-default/q68frh8zhf8ldpjeqblw.avif',
     },
 ]
 
-export default profilePicOptions
+export default PROFILE_PIC_DEFAULT_OPTIONS

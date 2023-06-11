@@ -347,7 +347,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     <Image
                                         placeholder="blur"
                                         blurDataURL={getCloudiImg(undefined, images[0])}
-                                        src={getCloudiImg('', images[0])}
+                                        src={getCloudiImg(undefined, images[0])}
                                         alt="Picture"
                                         layout="fill"
                                         className="object-cover rounded-l-md dimOnHover"
@@ -359,7 +359,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             <div
                                 className={`absolute float-left ${
                                     shouldBeEditable ? 'top-[68%]' : 'top-[78%]'
-                                }  sm:top-[76%] md:top-[87%] lg:top-[88%]
+                                }  sm:top-[76%] md:top-[87%] lg:top-[88%] 2xl:top-[91.5%]
                                  left-[1.5%] flex flex-col md:flex-row gap-1`}
                             >
                                 <div onClick={() => imgClickHandler(0)}>

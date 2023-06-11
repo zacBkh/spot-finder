@@ -74,6 +74,13 @@ const SpotCard = ({
     }
 
     const onSpotCardClick = evt => {
+        if (isLandingPage) {
+            console.log(
+                'edit code here to redirect after click --> onst onSpotCardClick = evt =',
+            )
+            return
+        }
+
         const nodeName = evt.target.nodeName
         const arrayBtnClick = ['BUTTON', 'svg', 'path']
         if (arrayBtnClick.includes(nodeName)) {
@@ -133,7 +140,7 @@ const SpotCard = ({
                                 layout="fill"
                                 objectFit="cover"
                                 alt="Picture of a Spot"
-                                src={getCloudiImg('', img)}
+                                src={getCloudiImg(undefined, img)}
                                 placeholder="blur"
                                 blurDataURL={getCloudiImg(undefined, images[0])}
                                 className={`${getImgQueue(index)}
@@ -207,6 +214,7 @@ const SpotCard = ({
                     ) : (
                         <div className="flex gap-x-2 items-center group w-fit text-greyText">
                             <UserImage
+                                noCloudi={author.provider !== 'credentials'}
                                 alt={`Profile picture of ${author.name}`}
                                 picLink={author?.profilePic?.link}
                                 size={`${userImgSize ?? 'w-8 h-8'}`}

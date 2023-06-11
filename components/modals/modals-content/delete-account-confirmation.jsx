@@ -23,9 +23,9 @@ const DeleteAccountConfirmationModal = ({ children, modalContextAccountDeletion 
             query: { [KEY]: VALUE_DELETED_USER_SUCCESS },
         })
         await deleteUserHandler(modalContextAccountDeletion.userToDelete)
-        await signOut({ redirect: false })
-
         closeModalHandler()
+
+        await signOut({ redirect: false })
     }
 
     return (

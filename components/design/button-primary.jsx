@@ -35,7 +35,7 @@ const ButtonPrimary = ({
                     {icon}
                 </span>
                 <span
-                    className={`${iconFirst && 'order-first'} ${isSmaller && 'text-sm'}`}
+                    className={`${iconFirst && 'order-first'} ${isSmaller && 'text-xs'}`}
                 >
                     {text}
                 </span>

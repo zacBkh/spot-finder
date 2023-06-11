@@ -2,7 +2,7 @@ import { Schema, model, models } from 'mongoose'
 
 import Spot from './spot'
 import Review from './reviews'
-import { boolean } from 'yup'
+import Account from './account'
 
 const userSchema = new Schema(
     {
@@ -52,13 +52,9 @@ const userSchema = new Schema(
             required: true,
         },
 
-        // spotsOwned: [
-        //     {
-        //         type: Schema.Types.ObjectId,
-        //         ref: 'Spot',
-        //         default: [],
-        //     },
-        // ],
+        providerName: {
+            type: String,
+        },
 
         spotsOwned: {
             type: [
@@ -112,6 +108,13 @@ userSchema.post('findOneAndDelete', async function (userDeleted) {
 
     // Delete reviews from review model
     const revDeletion = await Review.deleteMany({ reviewAuthor: userID })
+
+    // Delete document from accounts model
+
+    if (userDeleted.provider === 'credentials') {
+        return
+    }
+    const delAcc = await Account.findOneAndDelete({ userId: userID })
 })
 
 // Model creation

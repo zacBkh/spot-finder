@@ -3,8 +3,10 @@ import Image from 'next/image'
 import { FaUserCircle } from 'react-icons/fa'
 import { GiHamburgerMenu } from 'react-icons/gi'
 
+import UserImage from '../../user-image'
 const UserAvatar = ({ currentSession, onUserMenuClick, isOpen }) => {
     const imageSession = currentSession?.user.image
+
     return (
         <button
             className={`border border-[#DDDDDD] rounded-[21px] shadow-user-menu-hov ${
@@ -17,12 +19,11 @@ const UserAvatar = ({ currentSession, onUserMenuClick, isOpen }) => {
                     <GiHamburgerMenu />
                 </span>
                 {currentSession && imageSession?.link ? (
-                    <Image
-                        width={32}
-                        height={32}
-                        className="h-8 w-8 rounded-full"
-                        src={imageSession.link}
-                        alt="Profile picture"
+                    <UserImage
+                        noCloudi={currentSession.user.provider !== 'credentials'}
+                        noBorder
+                        picLink={imageSession.link}
+                        size={'w-8 h-8'}
                     />
                 ) : (
                     <div>

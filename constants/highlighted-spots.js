@@ -1,16 +1,19 @@
+import PROFILE_PIC_DEFAULT_OPTIONS from './default-profile-pic'
+
 const HIGHLIGHTED_SPOTS_LANDING_PAGE = [
     {
         _id: '1',
-        title: 'Sunset on the Atlantis',
-        categories: ['Sunset', 'Oceans'],
+        title: 'Sunset on the Eiffel Tower',
+        categories: ['Sunset', 'Urban'],
         author: {
             name: 'Eric',
             profilePic: {
-                link: 'https://images.unsplash.com/photo-1506434304575-afbb92660c28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
+                link: PROFILE_PIC_DEFAULT_OPTIONS[0].link,
             },
+            provider: 'credentials',
         },
-        country: { name: 'Dubai' },
-        images: ['v1685555865/spot-picture/x1nfzpt22ym5x09xyguv.jpg'],
+        country: { name: 'France' },
+        images: ['/v1686397294/highlighted-spots/eelokgajgslvreepjfkv.avif'],
         reviews: [
             {
                 rate: 3.6,
@@ -20,16 +23,17 @@ const HIGHLIGHTED_SPOTS_LANDING_PAGE = [
 
     {
         _id: '2',
-        title: 'Montmartre in Summer',
-        categories: ['Art', 'Urban'],
+        title: 'Dubai Skyline',
+        categories: ['Urban', 'Oceans'],
         author: {
             name: 'Eric',
             profilePic: {
-                link: 'https://images.unsplash.com/photo-1506434304575-afbb92660c28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
+                link: PROFILE_PIC_DEFAULT_OPTIONS[1].link,
             },
+            provider: 'credentials',
         },
-        country: { name: 'Paris' },
-        images: ['v1685555865/spot-picture/x1nfzpt22ym5x09xyguv.jpg'],
+        country: { name: 'Dubai' },
+        images: ['/v1686396899/highlighted-spots/fjvwxkr8etjksohv7f6s.avif'],
 
         reviews: [
             {
@@ -40,17 +44,17 @@ const HIGHLIGHTED_SPOTS_LANDING_PAGE = [
 
     {
         _id: '3',
-        title: 'Dubai Marina night',
-        categories: ['Urban', 'Other', 'Art'],
+        title: 'Burj Al Arab',
+        categories: ['Urban', 'Sunset'],
         author: {
             name: 'Eric',
             profilePic: {
-                link: 'https://images.unsplash.com/photo-1506434304575-afbb92660c28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
+                link: PROFILE_PIC_DEFAULT_OPTIONS[2].link,
             },
+            provider: 'credentials',
         },
         country: { name: 'Dubai' },
-        images: ['v1685555865/spot-picture/x1nfzpt22ym5x09xyguv.jpg'],
-
+        images: ['/v1686397399/highlighted-spots/izonwu93bmbuqzlaydeq.avif'],
         reviews: [
             {
                 rate: 4.2,

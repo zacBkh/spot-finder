@@ -16,8 +16,6 @@ const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion }) => 
         modalContextSpotDeletion.toggleModalState()
     }
     const spotConfirmedDeletionHandler = async () => {
-        await deleteSpotHandler(modalContextSpotDeletion.spotToDelete)
-
         router.push(
             {
                 pathname: PATHS.HOME,
@@ -26,6 +24,8 @@ const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion }) => 
             undefined,
         )
         closeModalHandler()
+
+        await deleteSpotHandler(modalContextSpotDeletion.spotToDelete)
     }
 
     return (

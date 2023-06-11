@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { BiEdit } from 'react-icons/bi'
 import { MdGrade, MdOutlineRateReview } from 'react-icons/md'
@@ -12,7 +12,6 @@ import { useRouter } from 'next/router'
 import {
     REVIEW_MODAL_FS,
     REVIEW_MODAL_SECONDARY_FS,
-    BUTTON_FS,
 } from '../../constants/responsive-fonts'
 
 import ReviewerWrapper from '../reviews-new/reviewer-wrapper'
@@ -26,6 +25,7 @@ import NoDataImg from '../../public/images/no-data-found.svg'
 import getAvrgGrade from '../../utils/get-average-rate'
 
 import ButtonPrimary from '../design/button-primary'
+import { useField } from 'formik'
 
 const {
     KEY_REQUIRE,
@@ -142,22 +142,32 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
     )
 
     const shouldReviewBePluralized = reviews.length === 0 || reviews.length > 1
+
+    const shouldCloseModal = evt => {
+        const shouldTriggerModalClose = evt.target.hasAttribute('close-modal')
+        if (shouldTriggerModalClose) {
+            onCloseModal()
+        }
+    }
     return (
         <>
-            <div onClick={onCloseModal} className="overlay"></div>
-            <div className="transition-modal flex items-center justify-center top-0 left-0 fixed z-[99999] overflow-hidden inset-0 text-form-color mx-auto my-auto w-[90vw] sm:w-[80vw] max-w-[90vw] sm:max-w-[80vw] h-[80vh]">
-                <div className="relative w-full h-full bg-white rounded-lg shadow">
+            <div className="overlay"></div>
+            <div
+                close-modal="true"
+                onClick={shouldCloseModal}
+                className="transition-modal z-[9999] overflow-hidden text-form-color centerModalWrapper"
+            >
+                <div className="relative bg-white !z-[999999] rounded-lg  centerModalContent w-[80%] min-h-[80%]">
                     <button
                         onClick={onCloseModal}
                         type="button"
                         className="absolute top-[2px] right-[2px]  sm:top-1 sm:right-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1 ml-auto inline-flex items-center"
-                        data-modal-hide="popup-modal"
                     >
-                        <AiOutlineClose className="w-5 h-5" />
+                        <AiOutlineClose className="text-base md:text-lg" />
                     </button>
-                    <div className="flex flex-col p-4 sm:p-5 h-full text-center">
+                    <div className="flex flex-col p-3 sm:p-5 h-full text-center">
                         <div className="space-y-4">
-                            <div className="flex justify-between items-center gap-x-6 sm:gap-x-16 bg-white ">
+                            <div className="flex justify-between items-center gap-x-6 sm:gap-x-16">
                                 <div className="flex flex-col gap-y-3 text-start">
                                     <h1>
                                         <div

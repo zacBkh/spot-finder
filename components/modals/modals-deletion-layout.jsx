@@ -9,16 +9,25 @@ const LayoutModalDeletion = ({
     btnConfirm,
     btnCancel,
 }) => {
+    const shouldCloseModal = evt => {
+        const shouldTriggerModalClose = evt.target.hasAttribute('close-modal')
+        if (shouldTriggerModalClose) {
+            onCloseModal()
+        }
+    }
     return (
         <>
-            <div onClick={onCloseModal} className="overlay"></div>
-            <div className="transition-modal z-[99999] overflow-hidden text-form-color  centerModalWrapper">
+            <div className="overlay"></div>
+            <div
+                close-modal="true"
+                onClick={shouldCloseModal}
+                className="transition-modal z-[99999] overflow-hidden text-form-color centerModalWrapper"
+            >
                 <div className="relative bg-white rounded-lg shadow centerModalContent w-[80%] md:w-[50%]">
                     <button
                         onClick={onCloseModal}
                         type="button"
                         className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                        data-modal-hide="popup-modal"
                     >
                         <AiOutlineClose className="w-5 h-5" />
                     </button>
