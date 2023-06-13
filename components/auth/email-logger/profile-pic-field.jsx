@@ -11,7 +11,7 @@ import { SMALL_TEXT_FS } from '../../../constants/responsive-fonts'
 
 import { DISABLED_STYLE_STATELESS } from '../../../constants/disabled-style'
 
-import profilePicOptions from '../../../constants/default-profile-pic'
+import PROFILE_PIC_DEFAULT_OPTIONS from '../../../constants/default-profile-pic'
 
 const SelectProfilePic = ({ formik, onPictureSelect }) => {
     const imgSize = 'w-14 xl:w-20 h-14 xl:h-20'
@@ -25,8 +25,9 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
         onPictureSelect(true, picURL)
     }
 
+    console.log('formik', formik)
     return (
-        <>
+        <div className="!mt-5">
             <p className="font-semibold text-sm text-center sm:text-start">
                 Upload your photo or just pick one
             </p>
@@ -65,7 +66,7 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                         </div>
                     </ImageUploaderWrapper>
                     <DividerDesign vertical />
-                    {profilePicOptions.map(pic => (
+                    {PROFILE_PIC_DEFAULT_OPTIONS.map(pic => (
                         <button
                             disabled={formik.isSubmitting}
                             key={pic.name}
@@ -98,9 +99,11 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                 </div>
             </div>
             <div className={`${SMALL_TEXT_FS} !text-primary mt-1 whitespace-pre-wrap`}>
-                {formik.values.password.length > 8 ? formik.errors.profilePic.link : ''}
+                {formik.values.password.length > 8
+                    ? formik?.errors?.profilePic?.link
+                    : ''}
             </div>
-        </>
+        </div>
     )
 }
 

@@ -22,8 +22,8 @@ const ButtonPrimary = ({
                     ${shouldBeDisabled ? 'active:transform-none' : ''}
                    ${
                        isSmaller
-                           ? 'py-2 px-3 2xl:py-3 2xl:px-9'
-                           : 'py-2 px-4 2xl:py-3 2xl:px-9'
+                           ? 'py-2 px-3 2xl:py-3 2xl:px-4'
+                           : 'py-2 px-4 2xl:py-3 2xl:px-4'
                    } 
                     flex items-center gap-x-2 bg-primary text-white rounded-[0.3rem] w-fit font-bold`}
             >
@@ -35,7 +35,9 @@ const ButtonPrimary = ({
                     {icon}
                 </span>
                 <span
-                    className={`${iconFirst && 'order-first'} ${isSmaller && 'text-sm'}`}
+                    className={`${iconFirst && 'order-first'} ${
+                        isSmaller && 'text-xs md:text-base'
+                    }`}
                 >
                     {text}
                 </span>

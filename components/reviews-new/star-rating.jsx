@@ -15,7 +15,9 @@ const StarRater = ({ onUserRate, errorFeedback, initialRate }) => {
                     tooltipDefaultText={'Please rate the Spot 💖'}
                     showTooltip
                     tooltipArray={tooltipArray}
-                    tooltipClassName={'!bg-secondary !ml-0 !mt-2 !block '}
+                    tooltipClassName={
+                        '!bg-secondary !ml-0 !mt-2 !block !text-sm !md:text-base text-center'
+                    }
                     emptyStyle={{ display: 'flex' }}
                     fillStyle={{ display: '-webkit-inline-box' }}
                     onClick={handleRating}

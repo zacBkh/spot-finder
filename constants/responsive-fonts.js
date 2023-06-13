@@ -1,5 +1,4 @@
-export const BUTTON_FS =
-    'text-xs sm:text-sm md:text-base lg:text-base xl:text-base 2xl:text-lg'
+export const BUTTON_FS = 'text-xs sm:text-sm md:text-base lg:text-base xl:text-base'
 
 export const ARROW_ICON_FS =
     'text-base sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:3xl'
@@ -13,8 +12,7 @@ export const OAUTH_LOGO_FS =
 export const FORM_CAT_ICON_FS =
     'font-medium text-xs sm:text-xs md:text-sm lg:text-base xl:text-base 2xl:text-base'
 
-export const TOASTER_FS =
-    'text-sm sm:text-base md:text-base lg:text-base xl:text-base 2xl:text-lg'
+export const TOASTER_FS = 'text-sm sm:text-base md:text-base lg:text-base xl:text-base'
 
 export const HEADER_TITLE_FS = 'text-base md:text-lg xl:text-xl 2xl:text-2xl'
 

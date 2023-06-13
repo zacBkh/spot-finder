@@ -35,8 +35,12 @@ const {
 
     VALUE_MUST_NOT_BE_OWNER_ADD_REVIEW,
     VALUE_MUST_NOT_HAVE_ALREADY_REVIEWED,
+
     VALUE_RESET_PWD_EMAIL_SENT_SUCCESS,
     VALUE_RESET_PWD_EMAIL_SENT_FAILURE,
+
+    VALUE_RESET_PWD_SUCCESS,
+    VALUE_RESET_PWD_FAILURE,
 
     VALUE_EDIT_DESC_SUCCESS,
     VALUE_EDIT_DESC_FAILURE,
@@ -93,13 +97,29 @@ const Toaster = () => {
             )
         }
 
+        if (queryString[KEY] === VALUE_RESET_PWD_EMAIL_SENT_SUCCESS) {
+            toast.info(`An email to reset your password has been sent to you.`, {
+                position: 'bottom-left',
+                toastId: 'resetPwdEmailSentSuccess',
+            })
+            return
+        }
+
+        if (queryString[KEY] === VALUE_RESET_PWD_FAILURE) {
+            toast.error('There has been an issue resetting your password.', {
+                position: 'bottom-left',
+                toastId: 'resetPwdFailure',
+            })
+            return
+        }
+
         if (status === 'authenticated') {
             const currentUserName = capitalize(session.user.name)
             // Only work with oAuth
             if (session.isNewUser) {
                 toast.success(
                     <>
-                        Hi {currentUserName}, welcome to Spot Finder! <br /> We are happy
+                        Hi {currentUserName}, welcome to SpotFinder! <br /> We are happy
                         to have you onboard.
                     </>,
                     {
@@ -235,14 +255,6 @@ const Toaster = () => {
                 return
             }
 
-            if (queryString[KEY] === VALUE_RESET_PWD_EMAIL_SENT_SUCCESS) {
-                toast.info(`An email to reset your password has been sent to you.`, {
-                    position: 'bottom-left',
-                    toastId: 'resetPwdEmailSentSuccess',
-                })
-                return
-            }
-
             if (queryString[KEY] === VALUE_RESET_PWD_EMAIL_SENT_FAILURE) {
                 toast.error(
                     <>
@@ -278,6 +290,14 @@ const Toaster = () => {
                 })
                 return
             }
+
+            if (queryString[KEY] === VALUE_RESET_PWD_SUCCESS) {
+                toast.success('You successfully reset your password!', {
+                    position: 'bottom-left',
+                    toastId: 'resetPwdSuccess',
+                })
+                return
+            }
         } else {
             if (queryString[KEY] === VALUE_LOGOUT) {
                 toast.info(`You successfully logged out.`, {
@@ -287,7 +307,7 @@ const Toaster = () => {
                 return
             }
 
-            if (router.query[KEY_AUTH] === VALUE_CREATE_SPOT) {
+            if (queryString[KEY_AUTH] === VALUE_CREATE_SPOT) {
                 toast.error(`You must be authenticated to create a new Spot.`, {
                     position: 'bottom-left',
                     toastId: 'alreadyLoggedIn',
@@ -295,7 +315,7 @@ const Toaster = () => {
                 return
             }
 
-            if (router.query[KEY_AUTH] === VALUE_ACCESS_PROFILE) {
+            if (queryString[KEY_AUTH] === VALUE_ACCESS_PROFILE) {
                 toast.error(`You must be authenticated to view your profile.`, {
                     position: 'bottom-left',
                     toastId: 'mustBeAuthToViewProfile',
@@ -303,7 +323,7 @@ const Toaster = () => {
                 return
             }
 
-            if (router.query[KEY_AUTH_ERROR] === VALUE_AUTH_ERROR) {
+            if (queryString[KEY_AUTH_ERROR] === VALUE_AUTH_ERROR) {
                 toast.error(`Try to login with another provider: Facebook or Google.`, {
                     position: 'bottom-left',
                     toastId: 'oAuthError',
@@ -327,7 +347,7 @@ const Toaster = () => {
                 return
             }
 
-            if (router.query[KEY_REQUIRE] === VALUE_MUST_LOGIN_TO_REVIEW) {
+            if (queryString[KEY_REQUIRE] === VALUE_MUST_LOGIN_TO_REVIEW) {
                 toast.error(toastLinkToLoginReturnTo(' to review this Spot.'), {
                     position: 'bottom-left',
                     toastId: 'loginToReviewSpot',
@@ -340,8 +360,9 @@ const Toaster = () => {
     return (
         <>
             <ToastContainer
-                autoClose={4000}
-                className={`${TOASTER_FS} text-form-color !w-screen sm:!w-fit sm:!min-w-[350px] !sm:max-w-[50vw] !bottom-0 !left-0 !mb-0 sm:ml-6 relative !z-[9999999]`}
+                toastClassName={''}
+                autoClose={5000}
+                className={`${TOASTER_FS} !w-screen sm:!w-fit sm:!min-w-[350px] !sm:max-w-[50vw] !bottom-0 !left-0 !mb-0 sm:ml-6 relative !z-[9999999]`}
             />
         </>
     )

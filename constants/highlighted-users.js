@@ -1,10 +1,10 @@
-import profilePicOptions from './default-profile-pic'
+import PROFILE_PIC_DEFAULT_OPTIONS from './default-profile-pic'
 
 const HIGHLIGHTED_USERS_LANDING_PAGE = [
     {
         _id: '1-U',
         name: 'Eric',
-        profilePic: { link: profilePicOptions[0].link },
+        profilePic: { link: PROFILE_PIC_DEFAULT_OPTIONS[0].link },
         country: 'France',
         joiningDate: '2023-04-12T16:23:59.582+00:00',
         country: 'Dubai',
@@ -15,7 +15,7 @@ const HIGHLIGHTED_USERS_LANDING_PAGE = [
     {
         _id: '2-U',
         name: 'Eric',
-        profilePic: { link: profilePicOptions[1].link },
+        profilePic: { link: PROFILE_PIC_DEFAULT_OPTIONS[1].link },
         country: 'France',
         joiningDate: '2023-04-12T16:23:59.582+00:00',
         country: 'Dubai',
@@ -26,7 +26,7 @@ const HIGHLIGHTED_USERS_LANDING_PAGE = [
     {
         _id: '3-U',
         name: 'Eric',
-        profilePic: { link: profilePicOptions[2].link },
+        profilePic: { link: PROFILE_PIC_DEFAULT_OPTIONS[2].link },
         country: 'France',
         joiningDate: '2023-04-12T16:23:59.582+00:00',
         country: 'Dubai',
@@ -37,7 +37,7 @@ const HIGHLIGHTED_USERS_LANDING_PAGE = [
     {
         _id: '4-U',
         name: 'Eric',
-        profilePic: { link: profilePicOptions[3].link },
+        profilePic: { link: PROFILE_PIC_DEFAULT_OPTIONS[3].link },
         country: 'France',
         joiningDate: '2023-04-12T16:23:59.582+00:00',
         country: 'Dubai',
@@ -48,7 +48,7 @@ const HIGHLIGHTED_USERS_LANDING_PAGE = [
     {
         _id: '5-U',
         name: 'Eric',
-        profilePic: { link: profilePicOptions[2].link },
+        profilePic: { link: PROFILE_PIC_DEFAULT_OPTIONS[2].link },
         country: 'France',
         joiningDate: '2023-04-12T16:23:59.582+00:00',
         country: 'Dubai',

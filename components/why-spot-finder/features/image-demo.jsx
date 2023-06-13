@@ -23,16 +23,6 @@ const ImageDemo = ({ activeFeature, arrayOfImages, onFeatChangeFromImgClick }) =
                             src={img}
                             alt="A feature"
                         />
-                        // <Image
-                        //     key={img}
-                        //     alt={`Image of a feature`}
-                        //     layout="fill"
-                        //     objectFit="contain"
-                        //     className={`
-                        //  transition-all duration-500 bounceTimingFunction`}
-                        //     src={img}
-                        //     style={{ transform: `translateX(${index * 50}%)` }}
-                        // />
                     ))}
                 </div>
             </div>

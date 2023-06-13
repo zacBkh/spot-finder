@@ -1,6 +1,5 @@
 import decodeToken from './helpers/decrypt-token'
 
-import isUserVerified from '../../services/data-loader-session'
 import sessionDataLoader from '../../services/data-loader-session'
 
 import markUserAsVerified from '../../services/mark-user-as-verified'
@@ -19,7 +18,7 @@ const JWTVerifyer = async JWToken => {
         return { success: decoded.success, result: decoded.result }
     }
 
-    // Check if user is already verified
+    // Check if user is already verified NO ACTUALLY ONLY IF IT EXISTS
     const alreadyVerified = await sessionDataLoader(decoded.userID)
     console.log('alreadyVerified', alreadyVerified)
     if (!alreadyVerified.success) {
@@ -34,6 +33,8 @@ const JWTVerifyer = async JWToken => {
         return {
             success: alreadyVerified.success,
             result: 'You are already a verified user!',
+            userID: alreadyVerified.result._id,
+            // userID: 'a',
         }
     }
 

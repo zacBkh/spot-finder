@@ -37,19 +37,17 @@ const sendVerifEmail = async (userRecipient, userData, token) => {
 
         const htmlToSend = `
         <h3> Hello ${capitalize(name)} ! </h3>
-        <p> Thanks for registering. Just one more step... </p>
-        <p> To activate account, please follow this link : 
+        <p> Thanks for registering. Just one more step... 🙏 </p>
+        <p> To activate your account, please follow this link : 
         <a target = "_" href="${currDomain}/auth/verify-your-email/${token}"> Activate my Account 
         </a> </p>
-        <p> Thank you</p>`
+        <p> Thank you! 👌</p>`
 
         // send mail with defined transport object
         const mailOptions = await transporter.sendMail({
-            from: 'Spot Finder team 👻 <process.env.GOOGLE_USER>', // sender address
-            // from: process.env.GOOGLE_USER,
+            from: 'SpotFinder team 👻 <process.env.GOOGLE_USER>', // sender address
             to: userRecipient,
-            subject: `${capitalize(name)}, activate your Spot Finder Account ✔ !`, // Subject line
-            text: 'Hello world?', // plain text body
+            subject: `${capitalize(name)}, activate your Spot Finder Account 🤙 !`, // Subject line
             html: htmlToSend, // html body
         })
 

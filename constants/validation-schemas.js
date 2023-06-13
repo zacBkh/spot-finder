@@ -52,10 +52,7 @@ const userCountryName = {
 const userProfilePic = {
     profilePic: Yup.object({
         isCustom: Yup.boolean().nullable(),
-        link: Yup.string()
-            .min(5)
-            .url()
-            .required('Please upload or pick a profile picture.'),
+        link: Yup.string().min(5).required('Please upload or pick a profile picture.'),
     }).required('-- Please upload or pick a profile picture.'),
 }
 
@@ -82,13 +79,13 @@ export const validFullUser = Yup.object().shape({
 export const doublePwdFieldSchema = Yup.object().shape({
     password: Yup.string()
         .trim()
-        .min(6, 'Your password should be at least 6 characters long!')
-        .required('Password is required'),
+        .min(8, ({ min }) => `Your password should be at least ${min} characters long.`)
+        .required('Password is required.'),
 
     password2: Yup.string()
         .trim()
-        .required('Please confirm your password')
-        .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+        .required('Please confirm your password.')
+        .oneOf([Yup.ref('password'), null], 'Passwords must match.'),
 })
 
 // ----------------
@@ -97,15 +94,18 @@ export const doublePwdFieldSchema = Yup.object().shape({
 const title = {
     title: Yup.string()
         .trim()
-        .min(6, `The title should be more than 6 characters.`)
-        .max(50, `The title should be less than 50 characters.`)
+        .min(6, ({ min }) => `The title should be at least ${min} characters long.`)
+        .max(50, ({ max }) => `The title should be no more than ${max} characters long.`)
         .required('The title of your Spot is required.'),
 }
 
 const description = {
     description: Yup.string()
         .trim()
-        .min(15, `The description should be more than 15 characters.`)
+        .min(
+            15,
+            ({ min }) => `The description should be at least ${min} characters long.`,
+        )
         .required('The description is required.'),
 }
 
@@ -125,8 +125,8 @@ const coordinates = {
 const images = {
     images: Yup.array()
         .of(Yup.string())
-        .min(1, 'At least one picture is required and a maximum of 3.')
-        .max(3, 'You can only add up to 3 pictures.'),
+        .min(1, ({ min }) => `At least ${min} picture is required and a maximum of 3.`)
+        .max(3, ({ max }) => `You can only add up to ${max} pictures.`),
 }
 
 // Title + Description + Categories

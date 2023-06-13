@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 
 import { useSession } from 'next-auth/react'
@@ -28,6 +28,8 @@ import { TOAST_PARAMS } from '../constants/toast-query-params'
 import SPOT_CATEGORIES from '../constants/spot-categories'
 
 import dynamic from 'next/dynamic'
+
+import useInputAutoFocusNewSpot from '../hooks/useInputAutoFocusNewSpot'
 
 const {
     KEY,
@@ -63,6 +65,7 @@ const AddNewSpot = ({}) => {
     const { data: session } = useSession()
 
     const [currentStep, setCurrentStep] = useState(1)
+    console.log('currentStep', currentStep)
 
     const incrementStepHandler = operator => {
         if (operator === '-') {
@@ -245,6 +248,18 @@ const AddNewSpot = ({}) => {
         },
     )
 
+    // Handle auto-focus behaviour
+
+    const titleRef = useRef()
+    const descRef = useRef()
+
+    useInputAutoFocusNewSpot(
+        titleRef,
+        descRef,
+
+        currentStep,
+    )
+
     return (
         <>
             <form
@@ -252,15 +267,17 @@ const AddNewSpot = ({}) => {
                 className="w-[90%] sm:w-[80%] max-w-4xl mx-auto space-y-3"
             >
                 <SpotTextualInput
+                    inputRef={titleRef}
                     formikWizard={formik.getFieldProps('title')}
                     identifier="title"
                     errorStying={validStyling('title')}
-                    placeholder="e.g: Amazing night cityscape in Dubai."
+                    placeholder="e.g: Amazing night cityscape in Dubai!"
                     shouldBeDisabled={previousInputToBlur(1)}
                     onEnterKeyPress={incrementStepHandler}
                 />
                 {currentStep > 1 && (
                     <SpotTextualInput
+                        inputRef={descRef}
                         formikWizard={formik.getFieldProps('description')}
                         identifier="description"
                         errorStying={validStyling('description')}
@@ -326,6 +343,7 @@ const AddNewSpot = ({}) => {
                             Upload pictures of your Spot *
                         </h2>
                         <DynamicImageUploader
+                            shouldBeDisabled={formik.isSubmitting || currentStep > 5}
                             onSuccessfulUpload={imgUploadHandler}
                             btnStyle={btnClassName}
                             uploadPreset={'spot-finder-spot-upload-preset'}

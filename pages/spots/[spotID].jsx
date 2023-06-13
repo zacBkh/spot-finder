@@ -3,6 +3,10 @@ import { useState, useRef, useEffect } from 'react'
 import useSWR, { useSWRConfig } from 'swr'
 import SWR_KEYS from '../../constants/SWR-keys'
 
+import { MdOutlineEditLocation } from 'react-icons/md'
+import { BsCamera } from 'react-icons/bs'
+import { GoLocation } from 'react-icons/go'
+
 import { authOptions } from '../api/auth/[...nextauth]'
 
 import { unstable_getServerSession } from 'next-auth/next'
@@ -103,7 +107,12 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         fallbackData: indivSpot,
     })
 
-    const { reviews: updatedReviews, visitors: updatedVisitors } = updatedIndivSpot
+    const {
+        reviews: updatedReviews,
+        visitors: updatedVisitors,
+        geometry: updatedGeometry,
+        country: updatedCountry,
+    } = updatedIndivSpot
 
     let hasUserVisited = updatedVisitors.includes(currentUserID)
 
@@ -128,7 +137,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         }
         const { categories } = formValues
         formValues = { ...formValues, categories: categories.sort() }
-        const spotEdition = await editSpotHandler(formValues, spotID)
+        await editSpotHandler(formValues, spotID)
 
         return router.push(
             { query: { spotID, [KEY]: VALUE_EDITED_SPOT_SUCCESS } },
@@ -192,10 +201,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                 undefined,
                 { shallow: true },
             )
-            console.log('++99')
         } else {
-            console.log('++22')
-
             router.push(
                 {
                     query: {
@@ -250,7 +256,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         ? SPOT_CATEGORIES
         : formik.values.categories
 
-    const [txtareaHeight, setTxtareaHeight] = useState('')
+    const [txtareaHeight, setTxtareaHeight] = useState('height')
 
     // Set text area state height onMount
     useEffect(() => {
@@ -282,18 +288,34 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         return () => (document.body.style.overflow = 'auto')
     }, [isPicViewerOpen])
 
-    const imgClickHandler = evt => {
-        const clicked = evt.target.nodeName
-        console.log('clicked', clicked)
-        const dataset = evt.target.dataset.action
+    const imgClickHandler = imgIndex => {
+        setisPicViewerOpen(true)
+        setActiveImg(imgIndex)
+    }
 
-        if (clicked === 'BUTTON' && dataset === 'showMap') {
-            setIsMapVisible(prev => !prev)
-            console.log('showmap')
-        } else {
-            console.log('showPic')
-            setisPicViewerOpen(true)
-        }
+    const [isMarkerDraggable, setIsMarkerDraggable] = useState(false)
+    const editCoordRequestHandler = () => {
+        setIsMapVisible(true)
+        setIsMarkerDraggable(prev => !prev)
+    }
+
+    const confirmLocationChangeHandler = async (geometry, country) => {
+        await editSpotHandler({ geometry, country }, spotID)
+        await mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE)
+        setIsMarkerDraggable(false)
+
+        return router.push(
+            { query: { spotID, [KEY]: VALUE_EDITED_SPOT_SUCCESS } },
+            undefined,
+            {
+                shallow: true,
+            },
+        )
+    }
+
+    const toggleMapHandler = () => {
+        setIsMapVisible(prev => !prev)
+        setIsMarkerDraggable(false)
     }
 
     return (
@@ -309,74 +331,107 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
             )}
             <div className="px-4 md:px-9 xl:px-16 2xl:px-56 space-y-6 ">
                 <div className="grid-container grid grid-rows-[350px] lg:grid-rows-[400px] 2xl:grid-rows-[600px] grid-cols-3 gap-2 relative">
-                    <div
-                        onClick={imgClickHandler}
-                        className="gap-2 grid grid-rows-2 grid-cols-3 col-span-full relative"
-                    >
-                        <div className="relative row-span-2 col-span-2 dimOnHover">
+                    <div className="gap-2 grid grid-rows-2 grid-cols-3 col-span-full relative">
+                        <div className="relative row-span-2 col-span-2">
                             {isMapVisible ? (
                                 <MapShow
-                                    initialView={{
-                                        longitude: 55.18,
-                                        latitude: 25.07,
-                                        zoom: 2,
-                                    }}
+                                    isMarkerDraggable={isMarkerDraggable}
                                     markerCoordinates={{
-                                        Longitude: geometry.coordinates[0],
-                                        Latitude: geometry.coordinates[1],
+                                        Longitude: updatedGeometry.coordinates[0],
+                                        Latitude: updatedGeometry.coordinates[1],
                                     }}
+                                    onSpotLocationChange={confirmLocationChangeHandler}
                                 />
                             ) : (
-                                <Image
-                                    placeholder="blur"
-                                    blurDataURL={getCloudiImg(undefined, images[0])}
-                                    src={getCloudiImg('', images[0])}
-                                    onClick={() => setActiveImg(0)}
-                                    alt="Picture"
-                                    layout="fill"
-                                    className="object-cover rounded-l-md"
-                                    priority={true}
-                                />
+                                <div onClick={() => imgClickHandler(0)}>
+                                    <Image
+                                        placeholder="blur"
+                                        blurDataURL={getCloudiImg(
+                                            'q_10, w_0.5',
+                                            images[0],
+                                        )}
+                                        src={getCloudiImg(undefined, images[0])}
+                                        alt="Picture"
+                                        layout="fill"
+                                        className="object-cover rounded-l-md dimOnHover"
+                                        priority={true}
+                                    />
+                                </div>
                             )}
-                            <div className="absolute float-left top-[78%] sm:top-[76%] md:top-[87%] lg:top-[88%] left-[1.5%] flex flex-col md:flex-row gap-1  ">
-                                <ButtonPhoto
-                                    type={'showPhotos'}
-                                    qtyPhotos={images.length}
-                                />
-                                <ButtonPhoto
-                                    isMapFullScreen={isMapVisible}
-                                    type={'showMap'}
-                                />
+
+                            <div
+                                className={`absolute float-left ${
+                                    shouldBeEditable ? 'top-[68%]' : 'top-[78%]'
+                                }  sm:top-[76%] md:top-[87%] lg:top-[88%] 2xl:top-[91.5%]
+                                 left-[1.5%] flex flex-col md:flex-row gap-1`}
+                            >
+                                <div onClick={() => imgClickHandler(0)}>
+                                    <ButtonPhoto
+                                        txt={`Show ${images.length} photos.`}
+                                        icon={<BsCamera />}
+                                    />
+                                </div>
+
+                                <div onClick={toggleMapHandler}>
+                                    <ButtonPhoto
+                                        txt={isMapVisible ? 'Hide Map' : 'Show on Map'}
+                                        icon={<GoLocation />}
+                                    />
+                                </div>
+
+                                {shouldBeEditable ? (
+                                    <div onClick={editCoordRequestHandler}>
+                                        <ButtonPhoto
+                                            moreStyle={`${
+                                                isMarkerDraggable
+                                                    ? ' !bg-primary !text-white'
+                                                    : ''
+                                            }`}
+                                            txt={'Edit your Spot Location'}
+                                            icon={<MdOutlineEditLocation />}
+                                        />
+                                    </div>
+                                ) : (
+                                    ''
+                                )}
                             </div>
                         </div>
 
                         <div className="relative row-span-1 col-span-1 dimOnHover">
                             {images[1] ? (
-                                <Image
-                                    placeholder="blur"
-                                    blurDataURL={getCloudiImg(undefined, images[1])}
-                                    src={getCloudiImg('', images[1])}
-                                    onClick={() => setActiveImg(1)}
-                                    alt="Picture"
-                                    layout="fill"
-                                    className="object-cover rounded-r-md"
-                                    sizes="(max-width: 768px) 100vw, 33vw"
-                                />
+                                <div onClick={() => imgClickHandler(1)}>
+                                    <Image
+                                        placeholder="blur"
+                                        blurDataURL={getCloudiImg(
+                                            'q_10, w_0.5',
+                                            images[1],
+                                        )}
+                                        src={getCloudiImg('', images[1])}
+                                        alt="Picture"
+                                        layout="fill"
+                                        className="object-cover rounded-r-md"
+                                        sizes="(max-width: 768px) 100vw, 33vw"
+                                    />
+                                </div>
                             ) : (
                                 <MissingImage />
                             )}
                         </div>
                         <div className="relative row-span-1 col-span-1 dimOnHover">
                             {images[2] ? (
-                                <Image
-                                    placeholder="blur"
-                                    blurDataURL={getCloudiImg(undefined, images[2])}
-                                    src={getCloudiImg('', images[2])}
-                                    onClick={() => setActiveImg(2)}
-                                    alt="Picture"
-                                    layout="fill"
-                                    className="object-cover rounded-r-md"
-                                />
+                                <div onClick={() => imgClickHandler(2)}>
+                                    <Image
+                                        placeholder="blur"
+                                        blurDataURL={getCloudiImg(
+                                            'q_10, w_0.5',
+                                            images[2],
+                                        )}
+                                        src={getCloudiImg('', images[2])}
+                                        alt="Picture"
+                                        layout="fill"
+                                        className="object-cover rounded-r-md"
+                                    />
+                                </div>
                             ) : (
                                 <MissingImage />
                             )}
@@ -385,10 +440,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
                     <div className="row-span-1 col-span-full lg:col-span-2 h-fit text-form-color">
                         <div className="space-y-4">
-                            {country ? (
+                            {updatedCountry ? (
                                 <CountryDisplayer
-                                    name={country.name}
-                                    code={country.code}
+                                    name={updatedCountry?.name}
+                                    code={updatedCountry?.code}
                                     context={'spotPage'}
                                 />
                             ) : (

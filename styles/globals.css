@@ -191,6 +191,24 @@ textarea:focus-visible {
     }
 }
 
+.centerModalWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.centerModalContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .shadow-user-menu-hov:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
 }
@@ -205,7 +223,7 @@ textarea:focus-visible {
 }
 
 /* Animate from display none */
-.transition-user-menu {
+.transition-menu-zoom {
     animation-name: userMenuTransition;
     animation-duration: 0.1s;
     animation-fill-mode: forwards;
@@ -225,7 +243,7 @@ textarea:focus-visible {
 
 .transition-filters {
     animation-name: filtersTransition;
-    animation-duration: 0.5s;
+    animation-duration: 0.3s;
     animation-timing-function: ease-in;
 }
 
@@ -462,7 +480,7 @@ div.hoverLink a:hover {
 /* Animate hamburger menu */
 .transition-hamburger-menu {
     animation-name: hamburgerMenuTransition;
-    animation-duration: 0.4s;
+    animation-duration: 0.2s;
     animation-fill-mode: forwards;
     animation-timing-function: ease-out;
 }

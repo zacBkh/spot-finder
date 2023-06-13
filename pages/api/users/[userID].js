@@ -17,6 +17,7 @@ import { authOptions } from '../auth/[...nextauth]'
 // Receive payload (req.body = new userDATA) and userID in URL (req.query)
 export default async function userHandling(req, res) {
     await connectMongo()
+    console.log('req.query', req.query)
     const { userID } = req.query
 
     if (req.method === 'GET') {
@@ -115,13 +116,13 @@ export default async function userHandling(req, res) {
     // DONT FORGET TO PROTECT USER EDIT MUST BE LOGGED IN
     if (req.method === 'PATCH') {
         console.log('req.body', req.body)
-        const { isPwdReset, newUserData } = req.body
+        const { isPwdReset, newUserData: newPwd } = req.body
 
         // If request related to pwd change
         if (JSON.parse(isPwdReset)) {
             try {
                 //Hash password
-                const hashedPassword = await hash(req.body, 10)
+                const hashedPassword = await hash(newPwd, 10)
                 console.log('hashedPassword', hashedPassword)
 
                 const userEdition = await User.findByIdAndUpdate(

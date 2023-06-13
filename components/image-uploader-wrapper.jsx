@@ -28,7 +28,6 @@ const ImageUploaderWrapper = ({
             return
         }
         if (result) {
-            console.log('result cloudinary', result)
             onSuccessfulUpload(result.info.path)
         }
     }
@@ -68,6 +67,7 @@ const ImageUploaderWrapper = ({
                     } else {
                         return (
                             <button
+                                disabled={shouldBeDisabled}
                                 onClick={handleOnClick}
                                 className={`${btnStyle} flex justify-center items-center gap-x-6`}
                             >

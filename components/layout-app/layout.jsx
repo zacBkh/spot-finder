@@ -5,7 +5,12 @@ const Layout = props => {
     return (
         <>
             <NavigationBar />
-            <main className="mt-1 lg:mt-2 2xl:mt-4">{props.children}</main>
+            <main
+                className="mt-1 lg:mt-2 2xl:mt-4
+            min-h-[40vh] md:min-h-[60vh]"
+            >
+                {props.children}
+            </main>
             <Footer />
         </>
     )

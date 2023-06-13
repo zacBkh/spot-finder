@@ -1,4 +1,4 @@
-import ResetPwdForm from '../../../components/auth/ResetPwdForm'
+import ResetPassword from '../../../components/auth/reset-password'
 
 import JWTVerifyer from '../../../utils/jwt-mail-tokens/verify-jwt'
 
@@ -21,16 +21,17 @@ export const getServerSideProps = async context => {
 
 // Component
 const VerifryResetPwdReq = ({ reqResult }) => {
+    console.log('reqResult', reqResult)
     if (!reqResult.success) {
         return (
             <CustomErrorPage
                 contextErrHelper={
-                    'Your token to resrt your password could not be verified. Please try again.'
+                    'Your token to reset your password could not be verified. Please try again.'
                 }
             />
         )
     } else {
-        return <ResetPwdForm userData={reqResult.result} />
+        return <ResetPassword userID={reqResult.userID} />
     }
 }
 

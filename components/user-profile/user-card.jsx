@@ -54,6 +54,9 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         profilePic,
     } = visitedUser
 
+    console.log('visitedUser', visitedUser)
+    const provider = visitedUser.provider
+
     let isCurrentUserVisitedUser = false
     if (currentUser && visitedUserID === currentUser.userID) {
         isCurrentUserVisitedUser = true
@@ -166,6 +169,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                     ) : (
                         <>
                             <UserImage
+                                noCloudi={provider !== 'credentials'}
                                 alt={`Profile picture of ${name}`}
                                 suggestAddCustom={!profilePic?.isCustom}
                                 picLink={profilePic?.link}
@@ -178,6 +182,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 nbVisited={visitedSpots.length}
                                 nbReviewed={spotsUserReviewed.length}
                                 isCurrentUserVisitedUser={isCurrentUserVisitedUser}
+                                isOAuth={currentUser?.user.provider !== 'credentials'}
                                 onChangePasswordRequest={pwdChangeHandler}
                             />
                         </>
@@ -194,7 +199,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 </div>
                             ) : (
                                 <>
-                                    <div className="flex items-center gap-x-3">
+                                    <div className="flex items-center gap-x-2 sm:gap-x-3">
                                         <h1 className={`${TITLE_FS} font-bold break-all`}>
                                             Hi, I am {name}
                                         </h1>
@@ -235,20 +240,23 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                         <div className={`${hideOnLarge}`}>
                             {isLoading ? (
                                 <SkeletonImage
-                                    style={'w-24 sm:w-32 h-20 sm:h-32 rounded-full'}
+                                    style={'w-20 sm:w-28 h-20 sm:h-28 rounded-full'}
                                 />
                             ) : (
                                 <UserImage
+                                    noCloudi={provider !== 'credentials'}
                                     alt={`Profile picture of ${name}`}
                                     suggestAddCustom={!profilePic?.isCustom}
                                     picLink={profilePic?.link}
                                     noBorder
-                                    size={'w-24 sm:w-32 h-24 sm:h-32'}
+                                    size={'w-20 sm:w-28 h-20 sm:h-28'}
                                 />
                             )}
                         </div>
                     </div>
-                    <div className={`${hideOnLarge} flex flex-col gap-y-4 font-semibold`}>
+                    <div
+                        className={`${hideOnLarge} flex flex-col gap-y-4 font-semibold items-center lg:items-start `}
+                    >
                         {isLoading ? (
                             <SkeletonText
                                 type={'smTitle'}
@@ -262,6 +270,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 nbVisited={visitedSpots.length}
                                 nbReviewed={spotsUserReviewed.length}
                                 isCurrentUserVisitedUser={isCurrentUserVisitedUser}
+                                isOAuth={currentUser?.user.provider !== 'credentials'}
                                 onChangePasswordRequest={pwdChangeHandler}
                             />
                         )}
@@ -299,19 +308,19 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                     <DividerDesign />
                     <RelatedSpots
                         isLoading={isLoading}
-                        title={`${name}'s Spots`}
+                        title={`${name}'s Spots 👇🏼`}
                         refClick={spotsCreated}
                         spots={spotsOwned ?? []}
                     />
                     <RelatedSpots
                         isLoading={isLoading}
-                        title={`Spots ${name} visited`}
+                        title={`Spots ${name} visited 👇🏼`}
                         refClick={spotsVisited}
                         spots={visitedSpots ?? []}
                     />
                     <RelatedSpots
                         isLoading={isLoading}
-                        title={`Spots ${name} reviewed`}
+                        title={`Spots ${name} reviewed 👇🏼`}
                         refClick={spotsReviewed}
                         spots={spotsUserReviewed ?? []}
                     />

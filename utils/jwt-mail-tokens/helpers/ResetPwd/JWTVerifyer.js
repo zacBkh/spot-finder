@@ -4,7 +4,7 @@ import User from '../../../../models/user'
 // Decode Token ONLY FOR PWD RESET
 
 const JWTVerifyer = async JWToken => {
-    console.log('JWToken', JWToken)
+    console.log('JWToken jwt verif', JWToken)
 
     // Trying to decode the token
     const decoded = await decodeTokenResetPwd(JWToken)

@@ -34,12 +34,19 @@ const PicViewer = ({
 
     useEffect(() => {
         const keyDownHandler = event => {
+            console.log('event', event)
             if (event.key === 'ArrowLeft') {
                 switchPicHandler('-')
+                return
             }
 
             if (event.key === 'ArrowRight') {
                 switchPicHandler('+')
+                return
+            }
+            if (event.key === 'Escape') {
+                onPicViewerClose()
+                return
             }
         }
 
@@ -81,7 +88,9 @@ const PicViewer = ({
                             w-[800px] h-[400px] 2xl:w-[1000px] 2xl:h-[700px]"
                 >
                     <Image
-                        src={getCloudiImg('', images[activeImg])}
+                        placeholder="blur"
+                        blurDataURL={getCloudiImg('q_10, w_0.5', images[activeImg])}
+                        src={getCloudiImg('w_0.99', images[activeImg])}
                         alt="Picture"
                         layout="fill"
                         objectFit="contain"

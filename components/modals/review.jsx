@@ -29,7 +29,11 @@ const Review = ({
 }) => {
     const router = useRouter()
 
-    const { name: revAuthorName, _id: revAuthorID } = reviewAuthorDetails
+    const {
+        name: revAuthorName,
+        _id: revAuthorID,
+        profilePic: revAuthorPicture,
+    } = reviewAuthorDetails
 
     const linkToUserProfile = `${PATHS.PROFILE}/${revAuthorID}`
 
@@ -47,9 +51,7 @@ const Review = ({
     }
 
     const confirmDeleteReview = async () => {
-        console.log('about to be removed')
         const deleteRev = await deleteOneReview(reviewID)
-        console.log('deleteRev', deleteRev)
         onCloseModal()
 
         router.push(
@@ -67,19 +69,20 @@ const Review = ({
                 <div className="flex justify-between items-center w-full">
                     <div className="flex gap-x-2 justify-center items-center">
                         <ClickableUserImage
+                            profilePic={revAuthorPicture}
                             url={linkToUserProfile}
-                            width={'w-10'}
-                            height={'h-10'}
+                            width={'w-10 sm:w-14 2xl:w-16'}
+                            height={'h-10 sm:h-14 2xl:h-16'}
                         />
                         <div className="flex flex-col">
-                            <div className="font-semibold flex items-center gap-x-1">
-                                <span> {revAuthorName}</span>
+                            <div className="font-semibold flex flex-col sm:flex-row sm:items-center sm:gap-x-1">
+                                <span>{revAuthorName}</span>
                                 <Rating
                                     readonly
                                     initialValue={rate}
                                     emptyStyle={{ display: 'flex ' }}
                                     fillStyle={{ display: '-webkit-inline-box' }}
-                                    size={20}
+                                    size={18}
                                 />
                             </div>
                             <p className="text-sm font-light text-greyText ">
@@ -89,10 +92,10 @@ const Review = ({
                     </div>
                     <div>
                         {isCurrUserReviewAuthor ? (
-                            <div className="flex items-center gap-x-4">
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-y-1 sm:gap-y-0 sm:gap-x-4 text-xs sm:text-sm">
                                 <button
                                     onClick={reviewEditRequestHandler}
-                                    className="flex items-center gap-x-1 hover:underline text-sm"
+                                    className="flex items-center gap-x-1 hover:underline"
                                 >
                                     <BiEdit />
                                     <span>Edit</span>
@@ -106,7 +109,7 @@ const Review = ({
                                     }
                                     className={` ${
                                         isReviewDeleteStage && 'text-primary'
-                                    } flex items-center gap-x-1 hover:underline text-sm`}
+                                    } flex items-center gap-x-1 hover:underline`}
                                 >
                                     <AiOutlineDelete />
                                     <span>

@@ -31,7 +31,7 @@ const UserMenu = ({ currentAuthStatus, isOpen, onUserMenuClick }) => {
             <div
                 className={`${
                     isOpen ? 'block' : 'hidden'
-                } z-50 absolute right-0 transition-user-menu`}
+                } z-50 absolute right-0 transition-menu-zoom`}
             >
                 <nav
                     className={`min-w-[140px]

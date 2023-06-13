@@ -95,7 +95,7 @@ const Navigation = () => {
                         </Link>
                     </div>
                     <nav className="hidden md:block text-sm">
-                        <ul className="flex gap-x-3 md:gap-x-6">
+                        <ul className="flex gap-x-6">
                             {NAVBAR_ITEMS.map(item => (
                                 <NavItems
                                     currentPath={pathname}

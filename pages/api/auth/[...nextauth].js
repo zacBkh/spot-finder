@@ -26,7 +26,6 @@ const cred = CredentialsProvider({
         email: {
             label: 'Email',
             type: 'text',
-            placeholder: 'blabla@live.fr',
             type: 'email',
         },
         password: { label: 'Password', type: 'password' },
@@ -36,12 +35,10 @@ const cred = CredentialsProvider({
         await connectMongo()
 
         try {
-            console.log('credentials from [...nextAuth] --->', credentials)
             // Attempting to find the user
             const userExist = await User.findOne({
                 email: credentials.email,
             })
-            console.log('userExist !!', userExist)
 
             if (!userExist) {
                 // if user does not exist
@@ -97,11 +94,6 @@ export const authOptions = {
                 // need to do this since otherwise, as jwt is called multiple times, second attempt will erase
                 token.provider = account.provider
                 token.isNewUser = isNewUser
-
-                console.log('AVANT token from JWT', token)
-                console.log('AVANT account from JWT', account)
-                console.log('AVANT profile from JWT', profile)
-                console.log('AVANT profile from JWT isNewUser', isNewUser)
             }
             return token
         },
@@ -115,18 +107,12 @@ export const authOptions = {
             session.user.emailVerified = dataLoader.result.emailVerified
             session.user.image = dataLoader.result.profilePic
 
-            session.accessToken = token.accessToken // XX
             session.userID = token.sub
             session.user.provider = token.provider
             session.isNewUser = token.isNewUser
             // session.user.emailVerified = user.emailVerified
             // session.user.id = token.id
-            console.log('sess from SESSION', session)
-            console.log('token from SESSION', token)
-            console.log('user from SESSION', user)
-            console.log('session.isNewUser', session.isNewUser)
-            console.log(4879)
-
+            console.log('Session loaded -->', session)
             return session
         },
     },
@@ -134,23 +120,14 @@ export const authOptions = {
     // Events allow to perform side effect upon events
     // Only works when created with oAuth, not creds
     events: {
-        signIn: ({ user, account, profile, isNewUser }) => {
-            console.log(
-                'This function get triggers everytime someone signs in with oAuth',
-            )
-            console.log('user events', user)
-            console.log('account events', account)
-            console.log('profile events', profile)
-            console.log('isNewUser events', isNewUser)
-        },
+        // Adding provider info in database for oAuth clients
+        signIn: async ({ user, account, isNewUser }) => {
+            if (!isNewUser) {
+                return
+            }
 
-        createUser: async ({ user }) => {
-            // Sends welcome email to user using oAuth
-            console.log('user 6666>', user)
-            const sender = await sendWelcomeEmail('zachariedupain@hotmail.fr', user.name)
-            console.log('sender', sender)
-
-            const updateUserOnDB = await User.findByIdAndUpdate(
+            const { provider } = account
+            const addProviderInfo = await User.findByIdAndUpdate(
                 user.id,
                 {
                     emailVerified: true,
@@ -158,12 +135,15 @@ export const authOptions = {
                     spotsOwned: [],
                     profilePic: { isCustom: true, link: user.image },
                     provider: 'oAuth',
+                    providerName: provider,
                 },
                 { new: true },
             )
 
-            console.log('updateUserOnDB', updateUserOnDB)
+            const sender = await sendWelcomeEmail('zachariedupain@hotmail.fr', user.name)
         },
+
+        // createUser: async ({ user }) => {}, // for action only on usercreation
     },
 
     // Custom login page

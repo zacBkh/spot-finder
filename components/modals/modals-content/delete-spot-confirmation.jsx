@@ -16,8 +16,6 @@ const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion }) => 
         modalContextSpotDeletion.toggleModalState()
     }
     const spotConfirmedDeletionHandler = async () => {
-        await deleteSpotHandler(modalContextSpotDeletion.spotToDelete)
-
         router.push(
             {
                 pathname: PATHS.HOME,
@@ -26,20 +24,21 @@ const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion }) => 
             undefined,
         )
         closeModalHandler()
+
+        await deleteSpotHandler(modalContextSpotDeletion.spotToDelete)
     }
 
     return (
         <>
             {modalContextSpotDeletion.isActive && (
-                <>
-                    <LayoutModalDeletion
-                        onCloseModal={closeModalHandler}
-                        onConfirmedAction={spotConfirmedDeletionHandler}
-                        text={'Are you sure you want to delete this Spot?'}
-                        btnConfirm={'Yes, I am sure.'}
-                        btnCancel={'No, cancel'}
-                    />
-                </>
+                <LayoutModalDeletion
+                    onCloseModal={closeModalHandler}
+                    onConfirmedAction={spotConfirmedDeletionHandler}
+                    text={'Are you sure you want to delete this Spot?'}
+                    text2={'This action is irreversible.'}
+                    btnConfirm={'Yes, I am sure.'}
+                    btnCancel={'No, cancel'}
+                />
             )}
 
             {children}

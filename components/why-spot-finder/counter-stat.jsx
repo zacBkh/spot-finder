@@ -6,7 +6,7 @@ const Counter = ({ endNum, text, isStatInView }) => {
             className="verticalBarStats before:bg-gradient-to-b before:from-primary before:to-[#ef5e4e93]
                 relative px-4 alignStats mb-20"
         >
-            <span className="text-[40px]">
+            <span className="text-3xl md:text-[40px] ">
                 <CountUp
                     isCounting={isStatInView}
                     thousandsSeparator={' '}

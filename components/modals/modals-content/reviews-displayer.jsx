@@ -9,7 +9,6 @@ const ReviewDisplayerModal = ({ children, modalContextReviewDisplayer }) => {
     const closeModalHandler = () => {
         mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE) // triggers re-fetch
         modalContextReviewDisplayer.toggleModalState()
-        console.log('asked togggle modal state')
     }
 
     return (

@@ -2,7 +2,7 @@ import { Schema, model, models } from 'mongoose'
 
 import Spot from './spot'
 import Review from './reviews'
-import { boolean } from 'yup'
+import Account from './account'
 
 const userSchema = new Schema(
     {
@@ -52,13 +52,9 @@ const userSchema = new Schema(
             required: true,
         },
 
-        // spotsOwned: [
-        //     {
-        //         type: Schema.Types.ObjectId,
-        //         ref: 'Spot',
-        //         default: [],
-        //     },
-        // ],
+        providerName: {
+            type: String,
+        },
 
         spotsOwned: {
             type: [
@@ -89,7 +85,7 @@ userSchema.post('findOneAndDelete', async function (userDeleted) {
 
     const userID = userDeleted._id.toString()
 
-    // Decrement visit and remove from visitors array
+    // Remove from visitors array
     const decrementVisited = await Spot.updateMany(
         { visitors: userID }, // filter only docs where visitors field includes the id
 
@@ -100,24 +96,26 @@ userSchema.post('findOneAndDelete', async function (userDeleted) {
 
     // Delete all spots which have this author
     const spotOfUserDeletion = await Spot.deleteMany({ author: userID })
-    console.log('spotOfUserDeletion', spotOfUserDeletion)
 
-    // Delete all review in the review model the user let
+    // Delete reviews from Spot model, in reviews field
+    const revToDelete = await Review.find({ reviewAuthor: userID }).select('id') // find all reviews need to be deleted
+    const revToDeleteArray = revToDelete.map(rev => rev._id) // put them in an array
+    // $pull from reviews array in Spot model
+    const revDeletionInSpotModel = await Spot.updateMany(
+        { reviews: { $in: revToDeleteArray } }, // for all documents whose reviews field is included in revToDeleteArray
+        { $pull: { reviews: { $in: revToDeleteArray } } },
+    )
+
+    // Delete reviews from review model
     const revDeletion = await Review.deleteMany({ reviewAuthor: userID })
 
-    // https://mongoosejs.com/docs/populate.html#populate-middleware:~:text=books.%24*.author%27)%3B-,Populate%20in%20Middleware,-You%20can%20populate
+    // Delete document from accounts model
 
-    // Delete the old referenced reviews from spot.reviews array of objectIDs
-    //
-    // const revDeletionInSpot = await Spot.updateMany(
-    //     { reviews: userID },
-    //     {
-    //         $pull: { spotsOwned: spotID } // pull the deleted spot from spotsOwned array
-    //     }
-    // )
+    if (userDeleted.provider === 'credentials') {
+        return
+    }
+    const delAcc = await Account.findOneAndDelete({ userId: userID })
 })
-
-// .populate("reviews")
 
 // Model creation
 // Model creation (=> a db collection called "users" will be created => pluralized & lowercased)

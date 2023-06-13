@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { BiEdit } from 'react-icons/bi'
 import { MdGrade, MdOutlineRateReview } from 'react-icons/md'
@@ -12,7 +12,6 @@ import { useRouter } from 'next/router'
 import {
     REVIEW_MODAL_FS,
     REVIEW_MODAL_SECONDARY_FS,
-    BUTTON_FS,
 } from '../../constants/responsive-fonts'
 
 import ReviewerWrapper from '../reviews-new/reviewer-wrapper'
@@ -24,6 +23,9 @@ import ErrorIllustration from '../error-illustration'
 import NoDataImg from '../../public/images/no-data-found.svg'
 
 import getAvrgGrade from '../../utils/get-average-rate'
+
+import ButtonPrimary from '../design/button-primary'
+import { useField } from 'formik'
 
 const {
     KEY_REQUIRE,
@@ -140,22 +142,32 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
     )
 
     const shouldReviewBePluralized = reviews.length === 0 || reviews.length > 1
+
+    const shouldCloseModal = evt => {
+        const shouldTriggerModalClose = evt.target.hasAttribute('close-modal')
+        if (shouldTriggerModalClose) {
+            onCloseModal()
+        }
+    }
     return (
         <>
-            <div onClick={onCloseModal} className="overlay"></div>
-            <div className="transition-modal flex items-center justify-center top-0 left-0 fixed z-[99999] overflow-hidden inset-0 text-form-color mx-auto my-auto w-[90vw] sm:w-[80vw] max-w-[90vw] sm:max-w-[80vw] h-[75vh]  ">
-                <div className="relative w-full h-full bg-white rounded-lg shadow">
+            <div className="overlay"></div>
+            <div
+                close-modal="true"
+                onClick={shouldCloseModal}
+                className="transition-modal z-[9999] overflow-hidden text-form-color centerModalWrapper"
+            >
+                <div className="relative bg-white !z-[999999] rounded-lg  centerModalContent w-[80%] min-h-[80%]">
                     <button
                         onClick={onCloseModal}
                         type="button"
-                        className="absolute top-1 right-1 sm:top-3 sm:right-3 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1 ml-auto inline-flex items-center"
-                        data-modal-hide="popup-modal"
+                        className="absolute top-[2px] right-[2px]  sm:top-1 sm:right-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1 ml-auto inline-flex items-center"
                     >
-                        <AiOutlineClose className="w-5 h-5" />
+                        <AiOutlineClose className="text-base md:text-lg" />
                     </button>
-                    <div className="flex flex-col p-4 sm:p-6 text-center">
-                        <div className="space-y-4">
-                            <div className="flex justify-between items-center gap-x-6 sm:gap-x-16 bg-white ">
+                    <div className="flex flex-col p-3 sm:p-5 h-full text-center gap-y-4">
+                        <div>
+                            <div className="flex justify-between items-center gap-x-6 sm:gap-x-16">
                                 <div className="flex flex-col gap-y-3 text-start">
                                     <h1>
                                         <div
@@ -182,21 +194,22 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                                     </h2>
                                 </div>
 
-                                <button
-                                    onClick={addReviewModeHandler}
-                                    className={`buttonWrapper text-white bg-primary hover:bg-primary-hov hover:underline rounded-md inline-flex items-center justify-center gap-x-3 px-2 py-2 text-center mr-2 w-max ${BUTTON_FS}`}
-                                >
-                                    <span className="iconToAnimate">
-                                        {isOnAddReviewMode ? (
+                                <ButtonPrimary
+                                    isSmaller
+                                    onClickHandler={addReviewModeHandler}
+                                    icon={
+                                        isOnAddReviewMode ? (
                                             <MdOutlineRateReview />
                                         ) : (
                                             <BiEdit />
-                                        )}
-                                    </span>
-                                    {isOnAddReviewMode
-                                        ? 'Back to reviews'
-                                        : 'Write a review'}
-                                </button>
+                                        )
+                                    }
+                                    text={
+                                        isOnAddReviewMode
+                                            ? 'Back to reviews'
+                                            : 'Write a review'
+                                    }
+                                />
                             </div>
                             <DividerDesign />
                         </div>

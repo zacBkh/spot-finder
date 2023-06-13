@@ -12,7 +12,7 @@ const HamburgerMenu = ({ isOpen, currentPath, onHambMenuClick }) => {
             ${isOpen ? 'opacity-100 ' : 'opacity-0 invisible'}
             md:hidden
             
-            py-8 bg-secondary text-white
+            py-8 bg-white text-form-color
              drop-shadow-2xl`}
         >
             <ul className="flex flex-col gap-y-4 px-5">

@@ -14,6 +14,7 @@ const UserStats = ({
     onScrollClick,
     onChangePasswordRequest,
     isCurrentUserVisitedUser,
+    isOAuth,
 }) => {
     const specStyle = 'flex items-center gap-x-2 hover:underline'
 
@@ -53,7 +54,7 @@ const UserStats = ({
                 </button>
             </div>
 
-            {isCurrentUserVisitedUser ? (
+            {isCurrentUserVisitedUser && !isOAuth ? (
                 <div>
                     <DividerDesign margin={'mb-4'} />
                     <button

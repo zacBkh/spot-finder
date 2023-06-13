@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { PATHS } from '../../../constants/URLs'
 
 import { TOAST_PARAMS } from '../../../constants/toast-query-params'
-const { KEY, VALUE_LOGIN } = TOAST_PARAMS
+const { KEY, VALUE_LOGIN, VALUE_RESET_PWD_EMAIL_SENT_SUCCESS } = TOAST_PARAMS
 
 import { DISABLED_STYLE } from '../../../constants/disabled-style'
 
@@ -34,7 +34,7 @@ import {
 import capitalize from '../../../utils/capitalize'
 import Spinner from '../../spinner'
 
-import useInputAutoFocus from '../../../hooks/useInputAutoFocus'
+import useInputAutoFocusRegister from '../../../hooks/useInputAutoFocusRegister'
 
 import { sendPwdResetMail } from '../../../services/mongo-fetchers'
 
@@ -121,7 +121,12 @@ const EMailLogger = ({
                 setResetPwdStatus(
                     'An error occured when sending you the email. Try again later.',
                 )
-                return
+            } else {
+                setResetPwdStatus(
+                    'You have received an email. Please check your mailbox including the junk folder.',
+                )
+
+                router.push(`${PATHS.HOME}?${KEY}=${VALUE_RESET_PWD_EMAIL_SENT_SUCCESS}`)
             }
         }
     } else {
@@ -230,7 +235,7 @@ const EMailLogger = ({
     const nameRef = useRef(null)
     const submitBtnRef = useRef(null)
 
-    useInputAutoFocus(
+    useInputAutoFocusRegister(
         mailRef,
         nameRef,
         pwdRef,
