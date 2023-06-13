@@ -142,7 +142,7 @@ const SpotCard = ({
                                 alt="Picture of a Spot"
                                 src={getCloudiImg(undefined, img)}
                                 placeholder="blur"
-                                blurDataURL={getCloudiImg(undefined, images[0])}
+                                blurDataURL={getCloudiImg('q_10, w_0.5', images[0])}
                                 className={`${getImgQueue(index)}
                                  transition-transform duration-[400ms] `}
                             />
@@ -179,7 +179,7 @@ const SpotCard = ({
                     >
                         <div
                             className={`${isMapPopUp ? ' w-[70%]' : ' w-[80%]'} 
-                            2xl:w-full flex flex-col`}
+                            flex flex-col`}
                         >
                             <p
                                 className={`font-semibold 

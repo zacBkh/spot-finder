@@ -65,6 +65,7 @@ const AddNewSpot = ({}) => {
     const { data: session } = useSession()
 
     const [currentStep, setCurrentStep] = useState(1)
+    console.log('currentStep', currentStep)
 
     const incrementStepHandler = operator => {
         if (operator === '-') {
@@ -270,7 +271,7 @@ const AddNewSpot = ({}) => {
                     formikWizard={formik.getFieldProps('title')}
                     identifier="title"
                     errorStying={validStyling('title')}
-                    placeholder="e.g: Amazing night cityscape in Dubai."
+                    placeholder="e.g: Amazing night cityscape in Dubai!"
                     shouldBeDisabled={previousInputToBlur(1)}
                     onEnterKeyPress={incrementStepHandler}
                 />
@@ -342,7 +343,7 @@ const AddNewSpot = ({}) => {
                             Upload pictures of your Spot *
                         </h2>
                         <DynamicImageUploader
-                            shouldBeDisabled={formik.isSubmitting}
+                            shouldBeDisabled={formik.isSubmitting || currentStep > 5}
                             onSuccessfulUpload={imgUploadHandler}
                             btnStyle={btnClassName}
                             uploadPreset={'spot-finder-spot-upload-preset'}

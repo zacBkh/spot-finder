@@ -182,7 +182,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 nbVisited={visitedSpots.length}
                                 nbReviewed={spotsUserReviewed.length}
                                 isCurrentUserVisitedUser={isCurrentUserVisitedUser}
-                                isOAuth={currentUser.user.provider !== 'credentials'}
+                                isOAuth={currentUser?.user.provider !== 'credentials'}
                                 onChangePasswordRequest={pwdChangeHandler}
                             />
                         </>
@@ -270,7 +270,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 nbVisited={visitedSpots.length}
                                 nbReviewed={spotsUserReviewed.length}
                                 isCurrentUserVisitedUser={isCurrentUserVisitedUser}
-                                isOAuth={currentUser.user.provider !== 'credentials'}
+                                isOAuth={currentUser?.user.provider !== 'credentials'}
                                 onChangePasswordRequest={pwdChangeHandler}
                             />
                         )}

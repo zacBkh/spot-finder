@@ -99,7 +99,9 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                 </div>
             </div>
             <div className={`${SMALL_TEXT_FS} !text-primary mt-1 whitespace-pre-wrap`}>
-                {formik.values.password.length > 8 ? formik.errors.profilePic.link : ''}
+                {formik.values.password.length > 8
+                    ? formik?.errors?.profilePic?.link
+                    : ''}
             </div>
         </div>
     )

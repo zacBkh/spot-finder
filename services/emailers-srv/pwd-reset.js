@@ -40,16 +40,15 @@ const sendPwdResetEmail = async (userRecipient, userName, token) => {
         <p>Please follow <a href="${
             PATHS.DOMAIN_WITHOUT_SLASH
         }/auth/verify-reset-pwd/${token}"> this link to reset your password</a></p>
-        <p>Thank you.</p>
+        <p>Thank you 👌</p>
         `
 
         // send mail with defined transport object
         const mailOptions = await transporter.sendMail({
-            from: 'Spot Finder team 👻 <process.env.GOOGLE_USER>', // sender address
+            from: 'SpotFinder team 👻 <process.env.GOOGLE_USER>', // sender address
             // from: process.env.GOOGLE_USER,
             to: userRecipient,
             subject: `${capitalize(userName)}, reset your Spot Finder password 🔒 !`, // Subject line
-            text: 'Hello world?', // plain text body
             html: htmlToSend, // html body
         })
 

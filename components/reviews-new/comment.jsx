@@ -10,7 +10,7 @@ const Comment = ({ formikWizardComment, errorFeedback }) => {
                         isCommentFieldError
                             ? errorFeedback.border
                             : 'border-gray-300 focus:ring-2 focus:ring-secondary '
-                    } h-28 xl:h-full w-full block p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border `}
+                    } h-28 xl:h-36 2xl:h-48  w-full block p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border `}
                     placeholder="Write your review here..."
                 ></textarea>
                 {errorFeedback.message}

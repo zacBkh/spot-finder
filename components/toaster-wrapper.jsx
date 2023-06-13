@@ -119,7 +119,7 @@ const Toaster = () => {
             if (session.isNewUser) {
                 toast.success(
                     <>
-                        Hi {currentUserName}, welcome to Spot Finder! <br /> We are happy
+                        Hi {currentUserName}, welcome to SpotFinder! <br /> We are happy
                         to have you onboard.
                     </>,
                     {

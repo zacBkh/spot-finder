@@ -15,7 +15,8 @@ const SpotTextualInput = ({
     onEnterKeyPress,
 }) => {
     const inputClassnames = `${errorStying.border} ${DISABLED_STYLE} 
-    text-sm border border-gray-300 text-gray-900 w-full p-2.5 mt-2`
+    text-sm border border-gray-300 text-gray-900 w-full p-2.5 mt-2
+  `
 
     const pressEnterHandler = e => {
         if (e.key === 'Enter') {
@@ -26,10 +27,13 @@ const SpotTextualInput = ({
 
     return (
         <>
-            <div>
+            <div
+                title={`${shouldBeDisabled ? 'Click the back button to edit.' : ''}`}
+                className={`${shouldBeDisabled ? 'opacity-50' : ''}`}
+            >
                 <label
                     htmlFor={identifier}
-                    className={`${FORM_LABEL_FS} 
+                    className={`${FORM_LABEL_FS}
                     text-form-color
                     `}
                 >

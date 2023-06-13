@@ -70,6 +70,20 @@ export const getUserData = async userID => {
     return data
 }
 
+// Decode token for account verification
+export const verifyJWT = async JWT => {
+    console.log('JWT', JWT)
+    console.log('555555', 555555)
+    const response = await fetch(`/api/verify-jwt`, {
+        method: 'POST',
+        body: JSON.stringify(JWT),
+        headers: { 'Content-Type': 'application/json' },
+    })
+    const data = await response.json()
+    console.log('data JWTTTT', data)
+    return data
+}
+
 // Delete a user
 export const deleteUserHandler = async userID => {
     const response = await fetch(`/api/users/${userID}`, {

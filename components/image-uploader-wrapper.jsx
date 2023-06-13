@@ -28,7 +28,6 @@ const ImageUploaderWrapper = ({
             return
         }
         if (result) {
-            console.log('result cloudinary', result)
             onSuccessfulUpload(result.info.path)
         }
     }

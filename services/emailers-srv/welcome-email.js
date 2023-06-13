@@ -47,14 +47,13 @@ const sendWelcomeEmail = async (userRecipient, userName) => {
         </p>
         <p> You can also <a target = "_" href="${DOMAIN_WITHOUT_SLASH}${PROFILE}"> add a description to your profile </a> to let other members know more abou you 👍
         </p>
-        <p>Thank you</p>`
+        <p>Thank you 👌</p>`
 
         // send mail with defined transport object
         const mailOptions = await transporter.sendMail({
-            from: 'Spot Finder team 👻 <process.env.GOOGLE_USER>', // sender name + address
+            from: 'SpotFinder team 👻 <process.env.GOOGLE_USER>', // sender name + address
             to: userRecipient,
-            subject: `${capitalize(userName)}, Welcome to Spot Finder! 😍 !`, // Subject line
-            text: 'Hello world?', // plain text body
+            subject: `${capitalize(userName)}, Welcome to SpotFinder! 😍 !`, // Subject line
             html: htmlToSend, // html body
         })
 

@@ -346,7 +346,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 <div onClick={() => imgClickHandler(0)}>
                                     <Image
                                         placeholder="blur"
-                                        blurDataURL={getCloudiImg(undefined, images[0])}
+                                        blurDataURL={getCloudiImg(
+                                            'q_10, w_0.5',
+                                            images[0],
+                                        )}
                                         src={getCloudiImg(undefined, images[0])}
                                         alt="Picture"
                                         layout="fill"
@@ -399,7 +402,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 <div onClick={() => imgClickHandler(1)}>
                                     <Image
                                         placeholder="blur"
-                                        blurDataURL={getCloudiImg(undefined, images[1])}
+                                        blurDataURL={getCloudiImg(
+                                            'q_10, w_0.5',
+                                            images[1],
+                                        )}
                                         src={getCloudiImg('', images[1])}
                                         alt="Picture"
                                         layout="fill"
@@ -416,7 +422,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 <div onClick={() => imgClickHandler(2)}>
                                     <Image
                                         placeholder="blur"
-                                        blurDataURL={getCloudiImg(undefined, images[2])}
+                                        blurDataURL={getCloudiImg(
+                                            'q_10, w_0.5',
+                                            images[2],
+                                        )}
                                         src={getCloudiImg('', images[2])}
                                         alt="Picture"
                                         layout="fill"

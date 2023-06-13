@@ -1,6 +1,5 @@
 import decodeToken from './helpers/decrypt-token'
 
-import isUserVerified from '../../services/data-loader-session'
 import sessionDataLoader from '../../services/data-loader-session'
 
 import markUserAsVerified from '../../services/mark-user-as-verified'
@@ -35,6 +34,7 @@ const JWTVerifyer = async JWToken => {
             success: alreadyVerified.success,
             result: 'You are already a verified user!',
             userID: alreadyVerified.result._id,
+            // userID: 'a',
         }
     }
 
