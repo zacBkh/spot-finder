@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 
+import Head from 'next/head'
 import { useSession } from 'next-auth/react'
 
 import { useFormik } from 'formik'
@@ -262,6 +263,14 @@ const AddNewSpot = ({}) => {
 
     return (
         <>
+            <Head>
+                <title>Add your Spot!</title>
+                <meta
+                    name="description"
+                    content="Add your Spot here and share it with the world!"
+                />
+            </Head>
+
             <form
                 onSubmit={formik.handleSubmit}
                 className="w-[90%] sm:w-[80%] max-w-4xl mx-auto space-y-3"

@@ -1,5 +1,7 @@
 import CustomErrorPage from '../404'
 
+import Head from 'next/head'
+
 import useSWR from 'swr'
 import SWR_KEYS from '../../constants/SWR-keys'
 
@@ -33,11 +35,21 @@ const UserProfile = () => {
     }
 
     return (
-        <UserCard
-            isLoading={!userVisited}
-            visitedUser={!userVisited ? '' : userVisited.result}
-            currentUser={sessionNotReady ? '' : session}
-        />
+        <>
+            <Head>
+                <title>View a SpotFinder profile.</title>
+                <meta
+                    name="description"
+                    content="Check other Spotters' profiles and edit yours!"
+                />
+            </Head>
+
+            <UserCard
+                isLoading={!userVisited}
+                visitedUser={!userVisited ? '' : userVisited.result}
+                currentUser={sessionNotReady ? '' : session}
+            />
+        </>
     )
 }
 
