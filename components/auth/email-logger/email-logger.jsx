@@ -321,7 +321,7 @@ const EMailLogger = ({
                         name="email"
                         placeholder="Email"
                     />
-                    <div className="mt-1">{validStyling('email').message}</div>
+                    <span className="mt-1">{validStyling('email').message}</span>
                 </div>
 
                 {/* NAME FIELD */}
@@ -341,9 +341,9 @@ const EMailLogger = ({
                             name="name"
                             placeholder="Name"
                         />
-                        <div className="mt-1 whitespace-pre-wrap">
+                        <span className="mt-1 whitespace-pre-wrap">
                             {validStyling('name').message}
-                        </div>
+                        </span>
                     </div>
                 )}
 
@@ -385,7 +385,7 @@ const EMailLogger = ({
                                 )}
                             </button>
                         </div>
-                        <div className="mt-1">{validStyling('password').message}</div>
+                        <span className="mt-1">{validStyling('password').message}</span>
                     </div>
                 )}
 

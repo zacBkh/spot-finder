@@ -367,7 +367,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                             >
                                 <div onClick={() => imgClickHandler(0)}>
                                     <ButtonPhoto
-                                        txt={`Show ${images.length} photos.`}
+                                        txt={`Show ${images.length} photos`}
                                         icon={<BsCamera />}
                                     />
                                 </div>

@@ -47,7 +47,7 @@ const SpotCard = ({
     const [activeImg, setActiveImg] = useState(0)
 
     const arrowStyle =
-        'bg-white bg-opacity-90 active:bg-opacity-100 text-[10px] md:text-sm p-1 md:p-2 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-[0.25s] absolute z-50 active:transform-none'
+        'bg-white bg-opacity-90 active:bg-opacity-100 text-sm p-1 md:p-2 rounded-full md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-[0.25s] absolute z-50 active:transform-none'
 
     const switchPicHandler = operator => {
         if (operator === '+' && activeImg < images.length - 1) {

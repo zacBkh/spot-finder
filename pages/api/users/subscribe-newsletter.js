@@ -28,11 +28,13 @@ export default async function userHandling(req, res) {
                 },
             )
 
+            console.log('response', response)
             res.status(200).json({
                 success: true,
-                result: 'Please check your mailbox and junk.',
+                result: 'Please check your mailbox and junk from API.',
             })
         } catch (error) {
+            console.log('error', error)
             res.status(401).json({
                 success: false,
                 result: `You have already received a confirmation email. Please check your junks.`,

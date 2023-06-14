@@ -20,16 +20,20 @@ const Footer = ({}) => {
     const [feedbackNewsLetter, setFeedbackNewsLetter] = useState('')
     const [visitorEmail, setVisitorEmail] = useState('')
 
+    const isEmailInvalid =
+        !visitorEmail ||
+        !visitorEmail.includes('@') ||
+        !visitorEmail.includes('.') ||
+        !visitorEmail.length < 5
+
     const submitNewsLetterHandler = async event => {
         event.preventDefault()
-        if (!visitorEmail || !visitorEmail.includes('@')) {
+        if (isEmailInvalid) {
             setFeedbackNewsLetter(
                 'Oops! It seems this is not a valid email. Please try again.',
             )
             return
         }
-        //fr.airbnb.com/?_set_bev_on_new_domain=1655089355_ZTUwMjFiYjg3NGZh
-        https: setFeedbackNewsLetter('Thank you! Please check your junk mail folder.')
 
         const subscribeVisitor = await subscribeToNewsletter(visitorEmail)
         setFeedbackNewsLetter(subscribeVisitor.result)

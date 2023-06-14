@@ -153,7 +153,7 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
                     </Popup>
                 )}
                 <MapControlPanelStyles
-                    additionalStyle={'top-[13%] sm:top-[0%]'}
+                    additionalStyle={'top-[0%]'}
                     currentMapStyle={currentMapStyle}
                     onStyleChange={styleChangeHandler}
                 />

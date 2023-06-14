@@ -28,16 +28,14 @@ const ButtonPrimary = ({
                     flex items-center gap-x-2 bg-primary text-white rounded-[0.3rem] w-fit font-bold`}
             >
                 <span
-                    className={`${ICON_IN_BUTTON_FS} ${
-                        !shouldBeDisabled && 'iconToAnimate'
-                    } `}
+                    className={`${ICON_IN_BUTTON_FS} 
+                    ${!shouldBeDisabled ? 'iconToAnimate' : ''}`}
                 >
                     {icon}
                 </span>
                 <span
-                    className={`${iconFirst && 'order-first'} ${
-                        isSmaller && 'text-xs md:text-base'
-                    }`}
+                    className={`${iconFirst ? 'order-first' : ''} 
+                    ${isSmaller ? 'text-xs md:text-base' : ''}`}
                 >
                     {text}
                 </span>

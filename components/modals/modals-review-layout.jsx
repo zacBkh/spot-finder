@@ -157,7 +157,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                 onClick={shouldCloseModal}
                 className="transition-modal z-[9999] overflow-hidden text-form-color centerModalWrapper"
             >
-                <div className="relative bg-white !z-[999999] rounded-lg  centerModalContent w-[80%] min-h-[80%]">
+                <div className="relative bg-white !z-[999999] rounded-lg  centerModalContent w-[85%] min-h-[80%]">
                     <button
                         onClick={onCloseModal}
                         type="button"
@@ -167,7 +167,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                     </button>
                     <div className="flex flex-col p-3 sm:p-5 h-full text-center gap-y-4">
                         <div>
-                            <div className="flex justify-between items-center gap-x-6 sm:gap-x-16">
+                            <div className="flex justify-between items-center gap-x-3 sm:gap-x-16">
                                 <div className="flex flex-col gap-y-3 text-start">
                                     <h1>
                                         <div
@@ -217,7 +217,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                             <div
                                 className="
                                 max-h-[63vh] md:max-h-[60vh] xl:max-h-[50vh] 
-                                overflow-y-auto h-fit px-4 text-start flex flex-col gap-y-10"
+                                overflow-y-auto h-fit px-2 sm:px-4 text-start flex flex-col gap-y-5 sm:gap-y-10"
                             >
                                 {reviewsOrFallback}
                             </div>

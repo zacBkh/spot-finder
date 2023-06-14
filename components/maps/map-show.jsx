@@ -88,7 +88,7 @@ const MapShow = ({ markerCoordinates, isMarkerDraggable, onSpotLocationChange })
                 <NavigationControl />
                 <ScaleControl />
                 <MapControlPanelStyles
-                    additionalStyle={'top-[13%] sm:top-[0%]'}
+                    additionalStyle={'top-[0%]'}
                     currentMapStyle={currentMapStyle}
                     onStyleChange={styleChangeHandler}
                 />
