@@ -68,7 +68,6 @@ const FeatureSelector = ({}) => {
     }
 
     const featChangeFromImgClickHandler = param => {
-        console.log('param', param)
         setActiveFeature(param)
     }
 

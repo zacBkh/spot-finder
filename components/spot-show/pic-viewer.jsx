@@ -21,12 +21,10 @@ const PicViewer = ({
             return
         }
         if (operator === '+' && activeImg < images.length - 1) {
-            console.log('5', 5)
             onImgChange(activeImg + 1)
             return
         }
         if (operator === '-' && activeImg > 0) {
-            console.log('6', 6)
             onImgChange(activeImg - 1)
             return
         }
@@ -34,7 +32,6 @@ const PicViewer = ({
 
     useEffect(() => {
         const keyDownHandler = event => {
-            console.log('event', event)
             if (event.key === 'ArrowLeft') {
                 switchPicHandler('-')
                 return

@@ -78,11 +78,6 @@ const userSchema = new Schema(
 // remove all the spots he created
 
 userSchema.post('findOneAndDelete', async function (userDeleted) {
-    console.log(
-        'user that has just been deleted from mongoose query middleware',
-        userDeleted,
-    )
-
     const userID = userDeleted._id.toString()
 
     // Remove from visitors array

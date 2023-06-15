@@ -21,7 +21,6 @@ export const getServerSideProps = async context => {
 
 // Component
 const VerifryResetPwdReq = ({ reqResult }) => {
-    console.log('reqResult', reqResult)
     if (!reqResult.success) {
         return (
             <CustomErrorPage

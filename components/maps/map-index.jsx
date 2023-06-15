@@ -39,14 +39,10 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
         if (feature.layer.id === 'unclustered-point') {
             try {
                 const clickedSpotID = feature.properties.id
-                console.log('clickedSpotID', clickedSpotID)
-                console.log('spotsCoordinates', spotsCoordinates)
                 const spotClicked = spotsCoordinates.features.find(
                     spot => spot.properties._id == clickedSpotID,
                 )
-                console.log('spotClicked', spotClicked)
                 setPopupInfo(spotClicked.properties)
-                console.log('popupInfo', popupInfo)
             } catch (error) {
                 console.log('error', error)
             }

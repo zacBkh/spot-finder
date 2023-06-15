@@ -54,7 +54,6 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         profilePic,
     } = visitedUser
 
-    console.log('visitedUser', visitedUser)
     const provider = visitedUser.provider
 
     let isCurrentUserVisitedUser = false
@@ -128,7 +127,6 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
     }
 
     const descriptionUpdateHandler = isChangeSuccessful => {
-        console.log('isChangeSuccessful', isChangeSuccessful)
         if (!isChangeSuccessful) {
             router.push(
                 {
@@ -201,7 +199,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 <>
                                     <div className="flex items-center gap-x-2 sm:gap-x-3">
                                         <h1 className={`${TITLE_FS} font-bold break-all`}>
-                                            Hi, I am {name}
+                                            Hi, I am {name} 👋
                                         </h1>
                                         <button
                                             ref={refOutsideUseActionMenu}

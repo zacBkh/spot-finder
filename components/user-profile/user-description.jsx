@@ -88,7 +88,7 @@ const UserDescription = ({
                                     name="description"
                                     className={`${inputClass} ${TEXTAREA_INPUTS_FS} 
                                     ${validStyling('description').border}
-                                    resize w-[70%] h-20 border border-gray-200 rounded-md p-2`}
+                                    resize w-[70%] h-24 border border-gray-200 rounded-md p-2`}
                                     placeholder={'Tell us more about yourself...'}
                                 />
                             </>

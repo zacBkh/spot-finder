@@ -20,7 +20,6 @@ import MapControlPanelStyles from './control-panel-styles'
 
 const MapShow = ({ markerCoordinates, isMarkerDraggable, onSpotLocationChange }) => {
     const markerDragHandler = async coordinates => {
-        console.log('raaaaaaaaaaaaaaaaan')
         const { lat, lng } = coordinates.lngLat
 
         const countryCode = await getCountryCode(lng, lat)

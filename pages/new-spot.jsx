@@ -66,7 +66,6 @@ const AddNewSpot = ({}) => {
     const { data: session } = useSession()
 
     const [currentStep, setCurrentStep] = useState(1)
-    console.log('currentStep', currentStep)
 
     const incrementStepHandler = operator => {
         if (operator === '-') {

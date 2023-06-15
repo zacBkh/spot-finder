@@ -21,7 +21,6 @@ const SearchCountry = ({
     const [isSelectorVisible, setIsSelectorVisible] = useState(false)
     const [filteredData, setFilteredData] = useState(countryNamesArr)
     const countrySelectHandler = selectedCountry => {
-        console.log('selectedCountry', selectedCountry)
         onCountrySelect(selectedCountry)
         setIsSelectorVisible(false)
     }

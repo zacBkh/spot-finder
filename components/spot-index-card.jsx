@@ -75,9 +75,6 @@ const SpotCard = ({
 
     const onSpotCardClick = evt => {
         if (isLandingPage) {
-            console.log(
-                'edit code here to redirect after click --> onst onSpotCardClick = evt =',
-            )
             return
         }
 

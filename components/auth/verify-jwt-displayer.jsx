@@ -35,7 +35,6 @@ const VerifyJWTDisplay = ({ error, isLoading, data }) => {
         }
     }
 
-    console.log('getActionStatus', getActionStatus())
     return (
         <div className="flex items-center justify-center h-[60vh] max-w-[70%] mx-auto text-center ">
             <div className="flex flex-col justify-center items-center gap-y-4">

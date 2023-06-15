@@ -14,7 +14,6 @@ const VerifyEmail = ({}) => {
 
     const fetcher = async () => {
         const resultJWTCheck = await verifyJWT(JWToken)
-        console.log('resultJWTCheck', resultJWTCheck)
         return resultJWTCheck
     }
 

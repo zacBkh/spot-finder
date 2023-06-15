@@ -8,12 +8,10 @@ const useInputAutoFocusNewSpot = (
 ) => {
     useEffect(() => {
         if (currentStep === 1) {
-            console.log('titleRef', titleRef)
             return titleRef.current.focus()
         }
 
         if (currentStep === 2) {
-            console.log('descRef', descRef)
             return descRef.current.focus()
         }
 

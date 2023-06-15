@@ -122,9 +122,6 @@ export const sendPwdResetMail = async email => {
 }
 
 export const editUserHandler = async (isPwdReset, newUserData, userID) => {
-    console.log('isPwdReset', isPwdReset)
-    console.log('newUserData', newUserData)
-    console.log('userID', userID)
     const response = await fetch(`/api/users/${userID}`, {
         method: 'PATCH',
         body: JSON.stringify({ isPwdReset, newUserData }),
