@@ -72,8 +72,6 @@ export const getUserData = async userID => {
 
 // Decode token for account verification
 export const verifyJWT = async JWT => {
-    console.log('JWT', JWT)
-    console.log('555555', 555555)
     const response = await fetch(`/api/verify-jwt`, {
         method: 'POST',
         body: JSON.stringify(JWT),

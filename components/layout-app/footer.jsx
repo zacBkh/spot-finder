@@ -26,8 +26,6 @@ const Footer = ({}) => {
         !visitorEmail.includes('.') ||
         !visitorEmail.length > 5
 
-    console.log('isEmailInvalid', isEmailInvalid)
-
     const submitNewsLetterHandler = async event => {
         event.preventDefault()
         if (isEmailInvalid) {

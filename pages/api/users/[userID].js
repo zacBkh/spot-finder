@@ -116,10 +116,12 @@ export default async function userHandling(req, res) {
     // DONT FORGET TO PROTECT USER EDIT MUST BE LOGGED IN
     if (req.method === 'PATCH') {
         console.log('req.body', req.body)
-        const { isPwdReset, newUserData: newPwd } = req.body
+        const { isPwdReset } = req.body
 
         // If request related to pwd change
         if (JSON.parse(isPwdReset)) {
+            const { newUserData: newPwd } = req.body
+
             try {
                 //Hash password
                 const hashedPassword = await hash(newPwd, 10)
@@ -142,8 +144,8 @@ export default async function userHandling(req, res) {
                 })
             }
             return
-            // ONLY WORKS FOR DESCRIPTION EDIT FOR NOW !!!
         } else {
+            // not a pwd reset request, but user details change...
             const session = await unstable_getServerSession(req, res, authOptions)
 
             try {
@@ -156,9 +158,11 @@ export default async function userHandling(req, res) {
                     return
                 }
 
+                const { newUserData } = req.body
+
                 const userEdition = await User.findByIdAndUpdate(
                     userID,
-                    { description: newUserData }, // CHANGE CODE HERE TO ADAPT
+                    { description: newUserData },
                     {
                         runValidators: true,
                         new: true,
@@ -178,7 +182,6 @@ export default async function userHandling(req, res) {
     }
 
     if (req.method === 'DELETE') {
-        // Protecting the API endpoint
         const session = await unstable_getServerSession(req, res, authOptions)
 
         try {
@@ -199,16 +202,7 @@ export default async function userHandling(req, res) {
                 return
             }
 
-            // Delete user
-            // Mongoose middleware also delete corresponding documents + visited marks
             await User.findByIdAndDelete(userID)
-
-            // HERE I NEED TO REMOVE ALL THE REVIEWS HE CREATED FROM REVIEW ARRAY OF SPOT MODEL
-            // // Removing the reference of the Review in the reviews array of the CG model
-            // await CampGrounds.findByIdAndUpdate(campId, //Finding the CG
-            //     { $pull: { reviews: reviewId } } // Will pull out anything with reviewId as an ID from [reviews] array
-            // )
-            // //As a reminder => reviews is just an array of ID's even if in Mongo it populates it for us
 
             res.status(200).json({ success: true, result: 'The user has been deleted' })
         } catch (error) {

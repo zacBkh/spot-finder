@@ -1,8 +1,8 @@
-import jwt from "jsonwebtoken"
+import jwt from 'jsonwebtoken'
 
-// Util that take a token and tries to decode it 
+// Util that take a token and tries to decode it
 // Anyone can decode a JWT
-// Will return : 
+// Will return :
 /* {
     "_id": "637af33304a40848065c4f73",
     "email": "boris@live.fr",
@@ -10,34 +10,26 @@ import jwt from "jsonwebtoken"
     "exp": 1669088435
   } */
 
+const decodeToken = async token => {
+    console.log('FROM TOKEN DECODER...', token)
 
-const decodeToken = async (token) => {
-    console.log("FROM TOKEN DECODER...", token)
-
-    console.log("envvv", process.env.JWT_SECRET)
+    console.log('envvv', process.env.JWT_SECRET)
 
     try {
-        const decoded = jwt.verify(
-            token,
-            process.env.JWT_SECRET
-        );
-        console.log("decoded", decoded)
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-        return { success: true, result: `Your email ${decoded.email} has been verified!`, userID: decoded._id }
-
-
+        return {
+            success: true,
+            result: `Your email ${decoded.email} has been verified!`,
+            userID: decoded._id,
+        }
     } catch (error) {
-        console.log("Error in decoding token", error)
-        return { success: false, result: `There has been an error verifying your email: ${error.message}. Log in to generate new email verification link` }
+        console.log('Error in decoding token -->', error)
+        return {
+            success: false,
+            result: `There has been an error verifying your email: ${error.message}. Log in to generate new email verification link.`,
+        }
     }
 }
 
-
 export default decodeToken
-
-
-
-
-
-
-

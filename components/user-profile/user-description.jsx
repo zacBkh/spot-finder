@@ -55,7 +55,6 @@ const UserDescription = ({
         }
     }
 
-    console.log('formik', formik)
     const descValid = (
         <div className={`${SMALL_TEXT_FS} !text-primary !mt-2`}>
             {`${validStyling('description').message}`}

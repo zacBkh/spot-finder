@@ -1,6 +1,3 @@
-// import connectMongo from '../../../utils/connect-to-mongo'
-// import User from '../../../models/user'
-
 import decodeToken from '../../utils/jwt-mail-tokens/helpers/decrypt-token'
 import sessionDataLoader from '../../services/data-loader-session'
 import markUserAsVerified from '../../services/mark-user-as-verified'
@@ -13,7 +10,6 @@ import sendWelcomeEmail from '../../services/emailers-srv/welcome-email'
 // FALSE : EMAIL ALREADY EXIST!
 
 export default async function verifyJWT(req, res) {
-    console.log('req.body', req.body)
     const jwtToken = req.body
 
     if (req.method !== 'POST') {
@@ -21,11 +17,6 @@ export default async function verifyJWT(req, res) {
             'You should not try to access this endpoint this way... [verify-JWT]',
         )
     }
-
-    // res.status(200).send({
-    //     success: true,
-    //     message: 'T"es une grosse merde',
-    // })
 
     const decoded = await decodeToken(jwtToken)
     console.log('decoded', decoded)
@@ -52,14 +43,9 @@ export default async function verifyJWT(req, res) {
         // if already verified
         res.status(401).json({
             success: true,
-            result: 'You are already verified',
+            result: 'You are now a verified member! Check your emails.',
         })
         return
-        // return {
-        //     success: alreadyVerified.success,
-        //     result: 'You are already a verified user!',
-        //     userID: alreadyVerified.result._id,
-        // }
     }
 
     // Mark user as verified
