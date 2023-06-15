@@ -24,7 +24,9 @@ const Footer = ({}) => {
         !visitorEmail ||
         !visitorEmail.includes('@') ||
         !visitorEmail.includes('.') ||
-        !visitorEmail.length < 5
+        !visitorEmail.length > 5
+
+    console.log('isEmailInvalid', isEmailInvalid)
 
     const submitNewsLetterHandler = async event => {
         event.preventDefault()
@@ -38,6 +40,9 @@ const Footer = ({}) => {
         const subscribeVisitor = await subscribeToNewsletter(visitorEmail)
         setFeedbackNewsLetter(subscribeVisitor.result)
         setVisitorEmail('')
+        setTimeout(() => {
+            setFeedbackNewsLetter('')
+        }, 5500)
     }
 
     const linksStyle = 'text-primary hover:underline'

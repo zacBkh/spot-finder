@@ -34,10 +34,10 @@ export default async function userHandling(req, res) {
                 result: 'Please check your mailbox and junk from API.',
             })
         } catch (error) {
-            console.log('error', error)
+            console.log('errormailchimp', error)
             res.status(401).json({
                 success: false,
-                result: `You have already received a confirmation email. Please check your junks.`,
+                result: `You are already a list member. Please check your junks emails or try again later.`,
             })
         }
     }
