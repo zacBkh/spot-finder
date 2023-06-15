@@ -20,6 +20,7 @@ export const getServerSideProps = async context => {
     try {
         // Executing the fx that will fetch all Spots
         const resultFetchGET = await GETSpotFetcherAll()
+        console.log('resultFetchGET', resultFetchGET)
 
         if (!resultFetchGET) {
             return {
@@ -30,7 +31,6 @@ export const getServerSideProps = async context => {
         return {
             props: {
                 spots: resultFetchGET,
-
                 queryString: context.query,
             },
         }
@@ -229,7 +229,10 @@ const AllSpots = ({ spots }) => {
                                 onDrawerToggle={drawerToggleHandler}
                             />
                         ) : (
-                            <ClosedDrawer onDrawerToggle={drawerToggleHandler} />
+                            <ClosedDrawer
+                                activeFilters={{ activeCategories, activeRegion }}
+                                onDrawerToggle={drawerToggleHandler}
+                            />
                         )}
                     </div>
                 </aside>

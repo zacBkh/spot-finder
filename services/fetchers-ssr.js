@@ -1,5 +1,4 @@
 // Utils fx that fetch DB without passing through API routes(useless) since we are using getServerSideProps to deliver all spots and one spot
-// https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props#:~:text=This%20is%20an%20unnecessary%20and%20inefficient%20approach
 
 import connectMongo from '../utils/connect-to-mongo'
 import Spot from '../models/spot'

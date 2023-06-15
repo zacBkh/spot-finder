@@ -4,8 +4,12 @@ import { BsSortUp } from 'react-icons/bs'
 
 import FilterIcon from '../design/filter-icon'
 
-const ClosedDrawer = ({ onDrawerToggle }) => {
+const ClosedDrawer = ({ onDrawerToggle, activeFilters }) => {
+    const { activeCategories: cat, activeRegion: region } = activeFilters
     const styleIcons = 'p-2 border-[1px] border-[#cfd9e0] rounded-lg'
+
+    const styleSelected =
+        'text-secondary bg-secondary-light hover:bg-secondary-hov border-secondary'
 
     return (
         <div
@@ -17,11 +21,11 @@ const ClosedDrawer = ({ onDrawerToggle }) => {
                 <span className="md:hidden">Show Filters</span>
             </button>
             <div className="hidden md:flex flex-col items-center gap-y-4">
-                <button className={`${styleIcons}`}>
+                <button className={`${styleIcons} ${cat.length ? styleSelected : ''}`}>
                     <BiCategoryAlt className="text-xl" />
                 </button>
 
-                <button className={`${styleIcons}`}>
+                <button className={`${styleIcons} ${region.length ? styleSelected : ''}`}>
                     <GoGlobe className="text-xl" />
                 </button>
 

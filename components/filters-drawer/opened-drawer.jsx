@@ -21,7 +21,7 @@ const OpenedDrawer = ({
     onClickFilterRegion,
 
     onAddSort,
-    activeCriteria,
+    activeSortCriteria,
 
     onDrawerToggle,
 }) => {
@@ -85,7 +85,7 @@ const OpenedDrawer = ({
                                 key={criteria.name}
                                 icon={criteria.icon}
                                 value={criteria.name}
-                                activeItems={activeCriteria}
+                                activeItems={activeSortCriteria}
                             />
                         ))}
                     </div>
