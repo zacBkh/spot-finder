@@ -3,7 +3,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import SearchSpotBar from './search-spot-bar'
-import { useSession } from 'next-auth/react'
 
 import { useState, useRef, useEffect } from 'react'
 
@@ -23,7 +22,7 @@ import useOnClickOutside from '../../../hooks/useOnClickOutside'
 
 const { HOME } = PATHS
 
-const Navigation = () => {
+const Navigation = ({ userSession }) => {
     // Check for scroll
     const [isScrolled, setisScrolled] = useState(false)
     useEffect(() => {
@@ -41,7 +40,7 @@ const Navigation = () => {
     const router = useRouter()
     const { pathname, query } = router
 
-    const { data: session, status } = useSession()
+    const { data: session, status } = userSession
 
     const [isHamburgerOpen, setIsHamburgerOpen] = useState(false)
 

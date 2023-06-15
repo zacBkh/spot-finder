@@ -22,10 +22,16 @@ export const clusterCountLayer = {
     type: 'symbol',
     source: 'spots',
     filter: ['has', 'point_count'],
+
     layout: {
         'text-field': '{point_count_abbreviated}',
         'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-        'text-size': 12,
+        'text-size': 14,
+        'text-font': ['Open Sans Bold'],
+    },
+
+    paint: {
+        'text-color': '#FFFFFF',
     },
 }
 

@@ -139,7 +139,7 @@ const SpotCard = ({
                                 alt="Picture of a Spot"
                                 src={getCloudiImg(undefined, img)}
                                 placeholder="blur"
-                                blurDataURL={getCloudiImg('q_10, w_0.5', images[0])}
+                                blurDataURL={getCloudiImg('q_10,w_0.5', images[0])}
                                 className={`${getImgQueue(index)}
                                  transition-transform duration-[400ms] `}
                             />

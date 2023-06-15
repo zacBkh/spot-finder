@@ -16,7 +16,7 @@ import ScrollToTopBtn from '../design/scroll-to-top'
 import { subscribeToNewsletter } from '../../services/mongo-fetchers'
 
 import { FOOTER_HOOK_TOP_FS } from '../../constants/responsive-fonts'
-const Footer = ({}) => {
+const Footer = ({ userSession }) => {
     const [feedbackNewsLetter, setFeedbackNewsLetter] = useState('')
     const [visitorEmail, setVisitorEmail] = useState('')
 
@@ -44,32 +44,38 @@ const Footer = ({}) => {
     }
 
     const linksStyle = 'text-primary hover:underline'
+
     return (
         <>
             <footer className="text-center md:text-start mt-2 text-white ">
-                <div
-                    className={`
-                      bg-primary flex flex-col items-center gap-y-4 py-6 relative px-2md:mt-0`}
-                >
-                    <h2 className={FOOTER_HOOK_TOP_FS}>
-                        Stop wasting your time and find the best landmarks around you.
-                    </h2>
-                    <div className="flex justify-center items-center gap-x-4">
-                        <CTAButtons
-                            text={'Browse Spots'}
-                            icon={<AiOutlineSearch />}
-                            url={HOME}
-                            isInvertedColor
-                        />
-                        <CTAButtons
-                            text={'Register'}
-                            icon={<FaUserPlus />}
-                            url={AUTH}
-                            isInvertedColor
-                            isSecondary
-                        />
+                {!userSession ? (
+                    <div
+                        className={`
+                      bg-primary flex flex-col items-center gap-y-4 py-6 relative px-2 mt-4`}
+                    >
+                        <h2 className={FOOTER_HOOK_TOP_FS}>
+                            Stop wasting your time and find the best landmarks around you.
+                            📸 🔥
+                        </h2>
+                        <div className="flex justify-center items-center gap-x-4">
+                            <CTAButtons
+                                text={'Browse Spots'}
+                                icon={<AiOutlineSearch />}
+                                url={HOME}
+                                isInvertedColor
+                            />
+                            <CTAButtons
+                                text={'Register'}
+                                icon={<FaUserPlus />}
+                                url={AUTH}
+                                isInvertedColor
+                                isSecondary
+                            />
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    ''
+                )}
 
                 <div className="flex flex-col gap-y-3 md:flex-row md:gap-x-3 md:gap-y-0 justify-between bg-secondary  px-6">
                     <div className="flex flex-col gap-y-4 py-6 items-center md:items-start">

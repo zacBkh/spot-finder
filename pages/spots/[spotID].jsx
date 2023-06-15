@@ -347,7 +347,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     <Image
                                         placeholder="blur"
                                         blurDataURL={getCloudiImg(
-                                            'q_10, w_0.5',
+                                            'q_10,w_0.5',
                                             images[0],
                                         )}
                                         src={getCloudiImg(undefined, images[0])}
@@ -403,7 +403,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     <Image
                                         placeholder="blur"
                                         blurDataURL={getCloudiImg(
-                                            'q_10, w_0.5',
+                                            'q_10,w_0.5',
                                             images[1],
                                         )}
                                         src={getCloudiImg('', images[1])}
@@ -423,7 +423,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     <Image
                                         placeholder="blur"
                                         blurDataURL={getCloudiImg(
-                                            'q_10, w_0.5',
+                                            'q_10,w_0.5',
                                             images[2],
                                         )}
                                         src={getCloudiImg('', images[2])}

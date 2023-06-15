@@ -126,23 +126,21 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
 
                 {popupInfo && (
                     <Popup
-                        // anchor="left"
                         closeOnClick={false}
                         closeOnMove={true}
                         onClose={() => setPopupInfo(null)}
-                        className=" md:!max-w-sm 2xl:!max-w-md   "
+                        className=" md:!max-w-sm 2xl:!max-w-lg"
                         focusAfterOpen={false}
                         offset={6}
                         longitude={geometry.coordinates[0]}
                         latitude={geometry.coordinates[1]}
                     >
                         <SpotCard
+                            key={popupInfo._id}
                             width={'w-48 sm:w-52'}
                             height={'h-48 sm:h-52'}
                             spotData={popupInfo}
                             moreStyleContainer={'!p-2'}
-                            // spotTitleFS={'text-sm'}
-                            // spotOtherFS={'text-xs'}
                             userImgSize={'w-8 h-8'}
                             isMapPopUp
                         />
