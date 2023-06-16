@@ -44,7 +44,6 @@ const Footer = ({ userSession }) => {
     }
 
     const linksStyle = 'text-primary hover:underline'
-    console.log('userSession', userSession)
 
     return (
         <>
