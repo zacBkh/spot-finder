@@ -44,11 +44,12 @@ const Footer = ({ userSession }) => {
     }
 
     const linksStyle = 'text-primary hover:underline'
+    console.log('userSession', userSession)
 
     return (
         <>
             <footer className="text-center md:text-start mt-2 text-white ">
-                {!userSession ? (
+                {!userSession?.data ? (
                     <div
                         className={`
                       bg-primary flex flex-col items-center gap-y-4 py-6 relative px-2 mt-4`}
