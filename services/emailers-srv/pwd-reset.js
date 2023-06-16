@@ -36,10 +36,11 @@ const sendPwdResetEmail = async (userRecipient, userName, token) => {
 
         const htmlToSend = `
         <h3>Hello ${capitalize(userName)}!</h3>
-        <p>You asked to reset your password.</p>
+        <p>You asked to reset your password. 🔐</p>
         <p>Please follow <a href="${
             PATHS.DOMAIN_WITHOUT_SLASH
-        }/auth/verify-reset-pwd/${token}"> this link to reset your password</a></p>
+        }/auth/verify-reset-pwd/${token}"> this link to reset your password/</a></p>
+        <p>For security reasons, this link will only be valid for one 24 hours. ⏳ </p>
         <p>Thank you 👌</p>
         `
 

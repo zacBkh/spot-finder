@@ -91,6 +91,8 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
         }
     }
 
+    const [changePwdText, setChangePwdText] = useState('Change your password')
+
     const userID = router.query.userID
 
     // Send email to reset pws
@@ -111,6 +113,8 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
             )
             return
         }
+
+        setChangePwdText('Check your e-mails 👍')
 
         router.push(
             {
@@ -182,6 +186,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 isCurrentUserVisitedUser={isCurrentUserVisitedUser}
                                 isOAuth={currentUser?.user.provider !== 'credentials'}
                                 onChangePasswordRequest={pwdChangeHandler}
+                                changePwdText={changePwdText}
                             />
                         </>
                     )}
@@ -270,6 +275,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                 isCurrentUserVisitedUser={isCurrentUserVisitedUser}
                                 isOAuth={currentUser?.user.provider !== 'credentials'}
                                 onChangePasswordRequest={pwdChangeHandler}
+                                changePwdText={changePwdText}
                             />
                         )}
                     </div>

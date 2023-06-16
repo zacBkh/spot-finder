@@ -8,11 +8,13 @@ import DividerDesign from '../design/divider'
 import { BODY_FS } from '../../constants/responsive-fonts'
 
 const UserStats = ({
+    changePwdText,
+    onChangePasswordRequest,
+
     nbOwned,
     nbVisited,
     nbReviewed,
     onScrollClick,
-    onChangePasswordRequest,
     isCurrentUserVisitedUser,
     isOAuth,
 }) => {
@@ -63,7 +65,7 @@ const UserStats = ({
                     >
                         <RiLockPasswordLine className={`text-2xl`} />
                         <span className={`${BODY_FS} group-hover:underline`}>
-                            Change your password
+                            {changePwdText}
                         </span>
                     </button>
                 </div>

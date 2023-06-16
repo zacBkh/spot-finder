@@ -3,6 +3,8 @@ import { DISABLED_STYLE } from '../../constants/disabled-style'
 
 import capitalize from '../../utils/capitalize'
 
+import { SMALL_TEXT_FS } from '../../constants/responsive-fonts'
+
 const SpotTextualInput = ({
     inputRef,
 
@@ -24,6 +26,19 @@ const SpotTextualInput = ({
             onEnterKeyPress('+')
         }
     }
+
+    const { value: desc } = formikWizard
+
+    const descValid = (
+        <div className={`${SMALL_TEXT_FS} !text-primary`}>
+            {errorStying.message}
+            {`${
+                desc?.length < 500
+                    ? ', ' + (15 - desc?.length) + ' characters remaining'
+                    : ''
+            }`}
+        </div>
+    )
 
     return (
         <>
@@ -63,7 +78,7 @@ const SpotTextualInput = ({
                         name={identifier}
                     />
                 )}
-                {errorStying.message}
+                {errorStying.message ? descValid : ''}
             </div>
         </>
     )

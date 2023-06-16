@@ -26,7 +26,7 @@ const spotSchema = new Schema(
             type: String, // Or convertible to a number
             required: [true, 'Description is required'],
             trim: true,
-            minLength: 6,
+            minLength: 15,
         },
 
         categories: {

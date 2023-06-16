@@ -36,6 +36,7 @@ const ResetPassword = ({ userID }) => {
             router.push(`${PATHS.HOME}?${KEY}=${VALUE_RESET_PWD_FAILURE}`)
             return
         }
+        formik.isSubmitting = true
         const { email } = changeUserPwd.result
 
         await signIn('credentials', {
@@ -147,7 +148,7 @@ const ResetPassword = ({ userID }) => {
                                     type={isPwdVisible ? 'text' : 'password'}
                                     name="password2"
                                     id="password2"
-                                    placeholder="Password2"
+                                    placeholder="Password"
                                 />
                                 <button
                                     onClick={() => setIsPwdVisible(prev => !prev)}
