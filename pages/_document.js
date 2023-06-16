@@ -15,7 +15,7 @@ export default function Document() {
                     rel="stylesheet"
                 />
 
-                <link rel="icon" href="/favicon.ico" sizes="any" />
+                <link rel="icon" type="image/x-icon" sizes="any" href="/favicon.ico" />
             </Head>
             <body>
                 <Main />
