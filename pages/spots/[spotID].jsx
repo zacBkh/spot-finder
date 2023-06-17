@@ -8,11 +8,11 @@ import { BsCamera } from 'react-icons/bs'
 import { GoLocation } from 'react-icons/go'
 
 import { authOptions } from '../api/auth/[...nextauth]'
-
 import { unstable_getServerSession } from 'next-auth/next'
 
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 
 import {
     editSpotHandler,
@@ -22,7 +22,7 @@ import {
 
 import { GETSpotFetcherOne } from '../../services/fetchers-ssr'
 
-import MapShow from '../../components/maps/map-show'
+// import MapShow from '../../components/maps/map-show'
 
 import { TEXTAREA_INPUTS_FS } from '../../constants/responsive-fonts'
 
@@ -86,6 +86,18 @@ export const getServerSideProps = async context => {
 }
 
 const ShowSpot = ({ indivSpot, currentUserID }) => {
+    const DynamicMapShow = dynamic(
+        () =>
+            import(
+                /* webpackChunkName: 'lazy-loaded-dynamic-map-show' */
+                '../../components/maps/map-show'
+            ),
+        {
+            ssr: false,
+            loading: () => <p>Loading Show Map...</p>,
+        },
+    )
+
     const {
         title,
         description,
@@ -334,7 +346,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     <div className="gap-2 grid grid-rows-2 grid-cols-3 col-span-full relative">
                         <div className="relative row-span-2 col-span-2">
                             {isMapVisible ? (
-                                <MapShow
+                                <DynamicMapShow
                                     isMarkerDraggable={isMarkerDraggable}
                                     markerCoordinates={{
                                         Longitude: updatedGeometry.coordinates[0],

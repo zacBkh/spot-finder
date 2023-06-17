@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
-import { useRouter } from 'next/router'
 
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+
 import { useSession } from 'next-auth/react'
 
 import { useFormik } from 'formik'
@@ -27,8 +28,6 @@ import { PATHS } from '../constants/URLs'
 import { TOAST_PARAMS } from '../constants/toast-query-params'
 
 import SPOT_CATEGORIES from '../constants/spot-categories'
-
-import dynamic from 'next/dynamic'
 
 import useInputAutoFocusNewSpot from '../hooks/useInputAutoFocusNewSpot'
 
@@ -244,12 +243,12 @@ const AddNewSpot = ({}) => {
                 '../components/image-uploader-wrapper'
             ),
         {
+            ssr: false,
             loading: () => <p>Loading Image Uploader...</p>,
         },
     )
 
     // Handle auto-focus behaviour
-
     const titleRef = useRef()
     const descRef = useRef()
 

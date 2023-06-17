@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useControl } from 'react-map-gl'
-import MapboxGeocoder, { GeocoderOptions } from '@mapbox/mapbox-gl-geocoder'
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 

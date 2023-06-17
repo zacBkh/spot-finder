@@ -1,26 +1,23 @@
-import SpotCard from '../components/spot-index-card'
 import { useState, useEffect, useContext } from 'react'
 
 import { SearchBarContext } from '../context/AppContext'
 
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
 
 import { GETSpotFetcherAll } from '../services/fetchers-ssr'
 
-import ClosedDrawer from '../components/filters-drawer/closed-drawer'
-import OpenedDrawer from '../components/filters-drawer/opened-drawer'
-
 import getAvrgGrade from '../utils/get-average-rate'
 
-import MapIndex from '../components/maps/map-index'
-
 import ToggleToMapView from '../components/toggle-to-map-view-btn'
+import SpotCard from '../components/spot-index-card'
+import ClosedDrawer from '../components/filters-drawer/closed-drawer'
+import OpenedDrawer from '../components/filters-drawer/opened-drawer'
 
 export const getServerSideProps = async context => {
     try {
         // Executing the fx that will fetch all Spots
         const resultFetchGET = await GETSpotFetcherAll()
-        console.log('resultFetchGET', resultFetchGET)
 
         if (!resultFetchGET) {
             return {
@@ -203,6 +200,18 @@ const AllSpots = ({ spots }) => {
         features: arrayOfSpotsGEOJSON,
     }
 
+    const DynamicMapIndex = dynamic(
+        () =>
+            import(
+                /* webpackChunkName: 'lazy-loaded-dynamic-map-index' */
+                '../components/maps/map-index'
+            ),
+        {
+            ssr: false,
+            loading: () => <p>Loading Index Map...</p>,
+        },
+    )
+
     return (
         <>
             <Head>
@@ -238,7 +247,7 @@ const AllSpots = ({ spots }) => {
                 </aside>
                 {isOnMapMode ? (
                     <div className="w-screen h-[87vh]  ">
-                        <MapIndex
+                        <DynamicMapIndex
                             initialView={initialMapCoordinates}
                             spotsCoordinates={clusterGeoJSON}
                         />

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import Map, {
@@ -97,5 +97,3 @@ const MapShow = ({ markerCoordinates, isMarkerDraggable, onSpotLocationChange })
 }
 
 export default MapShow
-
-// <AttributionControl /> credits etc on the map, can custom it

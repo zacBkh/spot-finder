@@ -349,12 +349,14 @@ const EMailLogger = ({
                 )}
 
                 {/* COUNTRY FIELD */}
-                {isnewUser === true && (
+                {isnewUser === true ? (
                     <SearchCountry
                         formik={formik}
                         onCountrySelect={selectCountryHandler}
                         validData={validStyling('country')}
                     />
+                ) : (
+                    ''
                 )}
 
                 {/* PWD FIELD */}
