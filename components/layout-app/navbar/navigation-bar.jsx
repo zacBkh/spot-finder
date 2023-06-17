@@ -12,7 +12,6 @@ import SearchSpotBar from './search-spot-bar'
 import UserHeader from './user-greet-header'
 import NavItems from './nav-items'
 import HamburgerIcon from './hamburger-icon'
-import HamburgerMenu from './hamburger-menu'
 
 import UserAvatar from './user-profile-pic'
 import UserMenu from './user-menu'
