@@ -30,6 +30,7 @@ const OAuthLogger = ({ returnToURL, provider, bgColor, txtColor, onSelectOAuth }
     return (
         <>
             <button
+                aria-label={`Log in with ${provider}`}
                 disabled={isLoading}
                 onClick={signInHandler}
                 className={`${bgColor} ${txtColor} ${BUTTON_FS} 

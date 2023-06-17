@@ -207,6 +207,7 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
                                             Hi, I am {name} 👋
                                         </h1>
                                         <button
+                                            aria-label="Open user menu"
                                             ref={refOutsideUseActionMenu}
                                             onClick={onActionClick}
                                         >

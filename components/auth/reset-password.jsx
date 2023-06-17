@@ -111,6 +111,7 @@ const ResetPassword = ({ userID }) => {
                                     id="password"
                                 />
                                 <button
+                                    aria-label="Show password"
                                     onClick={() => setIsPwdVisible(prev => !prev)}
                                     type="button"
                                     className=""
@@ -151,6 +152,7 @@ const ResetPassword = ({ userID }) => {
                                     placeholder="Password"
                                 />
                                 <button
+                                    aria-label="Show password"
                                     onClick={() => setIsPwdVisible(prev => !prev)}
                                     type="button"
                                     className=""
@@ -167,6 +169,7 @@ const ResetPassword = ({ userID }) => {
                     </div>
 
                     <button
+                        aria-label="Submit"
                         type="submit"
                         disabled={shouldBtnBeDisabled()}
                         className={`

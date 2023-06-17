@@ -4,6 +4,7 @@ const ToggleToMapView = ({ isOnMapMode, onToggleMapView }) => {
     return (
         <>
             <button
+                aria-label="Show map"
                 onClick={onToggleMapView}
                 className={`centerXAxis py-[14px] px-[19px] rounded-3xl text-white bg-[#222222] flex items-center gap-x-2 text-sm z-30`}
             >

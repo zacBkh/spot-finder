@@ -62,6 +62,7 @@ const PicViewer = ({
                 <span className="ml-[48%]">{`${activeImg + 1} / ${images.length}`}</span>
 
                 <button
+                    aria-label="Close"
                     onClick={onPicViewerClose}
                     className="flex items-center gap-x-2 hover:bg-[#4A4A4A] px-4 py-2 rounded-lg"
                 >
@@ -75,6 +76,7 @@ const PicViewer = ({
                             my-[15%] sm:my-[1.5%] md:my-[1.5%] 2xl:my-[2%]"
             >
                 <button
+                    aria-label="Show previous picture"
                     onClick={() => switchPicHandler('-')}
                     className={`${arrowStyle} ${activeImg === 0 && 'invisible'}`}
                 >
@@ -96,6 +98,7 @@ const PicViewer = ({
                     />
                 </div>
                 <button
+                    aria-label="Show next picture"
                     onClick={() => switchPicHandler('+')}
                     className={`
                                 ${arrowStyle}

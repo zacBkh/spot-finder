@@ -9,6 +9,7 @@ const ClickableUserImage = ({ url, width, height, children, profilePic, noCloudi
         <Link href={url}>
             <a title="Visit my profile.">
                 <button
+                    aria-label="See this users' profile"
                     className={`${BODY_FS} group text-form-color flex justify-center items-center gap-x-3 w-fit mx-auto`}
                 >
                     <UserImage

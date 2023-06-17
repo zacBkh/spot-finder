@@ -14,6 +14,7 @@ const ButtonPrimary = ({
     return (
         <>
             <button
+                aria-label={text}
                 disabled={shouldBeDisabled ? true : false}
                 type={isSubmitBtn ? 'submit' : 'button'}
                 onClick={onClickHandler ? () => onClickHandler() : null}

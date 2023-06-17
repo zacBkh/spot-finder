@@ -43,6 +43,7 @@ const SpotCategory = ({
     return (
         <>
             <button
+                aria-label="Edit"
                 disabled={shouldBeDisabled}
                 type="button"
                 onClick={isInputEditable ? () => onChangeCat() : null}

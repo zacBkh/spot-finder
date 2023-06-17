@@ -3,6 +3,7 @@ const Toggler = ({ didUserVisitSpot, onToggle }) => {
     return (
         <div onClick={onToggle}>
             <button
+                aria-label="Mark this spot as visited"
                 className="text-form-color border border-[#e8e1e0] rounded-md flex items-center gap-x-2 w-fit mx-auto p-3
                 bg-transparent hover:bg-tertiary transition-colors cursor-pointer"
             >

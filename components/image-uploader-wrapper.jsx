@@ -56,6 +56,7 @@ const ImageUploaderWrapper = ({
                         return (
                             <>
                                 <button
+                                    aria-label="Upload image"
                                     disabled={shouldBeDisabled}
                                     type="button"
                                     onClick={handleOnClick}
@@ -67,6 +68,7 @@ const ImageUploaderWrapper = ({
                     } else {
                         return (
                             <button
+                                aria-label="Upload image"
                                 disabled={shouldBeDisabled}
                                 onClick={handleOnClick}
                                 className={`${btnStyle} flex justify-center items-center gap-x-6`}

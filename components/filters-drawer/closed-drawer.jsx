@@ -16,20 +16,29 @@ const ClosedDrawer = ({ onDrawerToggle, activeFilters }) => {
             onClick={onDrawerToggle}
             className="flex flex-col items-center gap-y-8 w-full"
         >
-            <button className="w-full flex justify-center items-center gap-x-3 font-semibold">
+            <button
+                aria-label="Toggle filter"
+                className="w-full flex justify-center items-center gap-x-3 font-semibold"
+            >
                 <FilterIcon />
                 <span className="md:hidden">Show Filters</span>
             </button>
             <div className="hidden md:flex flex-col items-center gap-y-4">
-                <button className={`${styleIcons} ${cat.length ? styleSelected : ''}`}>
+                <button
+                    aria-label="Toggle filter"
+                    className={`${styleIcons} ${cat.length ? styleSelected : ''}`}
+                >
                     <BiCategoryAlt className="text-xl" />
                 </button>
 
-                <button className={`${styleIcons} ${region.length ? styleSelected : ''}`}>
+                <button
+                    aria-label="Toggle filter"
+                    className={`${styleIcons} ${region.length ? styleSelected : ''}`}
+                >
                     <GoGlobe className="text-xl" />
                 </button>
 
-                <button className={`${styleIcons}`}>
+                <button aria-label="Toggle filter" className={`${styleIcons}`}>
                     <BsSortUp className="text-xl" />
                 </button>
             </div>

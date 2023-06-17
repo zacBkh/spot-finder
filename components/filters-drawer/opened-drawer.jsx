@@ -28,6 +28,7 @@ const OpenedDrawer = ({
     return (
         <div className="flex flex-col items-center gap-y-2">
             <button
+                aria-label="Hide filters"
                 onClick={onDrawerToggle}
                 className="w-full flex items-center justify-center gap-x-3 font-semibold"
             >

@@ -18,6 +18,7 @@ const SpotSpecsDisplayer = ({
             <span>{averageGrade} </span>
             <span>·</span>
             <button
+                aria-label="See reviews"
                 onClick={onOpenReviewModal}
                 className="underline decoration-primary underline-offset-4 text-primary"
             >

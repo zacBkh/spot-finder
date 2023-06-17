@@ -23,7 +23,11 @@ const MissingImage = () => {
                 <ImImages className="w-1/2 h-1/2 text-dark-color " />
                 <span className={`${BODY_FS} mt-2 text-center`}>
                     No image available.{' '}
-                    <button className="underline" onClick={clickHandler}>
+                    <button
+                        aria-label="Add your image"
+                        className="underline"
+                        onClick={clickHandler}
+                    >
                         Add yours!
                     </button>
                 </span>

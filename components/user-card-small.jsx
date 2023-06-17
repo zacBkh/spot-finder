@@ -19,7 +19,10 @@ const UserCardSmall = ({
     return (
         <Link href={`${PATHS.SPOT}/${userID}`}>
             <a onMouseEnter={hoverUserCardHandler}>
-                <button className="hoverCardShadow flex gap-x-2 items-center group mt-6 w-fit cursor-pointer text-start py-1 md:py-2">
+                <button
+                    aria-label="See this user profile"
+                    className="hoverCardShadow flex gap-x-2 items-center group mt-6 w-fit cursor-pointer text-start py-1 md:py-2"
+                >
                     <UserImage
                         alt={`Profile picture of ${name}`}
                         picLink={picLink}

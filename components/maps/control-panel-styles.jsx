@@ -47,6 +47,7 @@ const MapControlPanelStyles = ({ onStyleChange, currentMapStyle, additionalStyle
                 className={`control-panel absolute max-w-sm bg-white text-dark-color outline-none shadow-2xl py-2 px-2 m-3 flex flex-col gap-y-2 rounded-md ${additionalStyle}`}
             >
                 <button
+                    aria-label="Toggle control panel visibility"
                     onClick={() => setIsPanelActive(prev => !prev)}
                     className="flex items-center gap-x-1 hover:underline font-semibold active:transform-none"
                 >

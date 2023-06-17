@@ -20,6 +20,7 @@ const CTAButtons = ({ text, icon, isSecondary, url, isInvertedColor }) => {
         <Link href={url}>
             <a>
                 <button
+                    aria-label={text}
                     className={`${BUTTON_FS} group py-2 px-4 2xl:py-3 2xl:px-9 flex items-center justify-center gap-x-2 +
                
                ${isSecondary ? secondaryBtnColors : primaryBtnColors}

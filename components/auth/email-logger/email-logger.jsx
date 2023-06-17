@@ -282,6 +282,7 @@ const EMailLogger = ({
         <>
             {authMode === 'credentials' && (
                 <button
+                    aria-label="Go back"
                     className={`${ARROW_TEXT_FS}  mb-5 flex items-center gap-x-2 font-medium w-fit`}
                     onClick={goBackReqHandler}
                 >
@@ -374,6 +375,7 @@ const EMailLogger = ({
                                 placeholder="Password"
                             />
                             <button
+                                aria-label="Show password"
                                 onClick={() => setIsPwdVisible(prev => !prev)}
                                 type="button"
                                 className=""
@@ -407,6 +409,7 @@ const EMailLogger = ({
                     formik.submitCount > 1 &&
                     authResult === 'Invalid credentials.' && (
                         <button
+                            aria-label="Forgotten password"
                             type="button"
                             onClick={onForgotPassword}
                             className={`float-right text-secondary hover:underline`}
@@ -417,6 +420,7 @@ const EMailLogger = ({
 
                 {/* SUBMIT FIELD */}
                 <button
+                    aria-label="Continue"
                     ref={submitBtnRef}
                     disabled={shouldBtnBeDisabled()}
                     className={`

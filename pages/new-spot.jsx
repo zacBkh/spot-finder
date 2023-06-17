@@ -369,6 +369,7 @@ const AddNewSpot = ({}) => {
 
                     {currentStep > 1 && (
                         <button
+                            aria-label="Go to the previous step"
                             onClick={() => incrementStepHandler('-')}
                             className={`${btnClassName}`}
                             type="button"
@@ -378,6 +379,7 @@ const AddNewSpot = ({}) => {
                         </button>
                     )}
                     <button
+                        aria-label="Go to the next step"
                         onClick={() => incrementStepHandler('+')}
                         disabled={logicDisableNextStep()}
                         className={btnClassName}

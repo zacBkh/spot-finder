@@ -75,6 +75,7 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                     >
                         {PROFILE_PIC_DEFAULT_OPTIONS.map(pic => (
                             <button
+                                aria-label="Choose this photo as a profile picture"
                                 disabled={formik.isSubmitting}
                                 key={pic.name}
                                 onClick={() => selectDefaultPicHandler(pic.link)}

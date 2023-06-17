@@ -28,6 +28,7 @@ const UserStats = ({
         <>
             <div className="flex flex-col gap-y-4 font-semibold">
                 <button
+                    aria-label="See spots this user created"
                     className={`${specStyle}`}
                     onClick={() => onScrollClick('created')}
                 >
@@ -37,6 +38,7 @@ const UserStats = ({
                     </span>
                 </button>
                 <button
+                    aria-label="See spots this user visited"
                     className={`${specStyle}`}
                     onClick={() => onScrollClick('visited')}
                 >
@@ -46,6 +48,7 @@ const UserStats = ({
                     </span>
                 </button>
                 <button
+                    aria-label="See spots this user reviewed"
                     className={`${specStyle}`}
                     onClick={() => onScrollClick('reviewed')}
                 >
@@ -60,6 +63,7 @@ const UserStats = ({
                 <div>
                     <DividerDesign margin={'mb-4'} />
                     <button
+                        aria-label="Change your password"
                         className={`${specStyle} group`}
                         onClick={onChangePasswordRequest}
                     >
