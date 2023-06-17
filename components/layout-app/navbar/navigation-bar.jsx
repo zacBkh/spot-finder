@@ -1,12 +1,13 @@
+import { useState, useRef, useEffect } from 'react'
+
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
-
-import SearchSpotBar from './search-spot-bar'
-
-import { useState, useRef, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 
 import { PATHS, NAVBAR_ITEMS } from '../../../constants/URLs'
+
+import SearchSpotBar from './search-spot-bar'
 
 import UserHeader from './user-greet-header'
 import NavItems from './nav-items'
@@ -65,6 +66,18 @@ const Navigation = ({ userSession }) => {
 
         return () => (document.body.style.overflow = 'auto')
     }, [isHamburgerOpen])
+
+    const DynamicHamburgerMenu = dynamic(
+        () =>
+            import(
+                /* webpackChunkName: 'lazy-loaded-dynamic-hambuerger-menu' */
+                './hamburger-menu'
+            ),
+        {
+            ssr: false,
+            loading: () => <p>Hamburger menu loading...</p>,
+        },
+    )
 
     return (
         <>
@@ -128,7 +141,7 @@ const Navigation = ({ userSession }) => {
                 </div>
 
                 {isHamburgerOpen && (
-                    <HamburgerMenu
+                    <DynamicHamburgerMenu
                         isOpen={isHamburgerOpen}
                         onHambMenuClick={() => setIsHamburgerOpen(false)}
                         currentPath={pathname}
