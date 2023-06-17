@@ -99,7 +99,6 @@ const AllSpots = ({ spots }) => {
     }
 
     const handler = newArrayOfSpots => {
-        console.log('newArrayOfSpots', newArrayOfSpots)
         setFilteredSpots(newArrayOfSpots)
     }
 
