@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 
 import Divider from '../../components/auth/divider'
 import OAuthLogger from '../../components/auth/oAuth-logger'
-
+import EMailLogger from '../../components/auth/email-logger/email-logger'
 import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
+
 import Image from 'next/image'
 
 import REDIRECT_QUERY_PARAMS from '../../constants/redirect-query-params'
@@ -15,18 +15,6 @@ const { KEY_RETURN_TO } = REDIRECT_QUERY_PARAMS
 const { KEY_AUTH_ERROR, VALUE_AUTH_ERROR } = REDIRECT_QUERY_PARAMS
 
 const Login = ({}) => {
-    const DynamicEmailLogger = dynamic(
-        () =>
-            import(
-                /* webpackChunkName: 'lazy-loaded-email-logger' */
-                '../../components/auth/email-logger/email-logger'
-            ),
-        {
-            ssr: false,
-            loading: () => <p>Loading Email Logger...</p>,
-        },
-    )
-
     const router = useRouter()
     const { isReady, query } = router
 
@@ -80,7 +68,7 @@ const Login = ({}) => {
                 <div className="w-full h-max md:w-1/2 p-6 rounded-lg">
                     <div className="flex flex-col justify-center gap-y-3 md:gap-y-5">
                         {showEmailLogger && (
-                            <DynamicEmailLogger
+                            <EMailLogger
                                 returnToURL={isReady ? query[KEY_RETURN_TO] : null}
                                 authMode={authMode}
                                 isnewUser={isNew}

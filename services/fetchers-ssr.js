@@ -28,7 +28,6 @@ export const GETSpotFetcherOne = async ID => {
 
     // .populate('reviews')
     const indivSpot = JSON.parse(JSON.stringify(response))
-    console.log('res from get static props fetcher', indivSpot.reviews)
 
     return indivSpot
 }
