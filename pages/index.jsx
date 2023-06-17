@@ -8,7 +8,11 @@ import { GETSpotFetcherAll } from '../services/fetchers-ssr'
 import ToggleToMapView from '../components/toggle-to-map-view-btn'
 import SpotCard from '../components/spot-index-card'
 
-export const getServerSideProps = async context => {
+export const getStaticProps = async () => {
+    // const res = await fetch('https://api.github.com/repos/vercel/next.js')
+    // const repo = await res.json()
+    // return { props: { repo } }
+
     try {
         // Executing the fx that will fetch all Spots
         const resultFetchGET = await GETSpotFetcherAll()
@@ -22,8 +26,8 @@ export const getServerSideProps = async context => {
         return {
             props: {
                 spots: resultFetchGET,
-                queryString: context.query,
             },
+            revalidate: 10,
         }
     } catch (error) {
         return {
@@ -31,6 +35,30 @@ export const getServerSideProps = async context => {
         }
     }
 }
+
+// export const getServerSideProps = async context => {
+//     try {
+//         // Executing the fx that will fetch all Spots
+//         const resultFetchGET = await GETSpotFetcherAll()
+
+//         if (!resultFetchGET) {
+//             return {
+//                 notFound: true,
+//             }
+//         }
+
+//         return {
+//             props: {
+//                 spots: resultFetchGET,
+//                 queryString: context.query,
+//             },
+//         }
+//     } catch (error) {
+//         return {
+//             notFound: true,
+//         }
+//     }
+// }
 
 const DynamicMapIndex = dynamic(
     () =>

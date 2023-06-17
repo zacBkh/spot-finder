@@ -81,18 +81,21 @@ const Navigation = ({ userSession }) => {
                 ${isScrolled ? 'border-[#dadada] border-b-[1.6px]' : ''}`}
             >
                 <div className="flex items-center justify-between px-7 py-1 sm:py-2">
-                    <div className="cursor-pointer h-12 sm:h-[56px]">
-                        <Link href={HOME}>
-                            <a>
-                                <Image
-                                    width={121}
-                                    height={56}
-                                    src={Logo}
-                                    alt="Spot Finder logo"
-                                />
-                            </a>
-                        </Link>
-                    </div>
+                    {/* <div className="cursor-pointer"> */}
+                    <Link href={HOME}>
+                        <a className=" w-fit !text-start">
+                            <Image
+                                layout="fill"
+                                objectFit="contain"
+                                className="!w-fit"
+                                // width={121}
+                                // height={56}
+                                src={Logo}
+                                alt="Spot Finder logo"
+                            />
+                        </a>
+                    </Link>
+                    {/* </div> */}
                     <nav className="hidden md:block text-sm">
                         <ul className="flex gap-x-6">
                             {NAVBAR_ITEMS.map(item => (

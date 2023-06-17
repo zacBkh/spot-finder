@@ -11,10 +11,8 @@ export default async function emailChecker(req, res) {
     if (req.method === 'POST') {
         try {
             await connectMongo()
-            console.log('Checking if', req.body, 'exist on the DB...')
 
             const queryDB = await User.findOne({ email: req.body })
-            console.log('QUERY DB FROM', queryDB)
 
             if (queryDB === null) {
                 // no exist
