@@ -85,19 +85,19 @@ export const getServerSideProps = async context => {
     }
 }
 
-const ShowSpot = ({ indivSpot, currentUserID }) => {
-    const DynamicMapShow = dynamic(
-        () =>
-            import(
-                /* webpackChunkName: 'lazy-loaded-dynamic-map-show' */
-                '../../components/maps/map-show'
-            ),
-        {
-            ssr: false,
-            loading: () => <p>Loading Show Map...</p>,
-        },
-    )
+const DynamicMapShow = dynamic(
+    () =>
+        import(
+            /* webpackChunkName: 'lazy-loaded-dynamic-map-show' */
+            '../../components/maps/map-show'
+        ),
+    {
+        ssr: false,
+        loading: () => <p>Loading Show Map...</p>,
+    },
+)
 
+const ShowSpot = ({ indivSpot, currentUserID }) => {
     const {
         title,
         description,

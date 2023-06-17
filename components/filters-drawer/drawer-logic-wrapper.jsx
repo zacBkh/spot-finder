@@ -125,7 +125,7 @@ const SideDrawerFilters = ({
         }
 
         if (!activeSortCriteria) {
-            onSortCriteriaChange(allSpots)
+            onSortCriteriaChange('')
         }
     }, [activeSortCriteria])
 
@@ -144,7 +144,9 @@ const SideDrawerFilters = ({
             return
         }
 
-        onFilteredSpotsChange(allSpots)
+        console.log('77', 77)
+
+        onFilteredSpotsChange(filteredSpots)
     }, [searchContext.value.length, searchContext.value, allSpots])
 
     return (

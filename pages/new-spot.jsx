@@ -39,6 +39,18 @@ const {
     VALUE_ADDED_PIC_SUCCESS,
 } = TOAST_PARAMS
 
+const DynamicImageUploader = dynamic(
+    () =>
+        import(
+            /* webpackChunkName: 'lazy-loaded-image-uploader' */
+            '../components/image-uploader-wrapper'
+        ),
+    {
+        ssr: false,
+        loading: () => <p>Loading Image Uploader...</p>,
+    },
+)
+
 const AddNewSpot = ({}) => {
     const [disableActionBtns, setDisableActionBtns] = useState(false)
 
@@ -236,18 +248,6 @@ const AddNewSpot = ({}) => {
             )
         }
     }, [uploadedImages])
-
-    const DynamicImageUploader = dynamic(
-        () =>
-            import(
-                /* webpackChunkName: 'lazy-loaded-image-uploader' */
-                '../components/image-uploader-wrapper'
-            ),
-        {
-            ssr: false,
-            loading: () => <p>Loading Image Uploader...</p>,
-        },
-    )
 
     // Handle auto-focus behaviour
     const titleRef = useRef()

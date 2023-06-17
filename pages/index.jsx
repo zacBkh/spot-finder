@@ -32,6 +32,30 @@ export const getServerSideProps = async context => {
     }
 }
 
+const DynamicMapIndex = dynamic(
+    () =>
+        import(
+            /* webpackChunkName: 'lazy-loaded-dynamic-map-index' */
+            '../components/maps/map-index'
+        ),
+    {
+        ssr: false,
+        loading: () => <p>Loading Index Map...</p>,
+    },
+)
+
+const DynamicDrawer = dynamic(
+    () =>
+        import(
+            /* webpackChunkName: 'lazy-loaded-dynamic-side-drawer-' */
+            '../components/filters-drawer/drawer-logic-wrapper'
+        ),
+    {
+        // ssr: false,
+        loading: () => <div className="md:w-[8%] xl:w-[5%]">Loading Drawer...</div>,
+    },
+)
+
 const AllSpots = ({ spots }) => {
     const [activeCategories, setActiveCategories] = useState([])
     const [activeRegion, setActiveRegion] = useState('')
@@ -74,29 +98,10 @@ const AllSpots = ({ spots }) => {
         setIsDrawerOpen(prev => !prev)
     }
 
-    const DynamicMapIndex = dynamic(
-        () =>
-            import(
-                /* webpackChunkName: 'lazy-loaded-dynamic-map-index' */
-                '../components/maps/map-index'
-            ),
-        {
-            ssr: false,
-            loading: () => <p>Loading Index Map...</p>,
-        },
-    )
-
-    const DynamicDrawer = dynamic(
-        () =>
-            import(
-                /* webpackChunkName: 'lazy-loaded-dynamic-side-drawer-' */
-                '../components/filters-drawer/drawer-logic-wrapper'
-            ),
-        {
-            ssr: false,
-            loading: () => <div className="md:w-[8%] xl:w-[5%]">Loading Drawer...</div>,
-        },
-    )
+    const handler = newArrayOfSpots => {
+        console.log('newArrayOfSpots', newArrayOfSpots)
+        setFilteredSpots(newArrayOfSpots)
+    }
 
     return (
         <>
@@ -118,9 +123,10 @@ const AllSpots = ({ spots }) => {
                         setactiveSortCriteria(newSortCriteria)
                     }
                     allSpots={spots}
-                    onFilteredSpotsChange={newFilteredSpots =>
-                        setFilteredSpots(newFilteredSpots)
-                    }
+                    onFilteredSpotsChange={handler}
+                    // onFilteredSpotsChange={newFilteredSpots =>
+                    //     setFilteredSpots(newFilteredSpots)
+                    // }
                     filteredSpots={filteredSpots}
                 />
 
