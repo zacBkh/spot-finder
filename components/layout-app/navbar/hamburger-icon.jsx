@@ -1,6 +1,7 @@
 const HamburgerIcon = ({ isOpen, onHamburgerIconClick }) => {
     return (
         <button
+            aria-label="Show hamburger menu"
             onClick={onHamburgerIconClick}
             className={`${
                 isOpen ? 'open' : ''

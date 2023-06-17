@@ -9,6 +9,7 @@ const UserAvatar = ({ currentSession, onUserMenuClick, isOpen }) => {
 
     return (
         <button
+            aria-label="Show profile menu"
             className={`border border-[#DDDDDD] rounded-[21px] shadow-user-menu-hov ${
                 isOpen && 'shadow-user-menu'
             }`}

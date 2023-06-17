@@ -45,6 +45,9 @@ const Footer = ({ userSession }) => {
 
     const linksStyle = 'text-primary hover:underline'
 
+    const linkStyle =
+        'h-11 w-11 rounded-full bg-primary hover:bg-primary-hov flex justify-center items-center'
+
     return (
         <>
             <footer className="text-center md:text-start mt-2 text-white ">
@@ -97,7 +100,10 @@ const Footer = ({ userSession }) => {
                                     placeholder="Your Email"
                                 />
 
-                                <button className="text-xl cursor-pointer transition-colors hover:text-primary">
+                                <button
+                                    aria-label="Register to newsletter"
+                                    className="text-xl cursor-pointer transition-colors hover:text-primary"
+                                >
                                     <IoIosSend />
                                 </button>
                             </div>
@@ -123,19 +129,28 @@ const Footer = ({ userSession }) => {
                         <h2 className="text-lg font-semibold">Follow us</h2>
                         <div className="flex items-center gap-x-4 text-xl cursor-pointer">
                             <Link href={'#'}>
-                                <a className="h-11 w-11 rounded-full bg-primary hover:bg-primary-hov flex justify-center items-center">
+                                <a
+                                    aria-label="Visit our Facebook page"
+                                    className={linkStyle}
+                                >
                                     <FaFacebookF />
                                 </a>
                             </Link>
 
                             <Link href={'#'}>
-                                <a className="h-11 w-11 rounded-full bg-primary hover:bg-primary-hov flex justify-center items-center">
+                                <a
+                                    aria-label="Visit our Instagram page"
+                                    className={linkStyle}
+                                >
                                     <BsInstagram />
                                 </a>
                             </Link>
 
                             <Link href={'#'}>
-                                <a className="h-11 w-11 rounded-full bg-primary hover:bg-primary-hov flex justify-center items-center">
+                                <a
+                                    aria-label="Visit our Medium page"
+                                    className={linkStyle}
+                                >
                                     <FaMedium />
                                 </a>
                             </Link>

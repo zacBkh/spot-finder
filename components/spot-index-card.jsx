@@ -121,9 +121,10 @@ const SpotCard = ({
                         overflow-hidden group`}
                 >
                     <button
+                        aria-label="Previous picture"
                         onClick={() => switchPicHandler('-')}
                         className={`
-                        ${activeImg === 0 && 'invisible'}
+                        ${activeImg === 0 ? 'invisible' : ''}
                         alignBtnCarrPopUpLeft
                         ${arrowStyle}
                         `}
@@ -149,9 +150,10 @@ const SpotCard = ({
                     )}
 
                     <button
+                        aria-label="Next picture"
                         onClick={() => switchPicHandler('+')}
                         className={`
-                            ${activeImg === images.length - 1 && 'invisible'}
+                            ${activeImg === images.length - 1 ? 'invisible' : ''}
                             alignBtnCarrPopUpRight
                             ${arrowStyle}
                             `}
