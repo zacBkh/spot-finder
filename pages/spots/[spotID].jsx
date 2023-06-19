@@ -22,8 +22,6 @@ import {
 
 import { GETSpotFetcherOne } from '../../services/fetchers-ssr'
 
-// import MapShow from '../../components/maps/map-show'
-
 import { TEXTAREA_INPUTS_FS } from '../../constants/responsive-fonts'
 
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
@@ -359,10 +357,10 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                     <Image
                                         placeholder="blur"
                                         blurDataURL={getCloudiImg(
-                                            'q_10,w_0.5',
+                                            'q_30,w_0.5',
                                             images[0],
                                         )}
-                                        src={getCloudiImg(undefined, images[0])}
+                                        src={getCloudiImg('max', images[0])}
                                         alt="Picture"
                                         layout="fill"
                                         className="object-cover rounded-l-md dimOnHover"
@@ -418,7 +416,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                             'q_10,w_0.5',
                                             images[1],
                                         )}
-                                        src={getCloudiImg('', images[1])}
+                                        src={getCloudiImg('max', images[1])}
                                         alt="Picture"
                                         layout="fill"
                                         className="object-cover rounded-r-md"
@@ -438,7 +436,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                             'q_10,w_0.5',
                                             images[2],
                                         )}
-                                        src={getCloudiImg('', images[2])}
+                                        src={getCloudiImg('max', images[2])}
                                         alt="Picture"
                                         layout="fill"
                                         className="object-cover rounded-r-md"

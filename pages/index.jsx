@@ -50,7 +50,6 @@ const DynamicDrawer = dynamic(
             '../components/filters-drawer/drawer-logic-wrapper'
         ),
     {
-        // ssr: false,
         loading: () => <div className="md:w-[8%] xl:w-[5%]">Loading Drawer...</div>,
     },
 )
@@ -106,6 +105,8 @@ const AllSpots = ({ spots }) => {
             <Head>
                 <title>Find the best spots!</title>
                 <meta name="description" content="Browse the best spots, in a minute!" />
+
+                <meta property="og:image" content="/logos/logo-no-background.png" />
             </Head>
 
             <div className="flex flex-col md:flex-row gap-x-4 gap-y-4">
@@ -122,9 +123,6 @@ const AllSpots = ({ spots }) => {
                     }
                     allSpots={spots}
                     onFilteredSpotsChange={handler}
-                    // onFilteredSpotsChange={newFilteredSpots =>
-                    //     setFilteredSpots(newFilteredSpots)
-                    // }
                     filteredSpots={filteredSpots}
                 />
 

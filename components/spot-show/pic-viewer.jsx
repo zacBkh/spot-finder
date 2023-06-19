@@ -87,9 +87,7 @@ const PicViewer = ({
                             w-[800px] h-[400px] 2xl:w-[1000px] 2xl:h-[700px]"
                 >
                     <Image
-                        placeholder="blur"
-                        blurDataURL={getCloudiImg('q_10,w_0.5', images[activeImg])}
-                        src={getCloudiImg('w_0.99', images[activeImg])}
+                        src={getCloudiImg('max', images[activeImg])}
                         alt="Picture"
                         layout="fill"
                         objectFit="contain"
