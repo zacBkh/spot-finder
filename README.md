@@ -1,35 +1,145 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<a name="readme-top"></a>
 
-## Getting Started
+[![LinkedIn][linkedin-shield]][linkedin-url]
+[![Twitter][linkedin-shield]][linkedin-url]
 
-First, run the development server:
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://www.spot-finder.com/">
+    <img src="public/logos/logo-no-background.png" alt="SpotFinder logo" width="194" height="100">
+  </a>
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+  <h3 align="center">Discover the world's hidden gems with Spot Finder</h3>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+  <p align="center">
+    <a href="https://www.spot-finder.com/"">Visit SpotFinder</a>
+    ·
+    <a href="https://twitter.com/zacFullStack">Contact me</a>
+    ·
+  </p>
+</div>
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+<details align="center">
+  <summary>Table of Contents</summary>
+  <ul>
+    <li> <a href="#about-the-project">Why SpotFinder?</a> </li>
+    <li> <a href="#main-features">Main Features</a></li>
+    <li> <a href="#tech-stack">The Tech Stack</a></li>
+    <li><a href="#usage">Roadmap: What's next?</a></li>
+  </ul>
+</details>
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## About The Project
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-## Learn More
+I have two passions in my life: Photography & Coding!
 
-To learn more about Next.js, take a look at the following resources:
+I am always looking for new stuff to photograph, especially when I go in countries I don't know.
+But finding the perfect Spot is time-consuming...
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**So I created a web-app that does it for you.**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+With SpotFinder you can:
 
-## Deploy on Vercel
+-   Browse Spots all around the world and review them
+-   Upload the Spots you visited to share them with the world!
+-   Create a profile and interact with people like you
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# SpotFinder
+Use the `BLANK_README.md` to get started.
+
+<p align="right"><a href="#readme-top">back to top 🔝</a></p>
+
+## Main Features
+
+This project is actually quite complex and offers many features:
+
+-   Full CRUD capabilities on 3 database models: Spots, Users and Reviews
+-   Authorization & Authentication system supporting oAuth & credentials
+-   Optimized images upload, processing, storage & display
+-   Account verification & forgotten password reset features
+-   Maps integration with clustering, forward & reverse geocoding
+-   Optimized multi-rendering strategy (server, static & client with skeleton loader)
+-   Mailchimp integration for SpotFinder newsletter
+-   Toaster system for user feedback
+
+## Tech Stack
+
+This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+
+[![Next][Next.js]][Next-url]
+[![Node][Node.js]][Node-url]
+[![Node][MongoDB]][Mongo-url]
+[![Mapbox][Mapbox]][Mapbox-url]
+[![Mailchimp][Mailchimp]][Mailchimp-url]
+[![Tailwind][Tailwind]][Tailwind-url]
+
+<p align="right"><a href="#readme-top">back to top 🔝</a></p>
+
+## Roadmap
+
+-   ✅ Display country of origin of users on user profile
+-   ✅ Make user description editable by profile owner only
+-   ⏳ Create Master Admin accounts
+-   ⏳ Infinite scroll on index page
+-   ⏳ Switch from SSR to ISG on individual spot show page
+
+Any idea how to improve the project? [Reach out to me](https://twitter.com/zacFullStack) and let's talk about it
+
+<p align="right"><a href="#readme-top">back to top 🔝</a></p>
+
+## Contact
+
+Zacharie Dupain - [@your_twitter](https://twitter.com/zacFullStack) - contact@spot-finder.com
+
+<p align="right"><a href="#readme-top">back to top 🔝</a></p>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=2778C9
+[linkedin-url]: https://linkedin.com/in/othneildrew
+
+<!--  -->
+
+[twitter-shield]: https://img.shields.io/badge/-twitter-white?style=for-the-badge&logo=twitter&colorB=1D9BF0&logoColor=white
+[twitter-url]: https://twitter.com/zacFullStack
+
+<!--  -->
+
+[product-screenshot]: images/screenshot.png
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+
+<!--  -->
+
+[Node.js]: https://img.shields.io/badge/Node.JS-w?style=for-the-badge&logo=nodedotjs&logoColor=white&labelColor=72A960&color=72A960
+[Node-url]: https://nodejs.org/
+
+<!--  -->
+
+[MongoDB]: https://img.shields.io/badge/MongoDB-w?style=for-the-badge&logo=mongodb&logoColor=white&labelColor=00A940&color=00A940
+[Mongo-url]: https://www.mongodb.com/
+
+<!--  -->
+
+[Mapbox]: https://img.shields.io/badge/mapbox-w?style=for-the-badge&logo=mapbox&logoColor=white&labelColor=black&color=black
+[Mapbox-url]: https://www.mapbox.com/
+
+<!--  -->
+
+[Mailchimp]: https://img.shields.io/badge/mailchimp-w?style=for-the-badge&logo=mailchimp&logoColor=black&labelColor=F7D91A&color=F7D91A
+[Mailchimp-url]: https://mailchimp.com/
+
+<!--  -->
+
+[Tailwind]: https://img.shields.io/badge/tailwind-w?style=for-the-badge&logo=tailwindcss&logoColor=38BDF8&labelColor=white&color=white
+[Tailwind-url]: https://tailwindcss.com/
+
+<!--  -->
+
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
