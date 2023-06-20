@@ -144,7 +144,7 @@ const SideDrawerFilters = ({
             return
         }
 
-        onFilteredSpotsChange(filteredSpots)
+        onFilteredSpotsChange(allSpots)
     }, [searchContext.value.length, searchContext.value, allSpots])
 
     return (
