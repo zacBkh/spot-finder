@@ -100,7 +100,7 @@ Zacharie Dupain - [My Twitter](https://twitter.com/zacFullStack) - [My Instagram
 <!--  -->
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=2778C9
-[linkedin-url]: https://linkedin.com/in/othneildrew
+[linkedin-url]: https://www.linkedin.com/in/zachariedupain/
 
 <!--  -->
 

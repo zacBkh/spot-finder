@@ -13,6 +13,7 @@ import { unstable_getServerSession } from 'next-auth/next'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
+import Head from 'next/head'
 
 import {
     editSpotHandler,
@@ -133,6 +134,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         coordinates: false,
     })
 
+    // FORMIK
     const initialValuesEditSpot = {
         title,
         description,
@@ -329,158 +331,170 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     }
 
     return (
-        <div>
-            {isPicViewerOpen && (
-                <PicViewer
-                    isPicViewerOpen={isPicViewerOpen}
-                    onPicViewerClose={() => setisPicViewerOpen(false)}
-                    onImgChange={newIndex => setActiveImg(newIndex)}
-                    activeImg={activeImg}
-                    images={images}
+        <>
+            <Head>
+                <title>{title}</title>
+                <meta
+                    name="description"
+                    content={`Check ${title} out, another spot on SpotFinder!`}
                 />
-            )}
-            <div className="px-4 md:px-9 xl:px-16 2xl:px-56 space-y-6 ">
-                <div className="grid-container grid grid-rows-[350px] lg:grid-rows-[400px] 2xl:grid-rows-[600px] grid-cols-3 gap-2 relative">
-                    <div className="gap-2 grid grid-rows-2 grid-cols-3 col-span-full relative">
-                        <div className="relative row-span-2 col-span-2">
-                            {isMapVisible ? (
-                                <DynamicMapShow
-                                    isMarkerDraggable={isMarkerDraggable}
-                                    markerCoordinates={{
-                                        Longitude: updatedGeometry.coordinates[0],
-                                        Latitude: updatedGeometry.coordinates[1],
-                                    }}
-                                    onSpotLocationChange={confirmLocationChangeHandler}
-                                />
-                            ) : (
-                                <div onClick={() => imgClickHandler(0)}>
-                                    <Image
-                                        placeholder="blur"
-                                        blurDataURL={getCloudiImg(
-                                            'q_30,w_0.5',
-                                            images[0],
-                                        )}
-                                        src={getCloudiImg('max', images[0])}
-                                        alt="Picture"
-                                        layout="fill"
-                                        className="object-cover rounded-l-md dimOnHover"
-                                        priority={true}
+            </Head>
+            <div>
+                {isPicViewerOpen && (
+                    <PicViewer
+                        isPicViewerOpen={isPicViewerOpen}
+                        onPicViewerClose={() => setisPicViewerOpen(false)}
+                        onImgChange={newIndex => setActiveImg(newIndex)}
+                        activeImg={activeImg}
+                        images={images}
+                    />
+                )}
+                <div className="px-4 md:px-9 xl:px-16 2xl:px-56 space-y-6 ">
+                    <div className="grid-container grid grid-rows-[350px] lg:grid-rows-[400px] 2xl:grid-rows-[600px] grid-cols-3 gap-2 relative">
+                        <div className="gap-2 grid grid-rows-2 grid-cols-3 col-span-full relative">
+                            <div className="relative row-span-2 col-span-2">
+                                {isMapVisible ? (
+                                    <DynamicMapShow
+                                        isMarkerDraggable={isMarkerDraggable}
+                                        markerCoordinates={{
+                                            Longitude: updatedGeometry.coordinates[0],
+                                            Latitude: updatedGeometry.coordinates[1],
+                                        }}
+                                        onSpotLocationChange={
+                                            confirmLocationChangeHandler
+                                        }
                                     />
-                                </div>
-                            )}
+                                ) : (
+                                    <div onClick={() => imgClickHandler(0)}>
+                                        <Image
+                                            placeholder="blur"
+                                            blurDataURL={getCloudiImg(
+                                                'q_30,w_0.5',
+                                                images[0],
+                                            )}
+                                            src={getCloudiImg('max', images[0])}
+                                            alt="Picture"
+                                            layout="fill"
+                                            className="object-cover rounded-l-md dimOnHover"
+                                            priority={true}
+                                        />
+                                    </div>
+                                )}
 
-                            <div
-                                className={`absolute float-left ${
-                                    shouldBeEditable ? 'top-[68%]' : 'top-[78%]'
-                                }  sm:top-[76%] md:top-[87%] lg:top-[88%] 2xl:top-[91.5%]
+                                <div
+                                    className={`absolute float-left ${
+                                        shouldBeEditable ? 'top-[68%]' : 'top-[78%]'
+                                    }  sm:top-[76%] md:top-[87%] lg:top-[88%] 2xl:top-[91.5%]
                                  left-[1.5%] flex flex-col md:flex-row gap-1`}
-                            >
-                                <div onClick={() => imgClickHandler(0)}>
-                                    <ButtonPhoto
-                                        txt={`Show ${images.length} photos`}
-                                        icon={<BsCamera />}
-                                    />
-                                </div>
-
-                                <div onClick={toggleMapHandler}>
-                                    <ButtonPhoto
-                                        txt={isMapVisible ? 'Hide Map' : 'Show on Map'}
-                                        icon={<GoLocation />}
-                                    />
-                                </div>
-
-                                {shouldBeEditable ? (
-                                    <div onClick={editCoordRequestHandler}>
+                                >
+                                    <div onClick={() => imgClickHandler(0)}>
                                         <ButtonPhoto
-                                            moreStyle={`${
-                                                isMarkerDraggable
-                                                    ? ' !bg-primary !text-white'
-                                                    : ''
-                                            }`}
-                                            txt={'Edit your Spot Location'}
-                                            icon={<MdOutlineEditLocation />}
+                                            txt={`Show ${images.length} photos`}
+                                            icon={<BsCamera />}
+                                        />
+                                    </div>
+
+                                    <div onClick={toggleMapHandler}>
+                                        <ButtonPhoto
+                                            txt={
+                                                isMapVisible ? 'Hide Map' : 'Show on Map'
+                                            }
+                                            icon={<GoLocation />}
+                                        />
+                                    </div>
+
+                                    {shouldBeEditable ? (
+                                        <div onClick={editCoordRequestHandler}>
+                                            <ButtonPhoto
+                                                moreStyle={`${
+                                                    isMarkerDraggable
+                                                        ? ' !bg-primary !text-white'
+                                                        : ''
+                                                }`}
+                                                txt={'Edit your Spot Location'}
+                                                icon={<MdOutlineEditLocation />}
+                                            />
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="relative row-span-1 col-span-1 dimOnHover">
+                                {images[1] ? (
+                                    <div onClick={() => imgClickHandler(1)}>
+                                        <Image
+                                            placeholder="blur"
+                                            blurDataURL={getCloudiImg(
+                                                'q_10,w_0.5',
+                                                images[1],
+                                            )}
+                                            src={getCloudiImg('max', images[1])}
+                                            alt="Picture"
+                                            layout="fill"
+                                            className="object-cover rounded-r-md"
+                                            sizes="(max-width: 768px) 100vw, 33vw"
                                         />
                                     </div>
                                 ) : (
-                                    ''
+                                    <MissingImage />
+                                )}
+                            </div>
+                            <div className="relative row-span-1 col-span-1 dimOnHover">
+                                {images[2] ? (
+                                    <div onClick={() => imgClickHandler(2)}>
+                                        <Image
+                                            placeholder="blur"
+                                            blurDataURL={getCloudiImg(
+                                                'q_10,w_0.5',
+                                                images[2],
+                                            )}
+                                            src={getCloudiImg('max', images[2])}
+                                            alt="Picture"
+                                            layout="fill"
+                                            className="object-cover rounded-r-md"
+                                        />
+                                    </div>
+                                ) : (
+                                    <MissingImage />
                                 )}
                             </div>
                         </div>
 
-                        <div className="relative row-span-1 col-span-1 dimOnHover">
-                            {images[1] ? (
-                                <div onClick={() => imgClickHandler(1)}>
-                                    <Image
-                                        placeholder="blur"
-                                        blurDataURL={getCloudiImg(
-                                            'q_10,w_0.5',
-                                            images[1],
-                                        )}
-                                        src={getCloudiImg('max', images[1])}
-                                        alt="Picture"
-                                        layout="fill"
-                                        className="object-cover rounded-r-md"
-                                        sizes="(max-width: 768px) 100vw, 33vw"
+                        <div className="row-span-1 col-span-full lg:col-span-2 h-fit text-form-color">
+                            <div className="space-y-4">
+                                {updatedCountry ? (
+                                    <CountryDisplayer
+                                        name={updatedCountry?.name}
+                                        code={updatedCountry?.code}
+                                        context={'spotPage'}
                                     />
-                                </div>
-                            ) : (
-                                <MissingImage />
-                            )}
-                        </div>
-                        <div className="relative row-span-1 col-span-1 dimOnHover">
-                            {images[2] ? (
-                                <div onClick={() => imgClickHandler(2)}>
-                                    <Image
-                                        placeholder="blur"
-                                        blurDataURL={getCloudiImg(
-                                            'q_10,w_0.5',
-                                            images[2],
-                                        )}
-                                        src={getCloudiImg('max', images[2])}
-                                        alt="Picture"
-                                        layout="fill"
-                                        className="object-cover rounded-r-md"
-                                    />
-                                </div>
-                            ) : (
-                                <MissingImage />
-                            )}
-                        </div>
-                    </div>
+                                ) : (
+                                    ''
+                                )}
 
-                    <div className="row-span-1 col-span-full lg:col-span-2 h-fit text-form-color">
-                        <div className="space-y-4">
-                            {updatedCountry ? (
-                                <CountryDisplayer
-                                    name={updatedCountry?.name}
-                                    code={updatedCountry?.code}
-                                    context={'spotPage'}
-                                />
-                            ) : (
-                                ''
-                            )}
-
-                            <div
-                                className={`inputElem ${
-                                    shouldBeEditable
-                                        ? 'flex flex-col md:flex-row md:items-center justify-between gap-x-3 w-100'
-                                        : 'w-100'
-                                }`}
-                            >
-                                <input
-                                    onFocus={() => inputFocusHandler('title')}
-                                    onBlur={() => inputBlurHandler('title')}
-                                    onChange={formik.handleChange}
-                                    value={formik.values.title}
-                                    ref={titleRef}
-                                    readOnly={!isInputEditable.title}
-                                    id={'title'}
-                                    name={'title'}
-                                    spellCheck="false"
-                                    disabled={!shouldBeEditable}
-                                    className={`${HEADER_TITLE_FS} ${
-                                        validStyling('title').border
-                                    }
+                                <div
+                                    className={`inputElem ${
+                                        shouldBeEditable
+                                            ? 'flex flex-col md:flex-row md:items-center justify-between gap-x-3 w-100'
+                                            : 'w-100'
+                                    }`}
+                                >
+                                    <input
+                                        onFocus={() => inputFocusHandler('title')}
+                                        onBlur={() => inputBlurHandler('title')}
+                                        onChange={formik.handleChange}
+                                        value={formik.values.title}
+                                        ref={titleRef}
+                                        readOnly={!isInputEditable.title}
+                                        id={'title'}
+                                        name={'title'}
+                                        spellCheck="false"
+                                        disabled={!shouldBeEditable}
+                                        className={`${HEADER_TITLE_FS} ${
+                                            validStyling('title').border
+                                        }
                                         ${inputsSharedClass} font-bold pr-2
                                         ${
                                             shouldBeEditable
@@ -488,109 +502,127 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                                 : 'w-full'
                                         }    
                                         `}
-                                />
-                                {shouldBeEditable ? (
-                                    <UserFeedback
-                                        input="title"
-                                        isInputEditable={isInputEditable}
-                                        formikErrors={formik.errors}
-                                        onClickEdit={startEditHandler}
-                                        text="Edit your Spot's title"
-                                        errorMsg={validStyling('title').message}
                                     />
-                                ) : null}
-                            </div>
-                            <div
-                                className={`${
-                                    shouldBeEditable
-                                        ? 'flex flex-col md:flex-row md:items-center justify-between gap-x-3'
-                                        : 'w-100'
-                                }`}
-                            >
-                                <div className="flex flex-wrap gap-1 max-w-[65%]">
-                                    {categoriesToIterateOn.map(category => (
-                                        <SpotCategory
-                                            key={category.name ?? category}
-                                            icon={
-                                                category.icon ??
-                                                SPOT_CATEGORIES.find(
-                                                    cat => cat.name === category,
-                                                ).icon
-                                            }
-                                            value={
-                                                isInputEditable.categories
-                                                    ? category.name
-                                                    : category
-                                            }
+                                    {shouldBeEditable ? (
+                                        <UserFeedback
+                                            input="title"
                                             isInputEditable={isInputEditable}
-                                            isSpotShowMode
-                                            errorStying={validStyling('categories')}
-                                            formikWizard={formik.getFieldProps(
-                                                'categories',
-                                            )}
-                                            formikName="categories"
-                                            catArray={formik.values.categories}
-                                            shouldBeDisabled={
-                                                !isInputEditable['categories']
-                                            }
-                                            onChangeCat={formik.handleSubmit}
+                                            formikErrors={formik.errors}
+                                            onClickEdit={startEditHandler}
+                                            text="Edit your Spot's title"
+                                            errorMsg={validStyling('title').message}
                                         />
-                                    ))}
+                                    ) : null}
                                 </div>
-                                {shouldBeEditable ? (
-                                    <UserFeedback
-                                        input="categories"
-                                        isInputEditable={isInputEditable}
-                                        formikErrors={formik.errors}
-                                        onClickEdit={startEditHandler}
-                                        text="Edit your Spot's categories"
-                                        errorMsg={validStyling('categories').message}
-                                    />
-                                ) : null}
-                            </div>
-
-                            <div
-                                className={`inputElem ${
-                                    shouldBeEditable
-                                        ? 'flex flex-col md:flex-row md:items-center justify-between gap-x-3 gap-y-1'
-                                        : 'w-100'
-                                }`}
-                            >
-                                <textarea
-                                    style={{ height: txtareaHeight }}
-                                    onKeyUp={textareaTypeHandler}
-                                    onFocus={() => inputFocusHandler('description')}
-                                    onBlur={e => inputBlurHandler(e, 'description')}
-                                    onChange={formik.handleChange}
-                                    value={formik.values.description}
-                                    ref={descRef}
-                                    readOnly={!isInputEditable.description}
-                                    id={'description'}
-                                    name={'description'}
-                                    disabled={!shouldBeEditable}
-                                    spellCheck="false"
-                                    className={`box-border overflow-hidden resize-y ${
-                                        validStyling('description').border
-                                    }
-                                        ${inputsSharedClass} ${TEXTAREA_INPUTS_FS} ${
-                                        shouldBeEditable ? 'w-full md:w-[60%]' : 'w-full'
+                                <div
+                                    className={`${
+                                        shouldBeEditable
+                                            ? 'flex flex-col md:flex-row md:items-center justify-between gap-x-3'
+                                            : 'w-100'
                                     }`}
-                                ></textarea>
+                                >
+                                    <div className="flex flex-wrap gap-1 max-w-[65%]">
+                                        {categoriesToIterateOn.map(category => (
+                                            <SpotCategory
+                                                key={category.name ?? category}
+                                                icon={
+                                                    category.icon ??
+                                                    SPOT_CATEGORIES.find(
+                                                        cat => cat.name === category,
+                                                    ).icon
+                                                }
+                                                value={
+                                                    isInputEditable.categories
+                                                        ? category.name
+                                                        : category
+                                                }
+                                                isInputEditable={isInputEditable}
+                                                isSpotShowMode
+                                                errorStying={validStyling('categories')}
+                                                formikWizard={formik.getFieldProps(
+                                                    'categories',
+                                                )}
+                                                formikName="categories"
+                                                catArray={formik.values.categories}
+                                                shouldBeDisabled={
+                                                    !isInputEditable['categories']
+                                                }
+                                                onChangeCat={formik.handleSubmit}
+                                            />
+                                        ))}
+                                    </div>
+                                    {shouldBeEditable ? (
+                                        <UserFeedback
+                                            input="categories"
+                                            isInputEditable={isInputEditable}
+                                            formikErrors={formik.errors}
+                                            onClickEdit={startEditHandler}
+                                            text="Edit your Spot's categories"
+                                            errorMsg={validStyling('categories').message}
+                                        />
+                                    ) : null}
+                                </div>
 
-                                {shouldBeEditable ? (
-                                    <UserFeedback
-                                        input="description"
-                                        isInputEditable={isInputEditable}
-                                        formikErrors={formik.errors}
-                                        onClickEdit={startEditHandler}
-                                        text="Edit your Spot's description"
-                                        errorMsg={validStyling('description').message}
-                                    />
-                                ) : null}
+                                <div
+                                    className={`inputElem ${
+                                        shouldBeEditable
+                                            ? 'flex flex-col md:flex-row md:items-center justify-between gap-x-3 gap-y-1'
+                                            : 'w-100'
+                                    }`}
+                                >
+                                    <textarea
+                                        style={{ height: txtareaHeight }}
+                                        onKeyUp={textareaTypeHandler}
+                                        onFocus={() => inputFocusHandler('description')}
+                                        onBlur={e => inputBlurHandler(e, 'description')}
+                                        onChange={formik.handleChange}
+                                        value={formik.values.description}
+                                        ref={descRef}
+                                        readOnly={!isInputEditable.description}
+                                        id={'description'}
+                                        name={'description'}
+                                        disabled={!shouldBeEditable}
+                                        spellCheck="false"
+                                        className={`box-border overflow-hidden resize-y ${
+                                            validStyling('description').border
+                                        }
+                                        ${inputsSharedClass} ${TEXTAREA_INPUTS_FS} ${
+                                            shouldBeEditable
+                                                ? 'w-full md:w-[60%]'
+                                                : 'w-full'
+                                        }`}
+                                    ></textarea>
+
+                                    {shouldBeEditable ? (
+                                        <UserFeedback
+                                            input="description"
+                                            isInputEditable={isInputEditable}
+                                            formikErrors={formik.errors}
+                                            onClickEdit={startEditHandler}
+                                            text="Edit your Spot's description"
+                                            errorMsg={validStyling('description').message}
+                                        />
+                                    ) : null}
+                                </div>
                             </div>
                         </div>
+                        <div className="hidden lg:flex flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
+                            <SpotCardCTA
+                                nbOfVisits={updatedVisitors.length}
+                                shouldBeEditable={shouldBeEditable}
+                                author={author}
+                                didUserVisitSpot={hasUserVisited}
+                                onAddVisit={handleAddVisit}
+                                spotID={spotID}
+                                spotDetails={{
+                                    title,
+                                    reviews: updatedReviews,
+                                    country: country?.name && null,
+                                }}
+                            />
+                        </div>
                     </div>
-                    <div className="hidden lg:flex flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
+                    <div className="flex lg:hidden flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
                         <SpotCardCTA
                             nbOfVisits={updatedVisitors.length}
                             shouldBeEditable={shouldBeEditable}
@@ -602,28 +634,13 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 title,
                                 reviews: updatedReviews,
                                 country: country?.name && null,
+                                virtuals,
                             }}
                         />
                     </div>
                 </div>
-                <div className="flex lg:hidden flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
-                    <SpotCardCTA
-                        nbOfVisits={updatedVisitors.length}
-                        shouldBeEditable={shouldBeEditable}
-                        author={author}
-                        didUserVisitSpot={hasUserVisited}
-                        onAddVisit={handleAddVisit}
-                        spotID={spotID}
-                        spotDetails={{
-                            title,
-                            reviews: updatedReviews,
-                            country: country?.name && null,
-                            virtuals,
-                        }}
-                    />
-                </div>
             </div>
-        </div>
+        </>
     )
 }
 

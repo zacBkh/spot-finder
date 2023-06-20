@@ -33,11 +33,13 @@ const UserProfile = () => {
     if (userVisited?.success === false) {
         return <CustomErrorPage contextErrHelper={userVisited.result} />
     }
+    console.log('userVisited', userVisited)
 
+    const userName = userVisited.result.name
     return (
         <>
             <Head>
-                <title>View a SpotFinder profile.</title>
+                <title>{`See ${userName}'s profile`}</title>
                 <meta
                     name="description"
                     content="Check other Spotters' profiles and edit yours!"

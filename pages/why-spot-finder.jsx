@@ -80,12 +80,12 @@ const WhySpotFinder = ({}) => {
                                 />
                             </div>
                         </div>
-                        <div className="carrouselWrapper flex-col hidden md:flex overflow-hidden mr-8 lg:mr-16">
+                        <div className="carrouselWrapper flex-col hidden md:flex overflow-hidden mr-8 lg:mr-16 2xl:mr-24">
                             <div className="flex flex-col spots-slide">
                                 {HIGHLIGHTED_SPOTS_LANDING_PAGE.map(spot => (
                                     <SpotCard
                                         key={spot._id}
-                                        width={'md:w-72 lg:w-96'}
+                                        width={'md:w-72 lg:w-96 2xl:w-[484px]'}
                                         height={'md:h-72 lg:h-64'}
                                         spotData={spot}
                                         isLandingPage
@@ -97,7 +97,7 @@ const WhySpotFinder = ({}) => {
                                 {HIGHLIGHTED_SPOTS_LANDING_PAGE.map(spot => (
                                     <SpotCard
                                         key={`${spot._id}#2`}
-                                        width={'md:w-72 lg:w-96'}
+                                        width={'md:w-72 lg:w-96 2xl:w-[484px]'}
                                         height={'md:h-72 lg:h-64'}
                                         spotData={spot}
                                         isLandingPage

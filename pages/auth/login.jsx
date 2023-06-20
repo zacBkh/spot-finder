@@ -67,7 +67,7 @@ const Login = ({}) => {
     return (
         <>
             <Head>
-                <title>Login to your SpotFinder account.</title>
+                <title>Login to your SpotFinder account</title>
                 <meta
                     name="description"
                     content="Add your Spot here and share it with the world!"

@@ -1,16 +1,15 @@
 import Link from 'next/link'
-
-import ErrorImage from '../public/images/error-page-image.jpg'
-import ErrorIllustration from '../components/error-illustration'
-
-import { TITLE_FS, BODY_FS } from '../constants/responsive-fonts'
+import Head from 'next/head'
 
 import { BsCompass } from 'react-icons/bs'
 import { AiOutlineUserAdd } from 'react-icons/ai'
 
 import ButtonPrimary from '../components/design/button-primary'
+import ErrorImage from '../public/images/error-page-image.jpg'
+import ErrorIllustration from '../components/error-illustration'
 
 import { PATHS } from '../constants/URLs'
+import { TITLE_FS, BODY_FS } from '../constants/responsive-fonts'
 
 const CustomErrorPage = ({ contextErrHelper }) => {
     const contextualHelp = (
@@ -23,6 +22,10 @@ const CustomErrorPage = ({ contextErrHelper }) => {
     )
     return (
         <>
+            <Head>
+                <title>Error : You got lost ⛔</title>
+                <meta name="description" content={`Error page`} />
+            </Head>
             <div className="flex flex-col sm:flex-row justify-between gap-x-6 gap-y-3 sm:gap-y-0 items-center relative px-8 mb-6 ">
                 <div className="w-fit sm:w-[30%] text-start space-y-10 order-2 sm:order-1">
                     <div className="space-y-4">

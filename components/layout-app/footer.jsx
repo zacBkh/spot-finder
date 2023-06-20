@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 import { AiOutlineSearch } from 'react-icons/ai'
-import { FaUserPlus, FaMedium, FaFacebookF } from 'react-icons/fa'
+import { FaUserPlus, FaTwitter, FaGithub } from 'react-icons/fa'
 import { IoIosSend } from 'react-icons/io'
 import { BsInstagram } from 'react-icons/bs'
 
@@ -126,32 +126,23 @@ const Footer = ({ userSession }) => {
                     </div>
 
                     <div className="flex flex-col items-center md:items-end gap-y-4 py-6">
-                        <h2 className="text-lg font-semibold">Follow us</h2>
+                        <h2 className="text-lg font-semibold">Follow us 👇🏼</h2>
                         <div className="flex items-center gap-x-4 text-xl cursor-pointer">
-                            <Link href={'#'}>
-                                <a
-                                    aria-label="Visit our Facebook page"
-                                    className={linkStyle}
-                                >
-                                    <FaFacebookF />
+                            <Link href={'https://github.com/zacBkh/spot-finder'}>
+                                <a aria-label="Visit my GitHub" className={linkStyle}>
+                                    <FaGithub className="text-2xl" />
                                 </a>
                             </Link>
 
-                            <Link href={'#'}>
-                                <a
-                                    aria-label="Visit our Instagram page"
-                                    className={linkStyle}
-                                >
+                            <Link href={'https://twitter.com/zacFullStack'}>
+                                <a aria-label="Visit my Twitter" className={linkStyle}>
+                                    <FaTwitter />
+                                </a>
+                            </Link>
+
+                            <Link href={'https://www.instagram.com/what_a_shoot/'}>
+                                <a aria-label="Visit my Instagram" className={linkStyle}>
                                     <BsInstagram />
-                                </a>
-                            </Link>
-
-                            <Link href={'#'}>
-                                <a
-                                    aria-label="Visit our Medium page"
-                                    className={linkStyle}
-                                >
-                                    <FaMedium />
                                 </a>
                             </Link>
                         </div>
