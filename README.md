@@ -10,48 +10,42 @@
     <img src="public/logos/logo-no-background.png" alt="SpotFinder logo" width="194" height="100">
   </a>
 
-  <h3 align="center">Discover the world's hidden gems with Spot Finder</h3>
+  <h3 align="center">Discover the world's hidden gems with Spot Finder 💎</h3>
 
   <p align="center">
     <a href="https://www.spot-finder.com/"">Visit SpotFinder</a>
     ·
     <a href="https://twitter.com/zacFullStack">Contact me</a>
-    ·
+    
   </p>
 </div>
 
 <details align="center">
   <summary>Table of Contents</summary>
-  <ul>
-    <li> <a href="#about-the-project">Why SpotFinder?</a> </li>
-    <li> <a href="#main-features">Main Features</a></li>
-    <li> <a href="#tech-stack">The Tech Stack</a></li>
-    <li><a href="#usage">Roadmap: What's next?</a></li>
-  </ul>
+ <a href="#about-the-project">Why SpotFinder? 🤔</a>
+ <a href="#main-features">Main Features ⚙️</a>
+ <a href="#tech-stack">The Tech Stack 👨🏼‍💻</a>
+ <a href="#roadmap">Roadmap: What's next? 🔮</a>
 </details>
 
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-I have two passions in my life: Photography & Coding!
+I have two passions in my life: **Photography** & **Coding**! 📸 👨🏼‍💻
 
-I am always looking for new stuff to photograph, especially when I go in countries I don't know.
+I am always looking for new stuff to capture, especially when I go in countries I don't know.<br />
 But finding the perfect Spot is time-consuming...
 
-**So I created a web-app that does it for you.**
+**So I created a web-app that does it for you.** 😍
 
 With SpotFinder you can:
 
--   Browse Spots all around the world and review them
--   Upload the Spots you visited to share them with the world!
--   Create a profile and interact with people like you
+-   Browse Spots all around the world and review them 🔎
+-   Upload the Spots you visited to share them with the world! 🙉
+-   Create a profile and interact with people like you 🧑🏻‍🤝‍🧑🏼
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
-
-<p align="right"><a href="#readme-top">back to top 🔝</a></p>
+<p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
 
 ## Main Features
 
@@ -68,7 +62,7 @@ This project is actually quite complex and offers many features:
 
 ## Tech Stack
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+🚀 Some of the amazing technologies that power SpotFinder 👇🏼
 
 [![Next][Next.js]][Next-url]
 [![Node][Node.js]][Node-url]
@@ -77,28 +71,32 @@ This section should list any major frameworks/libraries used to bootstrap your p
 [![Mailchimp][Mailchimp]][Mailchimp-url]
 [![Tailwind][Tailwind]][Tailwind-url]
 
-<p align="right"><a href="#readme-top">back to top 🔝</a></p>
+<p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
 
 ## Roadmap
 
--   ✅ Display country of origin of users on user profile
--   ✅ Make user description editable by profile owner only
--   ⏳ Create Master Admin accounts
--   ⏳ Infinite scroll on index page
--   ⏳ Switch from SSR to ISG on individual spot show page
+✅ Display country of origin of users on user profile
+✅ Make user description editable by profile owner only
+⏳ Create Master Admin accounts
+⏳ Infinite scroll on index page
+⏳ Switch from SSR to ISG on individual spot show page
 
-Any idea how to improve the project? [Reach out to me](https://twitter.com/zacFullStack) and let's talk about it
+Any idea how to improve the project? [Reach out to me](https://twitter.com/zacFullStack) and let's talk about it 💬
 
-<p align="right"><a href="#readme-top">back to top 🔝</a></p>
+<p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
 
 ## Contact
 
-Zacharie Dupain - [@your_twitter](https://twitter.com/zacFullStack) - contact@spot-finder.com
+Zacharie Dupain - [My Twitter](https://twitter.com/zacFullStack) - [My Instagram](https://www.instagram.com/what_a_shoot/) - contact@spot-finder.com
 
-<p align="right"><a href="#readme-top">back to top 🔝</a></p>
+<p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[product-screenshot]: https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png
+
+<!--  -->
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=2778C9
 [linkedin-url]: https://linkedin.com/in/othneildrew
@@ -110,7 +108,6 @@ Zacharie Dupain - [@your_twitter](https://twitter.com/zacFullStack) - contact@sp
 
 <!--  -->
 
-[product-screenshot]: images/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 
