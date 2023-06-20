@@ -1,16 +1,16 @@
 <a name="readme-top"></a>
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![LinkedIn][twitter-shield]][twitter-url]
 [![Twitter][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://www.spot-finder.com/">
-    <img src="public/logos/logo-no-background.png" alt="SpotFinder logo" width="194" height="100">
+    <img src="public/logos/logo-no-background.png" alt="SpotFinder logo" width="233" height="120">
   </a>
 
-  <h3 align="center">Discover the world's hidden gems with Spot Finder 💎</h3>
+  <h3 align="center">💎 Discover the world's hidden gems with Spot Finder 💎</h3>
 
   <p align="center">
     <a href="https://www.spot-finder.com/"">Visit SpotFinder</a>
@@ -22,13 +22,14 @@
 
 <details align="center">
   <summary>Table of Contents</summary>
- <a href="#about-the-project">Why SpotFinder? 🤔</a>
- <a href="#main-features">Main Features ⚙️</a>
- <a href="#tech-stack">The Tech Stack 👨🏼‍💻</a>
- <a href="#roadmap">Roadmap: What's next? 🔮</a>
+ <a href="#about-the-project">Why SpotFinder? 🤔</a><br />
+<a href="#main-features">Main Features ⚙️</a><br />
+<a href="#tech-stack">The Tech Stack 👨🏼‍💻</a><br />
+<a href="#roadmap">Roadmap: What's next? 🔮</a><br />
+
 </details>
 
-## About The Project
+## Why SpotFinder? 🤔
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
@@ -47,9 +48,9 @@ With SpotFinder you can:
 
 <p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
 
-## Main Features
+## Main Features ⚙️
 
-This project is actually quite complex and offers many features:
+This project offers many features:
 
 -   Full CRUD capabilities on 3 database models: Spots, Users and Reviews
 -   Authorization & Authentication system supporting oAuth & credentials
@@ -60,9 +61,9 @@ This project is actually quite complex and offers many features:
 -   Mailchimp integration for SpotFinder newsletter
 -   Toaster system for user feedback
 
-## Tech Stack
+## Tech Stack 👨🏼‍💻
 
-🚀 Some of the amazing technologies that power SpotFinder 👇🏼
+🚀 Some of the amazing technologies powering SpotFinder 👇🏼
 
 [![Next][Next.js]][Next-url]
 [![Node][Node.js]][Node-url]
@@ -73,12 +74,12 @@ This project is actually quite complex and offers many features:
 
 <p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
 
-## Roadmap
+## Roadmap 🔮
 
-✅ Display country of origin of users on user profile
-✅ Make user description editable by profile owner only
-⏳ Create Master Admin accounts
-⏳ Infinite scroll on index page
+✅ Display country of origin of users on user profile <br />
+✅ Make user description editable by profile owner only <br />
+⏳ Create Master Admin accounts <br />
+⏳ Infinite scroll on index page <br />
 ⏳ Switch from SSR to ISG on individual spot show page
 
 Any idea how to improve the project? [Reach out to me](https://twitter.com/zacFullStack) and let's talk about it 💬
