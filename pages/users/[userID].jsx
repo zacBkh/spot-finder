@@ -35,11 +35,11 @@ const UserProfile = () => {
     }
     console.log('userVisited', userVisited)
 
-    const userName = userVisited.result.name
+    const userName = userVisited?.result?.name
     return (
         <>
             <Head>
-                <title>{`See ${userName}'s profile`}</title>
+                <title>{`See ${userName ?? 'a user'}'s profile`}</title>
                 <meta
                     name="description"
                     content="Check other Spotters' profiles and edit yours!"
