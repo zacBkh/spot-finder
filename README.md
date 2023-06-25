@@ -24,10 +24,10 @@
 
 <div align="center">
 
-[WHY SPOT FINDER? 🤔](https://github.com/zacBkh/spot-finder#why-spot-finder) •
-[MAIN FEATURES ⚙️](https://github.com/zacBkh/spot-finder#main-features) •
-[TECH STACK 👨🏼‍💻](https://github.com/zacBkh/spot-finder#tech-stack) •
-[ROADMAP 🔮](https://github.com/zacBkh/spot-finder#roadmap) •
+[WHY SPOT FINDER? 🤔](https://github.com/zacBkh/spot-finder#-why-spot-finder) •
+[MAIN FEATURES ⚙️](https://github.com/zacBkh/spot-finder#-main-features) •
+[TECH STACK 👨🏼‍💻](https://github.com/zacBkh/spot-finder#-tech-stack) •
+[ROADMAP 🔮](https://github.com/zacBkh/spot-finder#-roadmap)
 
 </div>
 
@@ -56,14 +56,21 @@ With SpotFinder you can:
 
 This project offers many features:
 
--   Full CRUD capabilities on 3 database models: Spots, Users and Reviews
--   Authorization & Authentication system supporting oAuth & credentials
--   Optimized images upload, processing, storage & display
--   Account verification & forgotten password reset features
--   Maps integration with clustering, forward & reverse geocoding
--   Optimized multi-rendering strategy (server, static & client with skeleton loader)
--   Mailchimp integration for SpotFinder newsletter
--   Toaster system for user feedback
+🏋🏼 Full CRUD capabilities on 3 database models: Spots, Users and Reviews
+
+🔐 Authorization & Authentication system supporting oAuth & credentials
+
+📸 Optimized images upload, processing, storage & display
+
+🧔 Account verification & forgotten password reset features
+
+🗺️ Maps integration with clustering, forward & reverse geocoding
+
+⚡ Optimized multi-rendering strategy (server, static & client with skeleton loader)
+
+📬 Mailchimp integration for SpotFinder newsletter
+
+😍 Toaster system for user feedback
 
 ## 👨🏼‍💻 Tech Stack
 
