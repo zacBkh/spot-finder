@@ -14,8 +14,7 @@
 
   <p align="center">
     <a href="https://www.spot-finder.com/"">Visit SpotFinder</a>
-    ·
-    <a href="https://twitter.com/zacFullStack">Contact me</a>
+    • contact@spot-finder.com
     
   </p>
 </div>
@@ -24,7 +23,7 @@
 
 <div align="center">
 
-**[WHY SPOT FINDER?](https://github.com/zacBkh/spot-finder#-why-spotfinder) •
+**[WHY SPOT FINDER? 🤔](https://github.com/zacBkh/spot-finder#-why-spotfinder) •
 [MAIN FEATURES ⚙️](https://github.com/zacBkh/spot-finder#%EF%B8%8F-main-features) •
 [TECH STACK 👨🏼‍💻](https://github.com/zacBkh/spot-finder#-tech-stack) •
 [ROADMAP 🔮](https://github.com/zacBkh/spot-finder#roadmap-)**
