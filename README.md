@@ -13,9 +13,8 @@
   <h3 align="center">💎 Discover the world's hidden gems with Spot Finder 💎</h3>
 
   <p align="center">
-    <a href="https://www.spot-finder.com/"">Visit SpotFinder</a>
-    • contact@spot-finder.com
-    
+    <a href="https://www.spot-finder.com/">Visit SpotFinder</a>
+    <a href="mailto:contact@spot-finder.com">contact@spot-finder.com</a>
   </p>
 </div>
 
