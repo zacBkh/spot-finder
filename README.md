@@ -24,10 +24,10 @@
 
 <div align="center">
 
-[WHY SPOT FINDER? 🤔](https://github.com/zacBkh/spot-finder#-why-spot-finder) •
+**[WHY SPOT FINDER?](https://github.com/zacBkh/spot-finder#-why-spot-finder) •
 [MAIN FEATURES ⚙️](https://github.com/zacBkh/spot-finder#-main-features) •
 [TECH STACK 👨🏼‍💻](https://github.com/zacBkh/spot-finder#-tech-stack) •
-[ROADMAP 🔮](https://github.com/zacBkh/spot-finder#-roadmap)
+[ROADMAP 🔮](https://github.com/zacBkh/spot-finder#roadmap-)**
 
 </div>
 
