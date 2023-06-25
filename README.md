@@ -7,7 +7,7 @@
 <br />
 <div align="center">
   <a href="https://www.spot-finder.com/">
-    <img src="public/logos/logo-no-background.png" alt="SpotFinder logo" width="233" height="120">
+    <img src="public/logos/logo-no-background.png" alt="SpotFinder logo" width="280" height="144">
   </a>
 
   <h3 align="center">💎 Discover the world's hidden gems with Spot Finder 💎</h3>
@@ -20,16 +20,20 @@
   </p>
 </div>
 
-<details align="center">
-  <summary>Table of Contents</summary>
- <a href="#about-the-project">Why SpotFinder? 🤔</a><br />
-<a href="#main-features">Main Features ⚙️</a><br />
-<a href="#tech-stack">The Tech Stack 👨🏼‍💻</a><br />
-<a href="#roadmap">Roadmap: What's next? 🔮</a><br />
+<br />
 
-</details>
+<div align="center">
 
-## Why SpotFinder? 🤔
+[WHY SPOT FINDER? 🤔](https://github.com/zacBkh/spot-finder#why-spot-finder) •
+[MAIN FEATURES ⚙️](https://github.com/zacBkh/spot-finder#main-features) •
+[TECH STACK 👨🏼‍💻](https://github.com/zacBkh/spot-finder#tech-stack) •
+[ROADMAP 🔮](https://github.com/zacBkh/spot-finder#roadmap) •
+
+</div>
+
+<br />
+
+## 🤔 Why SpotFinder?
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
@@ -48,7 +52,7 @@ With SpotFinder you can:
 
 <p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
 
-## Main Features ⚙️
+## ⚙️ Main Features
 
 This project offers many features:
 
@@ -61,7 +65,7 @@ This project offers many features:
 -   Mailchimp integration for SpotFinder newsletter
 -   Toaster system for user feedback
 
-## Tech Stack 👨🏼‍💻
+## 👨🏼‍💻 Tech Stack
 
 🚀 Some of the amazing technologies powering SpotFinder 👇🏼
 
