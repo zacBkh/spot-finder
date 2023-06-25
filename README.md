@@ -54,23 +54,21 @@ With SpotFinder you can:
 
 ## ⚙️ Main Features
 
-This project offers many features 👇🏼
+🏋🏼 Full CRUD capabilities on 3 database models: Spots, Users and Reviews
 
-⋅⋅⋅🏋🏼 Full CRUD capabilities on 3 database models: Spots, Users and Reviews
+🔐 Authorization & Authentication system supporting oAuth & credentials
 
-⋅⋅⋅🔐 Authorization & Authentication system supporting oAuth & credentials
+📸 Optimized images upload, processing, storage & display
 
-⋅⋅⋅📸 Optimized images upload, processing, storage & display
+🧔 Account verification & forgotten password reset features
 
-⋅⋅⋅🧔 Account verification & forgotten password reset features
+🗺️ Maps integration with clustering, forward & reverse geocoding
 
-⋅⋅⋅🗺️ Maps integration with clustering, forward & reverse geocoding
+⚡ Optimized multi-rendering strategy (server, static & client with skeleton loader)
 
-⋅⋅⋅⚡ Optimized multi-rendering strategy (server, static & client with skeleton loader)
+📬 Mailchimp integration for SpotFinder newsletter
 
-⋅⋅⋅📬 Mailchimp integration for SpotFinder newsletter
-
-⋅⋅⋅😍 Toaster system for user feedback
+😍 Toaster system for user feedback
 
 <p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
 
