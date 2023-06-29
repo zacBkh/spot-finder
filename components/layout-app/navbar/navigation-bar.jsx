@@ -63,7 +63,9 @@ const Navigation = ({ userSession }) => {
             document.body.style.overflow = 'hidden'
         }
 
-        return () => (document.body.style.overflow = 'auto')
+        return () => {
+            document.body.style.overflow = 'auto'
+        }
     }, [isHamburgerOpen])
 
     const DynamicHamburgerMenu = dynamic(
@@ -80,13 +82,6 @@ const Navigation = ({ userSession }) => {
 
     return (
         <>
-            <div
-                onClick={() => setIsHamburgerOpen(false)}
-                className={` ${
-                    isHamburgerOpen ? 'overlayDarkener' : 'bg-transparent'
-                } transition-all duration-400 ease-out md:hidden`}
-            ></div>
-
             <header
                 className={`mx-auto text-dark-color sticky top-0 z-[999] 
                 ${!isHamburgerOpen ? 'transparent-navbar' : 'bg-white'}  
@@ -147,6 +142,12 @@ const Navigation = ({ userSession }) => {
                     />
                 )}
             </header>
+            <div
+                onClick={() => setIsHamburgerOpen(false)}
+                className={` ${
+                    isHamburgerOpen ? 'overlayDarkener' : 'bg-transparent'
+                } transition-all duration-400 ease-out md:hidden`}
+            ></div>
         </>
     )
 }

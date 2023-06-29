@@ -31,7 +31,3 @@ const HamburgerMenu = ({ isOpen, currentPath, onHambMenuClick }) => {
 }
 
 export default HamburgerMenu
-
-const printCars = nbOfCarsOwned => {
-    console.log(`I own ${nbOfCarsOwned ?? 1} car(s)!`)
-}
