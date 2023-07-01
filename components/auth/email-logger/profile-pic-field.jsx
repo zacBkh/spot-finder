@@ -70,8 +70,8 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
                     </ImageUploaderWrapper>
                     <DividerDesign vertical />
                     <div
-                        className="flex justify-between items-center  gap-x-4 xl:gap-x-6 
-                    whitespace-nowrap w-full overflow-x-scroll pb-4 "
+                        className="flex justify-between items-center gap-x-4 xl:gap-x-6 
+                    whitespace-nowrap w-full overflow-x-scroll pb-4"
                     >
                         {PROFILE_PIC_DEFAULT_OPTIONS.map(pic => (
                             <button
