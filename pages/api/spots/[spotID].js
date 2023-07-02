@@ -7,6 +7,8 @@ import isAuthor from '../../../services/is-user-spot-owner'
 import { unstable_getServerSession } from 'next-auth/next'
 import { authOptions } from '../auth/[...nextauth]'
 
+import revalidateOnDemand from '../../../services/revalidate'
+
 export default async function APIHandler(req, res) {
     const { spotID } = req.query
 
@@ -17,7 +19,6 @@ export default async function APIHandler(req, res) {
     if (req.method === 'GET') {
         await connectMongo()
 
-        console.log('GET METHOD AHAH SPOTS')
         try {
             const oneSpot = await Spot.findById(spotID)
                 .populate('author', 'name') // Populating ONLY author name
@@ -35,6 +36,8 @@ export default async function APIHandler(req, res) {
 
         return
     }
+
+    const revalidateIndexPage = await revalidateOnDemand('/')
 
     if (!session) {
         // If not authenticated

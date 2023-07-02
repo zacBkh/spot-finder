@@ -17,7 +17,6 @@ const SelectProfilePic = ({ formik, onPictureSelect }) => {
     const imgSize = 'w-14 xl:w-20 h-14 xl:h-20'
 
     const selectDefaultPicHandler = picLink => {
-        console.log('picLink', picLink)
         onPictureSelect(false, picLink)
     }
 
