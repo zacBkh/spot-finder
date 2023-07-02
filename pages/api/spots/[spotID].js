@@ -59,6 +59,8 @@ export default async function APIHandler(req, res) {
                 $addToSet: { spotsOwned: newSpot._id },
             })
 
+            const revalidateIndexPage = await revalidateOnDemand('/')
+
             res.status(200).json({ success: true, result: newSpot })
         } catch (error) {
             console.log(error)
@@ -87,6 +89,8 @@ export default async function APIHandler(req, res) {
                     new: true, //to return the document after update
                 })
 
+                const revalidateIndexPage = await revalidateOnDemand('/')
+
                 res.status(200).json({ success: true, result: spotToEdit })
             } catch (error) {
                 console.log(error)
@@ -100,6 +104,8 @@ export default async function APIHandler(req, res) {
                 const user = await User.findByIdAndUpdate(spotToDelete.author, {
                     $pull: { spotsOwned: spotID },
                 })
+
+                const revalidateIndexPage = await revalidateOnDemand('/')
 
                 res.json({ SpotDeleted: spotToDelete })
             } catch (error) {
