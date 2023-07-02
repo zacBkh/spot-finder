@@ -9,6 +9,7 @@ const RevalidationOnDemand = async (req, res) => {
 
     try {
         await res.revalidate('/')
+        console.log('revalidation OK')
         // await res.revalidate(pathToRevalidate)
         return res.status(200).json({ revalidated: true })
     } catch (err) {
