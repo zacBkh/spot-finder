@@ -169,6 +169,7 @@ const AddNewSpot = ({}) => {
         }
 
         const submissionStatus = await addSpotHandler(finalNewSpotObject)
+
         if (!submissionStatus.success) {
             router.push(`${PATHS.HOME}?${KEY}=${VALUE_CREATED_SPOT_FAILURE}`)
         } else {
@@ -263,7 +264,7 @@ const AddNewSpot = ({}) => {
     return (
         <>
             <Head>
-                <title>Add your Spot!</title>
+                <title>Spot Finder | Add your Spot!</title>
                 <meta
                     name="description"
                     content="Add your Spot here and share it with the world!"

@@ -333,7 +333,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     return (
         <>
             <Head>
-                <title>{title}</title>
+                <title>Spot Finder | {title}</title>
                 <meta
                     name="description"
                     content={`Check ${title} out, another spot on SpotFinder!`}

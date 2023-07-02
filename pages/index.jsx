@@ -109,7 +109,7 @@ const AllSpots = ({ spots }) => {
                 <meta property="og:image" content="/logos/logo-no-background.png" />
             </Head>
 
-            <div className="flex flex-col md:flex-row gap-x-4 gap-y-4">
+            <div className="flex flex-col md:flex-row gap-y-4">
                 <DynamicDrawer
                     onDrawerToggle={drawerToggleHandler}
                     isDrawerOpen={isDrawerOpen}
@@ -136,7 +136,7 @@ const AllSpots = ({ spots }) => {
                 ) : (
                     <div
                         className="flex flex-wrap
-                        justify-center md:justify-start
+                        justify-center md:justify-around
                         gap-y-5
                         gap-x-8
                         w-full

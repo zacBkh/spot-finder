@@ -33,7 +33,6 @@ const UserProfile = () => {
     if (userVisited?.success === false) {
         return <CustomErrorPage contextErrHelper={userVisited.result} />
     }
-    console.log('userVisited', userVisited)
 
     const userName = userVisited?.result?.name
     return (
