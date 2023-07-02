@@ -18,7 +18,7 @@ const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion }) => 
     const spotConfirmedDeletionHandler = async () => {
         await deleteSpotHandler(modalContextSpotDeletion.spotToDelete)
 
-        router.push(
+        await router.push(
             {
                 pathname: PATHS.HOME,
                 query: { [KEY]: VALUE_DELETED_SPOT_SUCCESS },

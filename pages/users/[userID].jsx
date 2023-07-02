@@ -38,7 +38,7 @@ const UserProfile = () => {
     return (
         <>
             <Head>
-                <title>{`See ${userName ?? 'a user'}'s profile`}</title>
+                <title>Spot Finder | {`${userName ?? 'a user'}'s profile`}</title>
                 <meta
                     name="description"
                     content="Check other Spotters' profiles and edit yours!"

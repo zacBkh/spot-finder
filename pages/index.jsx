@@ -103,7 +103,7 @@ const AllSpots = ({ spots }) => {
     return (
         <>
             <Head>
-                <title>Find the best spots!</title>
+                <title>Spot Finder | Find the best spots!</title>
                 <meta name="description" content="Browse the best spots, in a minute!" />
 
                 <meta property="og:image" content="/logos/logo-no-background.png" />

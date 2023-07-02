@@ -5,6 +5,8 @@ import { AiOutlineClose } from 'react-icons/ai'
 
 import { DISABLED_STYLE } from '../../constants/disabled-style'
 
+import Spinner from '../spinner'
+
 const LayoutModalDeletion = ({
     onCloseModal,
     onConfirmedAction,
@@ -53,13 +55,20 @@ const LayoutModalDeletion = ({
                             className={`${DISABLED_STYLE} text-white bg-primary hover:bg-primary-hov rounded-lg inline-flex items-center px-5 py-2.5 text-center mr-2 mb-2 sm:mb-0`}
                         >
                             {btnConfirm}
+                            {shouldModalLoad ? (
+                                <Spinner color={'border-t-secondary'} />
+                            ) : (
+                                ''
+                            )}
                         </button>
 
                         <button
                             disabled={shouldModalLoad}
                             aria-label={btnCancel}
                             onClick={onCloseModal}
-                            className={`${DISABLED_STYLE} text-gray-500 bg-white hover:bg-gray-100 rounded-lg border border-gray-200 px-5 py-2.5 hover:text-gray-900`}
+                            className={`${DISABLED_STYLE} text-gray-500 bg-white hover:bg-gray-100 rounded-lg border border-gray-200 px-5 py-2.5 ${
+                                !shouldModalLoad ? 'hover:text-gray-900' : ''
+                            }`}
                         >
                             {btnCancel}
                         </button>
