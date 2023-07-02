@@ -7,6 +7,8 @@ import LayoutModalDeletion from '../modals-deletion-layout'
 import { PATHS } from '../../../constants/URLs'
 import { TOAST_PARAMS } from '../../../constants/toast-query-params'
 
+import revalidateOnDemand from '../../../services/revalidate'
+
 const { KEY, VALUE_DELETED_SPOT_SUCCESS } = TOAST_PARAMS
 
 const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion }) => {
@@ -16,6 +18,8 @@ const DeleteSpotConfirmationModal = ({ children, modalContextSpotDeletion }) => 
         modalContextSpotDeletion.toggleModalState()
     }
     const spotConfirmedDeletionHandler = async () => {
+        const revalidateIndexPage = await revalidateOnDemand('/')
+
         router.push(
             {
                 pathname: PATHS.HOME,

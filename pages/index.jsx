@@ -22,7 +22,7 @@ export const getStaticProps = async () => {
             props: {
                 spots: resultFetchGET,
             },
-            revalidate: 10,
+            revalidate: 86400,
         }
     } catch (error) {
         return {
