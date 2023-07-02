@@ -89,9 +89,9 @@ export default async function APIHandler(req, res) {
                     new: true, //to return the document after update
                 })
 
-                const revalidateIndexPage = await revalidateOnDemand('/')
-
                 res.status(200).json({ success: true, result: spotToEdit })
+                const revalidateIndexPage = await revalidateOnDemand('/')
+                console.log('revalidateIndexPage test vercel', revalidateIndexPage)
             } catch (error) {
                 console.log(error)
                 res.status(200).json({ success: false, result: error })
