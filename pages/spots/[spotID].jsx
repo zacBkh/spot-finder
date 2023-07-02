@@ -109,6 +109,8 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         _id: spotID,
     } = indivSpot
 
+    console.log('categories --->', categories)
+
     // `data` will always be available as it's in `fallback`.
     const fetcher = async () => {
         const getOneSpotClient = await findOneSpot(spotID)

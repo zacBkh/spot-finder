@@ -94,7 +94,7 @@ export default async function APIHandler(req, res) {
                 console.log('revalidateIndexPage test vercel', revalidateIndexPage)
             } catch (error) {
                 console.log(error)
-                res.status(200).json({ success: false, result: error })
+                res.status(400).json({ success: false, result: error })
             }
         } else if (req.method === 'DELETE') {
             try {
