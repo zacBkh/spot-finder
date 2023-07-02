@@ -13,6 +13,8 @@ import checkEmailExist from '../../../services/check-if-email-exists'
 import { unstable_getServerSession } from 'next-auth/next'
 import { authOptions } from '../auth/[...nextauth]'
 
+import revalidateOnDemand from '../../../services/revalidate'
+
 // Edit some user data including pwd
 // Receive payload (req.body = new userDATA) and userID in URL (req.query)
 export default async function userHandling(req, res) {
@@ -203,8 +205,8 @@ export default async function userHandling(req, res) {
             }
 
             await User.findByIdAndDelete(userID)
-
             res.status(200).json({ success: true, result: 'The user has been deleted' })
+            const revalidateIndexPage = await revalidateOnDemand('/')
         } catch (error) {
             console.log(error)
             res.status(400).json({

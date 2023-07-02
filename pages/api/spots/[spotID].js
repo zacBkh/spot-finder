@@ -82,7 +82,6 @@ export default async function APIHandler(req, res) {
         await connectMongo()
 
         if (req.method === 'PATCH') {
-            console.log('req.body', req.body)
             try {
                 const spotToEdit = await Spot.findByIdAndUpdate(spotID, req.body, {
                     runValidators: true,
@@ -91,7 +90,6 @@ export default async function APIHandler(req, res) {
 
                 res.status(200).json({ success: true, result: spotToEdit })
                 const revalidateIndexPage = await revalidateOnDemand('/')
-                console.log('revalidateIndexPage test vercel', revalidateIndexPage)
             } catch (error) {
                 console.log(error)
                 res.status(400).json({ success: false, result: error })
