@@ -48,7 +48,11 @@ With SpotFinder you can:
 
 <p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
 
+<div align="right">
+
 [🔝 Back to top 🔝](#readmetop)
+
+</div>
 
 ## ⚙️ Main Features
 
