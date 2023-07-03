@@ -46,8 +46,6 @@ With SpotFinder you can:
 -   Upload the Spots you visited to share them with the world! 🙉
 -   Create a profile and interact with people like you 🧑🏻‍🤝‍🧑🏼
 
-<p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
-
 <div align="right">
 
 [🔝 Back to top 🔝](#readmetop)
@@ -72,7 +70,11 @@ With SpotFinder you can:
 
 😍 Toaster system for user feedback
 
-<p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
+<div align="right">
+
+[🔝 Back to top 🔝](#readmetop)
+
+</div>
 
 ## 👨🏼‍💻 Tech Stack
 
@@ -85,7 +87,11 @@ With SpotFinder you can:
 [![Mailchimp][Mailchimp]][Mailchimp-url]
 [![Tailwind][Tailwind]][Tailwind-url]
 
-<p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
+<div align="right">
+
+[🔝 Back to top 🔝](#readmetop)
+
+</div>
 
 ## Roadmap 🔮
 
@@ -97,13 +103,21 @@ With SpotFinder you can:
 
 Any idea how to improve the project? [Reach out to me](https://twitter.com/zacFullStack) and let's talk about it 💬
 
-<p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
+<div align="right">
+
+[🔝 Back to top 🔝](#readmetop)
+
+</div>
 
 ## Contact
 
 Zacharie Dupain - [My Twitter](https://twitter.com/zacFullStack) - [My Instagram](https://www.instagram.com/what_a_shoot/) - contact@spot-finder.com
 
-<p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
+<div align="right">
+
+[🔝 Back to top 🔝](#readmetop)
+
+</div>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
