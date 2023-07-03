@@ -3,12 +3,12 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
+<div id="readmetop" align="center">
   <a href="https://www.spot-finder.com/">
     <img src="public/logos/logo-no-background.png" alt="SpotFinder logo" width="280" height="144">
   </a>
 
-<h1 id="readmetop" align="center">💎 Discover the world's hidden gems with Spot Finder 💎</h1>
+<h1 align="center">💎 Discover the world's hidden gems with Spot Finder 💎</h1>
 
   <p align="center">
     <a href="https://www.spot-finder.com/">Visit SpotFinder</a> •
