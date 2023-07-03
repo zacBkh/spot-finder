@@ -109,8 +109,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         _id: spotID,
     } = indivSpot
 
-    console.log('categories --->', categories)
-
     // `data` will always be available as it's in `fallback`.
     const fetcher = async () => {
         const getOneSpotClient = await findOneSpot(spotID)
@@ -369,13 +367,14 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 ) : (
                                     <div onClick={() => imgClickHandler(0)}>
                                         <Image
+                                            sizes="55vw"
                                             placeholder="blur"
                                             blurDataURL={getCloudiImg(
                                                 'q_30,w_0.5',
                                                 images[0],
                                             )}
                                             src={getCloudiImg('max', images[0])}
-                                            alt="Picture"
+                                            alt={`Picture of the Spot ${title}`}
                                             layout="fill"
                                             className="object-cover rounded-l-md dimOnHover"
                                             priority={true}
@@ -427,16 +426,16 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 {images[1] ? (
                                     <div onClick={() => imgClickHandler(1)}>
                                         <Image
+                                            sizes="55vw"
                                             placeholder="blur"
                                             blurDataURL={getCloudiImg(
                                                 'q_10,w_0.5',
                                                 images[1],
                                             )}
                                             src={getCloudiImg('max', images[1])}
-                                            alt="Picture"
+                                            alt={`Picture of the Spot ${title}`}
                                             layout="fill"
                                             className="object-cover rounded-r-md"
-                                            sizes="(max-width: 768px) 100vw, 33vw"
                                         />
                                     </div>
                                 ) : (
@@ -447,13 +446,14 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                 {images[2] ? (
                                     <div onClick={() => imgClickHandler(2)}>
                                         <Image
+                                            sizes="55vw"
                                             placeholder="blur"
                                             blurDataURL={getCloudiImg(
                                                 'q_10,w_0.5',
                                                 images[2],
                                             )}
                                             src={getCloudiImg('max', images[2])}
-                                            alt="Picture"
+                                            alt={`Picture of the Spot ${title}`}
                                             layout="fill"
                                             className="object-cover rounded-r-md"
                                         />
@@ -483,6 +483,9 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                             : 'w-100'
                                     }`}
                                 >
+                                    <label className="sr-only">
+                                        Change the title of your Spot
+                                    </label>
                                     <input
                                         onFocus={() => inputFocusHandler('title')}
                                         onBlur={() => inputBlurHandler('title')}
@@ -572,6 +575,9 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                             : 'w-100'
                                     }`}
                                 >
+                                    <label className="sr-only">
+                                        Change the description of your Spot
+                                    </label>
                                     <textarea
                                         style={{ height: txtareaHeight }}
                                         onKeyUp={textareaTypeHandler}

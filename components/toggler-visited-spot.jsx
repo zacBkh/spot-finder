@@ -7,10 +7,10 @@ const Toggler = ({ didUserVisitSpot, onToggle }) => {
                 className="text-form-color border border-[#e8e1e0] rounded-md flex items-center gap-x-2 w-fit mx-auto p-3
                 bg-transparent hover:bg-tertiary transition-colors cursor-pointer"
             >
-                <div
-                    htmlFor="default-toggle"
-                    className="inline-flex relative items-center"
-                >
+                <div className="inline-flex relative items-center">
+                    <label htmlFor="default-toggle" className="sr-only">
+                        Mention if you already visited this Spot!
+                    </label>
                     <input
                         readOnly
                         checked={didUserVisitSpot}
