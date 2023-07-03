@@ -1,5 +1,3 @@
-<a name="readme-top"></a>
-
 [![LinkedIn][twitter-shield]][twitter-url]
 [![Twitter][linkedin-shield]][linkedin-url]
 
@@ -10,7 +8,7 @@
     <img src="public/logos/logo-no-background.png" alt="SpotFinder logo" width="280" height="144">
   </a>
 
-  <h3 align="center">💎 Discover the world's hidden gems with Spot Finder 💎</h3>
+<h1 id="readmetop" align="center">💎 Discover the world's hidden gems with Spot Finder 💎</h1>
 
   <p align="center">
     <a href="https://www.spot-finder.com/">Visit SpotFinder</a> •
@@ -49,6 +47,8 @@ With SpotFinder you can:
 -   Create a profile and interact with people like you 🧑🏻‍🤝‍🧑🏼
 
 <p align="right"><a href="#readme-top">🔝 back to top 🔝</a></p>
+
+[🔝 Back to top 🔝](#readmetop)
 
 ## ⚙️ Main Features
 
