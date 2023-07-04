@@ -128,7 +128,7 @@ Zacharie Dupain - [Twitter](https://twitter.com/zacFullStack) - [Instagram](http
 <!--  -->
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=2778C9
-[linkedin-url]: https://www.linkedin.com/in/zachariedupain/
+[linkedin-url]: https://www.linkedin.com/in/zachariedupain
 
 <!--  -->
 
