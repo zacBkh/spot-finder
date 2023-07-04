@@ -483,7 +483,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                             : 'w-100'
                                     }`}
                                 >
-                                    <label className="sr-only">
+                                    <label htmlFor="title" className="sr-only">
                                         Change the title of your Spot
                                     </label>
                                     <input
@@ -575,7 +575,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                             : 'w-100'
                                     }`}
                                 >
-                                    <label className="sr-only">
+                                    <label htmlFor="description" className="sr-only">
                                         Change the description of your Spot
                                     </label>
                                     <textarea
