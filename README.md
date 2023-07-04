@@ -18,28 +18,24 @@
 
 <br />
 
-[🔝 Back to top 🔝](#readmetop)
-
-
 
 <div align="center">
 
   
 
 
-**[WHY SPOT FINDER? 🤔](https://github.com/zacBkh/spot-finder#-why-spotfinder) •
-[MAIN FEATURES ⚙️](https://github.com/zacBkh/spot-finder#%EF%B8%8F-main-features) •
-[TECH STACK 👨🏼‍💻](https://github.com/zacBkh/spot-finder#-tech-stack) •
-[ROADMAP 🔮](https://github.com/zacBkh/spot-finder#roadmap-)**
+**[WHY SPOT FINDER? 🤔](#-why-spotfinder) •
+[MAIN FEATURES ⚙️](#%EF%B8%8F-main-features) •
+[TECH STACK 👨🏼‍💻](#-tech-stack) •
+[ROADMAP 🔮](#roadmap-)**
 
 </div>
 
 <br />
 
-<div id="whyspotfinder">
+
   
 ## 🤔 Why SpotFinder?
-
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 I have two passions in my life: **Photography** & **Coding**! 📸 👨🏼‍💻
@@ -54,7 +50,6 @@ With SpotFinder you can:
 -   Browse Spots all around the world and review them 🔎
 -   Upload the Spots you visited to share them with the world! 🙉
 -   Create a profile and interact with people like you 🧑🏻‍🤝‍🧑🏼
-</div>
 
 
 <div align="right">
@@ -62,6 +57,7 @@ With SpotFinder you can:
 [🔝 Back to top 🔝](#readmetop)
 
 </div>
+
 
 ## ⚙️ Main Features
 
@@ -118,7 +114,7 @@ Any idea how to improve the project? [Reach out to me](https://twitter.com/zacFu
 
 [🔝 Back to top 🔝](#readmetop)
 
-[WHY SPOT FINDER? 🤔](#-why-spotfinder)
+
 
 </div>
 
