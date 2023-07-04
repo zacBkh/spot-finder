@@ -1,5 +1,6 @@
 [![LinkedIn][twitter-shield]][twitter-url]
 [![Twitter][linkedin-shield]][linkedin-url]
+[![Instagram][insta-shield]][insta-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -8,7 +9,7 @@
     <img src="public/logos/logo-no-background.png" alt="SpotFinder logo" width="280" height="144">
   </a>
 
-<h1 align="center">💎 Discover the world's hidden gems with Spot Finder 💎</h1>
+<h2 align="center">💎 Discover the world's hidden gems with Spot Finder 💎</h2>
 
   <p align="center">
     <a href="https://www.spot-finder.com/">Visit SpotFinder</a> •
@@ -18,11 +19,7 @@
 
 <br />
 
-
 <div align="center">
-
-  
-
 
 **[WHY SPOT FINDER? 🤔](#-why-spotfinder) •
 [MAIN FEATURES ⚙️](#%EF%B8%8F-main-features) •
@@ -33,14 +30,13 @@
 
 <br />
 
-
-  
 ## 🤔 Why SpotFinder?
+
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 I have two passions in my life: **Photography** & **Coding**! 📸 👨🏼‍💻
 
-I am always looking for new stuff to capture, especially when I go in countries I don't know.<br />
+I am always looking for new stuff to capture, especially when I visit countries I don't know.<br />
 But finding the perfect Spot is time-consuming...
 
 **So I created a web-app that does it for you.** 😍
@@ -51,13 +47,11 @@ With SpotFinder you can:
 -   Upload the Spots you visited to share them with the world! 🙉
 -   Create a profile and interact with people like you 🧑🏻‍🤝‍🧑🏼
 
-
 <div align="right">
 
 [🔝 Back to top 🔝](#readmetop)
 
 </div>
-
 
 ## ⚙️ Main Features
 
@@ -106,7 +100,7 @@ With SpotFinder you can:
 ✅ Make user description editable by profile owner only <br />
 ⏳ Create Master Admin accounts <br />
 ⏳ Infinite scroll on index page <br />
-⏳ Switch from SSR to ISG on individual spot show page
+⏳ Switch from SSR to ISG on individual [spodID] page
 
 Any idea how to improve the project? [Reach out to me](https://twitter.com/zacFullStack) and let's talk about it 💬
 
@@ -114,13 +108,11 @@ Any idea how to improve the project? [Reach out to me](https://twitter.com/zacFu
 
 [🔝 Back to top 🔝](#readmetop)
 
-
-
 </div>
 
 ## Contact
 
-Zacharie Dupain - [My Twitter](https://twitter.com/zacFullStack) - [My Instagram](https://www.instagram.com/what_a_shoot/) - contact@spot-finder.com
+Zacharie Dupain - [Twitter](https://twitter.com/zacFullStack) - [Instagram](https://www.instagram.com/what_a_shoot/) - contact@spot-finder.com
 
 <div align="right">
 
@@ -137,6 +129,11 @@ Zacharie Dupain - [My Twitter](https://twitter.com/zacFullStack) - [My Instagram
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=2778C9
 [linkedin-url]: https://www.linkedin.com/in/zachariedupain/
+
+<!--  -->
+
+[insta-shield]: https://img.shields.io/badge/-Instagram-black.svg?style=for-the-badge&logo=Instagram&colorB=E4405F&logoColor=FFFFFF
+[insta-url]: https://www.instagram.com/what_a_shoot
 
 <!--  -->
 
