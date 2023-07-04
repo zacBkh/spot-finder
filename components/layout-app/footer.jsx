@@ -67,13 +67,15 @@ const Footer = ({ userSession }) => {
                                 url={HOME}
                                 isInvertedColor
                             />
-                            <CTAButtons
-                                text={'Register'}
-                                icon={<FaUserPlus />}
-                                url={AUTH}
-                                isInvertedColor
-                                isSecondary
-                            />
+                            {
+                                <CTAButtons
+                                    text={!userSession?.data ? 'Register' : 'Add yours!'}
+                                    icon={<FaUserPlus />}
+                                    url={AUTH}
+                                    isInvertedColor
+                                    isSecondary
+                                />
+                            }
                         </div>
                     </div>
                 ) : (
