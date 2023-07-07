@@ -35,7 +35,7 @@ const LayoutModalDeletion = ({
                 onClick={shouldCloseModal}
                 className="transition-modal z-[99999] overflow-hidden text-form-color centerModalWrapper"
             >
-                <div className="relative bg-white rounded-lg shadow centerModalContent w-[80%] md:w-[50%]">
+                <div className="relative bg-white rounded-lg shadow centerAbsoluteContent w-[80%] md:w-[50%]">
                     <button
                         aria-label="Close modal"
                         onClick={onCloseModal}

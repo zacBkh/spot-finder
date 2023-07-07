@@ -8,8 +8,7 @@ import { BiArrowBack } from 'react-icons/bi'
 import { BsCamera } from 'react-icons/bs'
 import { GoLocation } from 'react-icons/go'
 
-import { authOptions } from '../api/auth/[...nextauth]'
-import { unstable_getServerSession } from 'next-auth/next'
+import { useSession } from 'next-auth/react'
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -23,7 +22,7 @@ import {
     findOneSpot,
 } from '../../services/mongo-fetchers'
 
-import { GETSpotFetcherOne } from '../../services/fetchers-ssr'
+import { GETSpotFetcherOne, GETSpotFetcherAll } from '../../services/fetchers-ssr'
 
 import {
     TEXTAREA_INPUTS_FS,
@@ -64,9 +63,20 @@ import PicViewer from '../../components/spot-show/pic-viewer'
 
 import { PATHS } from '../../constants/URLs'
 
-export const getServerSideProps = async context => {
-    const session = await unstable_getServerSession(context.req, context.res, authOptions)
+export const getStaticPaths = async () => {
+    const allSpots = await GETSpotFetcherAll()
 
+    const paths = allSpots.map(spot => ({
+        params: { spotID: spot._id },
+    }))
+
+    return {
+        fallback: 'blocking',
+        paths,
+    }
+}
+
+export const getStaticProps = async context => {
     try {
         // Getting the ID of the current spot
         const currSpotID = context.params.spotID
@@ -81,8 +91,9 @@ export const getServerSideProps = async context => {
         return {
             props: {
                 indivSpot: resultFetchGETOne,
-                currentUserID: session ? session.userID : null,
+                // currentUserID: session ? session.userID : null,
             },
+            revalidate: 30,
         }
     } catch (error) {
         console.log(error)
@@ -104,7 +115,7 @@ const DynamicMapShow = dynamic(
     },
 )
 
-const ShowSpot = ({ indivSpot, currentUserID }) => {
+const ShowSpot = ({ indivSpot }) => {
     const {
         title,
         description,
@@ -116,6 +127,31 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         virtuals,
         _id: spotID,
     } = indivSpot
+
+    const { data: session, status } = useSession()
+
+    const [isAuthLoading, setIsAuthLoading] = useState(true)
+    const [isUser, setIsUser] = useState(null)
+    const [isAuthor, setIsAuthor] = useState(null)
+    const [hasUserVisited, setHasUserVisited] = useState(null)
+
+    // let hasUserVisited = updatedVisitors.includes(currentUserID)
+
+    useEffect(() => {
+        // If he is user, check if he is owner
+        if (status === 'authenticated') {
+            setIsUser(true)
+            setHasUserVisited(updatedVisitors.includes(session.userID))
+            if (session.userID === author._id) {
+                setIsAuthor(true)
+            }
+        } else {
+            setIsUser(false)
+            setIsAuthor(false)
+        }
+
+        setIsAuthLoading(false)
+    }, [status])
 
     // `data` will always be available as it's in `fallback`.
     const fetcher = async () => {
@@ -132,8 +168,6 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         geometry: updatedGeometry,
         country: updatedCountry,
     } = updatedIndivSpot
-
-    let hasUserVisited = updatedVisitors.includes(currentUserID)
 
     const [isInputEditable, setIsInputEditable] = useState({
         title: false,
@@ -191,7 +225,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     // Will call the fetcher for ADDING visit
     const handleAddVisit = async () => {
         // If user not auth, send a toaster
-        if (!currentUserID) {
+        if (!isUser) {
             router.push(
                 { query: { spotID, [KEY_REQUIRE]: VALUE_MUST_LOGIN } },
                 undefined,
@@ -201,7 +235,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         }
 
         /// if user is author, send toaster he can't add visit
-        if (currentUserID === author._id) {
+        if (isAuthor) {
             router.push(
                 { query: { spotID, [KEY_REQUIRE]: VALUE_MUST_NOT_BE_OWNER_ADD_VISIT } },
                 undefined,
@@ -210,7 +244,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
             return
         }
 
-        await addOneVisitSpotHandler(currentUserID, spotID, hasUserVisited)
+        await addOneVisitSpotHandler(session.userID, spotID, hasUserVisited)
 
         mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE)
 
@@ -263,10 +297,8 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         setIsInputEditable({ ...isInputEditable, [inputBlurred]: false })
     }
 
-    const shouldBeEditable = currentUserID === author._id
-
     const inputsSharedClass = `!no-underline focus:!outline outline-offset-2 ${
-        shouldBeEditable ? 'hover:bg-tertiary focus:bg-tertiary' : 'bg-transparent'
+        isAuthor ? 'hover:bg-tertiary focus:bg-tertiary' : 'bg-transparent'
     } p-1 pr-2`
 
     const [isMapVisible, setIsMapVisible] = useState(false)
@@ -340,7 +372,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
     return (
         <>
             <Head>
-                <title>Spot Finder | {title}</title>
+                <title>{`Spot Finder | ${title}`}</title>
                 <meta
                     name="description"
                     content={`Check ${title} out, another spot on SpotFinder!`}
@@ -403,7 +435,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
                                 <div
                                     className={`absolute float-left ${
-                                        shouldBeEditable ? 'top-[68%]' : 'top-[78%]'
+                                        isAuthor ? 'top-[68%]' : 'top-[78%]'
                                     }  sm:top-[76%] md:top-[87%] lg:top-[88%] 2xl:top-[91.5%]
                                  left-[1.5%] flex flex-col md:flex-row gap-1`}
                                 >
@@ -423,7 +455,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         />
                                     </div>
 
-                                    {shouldBeEditable ? (
+                                    {isAuthor ? (
                                         <div onClick={editCoordRequestHandler}>
                                             <ButtonPhoto
                                                 moreStyle={`${
@@ -431,7 +463,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                                         ? ' !bg-primary !text-white'
                                                         : ''
                                                 }`}
-                                                txt={'Edit your Spot Location'}
+                                                txt={"Edit your Spot's location"}
                                                 icon={<MdOutlineEditLocation />}
                                             />
                                         </div>
@@ -497,7 +529,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
                                 <div
                                     className={`inputElem ${
-                                        shouldBeEditable
+                                        isAuthor
                                             ? 'flex flex-col md:flex-row md:items-center justify-between gap-x-3 w-100'
                                             : 'w-100'
                                     }`}
@@ -515,32 +547,28 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         id={'title'}
                                         name={'title'}
                                         spellCheck="false"
-                                        disabled={!shouldBeEditable}
+                                        disabled={!isAuthor}
                                         className={`${HEADER_TITLE_FS} ${
                                             validStyling('title').border
                                         }
                                         ${inputsSharedClass} font-bold pr-2
-                                        ${
-                                            shouldBeEditable
-                                                ? 'w-full md:w-[65%]'
-                                                : 'w-full'
-                                        }    
+                                        ${isAuthor ? 'w-full md:w-[65%]' : 'w-full'}    
                                         `}
                                     />
-                                    {shouldBeEditable ? (
+                                    {isAuthor ? (
                                         <UserFeedback
                                             input="title"
                                             isInputEditable={isInputEditable}
                                             formikErrors={formik.errors}
                                             onClickEdit={startEditHandler}
-                                            text="Edit your Spot's title"
+                                            text="Edit title"
                                             errorMsg={validStyling('title').message}
                                         />
                                     ) : null}
                                 </div>
                                 <div
                                     className={`${
-                                        shouldBeEditable
+                                        isAuthor
                                             ? 'flex flex-col md:flex-row md:items-center justify-between gap-x-3'
                                             : 'w-100'
                                     }`}
@@ -575,13 +603,13 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                             />
                                         ))}
                                     </div>
-                                    {shouldBeEditable ? (
+                                    {isAuthor ? (
                                         <UserFeedback
                                             input="categories"
                                             isInputEditable={isInputEditable}
                                             formikErrors={formik.errors}
                                             onClickEdit={startEditHandler}
-                                            text="Edit your Spot's categories"
+                                            text="Edit categories"
                                             errorMsg={validStyling('categories').message}
                                         />
                                     ) : null}
@@ -589,7 +617,7 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
 
                                 <div
                                     className={`inputElem ${
-                                        shouldBeEditable
+                                        isAuthor
                                             ? 'flex flex-col md:flex-row md:items-center justify-between gap-x-3 gap-y-1'
                                             : 'w-100'
                                     }`}
@@ -608,25 +636,23 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                                         readOnly={!isInputEditable.description}
                                         id={'description'}
                                         name={'description'}
-                                        disabled={!shouldBeEditable}
+                                        disabled={!isAuthor}
                                         spellCheck="false"
                                         className={`box-border overflow-hidden resize-y ${
                                             validStyling('description').border
                                         }
                                         ${inputsSharedClass} ${TEXTAREA_INPUTS_FS} ${
-                                            shouldBeEditable
-                                                ? 'w-full md:w-[60%]'
-                                                : 'w-full'
+                                            isAuthor ? 'w-full md:w-[72%]' : 'w-full'
                                         }`}
                                     ></textarea>
 
-                                    {shouldBeEditable ? (
+                                    {isAuthor ? (
                                         <UserFeedback
                                             input="description"
                                             isInputEditable={isInputEditable}
                                             formikErrors={formik.errors}
                                             onClickEdit={startEditHandler}
-                                            text="Edit your Spot's description"
+                                            text="Edit description"
                                             errorMsg={validStyling('description').message}
                                         />
                                     ) : null}
@@ -635,26 +661,29 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                         </div>
                         <div className="hidden lg:flex flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
                             <SpotCardCTA
-                                nbOfVisits={updatedVisitors.length}
-                                shouldBeEditable={shouldBeEditable}
-                                author={author}
+                                isAuthLoading={isAuthLoading}
                                 didUserVisitSpot={hasUserVisited}
+                                isAuthor={isAuthor}
+                                nbOfVisits={updatedVisitors.length}
+                                author={author}
                                 onAddVisit={handleAddVisit}
                                 spotID={spotID}
                                 spotDetails={{
                                     title,
                                     reviews: updatedReviews,
                                     country: country?.name && null,
+                                    virtuals,
                                 }}
                             />
                         </div>
                     </div>
                     <div className="flex lg:hidden flex-col gap-y-4 px-4 py-5 shadow-md border border-1 mt-2 !h-fit">
                         <SpotCardCTA
-                            nbOfVisits={updatedVisitors.length}
-                            shouldBeEditable={shouldBeEditable}
-                            author={author}
+                            isAuthLoading={isAuthLoading}
                             didUserVisitSpot={hasUserVisited}
+                            isAuthor={isAuthor}
+                            nbOfVisits={updatedVisitors.length}
+                            author={author}
                             onAddVisit={handleAddVisit}
                             spotID={spotID}
                             spotDetails={{

@@ -202,10 +202,17 @@ textarea:focus-visible {
     height: 100%;
 }
 
-.centerModalContent {
+.centerAbsoluteContent {
     position: absolute;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.centerAbsoluteSpinnerInPrBtn {
+    position: absolute;
+    top: 50%;
+    left: 45%;
     transform: translate(-50%, -50%);
 }
 
