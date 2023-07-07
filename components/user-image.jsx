@@ -23,7 +23,7 @@ const UserImage = ({
                 quality={50}
                 src={noCloudi ? picLink : getCloudiImg('q_50', picLink)}
                 alt={alt ?? 'Profile picture of a user.'}
-                className="object-cover group-hover:scale-110 transition-transform duration-[175ms]"
+                className="object-cover transition-transform duration-[175ms]"
             />
         </div>
     )

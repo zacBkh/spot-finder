@@ -15,6 +15,7 @@ const ImageUploader = ({
 
     const createWidget = () => {
         const options = {
+            showUploadMoreButton: false,
             maxFileSize: 800000,
             cloudName: 'dfaatxxwl',
             uploadPreset,

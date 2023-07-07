@@ -90,7 +90,13 @@ const Navigation = ({ userSession }) => {
                 <div className="flex items-center justify-between px-7 py-1 sm:py-2">
                     <Link href={HOME}>
                         <a className="w-24 flex">
-                            <Image className="!w-fit" src={Logo} alt="Spot Finder logo" />
+                            <Image
+                                width={96}
+                                height={49}
+                                className="!w-fit"
+                                src={Logo}
+                                alt="Spot Finder logo"
+                            />
                         </a>
                     </Link>
                     <nav className="hidden md:block text-sm">

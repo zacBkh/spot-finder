@@ -4,12 +4,14 @@ import useSWR, { useSWRConfig } from 'swr'
 import SWR_KEYS from '../../constants/SWR-keys'
 
 import { MdOutlineEditLocation } from 'react-icons/md'
+import { BiArrowBack } from 'react-icons/bi'
 import { BsCamera } from 'react-icons/bs'
 import { GoLocation } from 'react-icons/go'
 
 import { authOptions } from '../api/auth/[...nextauth]'
 import { unstable_getServerSession } from 'next-auth/next'
 
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
@@ -23,7 +25,11 @@ import {
 
 import { GETSpotFetcherOne } from '../../services/fetchers-ssr'
 
-import { TEXTAREA_INPUTS_FS } from '../../constants/responsive-fonts'
+import {
+    TEXTAREA_INPUTS_FS,
+    ARROW_TEXT_FS,
+    ARROW_ICON_FS,
+} from '../../constants/responsive-fonts'
 
 import { TOAST_PARAMS } from '../../constants/toast-query-params'
 const {
@@ -55,6 +61,8 @@ import CountryDisplayer from '../../components/country-displayer'
 import getCloudiImg from '../../utils/transform-cloudi-img'
 
 import PicViewer from '../../components/spot-show/pic-viewer'
+
+import { PATHS } from '../../constants/URLs'
 
 export const getServerSideProps = async context => {
     const session = await unstable_getServerSession(context.req, context.res, authOptions)
@@ -147,17 +155,16 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
         if (!formik.dirty) {
             return
         }
+        if (!formValues.categories.length) {
+            return
+        }
         const { categories } = formValues
         formValues = { ...formValues, categories: categories.sort() }
-        await editSpotHandler(formValues, spotID)
+        editSpotHandler(formValues, spotID)
 
-        return router.push(
-            { query: { spotID, [KEY]: VALUE_EDITED_SPOT_SUCCESS } },
-            undefined,
-            {
-                shallow: true,
-            },
-        )
+        router.push({ query: { spotID, [KEY]: VALUE_EDITED_SPOT_SUCCESS } }, undefined, {
+            shallow: true,
+        })
     }
 
     const formik = useFormik({
@@ -339,6 +346,18 @@ const ShowSpot = ({ indivSpot, currentUserID }) => {
                     content={`Check ${title} out, another spot on SpotFinder!`}
                 />
             </Head>
+
+            <Link href={PATHS.HOME}>
+                <a
+                    className={`${ARROW_TEXT_FS} hidden 2xl:flex absolute left-8 mb-5 items-center gap-x-2 font-medium w-fit`}
+                >
+                    <button>
+                        <BiArrowBack className={`${ARROW_ICON_FS}`} />
+                        Back
+                    </button>
+                </a>
+            </Link>
+
             <div>
                 {isPicViewerOpen && (
                     <PicViewer
