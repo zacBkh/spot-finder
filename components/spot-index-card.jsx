@@ -211,18 +211,14 @@ const SpotCard = ({
                     {shouldNotDisplayUserPic ? (
                         ''
                     ) : (
-                        <div className="flex gap-x-2 items-center group w-fit text-greyText">
+                        <div className="flex gap-x-2 items-center w-fit text-greyText">
                             <UserImage
                                 noCloudi={author.provider !== 'credentials'}
                                 alt={`Profile picture of ${author.name}`}
                                 picLink={author?.profilePic?.link}
                                 size={`${userImgSize ?? 'w-8 h-8'}`}
                             />
-                            <span
-                                className={`${
-                                    spotOtherFS ?? 'text-sm'
-                                } group-hover:underline`}
-                            >
+                            <span className={`${spotOtherFS ?? 'text-sm'}`}>
                                 Spot by {author.name}
                             </span>
                         </div>
