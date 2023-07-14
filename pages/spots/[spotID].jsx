@@ -136,30 +136,6 @@ const ShowSpot = ({ indivSpot }) => {
     const [isAuthor, setIsAuthor] = useState(null)
     const [hasUserVisited, setHasUserVisited] = useState(false)
 
-    // let hasUserVisited = updatedVisitors.includes(currentUserID)
-
-    useEffect(() => {
-        // If he is user, check if he is owner
-        if (status === 'authenticated') {
-            setIsUser(true)
-            console.log('visitors', visitors)
-            console.log('session.userID', session.userID)
-            console.log(
-                'visitors.includes(session.userID)',
-                visitors.includes(session.userID),
-            )
-            setHasUserVisited(visitors.includes(session.userID))
-            if (session.userID === author._id) {
-                setIsAuthor(true)
-            }
-        } else {
-            setIsUser(false)
-            setIsAuthor(false)
-        }
-
-        setIsAuthLoading(false)
-    }, [status])
-
     // `data` will always be available as it's in `fallback`.
     const fetcher = async () => {
         const getOneSpotClient = await findOneSpot(spotID)
@@ -175,6 +151,33 @@ const ShowSpot = ({ indivSpot }) => {
         geometry: updatedGeometry,
         country: updatedCountry,
     } = updatedIndivSpot
+
+    useEffect(() => {
+        // If he is user, check if he is owner
+        if (status === 'authenticated') {
+            setIsUser(true)
+            console.log('visitors', visitors)
+            console.log('updatedVisitors', updatedVisitors)
+            console.log('session.userID', session.userID)
+            console.log(
+                'visitors.includes(session.userID)',
+                visitors.includes(session.userID),
+            )
+            console.log(
+                'updatedVisitors.includes(session.userID)',
+                updatedVisitors.includes(session.userID),
+            )
+            setHasUserVisited(updatedVisitors.includes(session.userID))
+            if (session.userID === author._id) {
+                setIsAuthor(true)
+            }
+        } else {
+            setIsUser(false)
+            setIsAuthor(false)
+        }
+
+        setIsAuthLoading(false)
+    }, [status])
 
     const [isInputEditable, setIsInputEditable] = useState({
         title: false,
