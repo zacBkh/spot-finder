@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-    .btnPressLike:active {
-        transform: scale(0.9);
-    }
-}
-
 /* CUSTOM CSS COME HERE */
 
 button:active {

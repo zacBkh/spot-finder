@@ -16,7 +16,7 @@ const Toggler = ({ didUserVisitSpot, onToggle, isLoading }) => {
                     disabled={isLoading}
                     aria-label="Mark this spot as visited"
                     className="text-form-color border border-[#e8e1e0] rounded-md flex items-center gap-x-2 w-fit mx-auto p-3
-                bg-transparent hover:bg-tertiary transition-colors cursor-pointer relative"
+                bg-transparent hover:bg-tertiary transition-colors cursor-pointer relative active:transform-none"
                 >
                     <div className="inline-flex relative items-center">
                         <label htmlFor="default-toggle" className="sr-only">
