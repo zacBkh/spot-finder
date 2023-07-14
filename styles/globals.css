@@ -33,7 +33,7 @@ a {
 
 input:focus-visible,
 textarea:focus-visible {
-    outline: none !important;
+    outline: none;
 }
 
 /* Hamburger Menu */
@@ -574,4 +574,9 @@ div.hoverLink a:hover {
 
 .next {
     transform: translateX(100%);
+}
+
+/* In new spot form, blur previous input */
+.previousInputOpacity {
+    opacity: 40%;
 }

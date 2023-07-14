@@ -9,8 +9,8 @@ const SearchSpotBar = ({ disabled }) => {
     const searchContext = useContext(SearchBarContext)
 
     return (
-        <div className="relative hidden sm:block">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <div className="hidden sm:flex relative flex-1 justify-center items-center w-full 3xl:w-auto 3xl:shrink-0 3xl:justify-center">
+            <div className="z-50 absolute left-[8%] 2xl:left-[14px] top-auto flex justify-center items-center">
                 <AiOutlineSearch className=" text-gray-400 text-lg" />
                 <span className="sr-only">Search icon</span>
             </div>
@@ -23,8 +23,11 @@ const SearchSpotBar = ({ disabled }) => {
                 type="text"
                 id="search-navbar"
                 placeholder="Search a Spot..."
-                className={`${DISABLED_STYLE} focus:ring-white focus:border-secondary border-[1.6px] border-[#bbb8bd]
-                text-dark-color text-xs md:text-sm block md:w-36 lg:w-48 p-2 pl-10 rounded-md`}
+                className={` ${DISABLED_STYLE}
+                p-2 pl-10 flex 2xl:mx-0 relative pr-1 py-1 h-10 items-center text-left text-dark-color rounded-full align-middle bg-tertiary md:w-36 lg:w-48 2xl:w-56 text-xs xl:text-sm
+                !outline !outline-1 !outline-offset-2 !outline-transparent
+                focus:!outline-secondary
+                `}
             />
 
             {searchContext.value.length > 0 ? (

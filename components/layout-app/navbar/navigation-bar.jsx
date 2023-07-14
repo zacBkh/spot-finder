@@ -87,7 +87,7 @@ const Navigation = ({ userSession }) => {
                 ${!isHamburgerOpen ? 'transparent-navbar' : 'bg-white'}  
                 ${isScrolled ? 'border-[#dadada] border-b-[1.6px]' : ''}`}
             >
-                <div className="flex items-center justify-between px-7 py-1 sm:py-2">
+                <div className="flex items-center justify-between px-5 2xl:px-8 py-1 sm:py-2">
                     <Link href={HOME}>
                         <a className="w-24 flex">
                             <Image
