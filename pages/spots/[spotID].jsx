@@ -252,7 +252,7 @@ const ShowSpot = ({ indivSpot }) => {
         }
 
         setHasUserVisited(prev => !prev)
-        addOneVisitSpotHandler(session.userID, spotID, hasUserVisited)
+        await addOneVisitSpotHandler(session.userID, spotID, hasUserVisited)
         mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE)
 
         if (!hasUserVisited) {
