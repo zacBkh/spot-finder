@@ -93,7 +93,7 @@ export const getStaticProps = async context => {
                 indivSpot: resultFetchGETOne,
                 // currentUserID: session ? session.userID : null,
             },
-            revalidate: 30,
+            revalidate: 20,
         }
     } catch (error) {
         console.log(error)
@@ -125,6 +125,7 @@ const ShowSpot = ({ indivSpot }) => {
         author,
         images,
         virtuals,
+        visitors,
         _id: spotID,
     } = indivSpot
 
@@ -133,15 +134,16 @@ const ShowSpot = ({ indivSpot }) => {
     const [isAuthLoading, setIsAuthLoading] = useState(true)
     const [isUser, setIsUser] = useState(null)
     const [isAuthor, setIsAuthor] = useState(null)
-    const [hasUserVisited, setHasUserVisited] = useState(null)
+    const [hasUserVisited, setHasUserVisited] = useState(false)
 
     // let hasUserVisited = updatedVisitors.includes(currentUserID)
 
     useEffect(() => {
+        console.log('isUseFxRunning')
         // If he is user, check if he is owner
         if (status === 'authenticated') {
             setIsUser(true)
-            setHasUserVisited(updatedVisitors.includes(session.userID))
+            setHasUserVisited(visitors.includes(session.userID))
             if (session.userID === author._id) {
                 setIsAuthor(true)
             }
@@ -156,6 +158,7 @@ const ShowSpot = ({ indivSpot }) => {
     // `data` will always be available as it's in `fallback`.
     const fetcher = async () => {
         const getOneSpotClient = await findOneSpot(spotID)
+        console.log('getOneSpotClient.result', getOneSpotClient.result)
         return getOneSpotClient.result
     }
     const { data: updatedIndivSpot } = useSWR(SWR_KEYS.SPOT_IN_SPOT_PAGE, fetcher, {
@@ -224,6 +227,8 @@ const ShowSpot = ({ indivSpot }) => {
 
     // Will call the fetcher for ADDING visit
     const handleAddVisit = async () => {
+        console.log('hasUserVisited', hasUserVisited)
+        console.log('****')
         // If user not auth, send a toaster
         if (!isUser) {
             router.push(
@@ -244,8 +249,8 @@ const ShowSpot = ({ indivSpot }) => {
             return
         }
 
-        await addOneVisitSpotHandler(session.userID, spotID, hasUserVisited)
-
+        setHasUserVisited(prev => !prev)
+        addOneVisitSpotHandler(session.userID, spotID, hasUserVisited)
         mutate(SWR_KEYS.SPOT_IN_SPOT_PAGE)
 
         if (!hasUserVisited) {
