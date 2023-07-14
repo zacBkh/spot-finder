@@ -139,10 +139,15 @@ const ShowSpot = ({ indivSpot }) => {
     // let hasUserVisited = updatedVisitors.includes(currentUserID)
 
     useEffect(() => {
-        console.log('isUseFxRunning')
         // If he is user, check if he is owner
         if (status === 'authenticated') {
             setIsUser(true)
+            console.log('visitors', visitors)
+            console.log('session.userID', session.userID)
+            console.log(
+                'visitors.includes(session.userID)',
+                visitors.includes(session.userID),
+            )
             setHasUserVisited(visitors.includes(session.userID))
             if (session.userID === author._id) {
                 setIsAuthor(true)
@@ -158,7 +163,6 @@ const ShowSpot = ({ indivSpot }) => {
     // `data` will always be available as it's in `fallback`.
     const fetcher = async () => {
         const getOneSpotClient = await findOneSpot(spotID)
-        console.log('getOneSpotClient.result', getOneSpotClient.result)
         return getOneSpotClient.result
     }
     const { data: updatedIndivSpot } = useSWR(SWR_KEYS.SPOT_IN_SPOT_PAGE, fetcher, {
@@ -227,8 +231,6 @@ const ShowSpot = ({ indivSpot }) => {
 
     // Will call the fetcher for ADDING visit
     const handleAddVisit = async () => {
-        console.log('hasUserVisited', hasUserVisited)
-        console.log('****')
         // If user not auth, send a toaster
         if (!isUser) {
             router.push(
