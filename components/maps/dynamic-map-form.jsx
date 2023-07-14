@@ -1,5 +1,7 @@
 import dynamic from 'next/dynamic'
 
+import Spinner from '../spinner'
+
 const DynamicMapForm = dynamic(
     () =>
         import(
@@ -7,7 +9,12 @@ const DynamicMapForm = dynamic(
             './map-form'
         ),
     {
-        loading: () => <p className="text-center mx-auto">The Map is loading...</p>,
+        loading: () => (
+            <div className="text-center mx-auto flex flex-col items-center">
+                <p>The map is loading...</p>
+                <Spinner color={'border-t-secondary'} />
+            </div>
+        ),
         ssr: false,
     },
 )

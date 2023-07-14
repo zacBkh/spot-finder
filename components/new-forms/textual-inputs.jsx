@@ -29,7 +29,7 @@ const SpotTextualInput = ({
 
     const { value: desc } = formikWizard
 
-    const descValid = (
+    const validCount = (
         <div className={`${SMALL_TEXT_FS} !text-primary`}>
             {errorStying.message}
             {`${
@@ -44,7 +44,7 @@ const SpotTextualInput = ({
         <>
             <div
                 title={`${shouldBeDisabled ? 'Click the back button to edit.' : ''}`}
-                className={`${shouldBeDisabled ? 'opacity-50' : ''}`}
+                className={`${shouldBeDisabled ? 'previousInputOpacity' : ''}`}
             >
                 <label
                     htmlFor={identifier}
@@ -78,7 +78,7 @@ const SpotTextualInput = ({
                         name={identifier}
                     />
                 )}
-                {errorStying.message ? descValid : ''}
+                {errorStying.message ? validCount : ''}
             </div>
         </>
     )

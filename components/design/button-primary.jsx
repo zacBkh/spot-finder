@@ -1,5 +1,6 @@
 import { ICON_IN_BUTTON_FS, BUTTON_FS } from '../../constants/responsive-fonts'
 import { DISABLED_STYLE } from '../../constants/disabled-style'
+import Spinner from '../spinner'
 
 const ButtonPrimary = ({
     icon,
@@ -10,9 +11,18 @@ const ButtonPrimary = ({
     isSmaller,
     shouldBeDisabled,
     additionalCSS,
+
+    isLoading,
 }) => {
     return (
-        <>
+        <div className="relative">
+            {isLoading ? (
+                <div className="z-50 centerAbsoluteSpinnerInPrBtn">
+                    <Spinner color={'border-t-secondary'} />
+                </div>
+            ) : (
+                ''
+            )}
             <button
                 aria-label={text}
                 disabled={shouldBeDisabled ? true : false}
@@ -41,7 +51,7 @@ const ButtonPrimary = ({
                     {text}
                 </span>
             </button>
-        </>
+        </div>
     )
 }
 

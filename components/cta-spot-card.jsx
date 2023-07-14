@@ -21,13 +21,15 @@ import getAvrgGrade from '../utils/get-average-rate'
 const { KEY, VALUE_FEATURE_NOT_YET_AVAILABLE } = TOAST_PARAMS
 
 const SpotCardCTA = ({
-    shouldBeEditable,
+    isAuthor,
     author,
     onAddVisit,
     didUserVisitSpot,
     spotID,
     nbOfVisits,
     spotDetails,
+
+    isAuthLoading,
 }) => {
     const router = useRouter()
 
@@ -74,17 +76,15 @@ const SpotCardCTA = ({
                     onClickHandler={reviewSpotRequestHandler}
                 />
 
-                {shouldBeEditable ? (
-                    <div onClick={deleteSpotRequestHandler}>
-                        <ButtonPrimary icon={<AiFillDelete />} text={'Delete'} />
-                    </div>
-                ) : (
-                    <ButtonPrimary
-                        icon={<BiEdit />}
-                        text={'Suggest edits'}
-                        onClickHandler={featureNotReadyHandler}
-                    />
-                )}
+                <ButtonPrimary
+                    isLoading={isAuthLoading}
+                    shouldBeDisabled={isAuthLoading}
+                    onClickHandler={
+                        isAuthor ? deleteSpotRequestHandler : featureNotReadyHandler
+                    }
+                    icon={isAuthor ? <AiFillDelete /> : <BiEdit />}
+                    text={isAuthor ? 'Delete' : 'Suggest edits'}
+                />
             </div>
             <SpotterProfilePreview
                 w={'w-14'}
@@ -93,7 +93,12 @@ const SpotCardCTA = ({
                 spanTxt={`Visit ${author.name}'s profile`}
             />
             <DividerDesign />
-            <Toggler onToggle={() => onAddVisit()} didUserVisitSpot={didUserVisitSpot} />
+
+            <Toggler
+                isLoading={isAuthLoading}
+                onToggle={() => onAddVisit()}
+                didUserVisitSpot={didUserVisitSpot}
+            />
         </>
     )
 }

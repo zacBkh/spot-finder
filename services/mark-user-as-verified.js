@@ -13,7 +13,12 @@ const markUserAsVerified = async userID => {
         { runValidators: true, new: true },
     )
 
-    return { success: true, result: 'User is now verified', userName: user.name }
+    return {
+        success: true,
+        result: 'User is now verified',
+        userEmail: user.email,
+        userName: user.name,
+    }
 }
 
 export default markUserAsVerified

@@ -16,7 +16,7 @@ import DynamicMapForm from '../components/maps/dynamic-map-form'
 import Spinner from '../components/spinner'
 
 import { SMALL_TEXT_FS, BUTTON_FS, FORM_LABEL_FS } from '../constants/responsive-fonts'
-import { DISABLED_STYLE, DISABLED_STYLE_STATELESS } from '../constants/disabled-style'
+import { DISABLED_STYLE } from '../constants/disabled-style'
 import { validTitleDesc } from '../constants/validation-schemas'
 
 import getCountryCode from '../services/get-country-code'
@@ -273,7 +273,7 @@ const AddNewSpot = ({}) => {
 
             <form
                 onSubmit={formik.handleSubmit}
-                className="w-[90%] sm:w-[80%] max-w-4xl mx-auto space-y-3"
+                className="w-[90%] sm:w-[80%] max-w-4xl mx-auto space-y-4 2xl:space-y-5"
             >
                 <SpotTextualInput
                     inputRef={titleRef}
@@ -297,15 +297,15 @@ const AddNewSpot = ({}) => {
                     />
                 )}
                 {currentStep > 2 && (
-                    <div>
+                    <div
+                        className={`${
+                            previousInputToBlur(3) ? 'previousInputOpacity' : ''
+                        }`}
+                    >
                         <h2 className={`${FORM_LABEL_FS} mb-2 text-form-color`}>
                             Which category your Spot would best fit in ? *
                         </h2>
-                        <div
-                            className={`${
-                                previousInputToBlur(3) && DISABLED_STYLE_STATELESS
-                            } flex justify-center flex-wrap gap-2`}
-                        >
+                        <div className={` flex justify-center flex-wrap gap-2`}>
                             {SPOT_CATEGORIES.map(category => (
                                 <DynamicSpotCategory
                                     key={category.name}
@@ -331,7 +331,7 @@ const AddNewSpot = ({}) => {
                         <div
                             className={
                                 previousInputToBlur(4)
-                                    ? `${DISABLED_STYLE_STATELESS} cursorNotAllowedAsterix`
+                                    ? `previousInputOpacity cursorNotAllowedAsterix`
                                     : ''
                             }
                         >

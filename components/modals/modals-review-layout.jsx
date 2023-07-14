@@ -157,7 +157,7 @@ const LayoutModalReview = ({ onCloseModal, spotDetails }) => {
                 onClick={shouldCloseModal}
                 className="transition-modal z-[9999] overflow-hidden text-form-color centerModalWrapper"
             >
-                <div className="relative bg-white !z-[999999] rounded-lg  centerModalContent w-[85%] min-h-[80%]">
+                <div className="relative bg-white !z-[999999] rounded-lg  centerAbsoluteContent w-[85%] min-h-[80%]">
                     <button
                         onClick={onCloseModal}
                         type="button"

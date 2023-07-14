@@ -1,5 +1,7 @@
 import dynamic from 'next/dynamic'
 
+import Spinner from '../../spinner'
+
 const DynamicSpotCategory = dynamic(
     () =>
         import(
@@ -7,7 +9,11 @@ const DynamicSpotCategory = dynamic(
             './category-checkbox'
         ),
     {
-        loading: () => <p>...</p>,
+        loading: () => (
+            <div className="text-center mx-auto flex flex-col items-center">
+                <Spinner color={'border-t-secondary'} />
+            </div>
+        ),
         ssr: false,
     },
 )

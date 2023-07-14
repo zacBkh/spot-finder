@@ -140,7 +140,7 @@ export const authOptions = {
                 { new: true },
             )
 
-            const sender = await sendWelcomeEmail('zachariedupain@hotmail.fr', user.name)
+            const sender = await sendWelcomeEmail(user.email, user.name)
         },
 
         // createUser: async ({ user }) => {}, // for action only on usercreation

@@ -94,19 +94,16 @@ export const doublePwdFieldSchema = Yup.object().shape({
 const title = {
     title: Yup.string()
         .trim()
-        .min(6, ({ min }) => `The title should be at least ${min} characters long.`)
-        .max(50, ({ max }) => `The title should be no more than ${max} characters long.`)
-        .required('The title of your Spot is required.'),
+        .min(6, ({ min }) => `The title should be at least ${min} characters long`)
+        .max(50, ({ max }) => `The title should be no more than ${max} characters long`)
+        .required('The title of your Spot is required'),
 }
 
 const description = {
     description: Yup.string()
         .trim()
-        .min(
-            15,
-            ({ min }) => `The description should be at least ${min} characters long.`,
-        )
-        .required('The description is required.'),
+        .min(15, ({ min }) => `The description should be at least ${min} characters long`)
+        .required('The description is required'),
 }
 
 const categories = {

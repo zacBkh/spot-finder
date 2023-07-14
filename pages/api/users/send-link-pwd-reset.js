@@ -18,7 +18,7 @@ export default async function resetPwdLink(req, res) {
             return
         }
 
-        const { id, name } = doesUserExist
+        const { id, name, email: userEmail } = doesUserExist
 
         // Helper fx that creates tokens
         const token = await createToken(id, email, '1d')
@@ -29,11 +29,7 @@ export default async function resetPwdLink(req, res) {
         console.log('token', token.result)
 
         // Fx that sends email
-        const sender = await sendPwdResetEmail(
-            'zachariedupain@hotmail.fr',
-            name,
-            token.result,
-        )
+        const sender = await sendPwdResetEmail(userEmail, name, token.result)
         console.log('sender', sender)
         if (!sender.success) {
             res.status(400).json({ success: sender.success, result: sender.result })

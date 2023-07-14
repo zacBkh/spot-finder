@@ -55,15 +55,15 @@ const FeatureSelector = ({}) => {
             return 'ml-0'
         }
         if (activeFeature === 1) {
-            return 'sm:ml-[33%] md:ml-[29%] lg:ml-[31.2%]'
+            return 'sm:ml-[33%] md:ml-[29%] lg:ml-[31.2%] 2xl:ml-[32%]'
         }
 
         if (activeFeature === 2) {
-            return 'sm:ml-[60%] md:ml-[57%] lg:ml-[61.3%] 2xl:ml-[64%]'
+            return 'sm:ml-[60%] md:ml-[57%] lg:ml-[61.3%] 2xl:ml-[63.5%]'
         }
 
         if (activeFeature === 3) {
-            return 'sm:ml-[81%] md:ml-[77%] lg:ml-[88%] 2xl:ml-[93.5%]'
+            return 'sm:ml-[81%] md:ml-[77%] lg:ml-[88%] 2xl:ml-[92%]'
         }
     }
 

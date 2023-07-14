@@ -10,12 +10,12 @@ const UserAvatar = ({ currentSession, onUserMenuClick, isOpen }) => {
     return (
         <button
             aria-label="Show profile menu"
-            className={`border border-[#DDDDDD] rounded-[21px] shadow-user-menu-hov ${
+            className={`border border-[#DDDDDD] shadow-user-menu-hov rounded-full ${
                 isOpen && 'shadow-user-menu'
             }`}
             onClick={onUserMenuClick}
         >
-            <div className="flex items-center gap-x-2 px-2 py-[5px]  ">
+            <div className="flex items-center gap-x-2 p-1">
                 <span className="hidden md:block">
                     <GiHamburgerMenu />
                 </span>
