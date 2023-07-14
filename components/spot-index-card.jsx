@@ -105,7 +105,11 @@ const SpotCard = ({
     return (
         <div
             onMouseEnter={hoverCardHandler}
-            className={`hoverCardShadow ${isLandingPage ? 'mt-4' : ''}`}
+            className={`hoverCardShadow ${
+                isLandingPage
+                    ? 'mt-4 bg-transparent hover:bg-tertiary transition-colors rounded-3xl'
+                    : ''
+            }`}
             onClick={onSpotCardClick}
         >
             <div

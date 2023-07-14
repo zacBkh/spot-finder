@@ -408,6 +408,10 @@ div.hoverLink a:hover {
     border-radius: 0.8rem;
 }
 
+.testaa:hover {
+    box-shadow: -1px 11px 15px 2px rgba(0, 0, 0, 0.1);
+}
+
 @media (min-width: 768px) {
     .verticalBarStats:before {
         position: absolute;
