@@ -100,7 +100,7 @@ export default async function userHandling(req, res) {
 
             // Fx that sends email
             const sender = await sendVerifEmail(
-                'zachariedupain@hotmail.fr',
+                newUser.email,
                 finalUserData,
                 token.result,
             )

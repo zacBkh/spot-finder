@@ -40,12 +40,10 @@ const JWTVerifyer = async JWToken => {
 
     // Mark user as verified
     const verifyUserOnDB = await markUserAsVerified(decoded.userID) // if not already verified veirfy it
-    console.log('verifyUserOnDB', verifyUserOnDB)
 
     // Send Welcome email
-    const { userName } = verifyUserOnDB
-    console.log('userNameAA', userName)
-    const sendWlc = await sendWelcomeEmail('zachariedupain@hotmail.fr', userName)
+    const { userName, userEmail } = verifyUserOnDB
+    const sendWlc = await sendWelcomeEmail(userEmail, userName)
     if (!sendWlc.success) {
         // if failure in sending email
         return { success: sendWlc.success, result: sendWlc.result }
