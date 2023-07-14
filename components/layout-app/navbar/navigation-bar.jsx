@@ -20,6 +20,8 @@ import Logo from '../../../public/logos/logo-no-background.png'
 
 import useOnClickOutside from '../../../hooks/useOnClickOutside'
 
+import Spinner from '../../spinner'
+
 const { HOME } = PATHS
 
 const Navigation = ({ userSession }) => {
@@ -76,7 +78,11 @@ const Navigation = ({ userSession }) => {
             ),
         {
             ssr: false,
-            loading: () => <p>Hamburger menu loading...</p>,
+            loading: () => (
+                <div className="flex flex-col items-center justify-center h-36">
+                    <Spinner color={'border-t-secondary'} />
+                </div>
+            ),
         },
     )
 
