@@ -116,10 +116,10 @@ textarea:focus-visible {
     display: none !important;
 }
 
-/* Responsive FS geocoder placeholde */
+/* Responsive FS geocoder placeholde
 .mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
     @apply !text-sm;
-}
+} */
 
 .iconToAnimate {
     transition-property: all;

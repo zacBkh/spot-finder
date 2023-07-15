@@ -17,7 +17,7 @@ const SpotTextualInput = ({
     onEnterKeyPress,
 }) => {
     const inputClassnames = `${errorStying.border} ${DISABLED_STYLE} 
-    text-sm border border-gray-300 text-gray-900 w-full p-2.5 mt-2
+    border border-gray-300 text-gray-900 w-full p-2.5 mt-2
   `
 
     const pressEnterHandler = e => {
