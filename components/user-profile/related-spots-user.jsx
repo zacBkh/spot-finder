@@ -9,7 +9,7 @@ const RelatedSpots = ({ isLoading, title, refClick, spots }) => {
     if (!spots.length) return ''
 
     return (
-        <div className="space-y-3" ref={refClick}>
+        <div className="space-y-3 scroll-mt-20" ref={refClick}>
             {isLoading ? (
                 <SkeletonText type={'smTitle'} nbOfLines={1} />
             ) : (

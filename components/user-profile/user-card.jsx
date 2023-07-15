@@ -77,7 +77,9 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
     const spotsReviewed = useRef(null)
     const scrollClickHandler = spec => {
         if (spec === 'created') {
-            spotsCreated.current?.scrollIntoView({ behavior: 'smooth' })
+            console.log('spotsCreated.current', spotsCreated.current)
+            // spotsCreated.current?.style.scrollMargin = '65px';
+            spotsCreated.current?.scrollIntoView({ behavior: 'smooth', offsetTop: -30 })
             return
         }
 
