@@ -19,7 +19,7 @@ const Toggler = ({ didUserVisitSpot, onToggle, isLoading }) => {
                 bg-transparent hover:bg-tertiary transition-colors cursor-pointer relative active:transform-none"
                 >
                     <div className="inline-flex relative items-center">
-                        <label htmlFor="default-toggle" className="sr-only">
+                        <label className="sr-only">
                             Mention if you already visited this Spot!
                         </label>
                         <input

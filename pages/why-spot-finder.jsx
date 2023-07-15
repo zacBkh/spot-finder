@@ -44,7 +44,7 @@ const WhySpotFinder = ({}) => {
             </Head>
 
             <div className="flex flex-col gap-y-12 md:gap-y-0">
-                <section className="px-8 my-auto lg:h-[calc(100vh-(74px+16px))] flex items-center">
+                <section className="px-8 2xl:px-12 my-auto lg:h-[calc(100vh-(74px+16px))] flex items-center">
                     <div className="flex justify-between items-center">
                         <div className="flex flex-col items-center md:items-start gap-y-6 w-fit md:w-[50%] text-center md:text-start z-50">
                             <div>

@@ -78,7 +78,6 @@ const UserCard = ({ isLoading, visitedUser, currentUser }) => {
     const scrollClickHandler = spec => {
         if (spec === 'created') {
             console.log('spotsCreated.current', spotsCreated.current)
-            // spotsCreated.current?.style.scrollMargin = '65px';
             spotsCreated.current?.scrollIntoView({ behavior: 'smooth', offsetTop: -30 })
             return
         }
