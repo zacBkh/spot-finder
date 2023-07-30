@@ -60,8 +60,8 @@ const SearchCountry = ({
 
     return (
         <>
-            <div className="search relative">
-                <div className="searchInput relative">
+            <div className="relative">
+                <div className="relative">
                     <div className="absolute bottom-[28%] left-0 flex items-center pointer-events-none pl-2">
                         <AiOutlineSearch className=" text-gray-400 text-lg" />
                         <span className="sr-only">Search icon</span>
@@ -89,7 +89,7 @@ const SearchCountry = ({
                 </div>
 
                 {isSelectorVisible ? (
-                    <div className="dataResult rounded-sm w-full max-h-52 absolute z-20 h-fit bg-white shadow-md overflow-hidden overflow-y-auto">
+                    <div className="rounded-sm w-full max-h-52 absolute z-20 h-fit bg-white shadow-md overflow-hidden overflow-y-auto">
                         {filteredData.length ? (
                             activeCountryNames
                         ) : (

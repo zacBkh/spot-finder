@@ -9,7 +9,7 @@ import { BsInstagram } from 'react-icons/bs'
 
 import CTAButtons from '../buttons/cta-buttons'
 import { PATHS } from '../../constants/URLs'
-const { AUTH, HOME } = PATHS
+const { AUTH, HOME, NEW_SPOT } = PATHS
 
 import ScrollToTopBtn from '../design/scroll-to-top'
 
@@ -51,37 +51,33 @@ const Footer = ({ userSession }) => {
     return (
         <>
             <footer className="text-center md:text-start mt-2 text-white ">
-                {!userSession?.data ? (
-                    <div
-                        className={`
+                <div
+                    className={`
                       bg-primary flex flex-col items-center gap-y-4 py-6 relative px-2 mt-4`}
-                    >
-                        <h2 className={FOOTER_HOOK_TOP_FS}>
-                            Stop wasting your time and find the best landmarks around you.
-                            📸 🔥
-                        </h2>
-                        <div className="flex justify-center items-center gap-x-4">
+                >
+                    <h2 className={FOOTER_HOOK_TOP_FS}>
+                        Stop wasting your time and find the best landmarks around you. 📸
+                        🔥
+                    </h2>
+                    <div className="flex justify-center items-center gap-x-4">
+                        <CTAButtons
+                            text={'Browse Spots'}
+                            icon={<AiOutlineSearch />}
+                            url={HOME}
+                            isInvertedColor
+                        />
+                        {
                             <CTAButtons
-                                text={'Browse Spots'}
-                                icon={<AiOutlineSearch />}
-                                url={HOME}
+                                text={!userSession?.data ? 'Register' : 'Add yours!'}
+                                icon={<FaUserPlus />}
+                                url={!userSession?.data ? AUTH : NEW_SPOT}
                                 isInvertedColor
+                                isSecondary
                             />
-                            {
-                                <CTAButtons
-                                    text={!userSession?.data ? 'Register' : 'Add yours!'}
-                                    icon={<FaUserPlus />}
-                                    url={AUTH}
-                                    isInvertedColor
-                                    isSecondary
-                                />
-                            }
-                        </div>
+                        }
                     </div>
-                ) : (
-                    ''
-                )}
-
+                </div>
+                ) : ( ''
                 <div className="flex flex-col gap-y-3 md:flex-row md:gap-x-3 md:gap-y-0 justify-between bg-secondary  px-6">
                     <div className="flex flex-col gap-y-4 py-6 items-center md:items-start">
                         <div>
@@ -156,7 +152,6 @@ const Footer = ({ userSession }) => {
                         />
                     </div>
                 </div>
-
                 <div className="bg-tertiary text-form-color flex flex-col justify-center items-center py-2">
                     <p className="font-semibold">
                         Made with <span className="text-primary">❤ </span>between Paris &

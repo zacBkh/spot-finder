@@ -136,7 +136,7 @@ const AllSpots = ({ spots }) => {
                 ) : (
                     <div
                         className="flex flex-wrap
-                        justify-center md:justify-between md:px-5
+                        justify-center md:px-5
                         gap-y-5
                         gap-x-8
                         w-full
