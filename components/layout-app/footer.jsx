@@ -77,7 +77,6 @@ const Footer = ({ userSession }) => {
                         }
                     </div>
                 </div>
-                ) : ( ''
                 <div className="flex flex-col gap-y-3 md:flex-row md:gap-x-3 md:gap-y-0 justify-between bg-secondary  px-6">
                     <div className="flex flex-col gap-y-4 py-6 items-center md:items-start">
                         <div>
