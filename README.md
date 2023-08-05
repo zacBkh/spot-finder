@@ -98,9 +98,9 @@ With SpotFinder you can:
 
 ✅ Display country of origin of users on user profile <br />
 ✅ Make user description editable by profile owner only <br />
+✅ Switch from SSR to ISG on individual [spodID] page <br />
 ⏳ Create Master Admin accounts <br />
-⏳ Infinite scroll on index page <br />
-⏳ Switch from SSR to ISG on individual [spodID] page
+⏳ Infinite scroll on index page
 
 Any idea how to improve the project? [Reach out to me](https://twitter.com/zacFullStack) and let's talk about it 💬
 
@@ -123,7 +123,7 @@ Zacharie Dupain - [Twitter](https://twitter.com/zacFullStack) - [Instagram](http
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[product-screenshot]: https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png
+[product-screenshot]: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkRbWaNSO6n0sGm2R5-vyiBBmZ-w0KmNccVx4D2fBf8UWcVAL6U2fYfNkvTrxx5WoDhhY&usqp=CAU
 
 <!--  -->
 
