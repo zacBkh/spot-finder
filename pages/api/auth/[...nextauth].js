@@ -112,7 +112,6 @@ export const authOptions = {
             session.isNewUser = token.isNewUser
             // session.user.emailVerified = user.emailVerified
             // session.user.id = token.id
-            console.log('Session loaded -->', session)
             return session
         },
     },
