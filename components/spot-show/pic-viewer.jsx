@@ -82,10 +82,7 @@ const PicViewer = ({
                 >
                     <IoIosArrowBack />
                 </button>
-                <div
-                    className="relative
-                            w-[800px] h-[400px] 2xl:w-[1000px] 2xl:h-[700px]"
-                >
+                <div className="relative w-[800px] 2xl:w-[1000px] h-[70vh]">
                     <Image
                         src={getCloudiImg('max', images[activeImg])}
                         alt="Picture"

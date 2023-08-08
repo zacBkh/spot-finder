@@ -564,7 +564,7 @@ div.hoverLink a:hover {
 .alignBtnCarrPopUpRight {
     position: absolute;
     top: 50%;
-    right: 0.8%;
+    right: -2%;
     transform: translate(-50%, -50%) !important;
 }
 
