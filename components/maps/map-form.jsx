@@ -46,6 +46,8 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
         setCurrentMapStyle(styleLink)
     }
 
+    const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 0
+
     return (
         <div>
             <label className={`${FORM_LABEL_FS} text-form-color mb-2 block`}>
@@ -62,6 +64,7 @@ const MapForm = ({ shouldBeDisabled, initialView, markerCoordinates, onNewCoor }
                     onClick={clickMapHandler}
                     minZoom={3}
                     maxZoom={20}
+                    cooperativeGestures={viewportWidth < 768 ? false : true}
                     boxZoom={!shouldBeDisabled}
                     doubleClickZoom={!shouldBeDisabled}
                     dragPan={!shouldBeDisabled}

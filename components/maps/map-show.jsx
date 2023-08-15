@@ -50,11 +50,13 @@ const MapShow = ({ markerCoordinates, isMarkerDraggable, onSpotLocationChange })
         setCurrentMapStyle(styleLink)
     }
 
+    const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 0
+
     return (
         <div className={`w-full h-full`}>
             <Map
                 onIdle={() => setIsStyleLoaded(true)}
-                cooperativeGestures={true}
+                cooperativeGestures={viewportWidth < 768 ? false : true}
                 id={markerCoordinates}
                 initialViewState={{
                     latitude: markerCoordinates.Latitude,

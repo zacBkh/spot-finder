@@ -85,6 +85,8 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
         }
     }
 
+    const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 0
+
     return (
         <div className={`w-full h-full`}>
             <Map
@@ -94,7 +96,7 @@ const MapIndex = ({ spotsCoordinates, initialView }) => {
                 onClick={onMapClickHandler}
                 ref={mapRef}
                 interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
-                cooperativeGestures={true}
+                cooperativeGestures={viewportWidth < 768 ? false : true}
                 initialViewState={initialView}
                 mapStyle={currentMapStyle}
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
