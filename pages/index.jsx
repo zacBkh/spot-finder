@@ -8,6 +8,8 @@ import { GETSpotFetcherAll } from '../services/fetchers-ssr'
 import ToggleToMapView from '../components/toggle-to-map-view-btn'
 import SpotCard from '../components/spot-index-card'
 
+import Spinner from '../components/spinner'
+
 export const getStaticProps = async () => {
     try {
         const resultFetchGET = await GETSpotFetcherAll()
@@ -39,7 +41,7 @@ const DynamicMapIndex = dynamic(
         ),
     {
         ssr: false,
-        loading: () => <p>Loading Index Map...</p>,
+        loading: () => <Spinner color={'border-t-primary'} />,
     },
 )
 
