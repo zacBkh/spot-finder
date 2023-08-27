@@ -25,7 +25,7 @@ const DynamicEmailLogger = dynamic(
         ),
     {
         ssr: false,
-        loading: () => <Spinner color={'border-t-secondary'} />,
+        loading: () => <Spinner color={'border-t-secondary mx-auto'} />,
     },
 )
 
