@@ -380,12 +380,12 @@ const EMailLogger = ({
                                 aria-label="Show password"
                                 onClick={() => setIsPwdVisible(prev => !prev)}
                                 type="button"
-                                className="active:transform-none"
+                                className="active:transform-none absolute top-1/2 right-3 -translate-y-1/2"
                             >
                                 {isPwdVisible ? (
-                                    <AiFillEyeInvisible className="absolute top-1/2 right-3 -translate-y-1/2 text-xl" />
+                                    <AiFillEyeInvisible className="text-xl" />
                                 ) : (
-                                    <AiFillEye className="absolute top-1/2 right-3 -translate-y-1/2 text-xl" />
+                                    <AiFillEye className="text-xl" />
                                 )}
                             </button>
                         </div>

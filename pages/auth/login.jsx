@@ -11,6 +11,8 @@ import Image from 'next/image'
 
 import REDIRECT_QUERY_PARAMS from '../../constants/redirect-query-params'
 
+import Spinner from '../../components/spinner'
+
 const { KEY_RETURN_TO } = REDIRECT_QUERY_PARAMS
 
 const { KEY_AUTH_ERROR, VALUE_AUTH_ERROR } = REDIRECT_QUERY_PARAMS
@@ -23,7 +25,7 @@ const DynamicEmailLogger = dynamic(
         ),
     {
         ssr: false,
-        loading: () => <p>Loading Email Logger...</p>,
+        loading: () => <Spinner color={'border-t-secondary'} />,
     },
 )
 
