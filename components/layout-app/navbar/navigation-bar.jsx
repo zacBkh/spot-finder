@@ -89,7 +89,7 @@ const Navigation = ({ userSession }) => {
     return (
         <>
             <header
-                className={`mx-auto text-dark-color sticky top-0 z-[999] 
+                className={`mx-auto text-dark-color sticky top-0 z-[99999] 
                 ${!isHamburgerOpen ? 'transparent-navbar' : 'bg-white'}  
                 ${isScrolled ? 'border-[#dadada] border-b-[1.6px]' : ''}`}
             >

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BsSearch, BsCamera, BsPeople } from 'react-icons/bs'
+import { BsSearch, BsCamera, BsPeople, BsEmojiHeartEyes } from 'react-icons/bs'
 
 import { useRouter } from 'next/router'
 
@@ -8,6 +8,11 @@ const { WHY_SPOT_FINDER } = PATHS
 
 import FeatureTop from './features-top'
 import ImageDemo from './image-demo'
+
+import BrowseSpots from '../../../public/images/features/browse-spots.png'
+import AddSpots from '../../../public/images/features/add-spots.png'
+import Connect from '../../../public/images/features/connect.png'
+import Discover from '../../../public/images/features/discover.png'
 
 const FeatureSelector = ({}) => {
     const [activeFeature, setActiveFeature] = useState(0)
@@ -24,28 +29,28 @@ const FeatureSelector = ({}) => {
             name: 'Browse Spots',
             icon: <BsSearch />,
             text: 'Unlock access to the best Spots worldwide so you will never miss out any opportunities again.',
-            image: 'https://www.datocms-assets.com/50397/1665648856-payroll-fr.png?auto=format&dpr=0.7&w=1834',
+            image: BrowseSpots,
         },
         {
             id: 1,
             name: 'Add your Spots',
             icon: <BsCamera />,
             text: 'Let the world know about your discoveries : be generous and share your Spots!',
-            image: 'https://www.datocms-assets.com/50397/1665649393-leaves-fr.png?auto=format&dpr=0.7&w=1834',
+            image: AddSpots,
         },
         {
             id: 2,
             name: 'Connect',
             icon: <BsPeople />,
             text: 'Connect with people like you all around the world.',
-            image: 'https://www.datocms-assets.com/50397/1665649664-people-fr.png?auto=format&dpr=0.7&w=1834',
+            image: Connect,
         },
         {
             id: 3,
-            name: 'Connect',
-            icon: <BsPeople />,
+            name: 'Discover',
+            icon: <BsEmojiHeartEyes />,
             text: 'Connect with people like you all around the world.',
-            image: 'https://www.datocms-assets.com/50397/1665649869-expense-fr.png?auto=format&dpr=0.7&w=1834',
+            image: Discover,
         },
     ]
 

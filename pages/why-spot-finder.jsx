@@ -21,7 +21,7 @@ const WhySpotFinder = ({}) => {
     const arrayOfActivities = [
         'Photo Spots.',
         'Points of Interest.',
-        'Amazing locations.',
+        'Unknown locations.',
     ]
 
     const { activities, currentPhase } = useTypeCharacters(arrayOfActivities)

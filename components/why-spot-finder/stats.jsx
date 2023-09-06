@@ -67,23 +67,23 @@ const Stats = ({ refStats, isStatInView }) => {
                 <div className="flex flex-wrap justify-center md:justify-start">
                     <Counter
                         isStatInView={isStatInView}
-                        endNum={298}
+                        endNum={15}
                         text={'Spots shared worldwide'}
                     />
                     <Counter
                         isStatInView={isStatInView}
-                        endNum={49}
+                        endNum={18}
                         text={'active users'}
                     />
 
                     <Counter
                         isStatInView={isStatInView}
-                        endNum={121}
+                        endNum={11}
                         text={'countries represented'}
                     />
                     <Counter
                         isStatInView={isStatInView}
-                        endNum={1496}
+                        endNum={22}
                         text={'reviews posted'}
                     />
                 </div>
