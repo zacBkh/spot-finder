@@ -52,7 +52,7 @@ const DynamicDrawer = dynamic(
             '../components/filters-drawer/drawer-logic-wrapper'
         ),
     {
-        loading: () => <div className="md:w-[8%] xl:w-[5%]">Loading Drawer...</div>,
+        loading: () => <Spinner color={'md:w-[8%] xl:w-[5%] border-t-primary'} />,
     },
 )
 
