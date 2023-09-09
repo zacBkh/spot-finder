@@ -32,7 +32,11 @@
 
 ## 🤔 Why SpotFinder?
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<div align="center">
+
+![SpotFinder - Demo Image](https://github.com/zacBkh/spot-finder/assets/108217390/e21f21e1-e07e-400b-a84c-4d7637664a1b)
+
+</div>
 
 I have two passions in my life: **Photography** & **Coding**! 📸 👨🏼‍💻
 
