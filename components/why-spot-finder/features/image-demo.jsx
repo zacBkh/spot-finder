@@ -1,7 +1,6 @@
 import Image from 'next/image'
 
 const ImageDemo = ({ activeFeature, arrayOfImages, onFeatChangeFromImgClick }) => {
-    console.log('arrayOfImages', arrayOfImages)
     return (
         <div
             className={` overflow-x-hidden mx-auto transition-colors duration-500 
